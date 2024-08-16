@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/features/auth/data/data_sources/login_service.dart';
 import 'package:e_commerce_app/features/auth/data/models/auth_screen_arguments.dart';
 import 'package:e_commerce_app/features/auth/data/models/login_request_model.dart';
