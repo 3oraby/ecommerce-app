@@ -3,7 +3,7 @@ import 'package:e_commerce_app/core/controllers/app_page_manager.dart';
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/features/auth/data/models/auth_screen_arguments.dart';
-import 'package:e_commerce_app/models/user_model.dart';
+import 'package:e_commerce_app/core/models/user_model.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {

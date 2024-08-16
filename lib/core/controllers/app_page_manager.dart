@@ -8,7 +8,7 @@ import 'package:e_commerce_app/features/home/presentation/widgets/bodies/favorit
 import 'package:e_commerce_app/features/home/presentation/widgets/bodies/home_body.dart';
 import 'package:e_commerce_app/features/home/presentation/widgets/bodies/my_orders_body.dart';
 import 'package:e_commerce_app/features/home/presentation/widgets/bodies/settings_body.dart';
-import 'package:e_commerce_app/models/user_model.dart';
+import 'package:e_commerce_app/core/models/user_model.dart';
 import 'package:flutter/material.dart';
 
 class AppPageManager {

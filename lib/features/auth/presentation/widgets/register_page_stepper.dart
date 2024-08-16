@@ -1,5 +1,5 @@
 import 'package:e_commerce_app/features/auth/constants/register_page_constants.dart';
-import 'package:e_commerce_app/widgets/custom_time_line_tile.dart';
+import 'package:e_commerce_app/core/widgets/custom_time_line_tile.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPageStepper extends StatelessWidget {

@@ -1,8 +1,8 @@
 import 'package:e_commerce_app/constants/api_constants.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
-import 'package:e_commerce_app/models/product_model.dart';
-import 'package:e_commerce_app/widgets/custom_rounded_image_container.dart';
-import 'package:e_commerce_app/widgets/vertical_gap.dart';
+import 'package:e_commerce_app/core/models/product_model.dart';
+import 'package:e_commerce_app/core/widgets/custom_rounded_image_container.dart';
+import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

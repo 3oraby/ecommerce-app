@@ -1,5 +1,5 @@
-import 'package:e_commerce_app/validation/registration_validators.dart';
-import 'package:e_commerce_app/validation/validators.dart';
+import 'package:e_commerce_app/core/utils/validation/registration_validators.dart';
+import 'package:e_commerce_app/core/utils/validation/validators.dart';
 import 'package:flutter/material.dart';
 
 enum RegistrationStep {

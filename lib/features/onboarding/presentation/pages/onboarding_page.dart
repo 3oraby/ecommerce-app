@@ -1,10 +1,10 @@
 import 'package:e_commerce_app/features/onboarding/constants/onboarding_page_data.dart';
 import 'package:e_commerce_app/features/onboarding/data/models/onboarding_page_model.dart';
 import 'package:e_commerce_app/features/onboarding/presentation/widgets/onboarding_nav_row.dart';
-import 'package:e_commerce_app/pages/entry_page.dart';
+import 'package:e_commerce_app/features/entry/presentation/pages/entry_page.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
-import 'package:e_commerce_app/widgets/custom_trigger_button.dart';
-import 'package:e_commerce_app/widgets/vertical_gap.dart';
+import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
+import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 

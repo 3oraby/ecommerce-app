@@ -7,9 +7,9 @@ import 'package:e_commerce_app/features/products/data/data_sources/get_product_b
 import 'package:e_commerce_app/features/products/data/models/get_products_response_model.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_product_details_page.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_products_page.dart';
-import 'package:e_commerce_app/widgets/custom_rounded_image_container.dart';
-import 'package:e_commerce_app/widgets/horizontal_gap.dart';
-import 'package:e_commerce_app/widgets/vertical_gap.dart';
+import 'package:e_commerce_app/core/widgets/custom_rounded_image_container.dart';
+import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
+import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';

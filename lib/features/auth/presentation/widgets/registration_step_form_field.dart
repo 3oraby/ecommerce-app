@@ -1,7 +1,7 @@
 import 'package:e_commerce_app/features/auth/constants/register_page_constants.dart';
 import 'package:e_commerce_app/features/auth/data/models/register_request_model.dart';
 import 'package:e_commerce_app/features/auth/presentation/widgets/register_page_stepper.dart';
-import 'package:e_commerce_app/widgets/custom_text_form_field.dart';
+import 'package:e_commerce_app/core/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 
 class RegistrationStepFormField extends StatelessWidget {

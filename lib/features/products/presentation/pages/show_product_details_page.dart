@@ -1,7 +1,7 @@
 import 'package:e_commerce_app/constants/api_constants.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
-import 'package:e_commerce_app/models/product_model.dart';
-import 'package:e_commerce_app/widgets/custom_trigger_button.dart';
+import 'package:e_commerce_app/core/models/product_model.dart';
+import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

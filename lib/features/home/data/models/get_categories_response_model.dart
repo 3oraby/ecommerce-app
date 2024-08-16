@@ -1,5 +1,5 @@
-import 'package:e_commerce_app/models/category_model.dart';
-import 'package:e_commerce_app/models/error_model.dart';
+import 'package:e_commerce_app/core/models/category_model.dart';
+import 'package:e_commerce_app/core/models/error_model.dart';
 
 class GetCategoriesResponseModel {
   final bool status;

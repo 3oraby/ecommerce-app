@@ -1,7 +1,7 @@
 import 'package:e_commerce_app/features/home/presentation/widgets/category_tap_body.dart';
 import 'package:e_commerce_app/features/home/presentation/widgets/home_page_tab_bar.dart';
 import 'package:e_commerce_app/features/home/presentation/widgets/home_tap_body.dart';
-import 'package:e_commerce_app/widgets/vertical_gap.dart';
+import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:flutter/material.dart';
 
 class HomeBody extends StatelessWidget {

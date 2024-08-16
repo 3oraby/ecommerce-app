@@ -3,7 +3,7 @@ import 'package:e_commerce_app/features/onboarding/presentation/pages/onboarding
 import 'package:e_commerce_app/features/products/presentation/pages/show_product_details_page.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_products_page.dart';
 import 'package:e_commerce_app/features/user/presentation/pages/user_profile_page.dart';
-import 'package:e_commerce_app/pages/entry_page.dart';
+import 'package:e_commerce_app/features/entry/presentation/pages/entry_page.dart';
 import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
 import 'package:e_commerce_app/features/auth/presentation/pages/login_page.dart';
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';

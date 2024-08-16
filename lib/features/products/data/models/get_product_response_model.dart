@@ -1,5 +1,5 @@
-import 'package:e_commerce_app/models/error_model.dart';
-import 'package:e_commerce_app/models/product_model.dart';
+import 'package:e_commerce_app/core/models/error_model.dart';
+import 'package:e_commerce_app/core/models/product_model.dart';
 
 class GetProductResponseModel {
   final bool status;

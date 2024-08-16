@@ -1,7 +1,7 @@
 
 
 import 'package:e_commerce_app/features/onboarding/data/models/onboarding_page_model.dart';
-import 'package:e_commerce_app/widgets/custom_trigger_button.dart';
+import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 

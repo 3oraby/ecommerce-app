@@ -1,4 +1,4 @@
-import 'package:e_commerce_app/models/error_model.dart';
+import 'package:e_commerce_app/core/models/error_model.dart';
 
 class RegisterResponseModel {
   final bool status;

@@ -3,7 +3,7 @@ import 'package:e_commerce_app/features/home/presentation/widgets/custom_main_pr
 import 'package:e_commerce_app/features/products/data/data_sources/get_product_by_category_service.dart';
 import 'package:e_commerce_app/features/products/data/models/get_products_response_model.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_product_details_page.dart';
-import 'package:e_commerce_app/widgets/custom_text_form_field.dart';
+import 'package:e_commerce_app/core/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
 
 class ShowProductsPage extends StatefulWidget {

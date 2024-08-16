@@ -1,8 +1,8 @@
 import 'package:e_commerce_app/features/auth/presentation/pages/login_page.dart';
 import 'package:e_commerce_app/features/auth/presentation/pages/register_page.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
-import 'package:e_commerce_app/widgets/custom_trigger_button.dart';
-import 'package:e_commerce_app/widgets/vertical_gap.dart';
+import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
+import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 

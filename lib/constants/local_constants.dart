@@ -1,4 +1,4 @@
-import 'package:e_commerce_app/models/bottom_navigation_bar_model.dart';
+import 'package:e_commerce_app/core/models/bottom_navigation_bar_model.dart';
 import 'package:flutter/material.dart';
 
 //! move it to the constants which in the home feature

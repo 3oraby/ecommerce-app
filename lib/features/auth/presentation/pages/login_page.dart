@@ -9,10 +9,10 @@ import 'package:e_commerce_app/features/auth/presentation/widgets/auth_switch_wi
 import 'package:e_commerce_app/core/helpers/functions/custom_show_modal_bottom_sheet.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
 import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
-import 'package:e_commerce_app/validation/validators.dart';
-import 'package:e_commerce_app/widgets/custom_text_form_field.dart';
-import 'package:e_commerce_app/widgets/custom_trigger_button.dart';
-import 'package:e_commerce_app/widgets/vertical_gap.dart';
+import 'package:e_commerce_app/core/utils/validation/validators.dart';
+import 'package:e_commerce_app/core/widgets/custom_text_form_field.dart';
+import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
+import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
