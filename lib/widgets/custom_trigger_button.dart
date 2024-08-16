@@ -1,13 +1,15 @@
-import 'package:e_commerce_app/services/app_preferences_service.dart';
+import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
+import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomTriggerButton extends StatefulWidget {
   const CustomTriggerButton({
     super.key,
-    required this.onPressed,
-    required this.backgroundColor,
+    this.onPressed,
     this.description,
     this.icon,
+    this.child,
+    this.backgroundColor = ThemeColors.primaryColor,
     this.descriptionColor = Colors.white,
     this.descriptionSize = 30,
     this.isUseForOnBoarding = false,
@@ -18,14 +20,15 @@ class CustomTriggerButton extends StatefulWidget {
     this.borderRadius = 40,
   });
 
-  final VoidCallback onPressed;
-  final Color backgroundColor;
+  final VoidCallback? onPressed;
+  final Color? backgroundColor;
   final String? description;
   final IconData? icon;
   final Color? descriptionColor;
   final double? descriptionSize;
   final double? buttonHeight;
   final double? buttonWidth;
+  final Widget? child;
   final double borderWidth;
   final Color borderColor;
   final double borderRadius;
@@ -39,7 +42,7 @@ class _CustomTriggerButtonState extends State<CustomTriggerButton> {
   void initState() {
     super.initState();
     if (widget.isUseForOnBoarding) {
-      AppPreferencesService.markOnboardingComplete();
+      SharedPreferencesSingleton.setBool("isFirstTime", true);
     }
   }
 
@@ -58,28 +61,31 @@ class _CustomTriggerButtonState extends State<CustomTriggerButton> {
           ),
           borderRadius: BorderRadius.circular(widget.borderRadius),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            if (widget.description != null) ...[
-              const SizedBox(width: 8),
-              Text(
-                widget.description!,
-                style: TextStyle(
-                  color: widget.descriptionColor,
-                  fontSize: widget.descriptionSize,
-                ),
-              ),
-            ],
-            if (widget.icon != null)
-              Icon(
-                widget.icon!,
-                color: widget.descriptionColor,
-                size: widget.descriptionSize,
-              ),
-          ],
-        ),
+        child: widget.child ??
+            Row(
+              mainAxisAlignment: (widget.icon == null)
+                  ? MainAxisAlignment.center
+                  : MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                if (widget.description != null) ...[
+                  const SizedBox(width: 8),
+                  Text(
+                    widget.description!,
+                    style: TextStyle(
+                      color: widget.descriptionColor,
+                      fontSize: widget.descriptionSize,
+                    ),
+                  ),
+                ],
+                if (widget.icon != null)
+                  Icon(
+                    widget.icon!,
+                    color: widget.descriptionColor,
+                    size: widget.descriptionSize,
+                  ),
+              ],
+            ),
       ),
     );
   }

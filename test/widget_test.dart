@@ -6,13 +6,13 @@
 // tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:e_commerce_app/main.dart';
-import 'package:e_commerce_app/services/app_preferences_service.dart';
+import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    bool isFirstTime = await AppPreferencesService.isAppFirstTimeOpened();
+    bool isFirstTime = SharedPreferencesSingleton.getBool("isFirstTime");
 
     // Build our app and trigger a frame.
     await tester.pumpWidget(ECommerceApp(isFirstTime: isFirstTime,));

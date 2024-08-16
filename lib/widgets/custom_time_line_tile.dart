@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 
@@ -9,11 +10,11 @@ class CustomTimeLineTile extends StatelessWidget {
     required this.label,
     this.isFirstStep = false,
     this.isLastStep = false,
-    this.completedStepColor = Colors.orange,
+    this.completedStepColor = ThemeColors.primaryColor,
     this.incompleteStepColor = Colors.grey,
     this.completedStepIcon = const Icon(
       Icons.done_all,
-      color: Colors.orange,
+      color: ThemeColors.primaryColor,
       size: 32,
     ),
     this.labelTextStyle = const TextStyle(
