@@ -1,14 +1,15 @@
+
+import 'package:e_commerce_app/core/models/user_model.dart';
+import 'package:e_commerce_app/features/favorites/presentation/widgets/favorites_app_bar.dart';
+import 'package:e_commerce_app/features/favorites/presentation/widgets/favorites_body.dart';
 import 'package:e_commerce_app/features/home/presentation/widgets/app_bars/cart_app_bar.dart';
-import 'package:e_commerce_app/features/home/presentation/widgets/app_bars/favorites_app_bar.dart';
 import 'package:e_commerce_app/features/home/presentation/widgets/app_bars/home_app_bar.dart';
 import 'package:e_commerce_app/features/home/presentation/widgets/app_bars/my_orders_app_bar.dart';
 import 'package:e_commerce_app/features/home/presentation/widgets/app_bars/settings_app_bar.dart';
 import 'package:e_commerce_app/features/home/presentation/widgets/bodies/cart_body.dart';
-import 'package:e_commerce_app/features/home/presentation/widgets/bodies/favorites_body.dart';
 import 'package:e_commerce_app/features/home/presentation/widgets/bodies/home_body.dart';
 import 'package:e_commerce_app/features/home/presentation/widgets/bodies/my_orders_body.dart';
 import 'package:e_commerce_app/features/home/presentation/widgets/bodies/settings_body.dart';
-import 'package:e_commerce_app/core/models/user_model.dart';
 import 'package:flutter/material.dart';
 
 class AppPageManager {

@@ -17,23 +17,4 @@ class HomePageConstants {
     AppImages.salesPhoto2,
     AppImages.salesPhoto3,
   ];
-
-  // // home page app bars
-  // static const List homePageAppBars = [
-  //   HomeAppBar(),
-  //   MyOrdersAppBar(),
-  //   FavoritesAppBar(),
-  //   CartAppBar(),
-  //   SettingsAppBar(),
-  // ];
-
-  // // home page bodies
-  // static const List homePageBodies = [
-  //   HomeBody(),
-  //   MyOrdersBody(),
-  //   FavoritesBody(),
-  //   CartBody(),
-  //   SettingsBody(),
-  // ];
-
 }
