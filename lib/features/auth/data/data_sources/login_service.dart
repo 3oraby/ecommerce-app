@@ -1,6 +1,8 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:e_commerce_app/constants/api_constants.dart';
+import 'package:e_commerce_app/core/helpers/functions/extract_refresh_token.dart';
+import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/features/auth/data/models/login_response_model.dart';
 import 'package:e_commerce_app/core/helpers/api.dart';
 
@@ -14,6 +16,10 @@ class LoginService {
         url: "${ApiConstants.baseUrl}${ApiConstants.loginEndPoint}",
         jsonData: jsonData,
       );
+      // log("headers ${response.headers}");
+      String refreshToken = extractRefreshToken(response: response);
+      // save the refresh token in shared preferences
+      SharedPreferencesSingleton.setString("refreshToken", refreshToken);
       return LoginResponseModel.fromJson(response.data);
     } on DioException catch (e) {
       if (e.type == DioExceptionType.connectionError ||
@@ -21,7 +27,8 @@ class LoginService {
           e.type == DioExceptionType.receiveTimeout) {
         throw Exception("Connection timed out. Please try again later.");
       } else if (e.type == DioExceptionType.badResponse) {
-        throw Exception("Received invalid status code: ${e.response?.statusCode}");
+        throw Exception(
+            "Received invalid status code: ${e.response?.statusCode}");
       } else if (e.type == DioExceptionType.cancel) {
         throw Exception("Request to server was canceled.");
       } else {

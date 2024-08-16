@@ -13,6 +13,7 @@ class LogOutService {
         url: "${ApiConstants.baseUrl}${ApiConstants.logOutEndPoint}",
         headers: {
           "Authorization": "Bearer $accessToken",
+          "Cookie_1" : accessToken,
         },
       );
       return LogOutResponseModel.fromJson(response.data);
