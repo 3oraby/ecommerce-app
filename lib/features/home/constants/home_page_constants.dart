@@ -11,7 +11,6 @@ class HomePageConstants {
   static const Color selectedColor = Colors.black;
   static const Color unSelectedColor = Colors.grey;
 
-
   // home tab body
   static const List homeTapBodySalePhotos = [
     AppImages.salesPhoto1,
