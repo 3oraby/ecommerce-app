@@ -102,7 +102,7 @@ class _ShowProductDetailsPageState extends State<ShowProductDetailsPage> {
                       ),
                       const Divider(
                         color: Colors.white,
-                        thickness: 2,
+                        thickness: 1,
                       ),
                       const Spacer(
                         flex: 1,
@@ -134,7 +134,7 @@ class _ShowProductDetailsPageState extends State<ShowProductDetailsPage> {
                       ),
                       const Divider(
                         color: Colors.white,
-                        thickness: 3,
+                        thickness: 1,
                       ),
                       const Spacer(
                         flex: 1,

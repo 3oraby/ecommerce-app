@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:e_commerce_app/features/home/constants/home_page_constants.dart';
 import 'package:e_commerce_app/features/home/data/data_sources/get_categories_service.dart';
 import 'package:e_commerce_app/features/home/data/models/get_categories_response_model.dart';
@@ -66,7 +68,7 @@ class _HomeTapBodyState extends State<HomeTapBody> {
                     itemCount: categoriesResponseModel.categories!.length,
                     separatorBuilder: (context, index) => const Divider(
                       color: Colors.white,
-                      thickness: 2,
+                      thickness: 1,
                       indent: 20,
                       endIndent: 20,
                     ),
@@ -117,6 +119,8 @@ class _HomeTapBodyState extends State<HomeTapBody> {
                                 GetProductsCategoryResponseModel
                                     getProductsCategoryResponseModel =
                                     snapshot.data!;
+                                log(getProductsCategoryResponseModel.products
+                                    .toString());
                                 return SizedBox(
                                   height: 400,
                                   child: ListView.separated(
