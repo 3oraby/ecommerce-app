@@ -14,6 +14,7 @@ class ApiConstants {
   static const String getProductsEndPoint = "products";
   static const String getCategoryProductsEndPoint = "products/category/";
   static const String getProductDetailsEndPoint = "products/";
+  static const String getHomeDataEndPoint = "products/homepage";
   // favorites
   static const String getFavoritesEndPoint = "favorites";
 }

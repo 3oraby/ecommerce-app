@@ -1,15 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:e_commerce_app/constants/api_constants.dart';
 import 'package:e_commerce_app/core/helpers/api.dart';
-import 'package:e_commerce_app/features/products/data/models/get_all_products_response_model.dart';
+import 'package:e_commerce_app/features/products/data/models/get_home_details_model.dart';
 
 class GetHomeDetailsService {
-  Future<GetAllProductsResponseModel> getAllProducts() async {
+  Future<GetHomeDetailsResponseModel> getHomeData() async {
     try {
       Response response = await Api().get(
-        url: "${ApiConstants.baseUrl}${ApiConstants.getProductsEndPoint}",
+        url: "${ApiConstants.baseUrl}${ApiConstants.getHomeDataEndPoint}",
       );
-      return GetAllProductsResponseModel.fromJson(json: response.data);
+      return GetHomeDetailsResponseModel.fromJson(json: response.data);
     } on Exception catch (e) {
       throw Exception(e);
     }

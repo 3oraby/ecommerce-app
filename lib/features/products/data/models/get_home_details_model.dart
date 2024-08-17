@@ -1,37 +1,33 @@
-
-import 'package:e_commerce_app/core/models/category_model.dart';
 import 'package:e_commerce_app/core/models/error_model.dart';
-import 'package:e_commerce_app/core/models/product_model.dart';
+import 'package:e_commerce_app/core/models/home_page_data_model.dart';
 
-class GetHomeDetailsModel {
+class GetHomeDetailsResponseModel {
   final bool status;
-  final List<CategoryModel>? categories;
-  final List<ProductModel>? products;
+  final List<HomePageDataModel>? data;
   final ErrorModel? error;
   final String? message;
 
-  GetHomeDetailsModel({
+  GetHomeDetailsResponseModel({
     required this.status,
-    this.categories,
-    this.products,
+    this.data,
     this.error,
     this.message,
   });
 
-  factory GetHomeDetailsModel.fromJson(
+  factory GetHomeDetailsResponseModel.fromJson(
       {required Map<String, dynamic> json}) {
     if (json["status"] == "success") {
       List dataList = json["data"];
-      List<ProductModel> products = dataList
-          .map((json) => ProductModel.fromJson(json: json))
-          .toList();
-
-      return GetHomeDetailsModel(
+      return GetHomeDetailsResponseModel(
         status: true,
-        products: products,
+        data: dataList
+            .map(
+              (jsonData) => HomePageDataModel.fromJson(json: jsonData),
+            )
+            .toList(),
       );
     } else {
-      return GetHomeDetailsModel(
+      return GetHomeDetailsResponseModel(
         status: false,
         error: ErrorModel.fromJson(json['error']),
         message: json['message'],

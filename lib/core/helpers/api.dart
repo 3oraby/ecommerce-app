@@ -14,13 +14,14 @@ class Api {
     dio.options.headers['Authorization'] = 'Bearer $accessToken';
     dio.options.headers['Cookie'] = "refreshToken=$refreshToken";
   }
-
   Future<Response> get({
     required String url,
     Map<String, dynamic>? headers,
   }) async {
     try {
       log(url);
+      log(dio.options.headers.toString());
+
       Response response = await dio.get(
         url,
         options: Options(

@@ -1,8 +1,5 @@
-import 'dart:developer';
-
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
-import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/features/auth/data/data_sources/log_out_service.dart';
@@ -49,13 +46,8 @@ class UserProfilePage extends StatelessWidget {
                     btnOkText: "Yes",
                     btnOkOnPress: () async {
                       //! log out
-                      String accessToken =
-                          SharedPreferencesSingleton.getString("accessToken");
-                      log(accessToken);    
                       LogOutResponseModel logOutResponseModel =
-                          await LogOutService().logOut(
-                        accessToken: accessToken,
-                      );
+                          await LogOutService().logOut();
                       if (logOutResponseModel.status) {
                         showSnackBar(context, logOutResponseModel.message);
                         Navigator.pushReplacementNamed(context, EntryPage.id);
