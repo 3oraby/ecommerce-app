@@ -17,7 +17,7 @@ class CustomTriggerButton extends StatefulWidget {
     this.isUseForOnBoarding = false,
     this.buttonHeight = 70,
     this.buttonWidth = double.infinity,
-    this.borderWidth = 2,
+    this.borderWidth = 0,
     this.borderColor = Colors.black,
     this.borderRadius = 40,
   });
