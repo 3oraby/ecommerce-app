@@ -17,4 +17,9 @@ class ApiConstants {
   static const String getHomeDataEndPoint = "products/homepage";
   // favorites
   static const String getFavoritesEndPoint = "favorites";
+  // cart
+  static const String showCartEndPoint = "carts/showCart";
+  static const String addToCartEndPoint = "carts/addToCart/";
+  static const String deleteFromCartEndPoint = "carts/deleteFromCart/";
+  static const String updateCartItemEndPoint = "carts/updateCartItem/";
 }
