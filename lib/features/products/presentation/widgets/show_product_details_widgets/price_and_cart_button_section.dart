@@ -49,14 +49,14 @@ class PriceAndCartButtonSection extends StatelessWidget {
           descriptionSize: 24,
           isEnabled: productAmount > 0,
           onPressed: () async {
-            await _addToCart(context, productModel);
+            await addToCart(context, productModel);
           },
         ),
       ],
     );
   }
 
-  Future<void> _addToCart(
+  Future<void> addToCart(
       BuildContext context, ProductModel productModel) async {
     try {
       final addToCartResponseModel = await AddToCartService.addToCart(
