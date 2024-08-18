@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
+import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/features/cart/data/data_sources/add_to_cart_service.dart';
 import 'package:e_commerce_app/features/cart/data/data_sources/update_cart_item_service.dart';
@@ -44,6 +45,9 @@ class PriceAndCartButtonSection extends StatelessWidget {
           buttonWidth: 220,
           buttonHeight: 50,
           description: "Add to cart",
+          backgroundColor: productAmount > 0
+              ? ThemeColors.primaryColor
+              : ThemeColors.unEnabledColor,
           icon: Icons.shopping_cart,
           iconSize: 28,
           descriptionSize: 24,
