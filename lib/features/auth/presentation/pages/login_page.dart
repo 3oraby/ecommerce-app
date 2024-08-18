@@ -1,7 +1,7 @@
 import 'dart:developer';
 
+import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/features/auth/data/data_sources/login_service.dart';
-import 'package:e_commerce_app/features/auth/data/models/auth_screen_arguments.dart';
 import 'package:e_commerce_app/features/auth/data/models/login_request_model.dart';
 import 'package:e_commerce_app/features/auth/data/models/login_response_model.dart';
 import 'package:e_commerce_app/features/auth/presentation/pages/register_page.dart';
@@ -41,8 +41,11 @@ class _LoginPageState extends State<LoginPage> {
           jsonData: loginRequestModel.toJson(),
         );
         log("login ${loginResponseModel.status}");
-        
+
         if (loginResponseModel.status) {
+          final String accessToken = loginResponseModel.accessToken!;
+          SharedPreferencesSingleton.setString("accessToken", accessToken);
+
           customShowModalBottomSheet(
             context: context,
             imageName: "assets/animations/orderSuccessfullyDone.json",
@@ -53,10 +56,6 @@ class _LoginPageState extends State<LoginPage> {
                 context,
                 HomePage.id,
                 (Route<dynamic> route) => false,
-                arguments: AuthScreenArguments(
-                  userModel: loginResponseModel.user!,
-                  accessToken: loginResponseModel.accessToken!,
-                ),
               );
             },
           );

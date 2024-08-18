@@ -6,6 +6,8 @@ class ApiConstants {
   static const String registerEndPoint = "auths/signUp";
   static const String verifyEmailEndPoint = "auths/verify?";
   static const String logOutEndPoint = "auths/logout";
+  static const String getUserEndPoint = "users/me";
+
   // photo
   static const String getPhotoEndPoint = "uploads/";
   // category

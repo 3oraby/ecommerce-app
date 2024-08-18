@@ -1,9 +1,9 @@
 import 'dart:developer';
 
+import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/features/auth/constants/register_page_constants.dart';
 import 'package:e_commerce_app/features/auth/data/data_sources/register_service.dart';
 import 'package:e_commerce_app/features/auth/data/data_sources/verify_email_service.dart';
-import 'package:e_commerce_app/features/auth/data/models/auth_screen_arguments.dart';
 import 'package:e_commerce_app/features/auth/data/models/register_request_model.dart';
 import 'package:e_commerce_app/features/auth/data/models/register_response_model.dart';
 import 'package:e_commerce_app/features/auth/data/models/verify_email_response_model.dart';
@@ -105,6 +105,9 @@ class _RegisterPageState extends State<RegisterPage> {
           );
           log("verify ${verifyEmailResponseModel.status}");
           if (verifyEmailResponseModel.status) {
+            final String accessToken = verifyEmailResponseModel.accessToken!;
+            SharedPreferencesSingleton.setString("accessToken", accessToken);
+
             customShowModalBottomSheet(
               context: context,
               imageName: "assets/animations/orderSuccessfullyDone.json",
@@ -115,10 +118,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   context,
                   HomePage.id,
                   (Route<dynamic> route) => false,
-                  arguments: AuthScreenArguments(
-                    userModel: verifyEmailResponseModel.user!,
-                    accessToken: verifyEmailResponseModel.accessToken!,
-                  ),
                 );
               },
             );
