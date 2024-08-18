@@ -3,6 +3,7 @@ import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/core/widgets/custom_rounded_image_container.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
+import 'package:e_commerce_app/core/widgets/product_amount_selector.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,7 +15,7 @@ class CustomHorizontalProductItem extends StatefulWidget {
     required this.quantity,
     this.backgroundColor = Colors.white,
     this.borderRadius = 30,
-    this.height = 200,
+    this.height = 220,
     this.width = double.infinity,
   });
 
@@ -37,6 +38,22 @@ class _CustomHorizontalProductItemState
   void initState() {
     super.initState();
     productAmount = widget.quantity;
+  }
+
+  void increaseAmount() {
+    setState(() {
+      if (productAmount < 20) {
+        productAmount += 1;
+      }
+    });
+  }
+
+  void decreaseAmount() {
+    setState(() {
+      if (productAmount > 0) {
+        productAmount -= 1;
+      }
+    });
   }
 
   @override
@@ -71,7 +88,7 @@ class _CustomHorizontalProductItemState
                   width: 150,
                   fit: BoxFit.contain,
                 ),
-                const HorizontalGap(16),
+                const HorizontalGap(26),
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -104,59 +121,19 @@ class _CustomHorizontalProductItemState
               ],
             ),
           ),
+          const VerticalGap(16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              CustomTriggerButton(
-                buttonWidth: 120,
-                buttonHeight: 40,
-                borderWidth: 0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          if (productAmount > 0) {
-                            productAmount -= 1;
-                          }
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.remove_circle,
-                        color: Colors.white,
-                        size: 26,
-                      ),
-                    ),
-                    Text(
-                      "$productAmount",
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          if (productAmount < 20) {
-                            productAmount += 1;
-                          }
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.add_circle,
-                        color: Colors.white,
-                        size: 26,
-                      ),
-                    ),
-                  ],
-                ),
+              ProductAmountSelector(
+                productAmount: productAmount,
+                onAdd: increaseAmount,
+                onRemove: decreaseAmount,
+                height: 40,
               ),
               CustomTriggerButton(
                 onPressed: () {},
-                borderWidth: 0,
-                buttonWidth: 200,
+                buttonWidth: 220,
                 buttonHeight: 40,
                 borderRadius: 10,
                 description: "move to favorites",

@@ -26,7 +26,7 @@ class CartBody extends StatelessWidget {
                 return Expanded(
                   child: ListView.separated(
                     itemCount: data.cartItems!.length,
-                    separatorBuilder: (context, index) => const VerticalGap(16),
+                    separatorBuilder: (context, index) => const VerticalGap(36),
                     itemBuilder: (context, index) => GestureDetector(
                       onTap: () {
                         Navigator.pushNamed(
@@ -62,53 +62,50 @@ class CartBody extends StatelessWidget {
               }
             },
           ),
-          Container(
-            color: Colors.white,
-            child: const CustomTriggerButton(
-              borderRadius: 15,
-              borderWidth: 0,
-              buttonHeight: 60,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 8,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          "5 items",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                          ),
+          const CustomTriggerButton(
+            borderRadius: 15,
+            borderWidth: 0,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 8,
+                vertical: 8
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Text(
+                        "5 items",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
                         ),
-                        Text(
-                          "EGP 1100",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      "CHECKOUT",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
                       ),
-                    ),
-                    Icon(
-                      Icons.arrow_circle_right_rounded,
+                      Text(
+                        "EGP 1100",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Text(
+                    "CHECKOUT",
+                    style: TextStyle(
                       color: Colors.white,
-                      size: 40,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
-                ),
+                  ),
+                  Icon(
+                    Icons.arrow_circle_right_rounded,
+                    color: Colors.white,
+                    size: 40,
+                  ),
+                ],
               ),
             ),
           ),

@@ -10,6 +10,7 @@ class CustomTriggerButton extends StatefulWidget {
     this.icon,
     this.child,
     this.isEnabled = true,
+    this.isDescriptionBold = false,
     this.backgroundColor = ThemeColors.primaryColor,
     this.descriptionColor = Colors.white,
     this.descriptionSize = 30,
@@ -19,19 +20,20 @@ class CustomTriggerButton extends StatefulWidget {
     this.buttonWidth = double.infinity,
     this.borderWidth = 0,
     this.borderColor = Colors.black,
-    this.borderRadius = 40,
+    this.borderRadius = 10,
   });
 
   final bool isEnabled;
+  final bool isDescriptionBold;
   final VoidCallback? onPressed;
-  final Color? backgroundColor;
+  final Color backgroundColor;
   final String? description;
   final IconData? icon;
-  final Color? descriptionColor;
-  final double? descriptionSize;
-  final double? iconSize;
-  final double? buttonHeight;
-  final double? buttonWidth;
+  final Color descriptionColor;
+  final double descriptionSize;
+  final double iconSize;
+  final double buttonHeight;
+  final double buttonWidth;
   final Widget? child;
   final double borderWidth;
   final Color borderColor;
@@ -52,8 +54,8 @@ class _CustomTriggerButtonState extends State<CustomTriggerButton> {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      onPressed: widget.isEnabled ? widget.onPressed : null,
+    return GestureDetector(
+      onTap: widget.isEnabled ? widget.onPressed : null,
       child: Container(
         height: widget.buttonHeight,
         width: widget.buttonWidth,
@@ -79,6 +81,9 @@ class _CustomTriggerButtonState extends State<CustomTriggerButton> {
                     style: TextStyle(
                       color: widget.descriptionColor,
                       fontSize: widget.descriptionSize,
+                      fontWeight: widget.isDescriptionBold
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                     ),
                   ),
                 ],
