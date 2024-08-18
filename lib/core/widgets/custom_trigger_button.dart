@@ -9,9 +9,11 @@ class CustomTriggerButton extends StatefulWidget {
     this.description,
     this.icon,
     this.child,
+    this.isEnabled = true,
     this.backgroundColor = ThemeColors.primaryColor,
     this.descriptionColor = Colors.white,
     this.descriptionSize = 30,
+    this.iconSize = 18,
     this.isUseForOnBoarding = false,
     this.buttonHeight = 70,
     this.buttonWidth = double.infinity,
@@ -20,12 +22,14 @@ class CustomTriggerButton extends StatefulWidget {
     this.borderRadius = 40,
   });
 
+  final bool isEnabled;
   final VoidCallback? onPressed;
   final Color? backgroundColor;
   final String? description;
   final IconData? icon;
   final Color? descriptionColor;
   final double? descriptionSize;
+  final double? iconSize;
   final double? buttonHeight;
   final double? buttonWidth;
   final Widget? child;
@@ -49,7 +53,7 @@ class _CustomTriggerButtonState extends State<CustomTriggerButton> {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: widget.onPressed,
+      onPressed: widget.isEnabled ? widget.onPressed : null,
       child: Container(
         height: widget.buttonHeight,
         width: widget.buttonWidth,
@@ -82,7 +86,7 @@ class _CustomTriggerButtonState extends State<CustomTriggerButton> {
                   Icon(
                     widget.icon!,
                     color: widget.descriptionColor,
-                    size: widget.descriptionSize,
+                    size: widget.iconSize,
                   ),
               ],
             ),

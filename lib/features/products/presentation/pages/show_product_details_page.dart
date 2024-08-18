@@ -1,7 +1,14 @@
+import 'dart:developer';
+
 import 'package:e_commerce_app/constants/api_constants.dart';
+import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
+import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
+import 'package:e_commerce_app/features/cart/data/data_sources/add_to_cart_service.dart';
+import 'package:e_commerce_app/features/cart/data/data_sources/update_cart_item_service.dart';
+import 'package:e_commerce_app/features/cart/data/models/add_to_cart_response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -215,17 +222,9 @@ class _ShowProductDetailsPageState extends State<ShowProductDetailsPage> {
                               Row(
                                 children: [
                                   Text(
-                                    "${productModel.price}",
+                                    "EGP ${productModel.price}",
                                     style: const TextStyle(
                                       fontSize: 30,
-                                    ),
-                                  ),
-                                  const Text(
-                                    "\$",
-                                    style: TextStyle(
-                                      fontSize: 30,
-                                      color: ThemeColors.primaryColor,
-                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ],
@@ -233,13 +232,114 @@ class _ShowProductDetailsPageState extends State<ShowProductDetailsPage> {
                             ],
                           ),
                           CustomTriggerButton(
-                            buttonWidth: 250,
-                            buttonHeight: 60,
+                            buttonWidth: 220,
+                            buttonHeight: 50,
                             description: "add to cart",
                             icon: Icons.shopping_cart,
-                            onPressed: () {
-                              //! add to cart in the back with the amount which the user choose
-                              //! then navigate to
+                            iconSize: 28,
+                            descriptionSize: 24,
+                            isEnabled: productAmount > 0,
+                            onPressed: () async {
+                              AddToCartResponseModel addToCartResponseModel =
+                                  await AddToCartService.addToCart(
+                                productId: productModel.id,
+                              );
+                              if (addToCartResponseModel.status) {
+                                if (productAmount > 1) {
+                                  bool result = await UpdateCartItemService
+                                      .updateCartItem(
+                                    cartId: addToCartResponseModel.cartId!,
+                                    newQuantity: productAmount,
+                                  );
+                                  if (result) {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) {
+                                        return Container(
+                                          height: 250,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(35),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 16,
+                                              vertical: 24,
+                                            ),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceAround,
+                                                  children: [
+                                                    Container(
+                                                      decoration: BoxDecoration(
+                                                        color: ThemeColors
+                                                            .successfullyDoneColor,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(200),
+                                                      ),
+                                                      child: const Center(
+                                                        child: Icon(
+                                                          Icons.done_outlined,
+                                                          size: 32,
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          productModel.name,
+                                                          style: TextStyles
+                                                              .aDLaMDisplayBlackBold22,
+                                                        ),
+                                                        const Text(
+                                                          "Added to cart",
+                                                          style: TextStyle(
+                                                            color: ThemeColors
+                                                                .successfullyDoneColor,
+                                                            fontSize: 20,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                                Container(
+                                                  color: ThemeColors.backgroundBodiesColor,
+                                                  height: 30,
+                                                  width: double.infinity,
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    children: [
+Text("data"),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    showSnackBar(context,
+                                        "can not add the item to the cart");
+                                  }
+                                }
+                              } else {
+                                log(addToCartResponseModel.message.toString());
+                              }
                             },
                           ),
                         ],
