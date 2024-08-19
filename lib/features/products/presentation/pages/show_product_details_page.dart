@@ -1,6 +1,8 @@
 import 'package:e_commerce_app/constants/api_constants.dart';
+import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
+import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
 import 'package:e_commerce_app/features/products/presentation/widgets/show_product_details_widgets/amount_selector_section.dart';
 import 'package:e_commerce_app/features/products/presentation/widgets/show_product_details_widgets/description_section.dart';
 import 'package:e_commerce_app/features/products/presentation/widgets/show_product_details_widgets/price_and_cart_button_section.dart';
@@ -54,7 +56,12 @@ class _ShowProductDetailsPageState extends State<ShowProductDetailsPage> {
         actions: [
           IconButton(
             onPressed: () {
-              //! go to cart body
+              HomePageNavigationService.navigateToCart();
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                HomePage.id,
+                (Route<dynamic> route) => false,
+              );
             },
             icon: const Icon(
               Icons.shopping_cart,

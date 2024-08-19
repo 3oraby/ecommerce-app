@@ -49,10 +49,11 @@ class _CartBodyState extends State<CartBody> {
                     ),
                   ),
                 ),
-              const  CheckoutActionButton(
-                //! take the number from back then pass it
-                itemsNumber: 50,
-              ),
+                CheckoutActionButton(
+                  //! take the number from back then pass it
+                  itemsNumber: 50,
+                  cartItems: data.cartItems!,
+                ),
               ],
             );
           } else if (snapshot.hasError) {
@@ -77,4 +78,3 @@ class _CartBodyState extends State<CartBody> {
     );
   }
 }
-

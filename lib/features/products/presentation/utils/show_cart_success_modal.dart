@@ -112,7 +112,11 @@ void showCartSuccessModal(BuildContext context, ProductModel productModel) {
                 descriptionSize: 20,
                 onPressed: () {
                   HomePageNavigationService.navigateToCart();
-                  Navigator.pushReplacementNamed(context, HomePage.id);
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    HomePage.id,
+                    (Route<dynamic> route) => false,
+                  );
                 },
               ),
               const Spacer(),

@@ -9,6 +9,7 @@ class CartAppBar {
         style: TextStyles.aDLaMDisplayBlackBold32,
       ),
       centerTitle: true,
+      surfaceTintColor: Colors.transparent,
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/features/auth/presentation/pages/register_page.dart';
+import 'package:e_commerce_app/features/cart/presentation/pages/checkout_page.dart';
 import 'package:e_commerce_app/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_product_details_page.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_products_page.dart';
@@ -36,6 +37,7 @@ class ECommerceApp extends StatelessWidget {
         UserProfilePage.id: (context) => const UserProfilePage(),
         ShowProductDetailsPage.id: (context) => const ShowProductDetailsPage(),
         ShowProductsPage.id: (context) => const ShowProductsPage(),
+        CheckoutPage.id: (context) => const CheckoutPage(),
       },
       initialRoute: isFirstTime ? OnboardingPage.id : EntryPage.id,
     );

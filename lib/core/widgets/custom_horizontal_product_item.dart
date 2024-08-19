@@ -16,7 +16,10 @@ class CustomHorizontalProductItem extends StatefulWidget {
     this.backgroundColor = Colors.white,
     this.borderRadius = 30,
     this.height = 220,
+    this.imageHeight = 150,
+    this.imageWidth = 150,
     this.width = double.infinity,
+    this.isLastRowEnabled = true,
   });
 
   final ProductModel productModel;
@@ -25,6 +28,9 @@ class CustomHorizontalProductItem extends StatefulWidget {
   final double borderRadius;
   final double height;
   final double width;
+  final bool isLastRowEnabled;
+  final double imageHeight;
+  final double imageWidth;
 
   @override
   State<CustomHorizontalProductItem> createState() =>
@@ -34,10 +40,16 @@ class CustomHorizontalProductItem extends StatefulWidget {
 class _CustomHorizontalProductItemState
     extends State<CustomHorizontalProductItem> {
   late int productAmount;
+  late double height;
   @override
   void initState() {
     super.initState();
     productAmount = widget.quantity;
+    if (widget.isLastRowEnabled) {
+      height = widget.height;
+    } else {
+      height = widget.height - 100;
+    }
   }
 
   void increaseAmount() {
@@ -59,7 +71,7 @@ class _CustomHorizontalProductItemState
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: widget.height,
+      height: height,
       width: widget.width,
       padding: const EdgeInsets.symmetric(
         horizontal: 8,
@@ -84,8 +96,8 @@ class _CustomHorizontalProductItemState
                 CustomRoundedImageContainer(
                   imagePath:
                       "${ApiConstants.baseUrl}${ApiConstants.getPhotoEndPoint}${widget.productModel.photo}",
-                  height: 150,
-                  width: 150,
+                  height: widget.imageHeight,
+                  width: widget.imageWidth,
                   fit: BoxFit.contain,
                 ),
                 const HorizontalGap(26),
@@ -122,27 +134,28 @@ class _CustomHorizontalProductItemState
             ),
           ),
           const VerticalGap(16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              ProductAmountSelector(
-                productAmount: productAmount,
-                onAdd: increaseAmount,
-                onRemove: decreaseAmount,
-                height: 40,
-              ),
-              CustomTriggerButton(
-                onPressed: () {},
-                buttonWidth: 220,
-                buttonHeight: 40,
-                borderRadius: 10,
-                description: "move to favorites",
-                descriptionSize: 18,
-                icon: Icons.favorite_outline_outlined,
-                iconSize: 28,
-              ),
-            ],
-          ),
+          if (widget.isLastRowEnabled)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ProductAmountSelector(
+                  productAmount: productAmount,
+                  onAdd: increaseAmount,
+                  onRemove: decreaseAmount,
+                  height: 40,
+                ),
+                CustomTriggerButton(
+                  onPressed: () {},
+                  buttonWidth: 220,
+                  buttonHeight: 40,
+                  borderRadius: 10,
+                  description: "move to favorites",
+                  descriptionSize: 18,
+                  icon: Icons.favorite_outline_outlined,
+                  iconSize: 28,
+                ),
+              ],
+            ),
         ],
       ),
     );

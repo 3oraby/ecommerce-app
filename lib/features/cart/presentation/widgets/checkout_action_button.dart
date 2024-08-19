@@ -1,13 +1,17 @@
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/features/cart/data/data_sources/show_cart_price_service.dart';
+import 'package:e_commerce_app/features/cart/data/models/cart_item_model.dart';
+import 'package:e_commerce_app/features/cart/presentation/pages/checkout_page.dart';
 import 'package:flutter/material.dart';
 
 class CheckoutActionButton extends StatelessWidget {
   const CheckoutActionButton({
     super.key,
     required this.itemsNumber,
+    required this.cartItems,
   });
   final int itemsNumber;
+  final List<CartItemModel> cartItems;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -19,7 +23,11 @@ class CheckoutActionButton extends StatelessWidget {
             borderRadius: 15,
             borderWidth: 0,
             onPressed: () {
-              
+              Navigator.pushNamed(
+                context,
+                CheckoutPage.id,
+                arguments: cartItems,
+              );
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(
