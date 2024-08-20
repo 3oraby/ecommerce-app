@@ -42,8 +42,7 @@ class _CartBodyState extends State<CartBody> {
                         );
                       },
                       child: CustomHorizontalProductItem(
-                        productModel: data.cartItems![index].product,
-                        quantity: data.cartItems![index].quantity,
+                        cartItemModel:data.cartItems![index],
                         borderRadius: 10,
                       ),
                     ),
