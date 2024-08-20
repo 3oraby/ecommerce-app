@@ -16,20 +16,24 @@ class CustomHorizontalProductItem extends StatefulWidget {
     super.key,
     required this.cartItemModel,
     this.backgroundColor = Colors.white,
-    this.borderRadius = 30,
+    this.borderRadius = 10,
     this.height = 300,
     this.imageHeight = 150,
     this.imageWidth = 150,
+    this.borderWidth = 1,
     this.width = double.infinity,
+    this.isLastRowEnabled = true,
   });
 
   final CartItemModel cartItemModel;
   final Color backgroundColor;
   final double borderRadius;
+  final double borderWidth;
   final double height;
   final double width;
   final double imageHeight;
   final double imageWidth;
+  final bool isLastRowEnabled;
 
   @override
   State<CustomHorizontalProductItem> createState() =>
@@ -46,7 +50,11 @@ class _CustomHorizontalProductItemState
   void initState() {
     super.initState();
     productAmount = widget.cartItemModel.quantity;
-    height = widget.height;
+    if (widget.isLastRowEnabled) {
+      height = widget.height;
+    } else {
+      height = widget.height - 80;
+    }
   }
 
   @override
@@ -61,6 +69,10 @@ class _CustomHorizontalProductItemState
       ),
       decoration: BoxDecoration(
         color: widget.backgroundColor,
+        border: Border.all(
+          color: Colors.grey,
+          width: widget.borderWidth,
+        ),
         borderRadius: BorderRadius.circular(widget.borderRadius),
         boxShadow: [
           BoxShadow(
@@ -75,12 +87,38 @@ class _CustomHorizontalProductItemState
           Expanded(
             child: Row(
               children: [
-                CustomRoundedImageContainer(
-                  imagePath:
-                      "${ApiConstants.baseUrl}${ApiConstants.getPhotoEndPoint}${productModel.photo}",
-                  height: widget.imageHeight,
-                  width: widget.imageWidth,
-                  fit: BoxFit.contain,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Visibility(
+                      visible: !widget.isLastRowEnabled,
+                      child: Container(
+                        width: 50,
+                        height: 30,
+                        decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(360),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "x ${widget.cartItemModel.quantity}",
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    CustomRoundedImageContainer(
+                      imagePath:
+                          "${ApiConstants.baseUrl}${ApiConstants.getPhotoEndPoint}${productModel.photo}",
+                      height: widget.imageHeight,
+                      width: widget.imageWidth,
+                      fit: BoxFit.contain,
+                    ),
+                  ],
                 ),
                 const HorizontalGap(8),
                 Expanded(
@@ -137,87 +175,92 @@ class _CustomHorizontalProductItemState
               ],
             ),
           ),
-          const VerticalGap(16),
-          Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        showQuantity = !showQuantity;
-                        if (showQuantity) {
-                          height += 80;
-                        } else {
-                          height -= 80;
-                        }
-                      });
-                    },
-                    child: Container(
-                      height: 40,
-                      width: 80,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 1,
-                          color: Colors.grey,
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Text(
-                            "$productAmount",
-                            style: TextStyles.aDLaMDisplayBlackBold20,
+          Visibility(
+            visible: widget.isLastRowEnabled,
+            child: Column(
+              children: [
+                const VerticalGap(16),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          showQuantity = !showQuantity;
+                          if (showQuantity) {
+                            height += 80;
+                          } else {
+                            height -= 80;
+                          }
+                        });
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 80,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 1,
+                            color: Colors.grey,
                           ),
-                          const Icon(
-                            Icons.arrow_drop_down,
-                            size: 30,
-                          )
-                        ],
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Text(
+                              "$productAmount",
+                              style: TextStyles.aDLaMDisplayBlackBold20,
+                            ),
+                            const Icon(
+                              Icons.arrow_drop_down,
+                              size: 30,
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  CustomTriggerButton(
-                    onPressed: () {
-                      //! add to favorites
-                      //! then remove from the cart
-                    },
-                    buttonWidth: 220,
-                    buttonHeight: 40,
-                    borderRadius: 10,
-                    description: "move to favorites",
-                    descriptionSize: 18,
-                    icon: Icons.favorite_outline_outlined,
-                    iconSize: 28,
-                  ),
-                ],
-              ),
-              Visibility(
-                visible: showQuantity,
-                child: QuantitySelector(
-                  productAmount: productAmount,
-                  onCancel: () {
-                    setState(() {
-                      showQuantity = false;
-                      height = widget.height;
-                    });
-                  },
-                  onQuantitySelected: (value) async {
-                    setState(() {
-                      productAmount = value;
-                      showQuantity = false;
-                      height = widget.height;
-                    });
-                    await UpdateCartItemService.updateCartItem(
-                      cartId: widget.cartItemModel.id,
-                      newQuantity: value,
-                    );
-                  },
+                    CustomTriggerButton(
+                      onPressed: () {
+                        //! add to favorites
+                        //! then remove from the cart
+                      },
+                      buttonWidth: 220,
+                      buttonHeight: 40,
+                      borderRadius: 10,
+                      description: "move to favorites",
+                      descriptionSize: 18,
+                      icon: Icons.favorite_outline_outlined,
+                      iconSize: 28,
+                    ),
+                  ],
                 ),
-              ),
-            ],
+                Visibility(
+                  visible: showQuantity,
+                  child: QuantitySelector(
+                    productAmount: productAmount,
+                    onCancel: () {
+                      setState(() {
+                        showQuantity = false;
+                        height = widget.height;
+                      });
+                    },
+                    onQuantitySelected: (value) async {
+                      setState(() {
+                        productAmount = value;
+                        showQuantity = false;
+                        height = widget.height;
+                      });
+                      await UpdateCartItemService.updateCartItem(
+                        cartId: widget.cartItemModel.id,
+                        newQuantity: value,
+                      );
+                      // update the value of the product quantity to pass the model to checkout page
+                      widget.cartItemModel.quantity = value;
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
