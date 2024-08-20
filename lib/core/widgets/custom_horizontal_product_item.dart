@@ -1,12 +1,13 @@
 import 'package:e_commerce_app/constants/api_constants.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
+import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
+import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_rounded_image_container.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
-import 'package:e_commerce_app/core/widgets/product_amount_selector.dart';
+import 'package:e_commerce_app/core/widgets/quantity_selector.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CustomHorizontalProductItem extends StatefulWidget {
   const CustomHorizontalProductItem({
@@ -15,11 +16,10 @@ class CustomHorizontalProductItem extends StatefulWidget {
     required this.quantity,
     this.backgroundColor = Colors.white,
     this.borderRadius = 30,
-    this.height = 220,
+    this.height = 300,
     this.imageHeight = 150,
     this.imageWidth = 150,
     this.width = double.infinity,
-    this.isLastRowEnabled = true,
   });
 
   final ProductModel productModel;
@@ -28,7 +28,6 @@ class CustomHorizontalProductItem extends StatefulWidget {
   final double borderRadius;
   final double height;
   final double width;
-  final bool isLastRowEnabled;
   final double imageHeight;
   final double imageWidth;
 
@@ -39,33 +38,15 @@ class CustomHorizontalProductItem extends StatefulWidget {
 
 class _CustomHorizontalProductItemState
     extends State<CustomHorizontalProductItem> {
-  late int productAmount;
-  late double height;
+  late int productAmount = widget.quantity;
+  late double height = widget.height;
+  bool showQuantity = false;
+
   @override
   void initState() {
     super.initState();
     productAmount = widget.quantity;
-    if (widget.isLastRowEnabled) {
-      height = widget.height;
-    } else {
-      height = widget.height - 100;
-    }
-  }
-
-  void increaseAmount() {
-    setState(() {
-      if (productAmount < 20) {
-        productAmount += 1;
-      }
-    });
-  }
-
-  void decreaseAmount() {
-    setState(() {
-      if (productAmount > 0) {
-        productAmount -= 1;
-      }
-    });
+    height = widget.height;
   }
 
   @override
@@ -100,31 +81,53 @@ class _CustomHorizontalProductItemState
                   width: widget.imageWidth,
                   fit: BoxFit.contain,
                 ),
-                const HorizontalGap(26),
+                const HorizontalGap(8),
                 Expanded(
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const VerticalGap(24),
-                      Expanded(
-                        child: Text(
-                          widget.productModel.name,
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.aDLaMDisplay(
-                            color: Colors.black,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 4,
-                        ),
+                      const Spacer(flex: 3),
+                      Text(
+                        widget.productModel.description,
+                        textAlign: TextAlign.start,
+                        style: TextStyles.aDLaMDisplayBlackBold20,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 4,
                       ),
+                      const Spacer(flex: 3),
                       Text(
                         "EGP ${widget.productModel.price}",
                         textAlign: TextAlign.center,
-                        style: GoogleFonts.aDLaMDisplay(
+                        style: const TextStyle(
                           color: Colors.black,
-                          fontSize: 22,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const Spacer(),
+                      Visibility(
+                        visible: widget.productModel.price > 500,
+                        maintainInteractivity: true,
+                        maintainSize: true,
+                        maintainAnimation: true,
+                        maintainState: true,
+                        child: const Row(
+                          children: [
+                            Icon(
+                              Icons.delivery_dining,
+                              color: ThemeColors.primaryColor,
+                            ),
+                            HorizontalGap(10),
+                            Text(
+                              "Free Delivery",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
@@ -134,28 +137,80 @@ class _CustomHorizontalProductItemState
             ),
           ),
           const VerticalGap(16),
-          if (widget.isLastRowEnabled)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ProductAmountSelector(
+          Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        showQuantity = !showQuantity;
+                        if (showQuantity) {
+                          height += 80;
+                        } else {
+                          height -= 80;
+                        }
+                      });
+                    },
+                    child: Container(
+                      height: 40,
+                      width: 80,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: Colors.grey,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            "$productAmount",
+                            style: TextStyles.aDLaMDisplayBlackBold20,
+                          ),
+                          const Icon(
+                            Icons.arrow_drop_down,
+                            size: 30,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  CustomTriggerButton(
+                    onPressed: () {},
+                    buttonWidth: 220,
+                    buttonHeight: 40,
+                    borderRadius: 10,
+                    description: "move to favorites",
+                    descriptionSize: 18,
+                    icon: Icons.favorite_outline_outlined,
+                    iconSize: 28,
+                  ),
+                ],
+              ),
+              Visibility(
+                visible: showQuantity,
+                child: QuantitySelector(
                   productAmount: productAmount,
-                  onAdd: increaseAmount,
-                  onRemove: decreaseAmount,
-                  height: 40,
+                  onCancel: () {
+                    setState(() {
+                      showQuantity = false;
+                      height = widget.height;
+                    });
+                  },
+                  onQuantitySelected: (value) {
+                    setState(() {
+                      productAmount = value;
+                      showQuantity = false;
+                      height = widget.height;
+                    });
+                  },
                 ),
-                CustomTriggerButton(
-                  onPressed: () {},
-                  buttonWidth: 220,
-                  buttonHeight: 40,
-                  borderRadius: 10,
-                  description: "move to favorites",
-                  descriptionSize: 18,
-                  icon: Icons.favorite_outline_outlined,
-                  iconSize: 28,
-                ),
-              ],
-            ),
+              ),
+            ],
+          ),
         ],
       ),
     );
