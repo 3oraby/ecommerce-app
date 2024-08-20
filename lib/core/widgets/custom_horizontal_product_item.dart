@@ -182,6 +182,7 @@ class _CustomHorizontalProductItemState
                   CustomTriggerButton(
                     onPressed: () {
                       //! add to favorites
+                      //! then remove from the cart
                     },
                     buttonWidth: 220,
                     buttonHeight: 40,
