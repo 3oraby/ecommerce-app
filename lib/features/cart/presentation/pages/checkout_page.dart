@@ -50,18 +50,17 @@ class CheckoutPage extends StatelessWidget {
               ],
             ),
             const VerticalGap(8),
-            Expanded(
-              child: ListView.separated(
-                itemCount: cartItems.length,
-                separatorBuilder: (context, index) => const VerticalGap(16),
-                itemBuilder: (context, index) => CustomHorizontalProductItem(
-                  productModel: cartItems[index].product,
-                  quantity: cartItems[index].quantity,
-                  borderRadius: 10,
-                  isLastRowEnabled: false,
-                ),
-              ),
-            ),
+            // Expanded(
+            //   child: ListView.separated(
+            //     itemCount: cartItems.length,
+            //     separatorBuilder: (context, index) => const VerticalGap(16),
+            //     itemBuilder: (context, index) => CustomHorizontalProductItem(
+            //       productModel: cartItems[index].product,
+            //       quantity: cartItems[index].quantity,
+            //       borderRadius: 10,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

@@ -1,7 +1,11 @@
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:flutter/material.dart';
 
-void showSnackBar(BuildContext context, String message) {
+void showSnackBar(
+  BuildContext context,
+  String message, {
+  Color backgroundColor = ThemeColors.primaryColor,
+}) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(
@@ -10,7 +14,7 @@ void showSnackBar(BuildContext context, String message) {
           fontSize: 21,
         ),
       ),
-      backgroundColor: ThemeColors.primaryColor,
+      backgroundColor: backgroundColor,
       showCloseIcon: true,
       animation: CurvedAnimation(
         curve: Curves.bounceIn,
