@@ -7,13 +7,14 @@ import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
 import 'package:e_commerce_app/core/widgets/quantity_selector.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
+import 'package:e_commerce_app/features/cart/data/data_sources/update_cart_item_service.dart';
+import 'package:e_commerce_app/features/cart/data/models/cart_item_model.dart';
 import 'package:flutter/material.dart';
 
 class CustomHorizontalProductItem extends StatefulWidget {
   const CustomHorizontalProductItem({
     super.key,
-    required this.productModel,
-    required this.quantity,
+    required this.cartItemModel,
     this.backgroundColor = Colors.white,
     this.borderRadius = 30,
     this.height = 300,
@@ -22,8 +23,7 @@ class CustomHorizontalProductItem extends StatefulWidget {
     this.width = double.infinity,
   });
 
-  final ProductModel productModel;
-  final int quantity;
+  final CartItemModel cartItemModel;
   final Color backgroundColor;
   final double borderRadius;
   final double height;
@@ -38,19 +38,20 @@ class CustomHorizontalProductItem extends StatefulWidget {
 
 class _CustomHorizontalProductItemState
     extends State<CustomHorizontalProductItem> {
-  late int productAmount = widget.quantity;
+  late int productAmount = widget.cartItemModel.quantity;
   late double height = widget.height;
   bool showQuantity = false;
 
   @override
   void initState() {
     super.initState();
-    productAmount = widget.quantity;
+    productAmount = widget.cartItemModel.quantity;
     height = widget.height;
   }
 
   @override
   Widget build(BuildContext context) {
+    ProductModel productModel = widget.cartItemModel.product;
     return Container(
       height: height,
       width: widget.width,
@@ -76,7 +77,7 @@ class _CustomHorizontalProductItemState
               children: [
                 CustomRoundedImageContainer(
                   imagePath:
-                      "${ApiConstants.baseUrl}${ApiConstants.getPhotoEndPoint}${widget.productModel.photo}",
+                      "${ApiConstants.baseUrl}${ApiConstants.getPhotoEndPoint}${productModel.photo}",
                   height: widget.imageHeight,
                   width: widget.imageWidth,
                   fit: BoxFit.contain,
@@ -88,7 +89,7 @@ class _CustomHorizontalProductItemState
                     children: [
                       const Spacer(flex: 3),
                       Text(
-                        widget.productModel.description,
+                        productModel.description,
                         textAlign: TextAlign.start,
                         style: TextStyles.aDLaMDisplayBlackBold20,
                         overflow: TextOverflow.ellipsis,
@@ -96,7 +97,7 @@ class _CustomHorizontalProductItemState
                       ),
                       const Spacer(flex: 3),
                       Text(
-                        "EGP ${widget.productModel.price}",
+                        "EGP ${productModel.price}",
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           color: Colors.black,
@@ -106,7 +107,7 @@ class _CustomHorizontalProductItemState
                       ),
                       const Spacer(),
                       Visibility(
-                        visible: widget.productModel.price > 500,
+                        visible: productModel.price > 500,
                         maintainInteractivity: true,
                         maintainSize: true,
                         maintainAnimation: true,
@@ -179,7 +180,9 @@ class _CustomHorizontalProductItemState
                     ),
                   ),
                   CustomTriggerButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      //! add to favorites
+                    },
                     buttonWidth: 220,
                     buttonHeight: 40,
                     borderRadius: 10,
@@ -200,12 +203,16 @@ class _CustomHorizontalProductItemState
                       height = widget.height;
                     });
                   },
-                  onQuantitySelected: (value) {
+                  onQuantitySelected: (value) async {
                     setState(() {
                       productAmount = value;
                       showQuantity = false;
                       height = widget.height;
                     });
+                    await UpdateCartItemService.updateCartItem(
+                      cartId: widget.cartItemModel.id,
+                      newQuantity: value,
+                    );
                   },
                 ),
               ),
