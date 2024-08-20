@@ -2,7 +2,7 @@ import 'package:e_commerce_app/core/models/product_model.dart';
 
 class CartItemModel {
   final int id;
-  final int quantity;
+  int quantity;
   final int cartId;
   final int productId;
   final DateTime createdAt;

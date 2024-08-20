@@ -10,6 +10,7 @@ class CartAppBar {
       ),
       centerTitle: true,
       surfaceTintColor: Colors.transparent,
+      backgroundColor: Colors.white,
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
-import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_horizontal_product_item.dart';
 import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
@@ -14,7 +13,6 @@ class CheckoutPage extends StatelessWidget {
     List<CartItemModel> cartItems =
         ModalRoute.of(context)!.settings.arguments as List<CartItemModel>;
     return Scaffold(
-      backgroundColor: ThemeColors.backgroundBodiesColor,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
@@ -50,17 +48,17 @@ class CheckoutPage extends StatelessWidget {
               ],
             ),
             const VerticalGap(8),
-            // Expanded(
-            //   child: ListView.separated(
-            //     itemCount: cartItems.length,
-            //     separatorBuilder: (context, index) => const VerticalGap(16),
-            //     itemBuilder: (context, index) => CustomHorizontalProductItem(
-            //       productModel: cartItems[index].product,
-            //       quantity: cartItems[index].quantity,
-            //       borderRadius: 10,
-            //     ),
-            //   ),
-            // ),
+            Expanded(
+              child: ListView.separated(
+                itemCount: cartItems.length,
+                separatorBuilder: (context, index) => const VerticalGap(16),
+                itemBuilder: (context, index) => CustomHorizontalProductItem(
+                  cartItemModel: cartItems[index],
+                  borderRadius: 10,
+                  isLastRowEnabled: false,
+                ),
+              ),
+            ),
           ],
         ),
       ),
