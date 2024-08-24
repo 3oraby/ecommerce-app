@@ -1,5 +1,9 @@
 import 'package:e_commerce_app/features/auth/presentation/pages/register_page.dart';
 import 'package:e_commerce_app/features/cart/presentation/pages/checkout_page.dart';
+import 'package:e_commerce_app/features/favorites/data/data_sources/add_or_delete_favorite_service.dart';
+import 'package:e_commerce_app/features/favorites/data/data_sources/get_favorites_service.dart';
+import 'package:e_commerce_app/features/favorites/data/repositories/favorites_repository_impl.dart';
+import 'package:e_commerce_app/features/favorites/presentation/cubit/favorites_cubit.dart';
 import 'package:e_commerce_app/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_product_details_page.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_products_page.dart';
@@ -9,14 +13,27 @@ import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
 import 'package:e_commerce_app/features/auth/presentation/pages/login_page.dart';
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesSingleton.init();
   bool isFirstTime = SharedPreferencesSingleton.getBool("isFirstTime");
   runApp(
-    ECommerceApp(
-      isFirstTime: isFirstTime,
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => FavoritesCubit(
+            favoritesRepository: FavoritesRepositoryImpl(
+              GetFavoritesService(),
+              AddOrDeleteFavoritesService(),
+            ),
+          )..getFavorites(),
+        ),
+      ],
+      child: ECommerceApp(
+        isFirstTime: isFirstTime,
+      ),
     ),
   );
 }

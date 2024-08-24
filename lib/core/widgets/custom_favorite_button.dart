@@ -1,21 +1,25 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
-import 'package:e_commerce_app/features/favorites/data/data_sources/add_or_delete_favorite_service.dart';
-import 'package:flutter/material.dart';
+import 'package:e_commerce_app/features/favorites/presentation/cubit/favorites_cubit.dart';
 
 class CustomFavoriteButton extends StatefulWidget {
+  final ProductModel productModel;
+  final bool isFavoritePage;
+
   const CustomFavoriteButton({
     super.key,
     required this.productModel,
+    this.isFavoritePage = false,
   });
-  final ProductModel productModel;
+
   @override
   State<CustomFavoriteButton> createState() => _CustomFavoriteButtonState();
 }
 
 class _CustomFavoriteButtonState extends State<CustomFavoriteButton> {
   late bool isFavorite;
-
   @override
   void initState() {
     super.initState();
@@ -40,13 +44,17 @@ class _CustomFavoriteButtonState extends State<CustomFavoriteButton> {
         ),
         iconSize: 30,
         onPressed: () async {
-          await AddOrDeleteFavoritesService.addOrDeleteFavorites(
-            productId: widget.productModel.id,
-          );
-          setState(() {
-            isFavorite = !isFavorite;
-            widget.productModel.isFavorite = isFavorite ? 1 : 0;
-          });
+          await context.read<FavoritesCubit>().toggleFavorite(
+                productId: widget.productModel.id,
+                shouldRefresh: widget.isFavoritePage,
+              );
+
+          if (mounted) {
+            setState(() {
+              isFavorite = !isFavorite;
+              widget.productModel.isFavorite = isFavorite ? 1 : 0;
+            });
+          }
         },
       ),
     );

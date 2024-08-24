@@ -15,6 +15,7 @@ class CustomMainProductCard extends StatelessWidget {
     this.borderRadius = 30,
     this.height = 350,
     this.width = double.infinity,
+    this.isFavoritePage = false,
   });
 
   final ProductModel productModel;
@@ -22,6 +23,7 @@ class CustomMainProductCard extends StatelessWidget {
   final double borderRadius;
   final double height;
   final double width;
+  final bool isFavoritePage;
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +84,7 @@ class CustomMainProductCard extends StatelessWidget {
                 ),
                 CustomFavoriteButton(
                   productModel: productModel,
+                  isFavoritePage: isFavoritePage,
                 ),
               ],
             ),

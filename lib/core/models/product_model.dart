@@ -23,7 +23,7 @@ class ProductModel {
 
   factory ProductModel.fromJson({
     required Map<String, dynamic> json,
-}) {
+  }) {
     return ProductModel(
       id: json['id'],
       price: json['price'].toDouble(),

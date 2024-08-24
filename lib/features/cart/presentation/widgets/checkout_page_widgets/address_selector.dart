@@ -21,10 +21,10 @@ class AddressSelector extends StatelessWidget {
         horizontal: 8,
         vertical: 24,
       ),
-      child: Row(
+      child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          const Icon(
+          Icon(
             Icons.location_on_outlined,
             color: Colors.grey,
             size: 28,
@@ -33,7 +33,7 @@ class AddressSelector extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   "Deliver to",
                   style: TextStyle(
                     color: Colors.grey,
@@ -53,7 +53,7 @@ class AddressSelector extends StatelessWidget {
               ],
             ),
           ),
-          const Icon(
+          Icon(
             Icons.arrow_forward_ios,
             color: Colors.black,
             size: 28,

@@ -18,7 +18,6 @@ class AppPageManager {
     required this.userModel,
   });
 
-  // Method to get the appropriate body based on the index
   Widget getPage(int index) {
     switch (index) {
       case 0:
@@ -27,6 +26,7 @@ class AppPageManager {
         return const MyOrdersBody();
       case 2:
         return const FavoritesBody();
+        
       case 3:
         return const CartBody();
       case 4:
@@ -36,7 +36,6 @@ class AppPageManager {
     }
   }
 
-  // Method to get the appropriate app bar based on the index
   AppBar getAppBar(int index, BuildContext context) {
     switch (index) {
       case 0:
