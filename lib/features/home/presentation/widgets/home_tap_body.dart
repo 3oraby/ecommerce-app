@@ -1,9 +1,12 @@
 import 'package:e_commerce_app/core/models/product_model.dart';
+import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
 import 'package:e_commerce_app/features/home/constants/home_page_constants.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
+import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
 import 'package:e_commerce_app/features/home/presentation/widgets/custom_main_product_card.dart';
 import 'package:e_commerce_app/features/products/data/data_sources/get_home_details_service.dart';
 import 'package:e_commerce_app/features/products/data/models/get_home_details_model.dart';
+import 'package:e_commerce_app/features/products/data/models/show_product_details_arguments_model.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_product_details_page.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_products_page.dart';
 import 'package:e_commerce_app/core/widgets/custom_rounded_image_container.dart';
@@ -22,6 +25,11 @@ class HomeTapBody extends StatefulWidget {
 
 class _HomeTapBodyState extends State<HomeTapBody> {
   final PageController pageController = PageController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -121,13 +129,19 @@ class _HomeTapBodyState extends State<HomeTapBody> {
                                     const HorizontalGap(16),
                                 itemBuilder: (context, productIndex) =>
                                     SizedBox(
-                                  width: 250,
+                                  width: 220,
                                   child: GestureDetector(
                                     onTap: () {
+                                      HomePageNavigationService
+                                          .navigateToHome();
                                       Navigator.pushNamed(
                                         context,
                                         ShowProductDetailsPage.id,
-                                        arguments: products[productIndex],
+                                        arguments:
+                                            ShowProductDetailsArgumentsModel(
+                                          lastPageId: HomePage.id,
+                                          productModel: products[productIndex],
+                                        ),
                                       );
                                     },
                                     child: CustomMainProductCard(

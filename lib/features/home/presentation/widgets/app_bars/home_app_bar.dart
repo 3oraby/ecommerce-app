@@ -1,5 +1,4 @@
 import 'package:e_commerce_app/core/utils/app_assets/images/app_images.dart';
-import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/features/user/presentation/pages/user_profile_page.dart';
 import 'package:e_commerce_app/core/models/user_model.dart';
 import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
@@ -13,9 +12,7 @@ class HomeAppBar{
   }) {
     return AppBar(
       elevation: 0,
-      actionsIconTheme: const IconThemeData(
-        color: ThemeColors.primaryColor,
-      ),
+      backgroundColor: Colors.white,
       title: Row(
         children: [
           GestureDetector(

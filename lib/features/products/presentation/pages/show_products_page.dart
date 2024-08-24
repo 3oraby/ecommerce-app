@@ -2,6 +2,7 @@ import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/features/home/presentation/widgets/custom_main_product_card.dart';
 import 'package:e_commerce_app/features/products/data/data_sources/get_product_by_category_service.dart';
 import 'package:e_commerce_app/features/products/data/models/get_products_response_model.dart';
+import 'package:e_commerce_app/features/products/data/models/show_product_details_arguments_model.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_product_details_page.dart';
 import 'package:e_commerce_app/core/widgets/custom_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -69,7 +70,10 @@ class _ShowProductsPageState extends State<ShowProductsPage> {
                       Navigator.pushNamed(
                         context,
                         ShowProductDetailsPage.id,
-                        arguments: data.products![index],
+                        arguments: ShowProductDetailsArgumentsModel(
+                          lastPageId: ShowProductsPage.id,
+                          productModel: data.products![index],
+                        ),
                       );
                     },
                     child: CustomMainProductCard(
