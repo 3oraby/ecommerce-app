@@ -20,7 +20,7 @@ class CustomHorizontalProductItem extends StatefulWidget {
     this.height = 300,
     this.imageHeight = 150,
     this.imageWidth = 150,
-    this.borderWidth = 1,
+    this.borderWidth = 0.2,
     this.width = double.infinity,
     this.isLastRowEnabled = true,
   });
