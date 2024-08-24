@@ -1,17 +1,21 @@
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
-import 'package:e_commerce_app/core/widgets/custom_horizontal_product_item.dart';
-import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/cart/data/models/cart_item_model.dart';
+import 'package:e_commerce_app/features/cart/presentation/widgets/checkout_page_widgets/address_info.dart';
+import 'package:e_commerce_app/features/cart/presentation/widgets/checkout_page_widgets/address_selector.dart';
+import 'package:e_commerce_app/features/cart/presentation/widgets/checkout_page_widgets/shipment_info.dart';
+import 'package:e_commerce_app/features/cart/presentation/widgets/checkout_page_widgets/show_cart_item_list.dart';
 import 'package:flutter/material.dart';
 
 class CheckoutPage extends StatelessWidget {
   const CheckoutPage({super.key});
   static const id = "checkoutPage";
+
   @override
   Widget build(BuildContext context) {
     List<CartItemModel> cartItems =
         ModalRoute.of(context)!.settings.arguments as List<CartItemModel>;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -27,38 +31,16 @@ class CheckoutPage extends StatelessWidget {
           horizontal: 16,
           vertical: 8,
         ),
-        child: Column(
+        child: ListView(
           children: [
-            
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  "Shipment",
-                  style: TextStyles.aDLaMDisplayBlackBold24,
-                ),
-                const HorizontalGap(16),
-                const Text(
-                  "(1 items)",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                  ),
-                ),
-              ],
-            ),
+            const AddressInfo(),
+            const VerticalGap(4),
+            const AddressSelector(),
+            const VerticalGap(24),
+            //! get the whole quantity of the whole items
+            const ShipmentInfo(itemsCount: 1),
             const VerticalGap(8),
-            Expanded(
-              child: ListView.separated(
-                itemCount: cartItems.length,
-                separatorBuilder: (context, index) => const VerticalGap(16),
-                itemBuilder: (context, index) => CustomHorizontalProductItem(
-                  cartItemModel: cartItems[index],
-                  borderRadius: 10,
-                  isLastRowEnabled: false,
-                ),
-              ),
-            ),
+            CartItemsList(cartItems: cartItems),
           ],
         ),
       ),
