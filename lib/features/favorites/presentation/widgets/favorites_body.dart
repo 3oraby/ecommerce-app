@@ -1,11 +1,21 @@
+
+import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
 import 'package:e_commerce_app/features/favorites/data/data_sources/get_favorites_service.dart';
 import 'package:e_commerce_app/features/favorites/data/models/get_favorites_response_model.dart';
+import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
 import 'package:e_commerce_app/features/home/presentation/widgets/custom_main_product_card.dart';
+import 'package:e_commerce_app/features/products/data/models/show_product_details_arguments_model.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_product_details_page.dart';
 import 'package:flutter/material.dart';
 
-class FavoritesBody extends StatelessWidget {
+class FavoritesBody extends StatefulWidget {
   const FavoritesBody({super.key});
+
+  @override
+  State<FavoritesBody> createState() => _FavoritesBodyState();
+}
+
+class _FavoritesBodyState extends State<FavoritesBody> {
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +42,14 @@ class FavoritesBody extends StatelessWidget {
                     index.isOdd ? 36 : 0), // shift the right products to bottom
                 child: GestureDetector(
                   onTap: () {
+                    HomePageNavigationService.navigateToFavorites();
                     Navigator.pushNamed(
                       context,
                       ShowProductDetailsPage.id,
-                      arguments: data.favoriteProducts![index],
+                      arguments: ShowProductDetailsArgumentsModel(
+                        lastPageId: HomePage.id,
+                        productModel: data.favoriteProducts![index],
+                      ),
                     );
                   },
                   child: CustomMainProductCard(
@@ -50,7 +64,7 @@ class FavoritesBody extends StatelessWidget {
               color: Colors.red,
               child: Text(
                 snapshot.error.toString(),
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 25,
                 ),
               ),

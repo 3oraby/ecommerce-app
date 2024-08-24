@@ -7,7 +7,7 @@ class ProductModel {
   // final String categoryId;
   final String createdAt;
   final String updatedAt;
-  // final int isFavorite;
+  int isFavorite;
 
   ProductModel({
     required this.id,
@@ -18,12 +18,12 @@ class ProductModel {
     required this.description,
     required this.createdAt,
     required this.updatedAt,
-    // required this.isFavorite,
+    required this.isFavorite,
   });
 
   factory ProductModel.fromJson({
     required Map<String, dynamic> json,
-  }) {
+}) {
     return ProductModel(
       id: json['id'],
       price: json['price'].toDouble(),
@@ -33,7 +33,7 @@ class ProductModel {
       // categoryId: json['category_id'],
       createdAt: json["createdAt"],
       updatedAt: json["updatedAt"],
-      // isFavorite: json["is_favorite"],
+      isFavorite: json["is_favorite"] ?? 1,
     );
   }
 
@@ -47,7 +47,7 @@ class ProductModel {
       'description': description,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
-      // 'is_favorite': isFavorite,
+      'is_favorite': isFavorite,
     };
   }
 }

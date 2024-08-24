@@ -4,6 +4,7 @@ class FavoritesAppBar {
   static AppBar getFavoritesAppBar() {
     return AppBar(
       title: Text("favorits"),
+      backgroundColor: Colors.white,
     );
   }
 }

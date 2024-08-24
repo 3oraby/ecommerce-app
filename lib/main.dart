@@ -14,7 +14,11 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesSingleton.init();
   bool isFirstTime = SharedPreferencesSingleton.getBool("isFirstTime");
-  runApp(ECommerceApp(isFirstTime: isFirstTime));
+  runApp(
+    ECommerceApp(
+      isFirstTime: isFirstTime,
+    ),
+  );
 }
 
 class ECommerceApp extends StatelessWidget {
