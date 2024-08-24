@@ -22,7 +22,9 @@ class ProductTitleSection extends StatelessWidget {
             style: TextStyles.aDLaMDisplayBlackBold22,
           ),
         ),
-        CustomFavoriteButton(),
+        CustomFavoriteButton(
+          productModel: productModel,
+        ),
       ],
     );
   }

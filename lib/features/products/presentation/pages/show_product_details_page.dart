@@ -6,6 +6,7 @@ import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
 import 'package:e_commerce_app/features/products/data/data_sources/check_product_in_cart_service.dart';
+import 'package:e_commerce_app/features/products/data/models/show_product_details_arguments_model.dart';
 import 'package:e_commerce_app/features/products/presentation/widgets/show_product_details_widgets/product_cart_interaction.dart';
 import 'package:e_commerce_app/features/products/presentation/widgets/show_product_details_widgets/product_title_section.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +18,12 @@ class ShowProductDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ProductModel productModel =
-        ModalRoute.of(context)!.settings.arguments as ProductModel;
+    ShowProductDetailsArgumentsModel showProductDetailsArgumentsModel =
+        ModalRoute.of(context)!.settings.arguments
+            as ShowProductDetailsArgumentsModel;
+
+    ProductModel productModel = showProductDetailsArgumentsModel.productModel;
+    String lastPageId = showProductDetailsArgumentsModel.lastPageId;        
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -30,6 +35,18 @@ class ShowProductDetailsPage extends StatelessWidget {
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
+          ),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              lastPageId,
+              (Route<dynamic> route) => false,
+            );
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios,
           ),
         ),
         actions: [
