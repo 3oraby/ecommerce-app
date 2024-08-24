@@ -1,6 +1,7 @@
+
 import 'package:e_commerce_app/constants/api_constants.dart';
-import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
+import 'package:e_commerce_app/core/widgets/custom_favorite_button.dart';
 import 'package:e_commerce_app/core/widgets/custom_rounded_image_container.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class CustomMainProductCard extends StatelessWidget {
   final double borderRadius;
   final double height;
   final double width;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -47,7 +49,8 @@ class CustomMainProductCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CustomRoundedImageContainer(
-              imagePath: "${ApiConstants.baseUrl}${ApiConstants.getPhotoEndPoint}${productModel.photo}",
+              imagePath:
+                  "${ApiConstants.baseUrl}${ApiConstants.getPhotoEndPoint}${productModel.photo}",
               height: 200,
               fit: BoxFit.contain,
             ),
@@ -77,16 +80,8 @@ class CustomMainProductCard extends StatelessWidget {
                     fontSize: 22,
                   ),
                 ),
-                IconButton(
-                  onPressed: () {
-                    //! add to favorites
-                    //! change the state of the icon
-                  },
-                  icon: const Icon(
-                    Icons.favorite_outline_outlined,
-                    size: 36,
-                    color: ThemeColors.primaryColor,
-                  ),
+                CustomFavoriteButton(
+                  productModel: productModel,
                 ),
               ],
             ),
