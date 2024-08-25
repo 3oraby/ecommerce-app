@@ -27,4 +27,6 @@ class ApiConstants {
   static const String deleteFromCartEndPoint = "carts/deleteFromCart/";
   static const String updateCartItemEndPoint = "carts/updateCartItem/";
   static const String showPriceEndPoint = "carts/showPrice";
+  // addresses
+  static const String getAllAddressesEndPoint = "addresses";
 }

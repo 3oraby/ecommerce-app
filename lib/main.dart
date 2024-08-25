@@ -1,3 +1,5 @@
+import 'package:e_commerce_app/features/address/presentation/pages/add_address_page.dart';
+import 'package:e_commerce_app/features/address/presentation/pages/choose_address_page.dart';
 import 'package:e_commerce_app/features/auth/presentation/pages/register_page.dart';
 import 'package:e_commerce_app/features/cart/presentation/pages/checkout_page.dart';
 import 'package:e_commerce_app/features/favorites/data/data_sources/add_or_delete_favorite_service.dart';
@@ -25,8 +27,8 @@ Future<void> main() async {
         BlocProvider(
           create: (context) => FavoritesCubit(
             favoritesRepository: FavoritesRepositoryImpl(
-              GetFavoritesService(),
-              AddOrDeleteFavoritesService(),
+              getFavoritesService: GetFavoritesService(),
+              addOrDeleteFavoritesService: AddOrDeleteFavoritesService(),
             ),
           )..getFavorites(),
         ),
@@ -59,6 +61,8 @@ class ECommerceApp extends StatelessWidget {
         ShowProductDetailsPage.id: (context) => const ShowProductDetailsPage(),
         ShowProductsPage.id: (context) => const ShowProductsPage(),
         CheckoutPage.id: (context) => const CheckoutPage(),
+        AddAddressPage.id: (context) => const AddAddressPage(),
+        ChooseAddressPage.id: (context) => const ChooseAddressPage(),
       },
       initialRoute: isFirstTime ? OnboardingPage.id : EntryPage.id,
     );
