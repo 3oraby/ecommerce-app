@@ -9,7 +9,8 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
   final AddOrDeleteFavoritesService addOrDeleteFavoritesService;
 
   FavoritesRepositoryImpl(
-      this.getFavoritesService, this.addOrDeleteFavoritesService);
+      {required this.getFavoritesService,
+      required this.addOrDeleteFavoritesService});
 
   @override
   Future<GetFavoritesResponseModel> getFavorites() async {
