@@ -2,7 +2,6 @@ import 'package:e_commerce_app/features/auth/presentation/pages/login_page.dart'
 import 'package:e_commerce_app/features/auth/presentation/pages/register_page.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
-import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
@@ -16,7 +15,7 @@ class EntryPage extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            const VerticalGap(200),
+            const Spacer(flex: 10),
             Center(
               child: LottieBuilder.asset(
                 "assets/animations/signInPage.json",
@@ -25,13 +24,14 @@ class EntryPage extends StatelessWidget {
                 fit: BoxFit.cover,
               ),
             ),
-            const VerticalGap(100),
+            const Spacer(flex: 6),
             CustomTriggerButton(
               onPressed: () {
                 Navigator.pushReplacementNamed(context, LoginPage.id);
               },
               description: "Login",
             ),
+            const Spacer(flex: 1),
             CustomTriggerButton(
               onPressed: () {
                 Navigator.pushReplacementNamed(context, RegisterPage.id);
@@ -40,6 +40,7 @@ class EntryPage extends StatelessWidget {
               backgroundColor: ThemeColors.secondaryColor,
               descriptionSize: 24,
             ),
+            const Spacer(flex: 6),
           ],
         ),
       ),
