@@ -1,4 +1,6 @@
+import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
+import 'package:e_commerce_app/features/address/presentation/pages/add_address_page.dart';
 import 'package:e_commerce_app/features/cart/data/data_sources/show_cart_price_service.dart';
 import 'package:e_commerce_app/features/cart/data/models/cart_item_model.dart';
 import 'package:e_commerce_app/features/cart/presentation/pages/checkout_page.dart';
@@ -23,9 +25,11 @@ class CheckoutActionButton extends StatelessWidget {
             borderRadius: 15,
             borderWidth: 0,
             onPressed: () {
+              bool makingOrderBefore =
+                  SharedPreferencesSingleton.getBool("makingOrderBefore");
               Navigator.pushNamed(
                 context,
-                CheckoutPage.id,
+                makingOrderBefore ? CheckoutPage.id : AddAddressPage.id,
                 arguments: cartItems,
               );
             },
