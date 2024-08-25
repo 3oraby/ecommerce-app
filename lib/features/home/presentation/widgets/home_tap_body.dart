@@ -33,145 +33,140 @@ class _HomeTapBodyState extends State<HomeTapBody> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: ThemeColors.backgroundBodiesColor,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: ListView(
-          children: [
-            SizedBox(
-              height: 200,
-              child: PageView.builder(
-                controller: pageController,
-                allowImplicitScrolling: true,
-                itemCount: HomePageConstants.homeTapBodySalePhotos.length,
-                itemBuilder: (context, index) => Center(
-                  child: CustomRoundedImageContainer(
-                    imagePath: HomePageConstants.homeTapBodySalePhotos[index],
-                    inAsset: true,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: ListView(
+        children: [
+          SizedBox(
+            height: 200,
+            child: PageView.builder(
+              controller: pageController,
+              allowImplicitScrolling: true,
+              itemCount: HomePageConstants.homeTapBodySalePhotos.length,
+              itemBuilder: (context, index) => Center(
+                child: CustomRoundedImageContainer(
+                  imagePath: HomePageConstants.homeTapBodySalePhotos[index],
+                  inAsset: true,
+                ),
+              ),
+            ),
+          ),
+          Center(
+            child: SmoothPageIndicator(
+              controller: pageController,
+              count: HomePageConstants.homeTapBodySalePhotos.length,
+              effect: const WormEffect(
+                activeDotColor: ThemeColors.primaryColor,
+              ),
+            ),
+          ),
+          const VerticalGap(24),
+          FutureBuilder(
+            future: GetHomeDetailsService().getHomeData(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                GetHomeDetailsResponseModel homeDetailsResponseModel =
+                    snapshot.data!;
+                return ListView.separated(
+                  itemCount: homeDetailsResponseModel.data!.length,
+                  separatorBuilder: (context, index) => const Divider(
+                    color: Colors.grey,
+                    thickness: 1,
+                    indent: 20,
+                    endIndent: 20,
                   ),
-                ),
-              ),
-            ),
-            Center(
-              child: SmoothPageIndicator(
-                controller: pageController,
-                count: HomePageConstants.homeTapBodySalePhotos.length,
-                effect: const WormEffect(
-                  activeDotColor: ThemeColors.primaryColor,
-                ),
-              ),
-            ),
-            const VerticalGap(24),
-            FutureBuilder(
-              future: GetHomeDetailsService().getHomeData(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  GetHomeDetailsResponseModel homeDetailsResponseModel =
-                      snapshot.data!;
-                  return ListView.separated(
-                    itemCount: homeDetailsResponseModel.data!.length,
-                    separatorBuilder: (context, index) => const Divider(
-                      color: Colors.white,
-                      thickness: 1,
-                      indent: 20,
-                      endIndent: 20,
-                    ),
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      int categoryId =
-                          homeDetailsResponseModel.data![index].categoryId;
-                      String categoryName =
-                          homeDetailsResponseModel.data![index].categoryName;
-                      List<ProductModel> products =
-                          homeDetailsResponseModel.data![index].products;
-                      return SizedBox(
-                        height: 500,
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  categoryName,
-                                  style: GoogleFonts.aDLaMDisplay(
-                                    color: Colors.black,
-                                    fontSize: 28,
-                                    fontWeight: FontWeight.bold,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    int categoryId =
+                        homeDetailsResponseModel.data![index].categoryId;
+                    String categoryName =
+                        homeDetailsResponseModel.data![index].categoryName;
+                    List<ProductModel> products =
+                        homeDetailsResponseModel.data![index].products;
+                    return SizedBox(
+                      height: 500,
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                categoryName,
+                                style: GoogleFonts.aDLaMDisplay(
+                                  color: Colors.black,
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    ShowProductsPage.id,
+                                    arguments: categoryId,
+                                  );
+                                },
+                                child: const Text(
+                                  "show all",
+                                  style: TextStyle(
+                                    fontSize: 20,
                                   ),
                                 ),
-                                TextButton(
-                                  onPressed: () {
+                              ),
+                            ],
+                          ),
+                          const VerticalGap(16),
+                          SizedBox(
+                            height: 400,
+                            child: ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              itemCount: products.length,
+                              separatorBuilder: (context, index) =>
+                                  const HorizontalGap(16),
+                              itemBuilder: (context, productIndex) => SizedBox(
+                                width: 220,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    HomePageNavigationService.navigateToHome();
                                     Navigator.pushNamed(
                                       context,
-                                      ShowProductsPage.id,
-                                      arguments: categoryId,
+                                      ShowProductDetailsPage.id,
+                                      arguments:
+                                          ShowProductDetailsArgumentsModel(
+                                        lastPageId: HomePage.id,
+                                        productModel: products[productIndex],
+                                      ),
                                     );
                                   },
-                                  child: const Text(
-                                    "show all",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const VerticalGap(16),
-                            SizedBox(
-                              height: 400,
-                              child: ListView.separated(
-                                scrollDirection: Axis.horizontal,
-                                shrinkWrap: true,
-                                itemCount: products.length,
-                                separatorBuilder: (context, index) =>
-                                    const HorizontalGap(16),
-                                itemBuilder: (context, productIndex) =>
-                                    SizedBox(
-                                  width: 220,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      HomePageNavigationService
-                                          .navigateToHome();
-                                      Navigator.pushNamed(
-                                        context,
-                                        ShowProductDetailsPage.id,
-                                        arguments:
-                                            ShowProductDetailsArgumentsModel(
-                                          lastPageId: HomePage.id,
-                                          productModel: products[productIndex],
-                                        ),
-                                      );
-                                    },
-                                    child: CustomMainProductCard(
-                                      productModel: products[productIndex],
-                                    ),
+                                  child: CustomMainProductCard(
+                                    productModel: products[productIndex],
                                   ),
                                 ),
                               ),
                             ),
-                          ],
-                        ),
-                      );
-                    },
-                  );
-                } else if (snapshot.hasError) {
-                  return Container(
-                    height: 400,
-                    color: Colors.red,
-                    child: Text(snapshot.error.toString()),
-                  );
-                } else {
-                  return Container(
-                    height: 400,
-                    color: Colors.amber,
-                  );
-                }
-              },
-            ),
-          ],
-        ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                );
+              } else if (snapshot.hasError) {
+                return Container(
+                  height: 400,
+                  color: Colors.red,
+                  child: Text(snapshot.error.toString()),
+                );
+              } else {
+                return Container(
+                  height: 400,
+                  color: Colors.amber,
+                );
+              }
+            },
+          ),
+        ],
       ),
     );
   }

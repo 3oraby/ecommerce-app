@@ -26,7 +26,6 @@ class AppPageManager {
         return const MyOrdersBody();
       case 2:
         return const FavoritesBody();
-        
       case 3:
         return const CartBody();
       case 4:

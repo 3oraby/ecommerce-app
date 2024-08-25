@@ -7,11 +7,13 @@ import 'package:e_commerce_app/features/favorites/presentation/cubit/favorites_c
 class CustomFavoriteButton extends StatefulWidget {
   final ProductModel productModel;
   final bool isFavoritePage;
+  final double borderWidth;
 
   const CustomFavoriteButton({
     super.key,
     required this.productModel,
     this.isFavoritePage = false,
+    this.borderWidth = 0.5,
   });
 
   @override
@@ -34,7 +36,7 @@ class _CustomFavoriteButtonState extends State<CustomFavoriteButton> {
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
           color: isFavorite ? ThemeColors.secondaryColor : Colors.grey,
-          width: 0.5,
+          width: widget.borderWidth,
         ),
       ),
       child: IconButton(
