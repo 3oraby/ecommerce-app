@@ -1,9 +1,9 @@
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
-import 'package:e_commerce_app/core/widgets/custom_description_container.dart';
-import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/address/data/data_sources/get_all_addresses_service.dart';
 import 'package:e_commerce_app/features/address/data/repositories/addresses_repository_impl.dart';
 import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cubit.dart';
+import 'package:e_commerce_app/features/address/presentation/widgets/add_address_widgets/add_address_loaded_body.dart';
+import 'package:e_commerce_app/features/cart/data/models/cart_item_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,11 +16,17 @@ class AddAddressPage extends StatefulWidget {
 }
 
 class _AddAddressPageState extends State<AddAddressPage> {
-  bool showCountryTextField = false;
   @override
   Widget build(BuildContext context) {
+    List<CartItemModel> cartItems =
+        ModalRoute.of(context)!.settings.arguments as List<CartItemModel>;
+
     return BlocProvider(
-      create: (context) => AddressesCubit(addressesRepository: AddressesRepositoryImpl(getAllAddressesService: GetAllAddressesService(),)),
+      create: (context) => AddressesCubit(
+        addressesRepository: AddressesRepositoryImpl(
+          getAllAddressesService: GetAllAddressesService(),
+        ),
+      )..getAllAddresses(),
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -44,70 +50,28 @@ class _AddAddressPageState extends State<AddAddressPage> {
             style: TextStyles.aDLaMDisplayBlackBold22,
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 8,
-          ),
-          child: ListView(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    showCountryTextField = !showCountryTextField;
-                  });
-                },
-                child: const CustomDescriptionContainer(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Country",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Icon(
-                        Icons.arrow_drop_down,
-                        size: 35,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const VerticalGap(8),
-              Visibility(
-                visible: showCountryTextField,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: TextFormField(
-                    decoration: const InputDecoration(
-                      hintText: "Egypt",
-                      enabled: false,
-                      hintStyle: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              const VerticalGap(16),
-              DropdownButton(
-                items: [],
-                onChanged: (value) {},
-                hint: const Text(
-                  "choose your city",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
+        body: BlocBuilder<AddressesCubit, AddressesState>(
+          builder: (context, state) {
+            if (state is AddressesInitialState) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state is AddressesLoadedState) {
+              return AddAddressLoadedBody(
+                getAllAddressesResponseModel:
+                    state.getAllAddressesResponseModel,
+                cartItems : cartItems,    
+              );
+            } else if (state is AddressesErrorState) {
+              return Center(
+                child: Text(state.message),
+              );
+            } else {
+              return const Center(
+                child: Text("there is no addresses"),
+              );
+            }
+          },
         ),
       ),
     );
