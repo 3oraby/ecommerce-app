@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
+import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cubit.dart';
 import 'package:e_commerce_app/features/address/presentation/widgets/add_address_widgets/add_address_loaded_body.dart';
 import 'package:e_commerce_app/features/cart/data/models/cart_item_model.dart';
@@ -20,6 +21,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
         ModalRoute.of(context)!.settings.arguments as List<CartItemModel>;
 
     return Scaffold(
+      backgroundColor: ThemeColors.backgroundBodiesColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         actions: [

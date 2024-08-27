@@ -8,5 +8,5 @@ class ThemeColors {
   static const Color errorColor = Colors.red;
   static const Color backgroundDataColor = Color.fromARGB(255, 229, 226, 226);
   static const Color backgroundPagesColor = Colors.white;
-  static const Color backgroundBodiesColor = Color.fromARGB(255, 222, 222, 225);
+  static const Color backgroundBodiesColor = Color.fromARGB(255, 243, 244, 249);
 }

@@ -31,13 +31,12 @@ class _AddAddressLoadedBodyState extends State<AddAddressLoadedBody> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
     return Column(
       children: [
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(
-              horizontal: 24,
+              horizontal: 16,
               vertical: 8,
             ),
             child: ListView(
@@ -71,23 +70,24 @@ class _AddAddressLoadedBodyState extends State<AddAddressLoadedBody> {
             ),
           ),
           child: Center(
-            child: CustomTriggerButton(
-              buttonWidth: screenWidth / 1.1,
-              buttonHeight: screenHeight / 17,
-              description: "Confirm",
-              onPressed: () {
-                if (formKey.currentState!.validate()) {
-                  context
-                      .read<AddressesCubit>()
-                      .setUserAddress(saveUserAddressModel);
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: CustomTriggerButton(
+                description: "CONFIRM",
+                onPressed: () {
+                  if (formKey.currentState!.validate()) {
+                    context
+                        .read<AddressesCubit>()
+                        .setUserAddress(saveUserAddressModel);
 
-                  Navigator.pushReplacementNamed(
-                    context,
-                    CheckoutPage.id,
-                    arguments: widget.cartItems,
-                  );
-                }
-              },
+                    Navigator.pushReplacementNamed(
+                      context,
+                      CheckoutPage.id,
+                      arguments: widget.cartItems,
+                    );
+                  }
+                },
+              ),
             ),
           ),
         ),
