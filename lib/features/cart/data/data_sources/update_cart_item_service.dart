@@ -1,10 +1,9 @@
-
 import 'package:dio/dio.dart';
 import 'package:e_commerce_app/constants/api_constants.dart';
 import 'package:e_commerce_app/core/helpers/api.dart';
 
 class UpdateCartItemService {
-  static Future<bool> updateCartItem({
+  Future<bool> updateCartItem({
     required int cartId,
     required int newQuantity,
   }) async {

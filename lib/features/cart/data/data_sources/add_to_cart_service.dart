@@ -4,7 +4,7 @@ import 'package:e_commerce_app/core/helpers/api.dart';
 import 'package:e_commerce_app/features/cart/data/models/add_to_cart_response_model.dart';
 
 class AddToCartService {
-  static Future<AddToCartResponseModel> addToCart({
+  Future<AddToCartResponseModel> addToCart({
     required int productId,
   }) async {
     try {

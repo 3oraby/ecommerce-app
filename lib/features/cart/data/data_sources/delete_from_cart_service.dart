@@ -4,7 +4,7 @@ import 'package:e_commerce_app/core/helpers/api.dart';
 import 'package:e_commerce_app/features/cart/data/models/delete_from_cart_response_model.dart';
 
 class DeleteFromCartService {
-  static Future<DeleteFromCartResponseModel> deleteFromCart({
+  Future<DeleteFromCartResponseModel> deleteFromCart({
     required int cartItemId,
   }) async {
     try {
