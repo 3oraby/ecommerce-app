@@ -17,7 +17,7 @@ class CheckoutActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: ShowCartPriceService.getPrice(),
+      future: ShowCartPriceService().getPrice(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           String cartPrice = snapshot.data!;
