@@ -1,3 +1,6 @@
+import 'package:e_commerce_app/features/address/data/data_sources/get_all_addresses_service.dart';
+import 'package:e_commerce_app/features/address/data/repositories/addresses_repository_impl.dart';
+import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cubit.dart';
 import 'package:e_commerce_app/features/address/presentation/pages/add_address_page.dart';
 import 'package:e_commerce_app/features/address/presentation/pages/choose_address_page.dart';
 import 'package:e_commerce_app/features/auth/presentation/pages/register_page.dart';
@@ -24,13 +27,22 @@ Future<void> main() async {
   runApp(
     MultiBlocProvider(
       providers: [
+        // favorites cubit
         BlocProvider(
           create: (context) => FavoritesCubit(
             favoritesRepository: FavoritesRepositoryImpl(
               getFavoritesService: GetFavoritesService(),
               addOrDeleteFavoritesService: AddOrDeleteFavoritesService(),
             ),
-          )..getFavorites(),
+          ),
+        ),
+        // Addresses cubit
+        BlocProvider(
+          create: (context) => AddressesCubit(
+            addressesRepository: AddressesRepositoryImpl(
+              getAllAddressesService: GetAllAddressesService(),
+            ),
+          ),
         ),
       ],
       child: ECommerceApp(
