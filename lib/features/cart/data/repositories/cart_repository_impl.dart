@@ -38,7 +38,7 @@ class CartRepositoryImpl implements CartRepository {
   }
 
   @override
-  Future<String> getPrice() async {
+  Future<String> showCartPrice() async {
     return await showCartPriceService.getPrice();
   }
 

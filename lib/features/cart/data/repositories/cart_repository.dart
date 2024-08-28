@@ -10,7 +10,7 @@ abstract class CartRepository {
 
   Future<DeleteFromCartResponseModel> deleteFromCart(int cartItemId);
 
-  Future<String> getPrice();
+  Future<String> showCartPrice();
 
   Future<bool> updateCartItem({
     required int cartId,
