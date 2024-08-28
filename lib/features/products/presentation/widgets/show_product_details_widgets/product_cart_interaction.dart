@@ -131,13 +131,13 @@ class _ProductCartInteractionState extends State<ProductCartInteraction> {
   Future<void> addToCart(
       BuildContext context, ProductModel productModel) async {
     try {
-      final addToCartResponseModel = await AddToCartService.addToCart(
+      final addToCartResponseModel = await AddToCartService().addToCart(
         productId: productModel.id,
       );
       if (addToCartResponseModel.status) {
         bool result = true;
         if (productAmount > 1) {
-          result = await UpdateCartItemService.updateCartItem(
+          result = await UpdateCartItemService().updateCartItem(
             cartId: addToCartResponseModel.cartId!,
             newQuantity: productAmount,
           );

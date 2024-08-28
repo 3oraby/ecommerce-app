@@ -250,7 +250,7 @@ class _CustomHorizontalProductItemState
                         showQuantity = false;
                         height = widget.height;
                       });
-                      await UpdateCartItemService.updateCartItem(
+                      await UpdateCartItemService().updateCartItem(
                         cartId: widget.cartItemModel.id,
                         newQuantity: value,
                       );
