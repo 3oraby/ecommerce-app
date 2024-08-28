@@ -5,7 +5,7 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:e_commerce_app/main.dart';
+import 'package:e_commerce_app/e_commerce_app.dart';
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
