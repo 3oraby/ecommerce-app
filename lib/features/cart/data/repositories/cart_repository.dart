@@ -17,5 +17,13 @@ abstract class CartRepository {
     required int newQuantity,
   });
 
+  Future<bool> updateCartItemInProductDetails({
+    required int productId,
+    required int newQuantity,
+  });
+
   Future<CartItemModel> showCartItem(int cartItemId);
+
+  Future<bool> checkProductInCart(int productId);
+  
 }

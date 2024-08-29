@@ -34,14 +34,15 @@ class ShowCartErrorState extends CartState {
   const ShowCartErrorState({required this.message});
 }
 
-class EmptyCartState extends CartState{}
+class EmptyCartState extends CartState {}
 
-class CartAndPriceLoadedState extends CartState{
+class CartAndPriceLoadedState extends CartState {
   final String price;
   final ShowCartResponseModel cart;
+  final int totalQuantity;
 
-  CartAndPriceLoadedState({required this.price, required this.cart});
-
+  CartAndPriceLoadedState(
+      {required this.price, required this.cart, required this.totalQuantity});
 }
 
 // States for successful operations
@@ -63,4 +64,9 @@ class CartItemUpdatedState extends CartState {
 class CartPriceLoadedState extends CartState {
   final String price;
   const CartPriceLoadedState({required this.price});
+}
+
+class CheckProductInCartLoadedState extends CartState {
+  final bool inCart;
+  const CheckProductInCartLoadedState(this.inCart);
 }

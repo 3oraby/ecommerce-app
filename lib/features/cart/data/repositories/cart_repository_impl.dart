@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/features/cart/data/data_sources/add_to_cart_service.dart';
+import 'package:e_commerce_app/features/cart/data/data_sources/check_product_in_cart_service.dart';
 import 'package:e_commerce_app/features/cart/data/data_sources/delete_from_cart_service.dart';
 import 'package:e_commerce_app/features/cart/data/data_sources/show_cart_item_service.dart';
 import 'package:e_commerce_app/features/cart/data/data_sources/show_cart_price_service.dart';
@@ -18,6 +19,7 @@ class CartRepositoryImpl implements CartRepository {
     required this.showCartService,
     required this.showCartItemService,
     required this.updateCartItemService,
+    required this.checkProductInCartService,
   });
 
   final AddToCartService addToCartService;
@@ -26,6 +28,7 @@ class CartRepositoryImpl implements CartRepository {
   final ShowCartService showCartService;
   final ShowCartItemService showCartItemService;
   final UpdateCartItemService updateCartItemService;
+  final CheckProductInCartService checkProductInCartService;
 
   @override
   Future<AddToCartResponseModel> addToCart(int productId) async {
@@ -59,5 +62,20 @@ class CartRepositoryImpl implements CartRepository {
       cartId: cartId,
       newQuantity: newQuantity,
     );
+  }
+
+  @override
+  Future<bool> updateCartItemInProductDetails(
+      {required int productId, required int newQuantity}) async {
+    return await updateCartItemService.updateCartItem(
+      productId: productId,
+      newQuantity: newQuantity,
+    );
+  }
+
+  @override
+  Future<bool> checkProductInCart(int productId) async {
+    return await checkProductInCartService.checkProductInCart(
+        productId: productId);
   }
 }
