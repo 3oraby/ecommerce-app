@@ -3,6 +3,7 @@ import 'package:e_commerce_app/features/address/data/data_sources/get_all_addres
 import 'package:e_commerce_app/features/address/data/repositories/addresses_repository_impl.dart';
 import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cubit.dart';
 import 'package:e_commerce_app/features/cart/data/data_sources/add_to_cart_service.dart';
+import 'package:e_commerce_app/features/cart/data/data_sources/check_product_in_cart_service.dart';
 import 'package:e_commerce_app/features/cart/data/data_sources/delete_from_cart_service.dart';
 import 'package:e_commerce_app/features/cart/data/data_sources/show_cart_item_service.dart';
 import 'package:e_commerce_app/features/cart/data/data_sources/show_cart_price_service.dart';
@@ -53,6 +54,7 @@ Future<void> main() async {
               showCartService: ShowCartService(),
               showCartItemService: ShowCartItemService(),
               updateCartItemService: UpdateCartItemService(),
+              checkProductInCartService: CheckProductInCartService(),
             ),
           ),
         ),
