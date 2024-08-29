@@ -7,7 +7,7 @@ import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
 import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
-void showCartSuccessModal(BuildContext context, ProductModel productModel) {
+void showCartSuccessModal({required BuildContext context,required ProductModel productModel}) {
   showModalBottomSheet(
     context: context,
     builder: (context) {

@@ -8,11 +8,11 @@ import 'package:flutter/material.dart';
 class CheckoutActionButton extends StatelessWidget {
   const CheckoutActionButton({
     super.key,
-    required this.itemsNumber,
+    required this.totalQuantity,
     required this.cartItems,
     required this.cartPrice,
   });
-  final int itemsNumber;
+  final int totalQuantity;
   final List<CartItemModel> cartItems;
   final String cartPrice;
 
@@ -42,7 +42,7 @@ class CheckoutActionButton extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Text(
-                  "$itemsNumber items",
+                  "$totalQuantity items",
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,

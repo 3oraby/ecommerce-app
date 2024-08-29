@@ -28,6 +28,7 @@ class CartBody extends StatelessWidget {
           return CartBodyLoaded(
             showCartResponseModel: state.cart,
             cartPrice: state.price,
+            totalQuantity: state.totalQuantity,
           );
         } else if (state is EmptyCartState) {
           return const Center(

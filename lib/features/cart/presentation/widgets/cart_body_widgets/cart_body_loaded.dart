@@ -12,10 +12,12 @@ class CartBodyLoaded extends StatelessWidget {
     super.key,
     required this.showCartResponseModel,
     required this.cartPrice,
+    required this.totalQuantity,
   });
 
   final ShowCartResponseModel showCartResponseModel;
   final String cartPrice;
+  final int totalQuantity;
 
   @override
   Widget build(BuildContext context) {
@@ -37,21 +39,20 @@ class CartBodyLoaded extends StatelessWidget {
                     ShowProductDetailsPage.id,
                     arguments: ShowProductDetailsArgumentsModel(
                       lastPageId: HomePage.id,
-                      productModel: showCartResponseModel.cartItems![index].product,
+                      productModel:
+                          showCartResponseModel.cartItems![index].product,
                     ),
                   );
                 },
                 child: CustomHorizontalProductItem(
                   cartItemModel: showCartResponseModel.cartItems![index],
-                  borderRadius: 10,
                 ),
               ),
             ),
           ),
           const VerticalGap(36),
           CheckoutActionButton(
-            //! take the number from back then pass it
-            itemsNumber: 50,
+            totalQuantity: totalQuantity,
             cartItems: showCartResponseModel.cartItems!,
             cartPrice: cartPrice,
           ),

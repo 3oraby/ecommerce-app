@@ -11,7 +11,7 @@ class ShowCartPriceService {
       if (response.data["status"] == "success") {
         return response.data["price"]["total_price"];
       } else {
-        throw Exception(response.data["message"]);
+        return "";
       }
     } on Exception catch (e) {
       throw Exception(e);

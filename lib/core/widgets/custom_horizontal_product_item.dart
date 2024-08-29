@@ -7,9 +7,10 @@ import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
 import 'package:e_commerce_app/core/widgets/quantity_selector.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
-import 'package:e_commerce_app/features/cart/data/data_sources/update_cart_item_service.dart';
 import 'package:e_commerce_app/features/cart/data/models/cart_item_model.dart';
+import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomHorizontalProductItem extends StatefulWidget {
   const CustomHorizontalProductItem({
@@ -250,9 +251,9 @@ class _CustomHorizontalProductItemState
                         showQuantity = false;
                         height = widget.height;
                       });
-                      await UpdateCartItemService().updateCartItem(
+                      BlocProvider.of<CartCubit>(context).updateCartItem(
                         cartId: widget.cartItemModel.id,
-                        newQuantity: value,
+                        quantity: value,
                       );
                       // update the value of the product quantity to pass the model to checkout page
                       widget.cartItemModel.quantity = value;
