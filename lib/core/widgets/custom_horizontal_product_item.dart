@@ -95,8 +95,7 @@ class _CustomHorizontalProductItemState
                     Visibility(
                       visible: !widget.isLastRowEnabled,
                       child: Container(
-                        width: 50,
-                        height: 30,
+                        padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           color: Colors.grey,
                           borderRadius: BorderRadius.circular(360),

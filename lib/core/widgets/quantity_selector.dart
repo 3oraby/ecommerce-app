@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
@@ -10,11 +11,13 @@ class QuantitySelector extends StatefulWidget {
     required this.onCancel,
     required this.onQuantitySelected,
     required this.productAmount,
+    this.productQuantityInCart,
   });
   final ValueChanged<int> onQuantitySelected;
   final int productAmount;
 
   final VoidCallback onCancel;
+  final int? productQuantityInCart;
 
   @override
   State<QuantitySelector> createState() => _QuantitySelectorState();
@@ -53,7 +56,8 @@ class _QuantitySelectorState extends State<QuantitySelector> {
         SizedBox(
           height: 65,
           child: ListView.separated(
-            itemCount: 15,
+            itemCount: LocalConstants.limitProductNumberInCart -
+                (widget.productQuantityInCart ?? 0),
             scrollDirection: Axis.horizontal,
             separatorBuilder: (context, index) => const HorizontalGap(16),
             itemBuilder: (context, index) => GestureDetector(

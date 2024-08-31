@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 
 //! move it to the constants which in the home feature
 class LocalConstants {
+  static const int limitProductNumberInCart = 15;
+
   static const List bottomNavigationBarData = [
     BottomNavigationBarModel(
       label: "Home",

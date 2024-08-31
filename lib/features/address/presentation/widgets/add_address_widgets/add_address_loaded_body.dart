@@ -6,7 +6,6 @@ import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cub
 import 'package:e_commerce_app/features/address/presentation/widgets/add_address_widgets/address_details_section.dart';
 import 'package:e_commerce_app/features/address/presentation/widgets/add_address_widgets/city_address_section.dart';
 import 'package:e_commerce_app/features/address/presentation/widgets/add_address_widgets/country_address_section.dart';
-import 'package:e_commerce_app/features/cart/data/models/cart_item_model.dart';
 import 'package:e_commerce_app/features/cart/presentation/pages/checkout_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,10 +14,8 @@ class AddAddressLoadedBody extends StatefulWidget {
   const AddAddressLoadedBody({
     super.key,
     required this.getAllAddressesResponseModel,
-    required this.cartItems,
   });
   final GetAllAddressesResponseModel getAllAddressesResponseModel;
-  final List<CartItemModel> cartItems;
 
   @override
   State<AddAddressLoadedBody> createState() => _AddAddressLoadedBodyState();
@@ -83,7 +80,6 @@ class _AddAddressLoadedBodyState extends State<AddAddressLoadedBody> {
                     Navigator.pushReplacementNamed(
                       context,
                       CheckoutPage.id,
-                      arguments: widget.cartItems,
                     );
                   }
                 },

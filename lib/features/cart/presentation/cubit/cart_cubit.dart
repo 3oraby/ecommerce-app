@@ -1,3 +1,4 @@
+import 'dart:developer';
 
 import 'package:e_commerce_app/features/cart/data/models/cart_item_model.dart';
 import 'package:e_commerce_app/features/cart/data/models/delete_from_cart_response_model.dart';
@@ -8,13 +9,13 @@ import 'package:e_commerce_app/features/cart/data/repositories/cart_repository.d
 
 class CartCubit extends Cubit<CartState> {
   final CartRepository cartRepository;
-  late int itemsQuantity;
+  // int itemsQuantity = 0;
+  List<CartItemModel> _cartItems = [];
 
-  CartCubit({required this.cartRepository}) : super(CartInitialState()) {
-    itemsQuantity = 0;
-  }
+  CartCubit({required this.cartRepository}) : super(CartInitialState());
 
-  int get getItemsQuantity => itemsQuantity;
+  // int get getItemsQuantity => itemsQuantity;
+  List<CartItemModel> get getCartItems => _cartItems;
 
   int calculateTotalQuantity(ShowCartResponseModel cart) {
     return cart.cartItems!.fold<int>(0, (sum, item) => sum + item.quantity);
@@ -60,10 +61,10 @@ class CartCubit extends Cubit<CartState> {
       final DeleteFromCartResponseModel deleteFromCartResponseModel =
           await cartRepository.deleteFromCart(cartItemId);
       if (deleteFromCartResponseModel.status) {
-        // delete the product quantity from itemsQuantity
-        CartItemModel cartItemModel =
-            await cartRepository.showCartItem(cartItemId);
-        itemsQuantity -= cartItemModel.quantity;
+        // // delete the product quantity from itemsQuantity
+        // CartItemModel cartItemModel =
+        //     await cartRepository.showCartItem(cartItemId);
+        // itemsQuantity -= cartItemModel.quantity;
 
         await showCartAndPrice();
       } else {
@@ -88,7 +89,7 @@ class CartCubit extends Cubit<CartState> {
       );
       emit(CartItemUpdatedState(success: success));
       if (success) {
-        itemsQuantity += quantity;
+        // itemsQuantity += quantity;
         await showCartAndPrice();
       } else {
         emit(const CartErrorState(message: 'Failed to update item quantity'));
@@ -102,30 +103,22 @@ class CartCubit extends Cubit<CartState> {
     required int productId,
     required int quantity,
   }) async {
-    emit(CartLoadingState());
     try {
-      final bool success = await cartRepository.updateCartItemInProductDetails(
+      await cartRepository.updateCartItemInProductDetails(
         productId: productId,
         newQuantity: quantity,
       );
-      if (success) {
-        itemsQuantity += quantity;
-        emit(CartItemUpdatedState(success: success));
-      } else {
-        emit(const CartErrorState(message: 'Failed to update item quantity'));
-      }
     } catch (e) {
-      emit(CartErrorState(message: 'Failed to update item quantity: $e'));
+      log(e.toString());
     }
   }
 
-  Future<void> loadCartPrice() async {
-    emit(CartLoadingState());
+  Future<String> loadCartPrice() async {
     try {
-      final String price = await cartRepository.showCartPrice();
-      emit(CartPriceLoadedState(price: price));
+      return await cartRepository.showCartPrice();
     } catch (e) {
-      emit(CartErrorState(message: 'Failed to load cart price: $e'));
+      log(e.toString());
+      throw Exception(e);
     }
   }
 
@@ -137,6 +130,7 @@ class CartCubit extends Cubit<CartState> {
 
       if (cart.status) {
         int totalQuantity = calculateTotalQuantity(cart);
+        _cartItems = cart.cartItems!;
         emit(
           CartAndPriceLoadedState(
             cart: cart,
@@ -155,10 +149,38 @@ class CartCubit extends Cubit<CartState> {
   Future<void> checkProductInCart(int productId) async {
     emit(CartLoadingState());
     try {
+      int? productQuantityInCart;
       final bool inCart = await cartRepository.checkProductInCart(productId);
-      emit(CheckProductInCartLoadedState(inCart));
+      if (inCart) {
+        productQuantityInCart = await getProductQuantityInCart(productId);
+      }
+
+      emit(CheckProductInCartLoadedState(
+        inCart: inCart,
+        productQuantityInCart: productQuantityInCart,
+      ));
     } catch (e) {
       emit(CartErrorState(message: 'Failed to delete item from cart: $e'));
+    }
+  }
+
+  Future<int> getProductQuantityInCart(int productId) async {
+    try {
+      ShowCartResponseModel showCartResponseModel =
+          await cartRepository.showCart();
+
+      if (showCartResponseModel.status) {
+        CartItemModel cartItemModel =
+            showCartResponseModel.cartItems!.firstWhere(
+          (item) => item.productId == productId,
+        );
+
+        return cartItemModel.quantity;
+      } else {
+        throw Exception(showCartResponseModel.message);
+      }
+    } catch (e) {
+      throw Exception(e);
     }
   }
 }

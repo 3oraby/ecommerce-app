@@ -27,7 +27,6 @@ class CheckoutActionButton extends StatelessWidget {
         Navigator.pushNamed(
           context,
           makingOrderBefore ? CheckoutPage.id : AddAddressPage.id,
-          arguments: cartItems,
         );
       },
       child: Padding(

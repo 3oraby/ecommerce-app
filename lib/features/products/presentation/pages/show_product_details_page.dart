@@ -78,11 +78,14 @@ class ShowProductDetailsPage extends StatelessWidget {
             return ShowProductsDetailsLoadedBody(
               productModel: productModel,
               inCart: state.inCart,
+              productQuantityInCart: state.productQuantityInCart,
             );
-          } else {
+          } else if (state is CartLoadingState) {
             return const Center(
               child: CircularProgressIndicator(),
             );
+          } else {
+            return Container();
           }
         },
       ),

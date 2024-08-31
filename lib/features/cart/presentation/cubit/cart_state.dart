@@ -68,5 +68,9 @@ class CartPriceLoadedState extends CartState {
 
 class CheckProductInCartLoadedState extends CartState {
   final bool inCart;
-  const CheckProductInCartLoadedState(this.inCart);
+  final int ?productQuantityInCart;
+  const CheckProductInCartLoadedState({
+    required this.inCart,
+    this.productQuantityInCart,
+  });
 }

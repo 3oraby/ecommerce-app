@@ -7,7 +7,11 @@ import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
 import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
-void showCartSuccessModal({required BuildContext context,required ProductModel productModel}) {
+void showCartSuccessModal({
+  required BuildContext context,
+  required ProductModel productModel,
+  required String cartPrice,
+}) {
   showModalBottomSheet(
     context: context,
     builder: (context) {
@@ -48,8 +52,9 @@ void showCartSuccessModal({required BuildContext context,required ProductModel p
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
+                        //! make a limit for te name
                         productModel.name,
-                        style: TextStyles.aDLaMDisplayBlackBold22,
+                        style: TextStyles.aDLaMDisplayBlackBold20,
                       ),
                       const Text(
                         "Added to cart",
@@ -84,7 +89,7 @@ void showCartSuccessModal({required BuildContext context,required ProductModel p
                       ),
                     ),
                     Text(
-                      "EGP 77777",
+                      "EGP $cartPrice",
                       style: TextStyles.aDLaMDisplayBlackBold20,
                     ),
                   ],

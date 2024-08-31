@@ -14,10 +14,12 @@ class ShowProductsDetailsLoadedBody extends StatelessWidget {
     super.key,
     required this.productModel,
     required this.inCart,
+    required this.productQuantityInCart,
   });
 
   final ProductModel productModel;
   final bool inCart;
+  final int? productQuantityInCart;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,29 @@ class ShowProductsDetailsLoadedBody extends StatelessWidget {
                   const VerticalGap(16),
                   ShowInCartLabel(
                     inCart: inCart,
+                  ),
+                  Visibility(
+                    visible: inCart,
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.circular(360),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "x $productQuantityInCart",
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                   const VerticalGap(16),
                   // description section
@@ -99,6 +124,7 @@ class ShowProductsDetailsLoadedBody extends StatelessWidget {
           ),
           ProductCartInteraction(
             productModel: productModel,
+            productQuantityInCart: productQuantityInCart,
           ),
         ],
       ),
