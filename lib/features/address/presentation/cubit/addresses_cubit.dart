@@ -8,7 +8,7 @@ part 'addresses_state.dart';
 
 class AddressesCubit extends Cubit<AddressesState> {
   final AddressesRepository addressesRepository;
-  late SaveUserAddressModel saveUserAddressModel;
+  SaveUserAddressModel? saveUserAddressModel;
 
   AddressesCubit({
     required this.addressesRepository,
@@ -18,7 +18,7 @@ class AddressesCubit extends Cubit<AddressesState> {
     saveUserAddressModel = address;
   }
 
-  SaveUserAddressModel get getUserAddress => saveUserAddressModel;
+  SaveUserAddressModel? get getUserAddress => saveUserAddressModel;
 
   Future<void> getAllAddresses() async {
     emit(AddressesLoadingState());

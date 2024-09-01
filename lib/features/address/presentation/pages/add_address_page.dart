@@ -16,6 +16,8 @@ class AddAddressPage extends StatefulWidget {
 class _AddAddressPageState extends State<AddAddressPage> {
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<AddressesCubit>(context).getAllAddresses();
+    
     return Scaffold(
       backgroundColor: ThemeColors.backgroundBodiesColor,
       appBar: AppBar(
@@ -43,7 +45,6 @@ class _AddAddressPageState extends State<AddAddressPage> {
       body: BlocBuilder<AddressesCubit, AddressesState>(
         builder: (context, state) {
           if (state is AddressesInitialState) {
-            context.read<AddressesCubit>().getAllAddresses();
             return const Center(
               child: CircularProgressIndicator(),
             );

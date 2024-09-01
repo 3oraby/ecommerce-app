@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
+import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:flutter/material.dart';
 import 'package:e_commerce_app/constants/local_constants.dart';
@@ -20,7 +21,7 @@ class ShowAddressDetailsItem extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
-        vertical: 8,
+        vertical: 12,
       ),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -73,56 +74,65 @@ class ShowAddressDetailsItem extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: Row(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Country",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    VerticalGap(8),
-                    Text(
-                      "City",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    VerticalGap(8),
-                    Text(
-                      "Address Details",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ],
+                AddressDetailsRow(
+                  label: "Country",
+                  labelData: ordersAddressModel.address.country,
                 ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        ordersAddressModel.address.country,
-                        textAlign: TextAlign.center,
-                      ),
-                      const VerticalGap(8),
-                      Text(
-                        ordersAddressModel.address.city,
-                        textAlign: TextAlign.center,
-                      ),
-                      const VerticalGap(8),
-                      Text(
-                        ordersAddressModel.addressInDetails,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 3,
-                      ),
-                    ],
-                  ),
+                const VerticalGap(16),
+                AddressDetailsRow(
+                  label: "City",
+                  labelData: ordersAddressModel.address.city,
+                ),
+                const VerticalGap(16),
+                AddressDetailsRow(
+                  label: "Address Details",
+                  labelData: ordersAddressModel.addressInDetails,
                 ),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class AddressDetailsRow extends StatelessWidget {
+  const AddressDetailsRow({
+    super.key,
+    required this.label,
+    required this.labelData,
+  });
+
+  final String label;
+  final String labelData;
+
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    return Row(
+     crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: (screenWidth - 4 * LocalConstants.kHorizontalPadding) * 0.3,
+          child: Text(label),
+        ),
+        const HorizontalGap(8),
+        Expanded(
+          child: Text(
+            labelData,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 4,
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

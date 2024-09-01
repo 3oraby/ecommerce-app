@@ -13,46 +13,47 @@ class ChooseAddressPage extends StatelessWidget {
   Widget build(BuildContext context) {
     BlocProvider.of<AddressesCubit>(context).getOrdersAddresses();
     return Scaffold(
-        backgroundColor: ThemeColors.backgroundBodiesColor,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text(
-                "Cancel",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
+      backgroundColor: ThemeColors.backgroundBodiesColor,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text(
+              "Cancel",
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
               ),
             ),
-          ],
-          title: Text(
-            "Your addresses",
-            style: TextStyles.aDLaMDisplayBlackBold22,
           ),
+        ],
+        title: Text(
+          "Your addresses",
+          style: TextStyles.aDLaMDisplayBlackBold22,
         ),
-        body: BlocBuilder<AddressesCubit, AddressesState>(
-          builder: (context, state) {
-            if (state is OrderAddressesLoadedState) {
-              return ChooseAddressLoadedBody(
-                getOrdersAddressesResponseModel:
-                    state.getOrdersAddressesResponseModel,
-              );
-            } else if (state is AddressesErrorState) {
-              return Center(
-                child: Text(state.message),
-              );
-            } else {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-          },
-        ));
+      ),
+      body: BlocBuilder<AddressesCubit, AddressesState>(
+        builder: (context, state) {
+          if (state is OrderAddressesLoadedState) {
+            return ChooseAddressLoadedBody(
+              getOrdersAddressesResponseModel:
+                  state.getOrdersAddressesResponseModel,
+            );
+          } else if (state is AddressesErrorState) {
+            return Center(
+              child: Text(state.message),
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
+    );
   }
 }

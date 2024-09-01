@@ -2,10 +2,15 @@ import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
+import 'package:e_commerce_app/features/address/data/models/address_model.dart';
 import 'package:e_commerce_app/features/address/data/models/get_orders_addresses_response_model.dart';
+import 'package:e_commerce_app/features/address/data/models/orders_address_model.dart';
+import 'package:e_commerce_app/features/address/data/models/save_user_address_model.dart';
+import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cubit.dart';
 import 'package:e_commerce_app/features/address/presentation/pages/add_address_page.dart';
 import 'package:e_commerce_app/features/address/presentation/widgets/choose_address_widgets/show_address_details_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChooseAddressLoadedBody extends StatefulWidget {
   const ChooseAddressLoadedBody({
@@ -20,11 +25,27 @@ class ChooseAddressLoadedBody extends StatefulWidget {
 }
 
 class _ChooseAddressLoadedBodyState extends State<ChooseAddressLoadedBody> {
-  int selectedAddress = 0;
+  late int selectedAddress;
+  SaveUserAddressModel? saveUserAddressModel;
+  @override
+  void initState() {
+    super.initState();
+    saveUserAddressModel =
+        BlocProvider.of<AddressesCubit>(context).getUserAddress;
+
+    if (saveUserAddressModel == null) {
+      selectedAddress = 0;
+    } else {
+      selectedAddress = -1;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
+    final SaveUserAddressModel? saveUserAddressModel =
+        BlocProvider.of<AddressesCubit>(context).getUserAddress;
+
     return Column(
       children: [
         Padding(
@@ -48,23 +69,57 @@ class _ChooseAddressLoadedBodyState extends State<ChooseAddressLoadedBody> {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(
-                horizontal: LocalConstants.kHorizontalPadding, vertical: 8),
-            child: ListView.separated(
-              itemCount: widget
-                  .getOrdersAddressesResponseModel.ordersAddresses!.length,
-              separatorBuilder: (context, index) => const VerticalGap(24),
-              itemBuilder: (context, index) => GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedAddress = index;
-                  });
-                },
-                child: ShowAddressDetailsItem(
-                  ordersAddressModel: widget
-                      .getOrdersAddressesResponseModel.ordersAddresses![index],
-                  isSelectedAddress: selectedAddress == index,
+              horizontal: LocalConstants.kHorizontalPadding,
+              vertical: 8,
+            ),
+            child: ListView(
+              children: [
+                if (saveUserAddressModel != null)
+                  Column(
+                    children: [
+                      // address which user choose for the first time
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedAddress = -1;
+                          });
+                        },
+                        child: ShowAddressDetailsItem(
+                          ordersAddressModel: OrdersAddressModel(
+                            addressInDetails:
+                                saveUserAddressModel.addressWithDetails!,
+                            address: AddressModel(
+                              id: saveUserAddressModel.id!,
+                              country: saveUserAddressModel.country!,
+                              city: saveUserAddressModel.city!,
+                            ),
+                          ),
+                          isSelectedAddress: selectedAddress == -1,
+                        ),
+                      ),
+                      const VerticalGap(24),
+                    ],
+                  ),
+                ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: widget
+                      .getOrdersAddressesResponseModel.ordersAddresses!.length,
+                  separatorBuilder: (context, index) => const VerticalGap(24),
+                  itemBuilder: (context, index) => GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedAddress = index;
+                      });
+                    },
+                    child: ShowAddressDetailsItem(
+                      ordersAddressModel: widget.getOrdersAddressesResponseModel
+                          .ordersAddresses![index],
+                      isSelectedAddress: selectedAddress == index,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
         ),
@@ -85,6 +140,7 @@ class _ChooseAddressLoadedBodyState extends State<ChooseAddressLoadedBody> {
                 description: "CONFIRM",
                 descriptionSize: 24,
                 onPressed: () {
+                  //! save the address first the pop
                   Navigator.pop(context);
                 },
               ),

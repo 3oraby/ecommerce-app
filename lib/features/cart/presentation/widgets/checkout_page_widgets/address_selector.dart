@@ -10,7 +10,7 @@ class AddressSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SaveUserAddressModel saveUserAddressModel =
+    final SaveUserAddressModel? saveUserAddressModel =
         context.read<AddressesCubit>().getUserAddress;
 
     return GestureDetector(
@@ -55,7 +55,7 @@ class AddressSelector extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    saveUserAddressModel.addressWithDetails!,
+                    saveUserAddressModel!.addressWithDetails!,
                     style: const TextStyle(
                       color: Colors.black,
                       fontSize: 20,
