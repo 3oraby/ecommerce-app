@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
 import 'package:e_commerce_app/features/address/data/models/save_user_address_model.dart';
 import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cubit.dart';
 import 'package:e_commerce_app/features/address/presentation/pages/choose_address_page.dart';
@@ -41,6 +42,7 @@ class AddressSelector extends StatelessWidget {
               color: Colors.grey,
               size: 28,
             ),
+            const HorizontalGap(8),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,6 +67,7 @@ class AddressSelector extends StatelessWidget {
                 ],
               ),
             ),
+            const HorizontalGap(8),
             const Icon(
               Icons.arrow_forward_ios,
               color: Colors.black,

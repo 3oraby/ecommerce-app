@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 //! move it to the constants which in the home feature
 class LocalConstants {
   static const int limitProductNumberInCart = 15;
+  static const double kHorizontalPadding = 16;
+  static const double kBorderRadius = 10;
 
   static const List bottomNavigationBarData = [
     BottomNavigationBarModel(

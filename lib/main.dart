@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/e_commerce_app.dart';
 import 'package:e_commerce_app/features/address/data/data_sources/get_all_addresses_service.dart';
+import 'package:e_commerce_app/features/address/data/data_sources/get_all_orders_addresses_service.dart';
 import 'package:e_commerce_app/features/address/data/repositories/addresses_repository_impl.dart';
 import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cubit.dart';
 import 'package:e_commerce_app/features/cart/data/data_sources/add_to_cart_service.dart';
@@ -41,6 +42,7 @@ Future<void> main() async {
           create: (context) => AddressesCubit(
             addressesRepository: AddressesRepositoryImpl(
               getAllAddressesService: GetAllAddressesService(),
+              getAllOrdersAddressesService: GetAllOrdersAddressesService(),
             ),
           ),
         ),

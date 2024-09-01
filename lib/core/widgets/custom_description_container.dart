@@ -29,7 +29,10 @@ class CustomDescriptionContainer extends StatelessWidget {
           width: borderWidth,
           color: borderColor,
         ),
-        borderRadius: BorderRadius.circular(borderRadius),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(borderRadius),
+          topRight: Radius.circular(borderRadius),
+        ),
       ),
       padding: EdgeInsets.symmetric(
         horizontal: horizontalPadding,
