@@ -140,7 +140,10 @@ class _ChooseAddressLoadedBodyState extends State<ChooseAddressLoadedBody> {
                 description: "CONFIRM",
                 descriptionSize: 24,
                 onPressed: () {
-                  //! save the address first the pop
+                  BlocProvider.of<AddressesCubit>(context)
+                      .setOrderAddressChosen(widget
+                          .getOrdersAddressesResponseModel
+                          .ordersAddresses![selectedAddress]);
                   Navigator.pop(context);
                 },
               ),

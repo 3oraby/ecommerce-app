@@ -18,6 +18,10 @@ import 'package:e_commerce_app/features/favorites/data/repositories/favorites_re
 import 'package:e_commerce_app/features/favorites/presentation/cubit/favorites_cubit.dart';
 
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
+import 'package:e_commerce_app/features/user/data/data_sources/get_user_service.dart';
+import 'package:e_commerce_app/features/user/data/data_sources/update_user_service.dart';
+import 'package:e_commerce_app/features/user/data/repositories/user_repository_impl.dart';
+import 'package:e_commerce_app/features/user/presentation/cubit/user_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -57,6 +61,15 @@ Future<void> main() async {
               showCartItemService: ShowCartItemService(),
               updateCartItemService: UpdateCartItemService(),
               checkProductInCartService: CheckProductInCartService(),
+            ),
+          ),
+        ),
+        // user cubit
+        BlocProvider(
+          create: (context) => UserCubit(
+            userRepository: UserRepositoryImpl(
+              getUserService: GetUserService(),
+              updateUserService: UpdateUserService(),
             ),
           ),
         ),
