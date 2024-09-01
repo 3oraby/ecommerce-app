@@ -9,8 +9,10 @@ class ApiConstants {
 
   // photo
   static const String getPhotoEndPoint = "uploads/";
+
   // category
   static const String getCategoriesEndPoint = "categories";
+
   // products
   static const String getProductsEndPoint = "products";
   static const String getCategoryProductsEndPoint = "products/category/";
@@ -18,9 +20,11 @@ class ApiConstants {
   static const String getHomeDataEndPoint = "products/homepage";
   static const String checkProductInCartEndPoint =
       "products/checkProductInCart/";
+
   // favorites
   static const String getFavoritesEndPoint = "favorites";
   static const String addOrDeleteFavoritesEndPoint = "favorites/";
+
   // cart
   static const String showCartEndPoint = "carts/showCart";
   static const String addToCartEndPoint = "carts/addToCart/";
@@ -31,4 +35,6 @@ class ApiConstants {
 
   // addresses
   static const String getAllAddressesEndPoint = "addresses";
+  static const String getOrdersAddressesEndPoint =
+      "orders/getOrdersAddressForUser";
 }
