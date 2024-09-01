@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/features/address/data/models/get_all_addresses_response_model.dart';
+import 'package:e_commerce_app/features/address/data/models/get_orders_addresses_response_model.dart';
 import 'package:e_commerce_app/features/address/data/models/save_user_address_model.dart';
 import 'package:e_commerce_app/features/address/data/repositories/addresses_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,6 +31,26 @@ class AddressesCubit extends Cubit<AddressesState> {
     } catch (e) {
       emit(AddressesErrorState(
         message: 'Failed to fetch favorites: $e',
+      ));
+    }
+  }
+
+  Future<void> getOrdersAddresses() async {
+    emit(AddressesLoadingState());
+    try {
+      final GetOrdersAddressesResponseModel getOrdersAddressesResponseModel =
+          await addressesRepository.getOrdersAddresses();
+
+      if (getOrdersAddressesResponseModel.status) {
+        emit(OrderAddressesLoadedState(
+            getOrdersAddressesResponseModel: getOrdersAddressesResponseModel));
+      } else {
+        emit(AddressesErrorState(
+            message: getOrdersAddressesResponseModel.message!));
+      }
+    } catch (e) {
+      emit(AddressesErrorState(
+        message: 'Failed to fetch Addresses: $e',
       ));
     }
   }

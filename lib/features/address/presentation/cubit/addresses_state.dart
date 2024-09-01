@@ -17,3 +17,10 @@ final class AddressesErrorState extends AddressesState {
   final String message;
   AddressesErrorState({required this.message});
 }
+
+final class OrderAddressesLoadedState extends AddressesState {
+  final GetOrdersAddressesResponseModel getOrdersAddressesResponseModel;
+  OrderAddressesLoadedState({
+    required this.getOrdersAddressesResponseModel,
+  });
+}
