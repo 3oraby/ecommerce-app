@@ -5,7 +5,10 @@ class ApiConstants {
   static const String registerEndPoint = "auths/signUp";
   static const String verifyEmailEndPoint = "auths/verify?";
   static const String logOutEndPoint = "auths/logout";
+  
+  // user
   static const String getUserEndPoint = "users/me";
+  static const String updateUserEndPoint = "users/";
 
   // photo
   static const String getPhotoEndPoint = "uploads/";

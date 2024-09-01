@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:e_commerce_app/constants/api_constants.dart';
 import 'package:e_commerce_app/core/helpers/api.dart';
-import 'package:e_commerce_app/features/auth/data/models/get_user_response_model.dart';
+import 'package:e_commerce_app/features/user/data/models/get_user_response_model.dart';
 
 class GetUserService {
-  static Future<GetUserResponseModel> getUser() async {
+  Future<GetUserResponseModel> getUser() async {
     try {
       Response response = await Api().get(
         url: "${ApiConstants.baseUrl}${ApiConstants.getUserEndPoint}",
