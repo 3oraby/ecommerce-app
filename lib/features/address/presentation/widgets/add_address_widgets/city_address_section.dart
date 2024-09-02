@@ -1,7 +1,9 @@
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/features/address/data/models/get_all_addresses_response_model.dart';
 import 'package:e_commerce_app/features/address/data/models/save_user_address_model.dart';
+import 'package:e_commerce_app/features/user/presentation/cubit/user_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CityAddressSection extends StatefulWidget {
   const CityAddressSection({
@@ -53,6 +55,17 @@ class _CityAddressSectionState extends State<CityAddressSection> {
         setState(() {
           selectedValue = value;
         });
+        final selectedAddress =
+            widget.getAllAddressesResponseModel.addresses!.firstWhere(
+          (address) => address.city == value,
+        );
+        widget.saveUserAddressModel.id = selectedAddress.id;
+        BlocProvider.of<UserCubit>(context).updateUser(
+          userId: BlocProvider.of<UserCubit>(context).getUserModel.id!,
+          jsonData: {
+            "address_id": selectedAddress.id,
+          },
+        );
       },
       icon: const Icon(
         Icons.arrow_drop_down_circle,
