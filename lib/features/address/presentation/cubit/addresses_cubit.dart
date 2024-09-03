@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:e_commerce_app/features/address/data/models/get_all_addresses_response_model.dart';
 import 'package:e_commerce_app/features/address/data/models/get_orders_addresses_response_model.dart';
 import 'package:e_commerce_app/features/address/data/models/orders_address_model.dart';
@@ -43,6 +45,7 @@ class AddressesCubit extends Cubit<AddressesState> {
   }
 
   Future<void> getOrdersAddresses() async {
+    log("get orders addresses");
     emit(AddressesLoadingState());
     try {
       final GetOrdersAddressesResponseModel getOrdersAddressesResponseModel =

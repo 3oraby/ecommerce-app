@@ -1,3 +1,4 @@
+
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
@@ -7,7 +8,6 @@ import 'package:e_commerce_app/features/address/data/models/get_orders_addresses
 import 'package:e_commerce_app/features/address/data/models/orders_address_model.dart';
 import 'package:e_commerce_app/features/address/data/models/save_user_address_model.dart';
 import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cubit.dart';
-import 'package:e_commerce_app/features/address/presentation/pages/add_address_page.dart';
 import 'package:e_commerce_app/features/address/presentation/widgets/choose_address_widgets/show_address_details_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,8 +16,10 @@ class ChooseAddressLoadedBody extends StatefulWidget {
   const ChooseAddressLoadedBody({
     super.key,
     required this.getOrdersAddressesResponseModel,
+    required this.onAddAddressButtonPressed,
   });
   final GetOrdersAddressesResponseModel getOrdersAddressesResponseModel;
+  final VoidCallback onAddAddressButtonPressed;
 
   @override
   State<ChooseAddressLoadedBody> createState() =>
@@ -71,9 +73,7 @@ class _ChooseAddressLoadedBodyState extends State<ChooseAddressLoadedBody> {
             description: "ADD A NEW ADDRESS",
             descriptionColor: ThemeColors.primaryColor,
             descriptionSize: 18,
-            onPressed: () {
-              Navigator.pushNamed(context, AddAddressPage.id);
-            },
+            onPressed: widget.onAddAddressButtonPressed,
           ),
         ),
         Expanded(

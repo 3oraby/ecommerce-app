@@ -15,7 +15,6 @@ class AddressSelector extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        //! navigate to choose address page
         Navigator.pushNamed(context, ChooseAddressPage.id);
       },
       child: Container(

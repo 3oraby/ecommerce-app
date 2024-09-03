@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/cart/data/models/cart_item_model.dart';
@@ -6,6 +7,7 @@ import 'package:e_commerce_app/features/cart/presentation/widgets/checkout_page_
 import 'package:e_commerce_app/features/cart/presentation/widgets/checkout_page_widgets/address_selector.dart';
 import 'package:e_commerce_app/features/cart/presentation/widgets/checkout_page_widgets/shipment_info.dart';
 import 'package:e_commerce_app/features/cart/presentation/widgets/checkout_page_widgets/show_cart_item_list.dart';
+import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,6 +28,19 @@ class CheckoutPage extends StatelessWidget {
         title: Text(
           "Checkout",
           style: TextStyles.aDLaMDisplayBlackBold32,
+        ),
+        leading: IconButton(
+          onPressed: () {
+            HomePageNavigationService.navigateToCart();
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              HomePage.id,
+              (Route<dynamic> route) => false,
+            );
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios,
+          ),
         ),
       ),
       body: Padding(

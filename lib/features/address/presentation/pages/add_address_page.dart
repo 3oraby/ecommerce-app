@@ -5,19 +5,14 @@ import 'package:e_commerce_app/features/address/presentation/widgets/add_address
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AddAddressPage extends StatefulWidget {
+class AddAddressPage extends StatelessWidget {
   const AddAddressPage({super.key});
   static const id = "/add_address_page";
 
   @override
-  State<AddAddressPage> createState() => _AddAddressPageState();
-}
-
-class _AddAddressPageState extends State<AddAddressPage> {
-  @override
   Widget build(BuildContext context) {
     BlocProvider.of<AddressesCubit>(context).getAllAddresses();
-    
+
     return Scaffold(
       backgroundColor: ThemeColors.backgroundBodiesColor,
       appBar: AppBar(
@@ -25,7 +20,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pop(context, true);
             },
             child: const Text(
               "Cancel",
@@ -44,7 +39,7 @@ class _AddAddressPageState extends State<AddAddressPage> {
       ),
       body: BlocBuilder<AddressesCubit, AddressesState>(
         builder: (context, state) {
-          if (state is AddressesInitialState) {
+          if (state is AddressesLoadingState) {
             return const Center(
               child: CircularProgressIndicator(),
             );

@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cubit.dart';
+import 'package:e_commerce_app/features/address/presentation/pages/add_address_page.dart';
 import 'package:e_commerce_app/features/address/presentation/widgets/choose_address_widgets/choose_address_loaded_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -42,6 +45,14 @@ class ChooseAddressPage extends StatelessWidget {
             return ChooseAddressLoadedBody(
               getOrdersAddressesResponseModel:
                   state.getOrdersAddressesResponseModel,
+              onAddAddressButtonPressed: () async {
+                final isRefresh =
+                    await Navigator.pushNamed(context, AddAddressPage.id);
+                log("isRefresh +$isRefresh");
+                if (isRefresh is bool && isRefresh == true) {
+                  BlocProvider.of<AddressesCubit>(context).getOrdersAddresses();
+                }
+              },
             );
           } else if (state is AddressesErrorState) {
             return Center(
