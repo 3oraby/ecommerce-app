@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
@@ -48,7 +47,7 @@ class ChooseAddressPage extends StatelessWidget {
               onAddAddressButtonPressed: () async {
                 final isRefresh =
                     await Navigator.pushNamed(context, AddAddressPage.id);
-                log("isRefresh +$isRefresh");
+
                 if (isRefresh is bool && isRefresh == true) {
                   BlocProvider.of<AddressesCubit>(context).getOrdersAddresses();
                 }

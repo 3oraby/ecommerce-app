@@ -4,6 +4,7 @@ import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
+import 'package:e_commerce_app/features/address/presentation/pages/choose_address_page.dart';
 import 'package:e_commerce_app/features/cart/data/models/cart_item_model.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:e_commerce_app/features/cart/presentation/widgets/checkout_page_widgets/address_selector.dart';
@@ -62,7 +63,9 @@ class CheckoutPage extends StatelessWidget {
                 children: [
                   const AddressInfo(),
                   const VerticalGap(4),
-                  const AddressSelector(),
+                  AddressSelector(
+                    onTap: (){}
+                  ),
                   const VerticalGap(24),
                   ShipmentInfo(itemsCount: totalQuantity),
                   const VerticalGap(8),

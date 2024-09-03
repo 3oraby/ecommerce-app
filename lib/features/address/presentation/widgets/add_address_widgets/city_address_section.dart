@@ -1,6 +1,6 @@
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/features/address/data/models/get_all_addresses_response_model.dart';
-import 'package:e_commerce_app/features/address/data/models/save_user_address_model.dart';
+import 'package:e_commerce_app/features/address/data/models/orders_address_model.dart';
 import 'package:e_commerce_app/features/user/presentation/cubit/user_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,11 +9,11 @@ class CityAddressSection extends StatefulWidget {
   const CityAddressSection({
     super.key,
     required this.getAllAddressesResponseModel,
-    required this.saveUserAddressModel,
+    required this.ordersAddressModel,
   });
 
   final GetAllAddressesResponseModel getAllAddressesResponseModel;
-  final SaveUserAddressModel saveUserAddressModel;
+  final OrdersAddressModel ordersAddressModel;
   @override
   State<CityAddressSection> createState() => _CityAddressSectionState();
 }
@@ -24,10 +24,10 @@ class _CityAddressSectionState extends State<CityAddressSection> {
   void initState() {
     super.initState();
     selectedValue = widget.getAllAddressesResponseModel.addresses!.first.city;
-    widget.saveUserAddressModel.city =
+    widget.ordersAddressModel.city =
         widget.getAllAddressesResponseModel.addresses!.first.city;
 
-    widget.saveUserAddressModel.id =
+    widget.ordersAddressModel.addressId =
         widget.getAllAddressesResponseModel.addresses!.first.id;
   }
 
@@ -51,7 +51,7 @@ class _CityAddressSectionState extends State<CityAddressSection> {
           )
           .toList(),
       onChanged: (value) {
-        widget.saveUserAddressModel.city = value;
+        widget.ordersAddressModel.city = value;
         setState(() {
           selectedValue = value;
         });
@@ -59,7 +59,7 @@ class _CityAddressSectionState extends State<CityAddressSection> {
             widget.getAllAddressesResponseModel.addresses!.firstWhere(
           (address) => address.city == value,
         );
-        widget.saveUserAddressModel.id = selectedAddress.id;
+        widget.ordersAddressModel.addressId = selectedAddress.id;
         BlocProvider.of<UserCubit>(context).updateUser(
           userId: BlocProvider.of<UserCubit>(context).getUserModel.id!,
           jsonData: {

@@ -1,21 +1,40 @@
 import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
-import 'package:e_commerce_app/features/address/data/models/save_user_address_model.dart';
+import 'package:e_commerce_app/features/address/data/models/orders_address_model.dart';
 import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cubit.dart';
 import 'package:e_commerce_app/features/address/presentation/pages/choose_address_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AddressSelector extends StatelessWidget {
-  const AddressSelector({super.key});
+class AddressSelector extends StatefulWidget {
+  const AddressSelector({super.key, required this.onTap});
+  final VoidCallback onTap;
+
+  @override
+  State<AddressSelector> createState() => _AddressSelectorState();
+}
+
+class _AddressSelectorState extends State<AddressSelector> {
+  late OrdersAddressModel ordersAddressModel;
+  @override
+  void initState() {
+    super.initState();
+    ordersAddressModel =
+        BlocProvider.of<AddressesCubit>(context).getOrderAddressChosen ??
+            BlocProvider.of<AddressesCubit>(context).getUserHomeAddress!;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final SaveUserAddressModel? saveUserAddressModel =
-        context.read<AddressesCubit>().getUserAddress;
-
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(context, ChooseAddressPage.id);
+      onTap: () async {
+        final isRefresh =
+            await Navigator.pushNamed(context, ChooseAddressPage.id);
+        if (isRefresh is bool && isRefresh == true) {
+          setState(() {
+            ordersAddressModel =
+                BlocProvider.of<AddressesCubit>(context).getOrderAddressChosen!;
+          });
+        }
       },
       child: Container(
         decoration: BoxDecoration(
@@ -54,7 +73,7 @@ class AddressSelector extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    saveUserAddressModel!.addressWithDetails!,
+                    ordersAddressModel.addressInDetails!,
                     style: const TextStyle(
                       color: Colors.black,
                       fontSize: 20,

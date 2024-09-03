@@ -1,11 +1,11 @@
+import 'dart:developer';
+
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
-import 'package:e_commerce_app/features/address/data/models/address_model.dart';
 import 'package:e_commerce_app/features/address/data/models/get_orders_addresses_response_model.dart';
 import 'package:e_commerce_app/features/address/data/models/orders_address_model.dart';
-import 'package:e_commerce_app/features/address/data/models/save_user_address_model.dart';
 import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cubit.dart';
 import 'package:e_commerce_app/features/address/presentation/widgets/choose_address_widgets/show_address_details_item.dart';
 import 'package:flutter/material.dart';
@@ -26,31 +26,27 @@ class ChooseAddressLoadedBody extends StatefulWidget {
 }
 
 class _ChooseAddressLoadedBodyState extends State<ChooseAddressLoadedBody> {
-  int selectedAddress = 0;
+  late int selectedAddress;
   late List<OrdersAddressModel> ordersAddresses = [];
   @override
   void initState() {
     super.initState();
-    final SaveUserAddressModel? saveUserAddressModel =
-        BlocProvider.of<AddressesCubit>(context).getUserAddress;
+    final OrdersAddressModel? ordersAddressModel =
+        BlocProvider.of<AddressesCubit>(context).getUserHomeAddress;
 
     // add the initial address to list of addresses
-    if (saveUserAddressModel != null) {
-      ordersAddresses.add(
-        OrdersAddressModel(
-          addressInDetails: saveUserAddressModel.addressWithDetails!,
-          address: AddressModel(
-            id: saveUserAddressModel.id!,
-            country: saveUserAddressModel.country!,
-            city: saveUserAddressModel.city!,
-          ),
-        ),
-      );
+    if (ordersAddressModel != null) {
+      ordersAddresses.add(ordersAddressModel);
     }
-
     // Add all other addresses from the response model
     ordersAddresses
         .addAll(widget.getOrdersAddressesResponseModel.ordersAddresses!);
+
+    OrdersAddressModel? orderAddressChosen =
+        BlocProvider.of<AddressesCubit>(context).getOrderAddressChosen;
+    selectedAddress = orderAddressChosen != null
+        ? ordersAddresses.indexWhere((element) => orderAddressChosen == element)
+        : 0;
   }
 
   @override
@@ -117,7 +113,7 @@ class _ChooseAddressLoadedBodyState extends State<ChooseAddressLoadedBody> {
                 onPressed: () {
                   BlocProvider.of<AddressesCubit>(context)
                       .setOrderAddressChosen(ordersAddresses[selectedAddress]);
-                  Navigator.pop(context);
+                  Navigator.pop(context, true);
                 },
               ),
             ),

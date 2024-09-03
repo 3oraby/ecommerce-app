@@ -1,7 +1,7 @@
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/address/data/models/get_all_addresses_response_model.dart';
-import 'package:e_commerce_app/features/address/data/models/save_user_address_model.dart';
+import 'package:e_commerce_app/features/address/data/models/orders_address_model.dart';
 import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cubit.dart';
 import 'package:e_commerce_app/features/address/presentation/widgets/add_address_widgets/address_details_section.dart';
 import 'package:e_commerce_app/features/address/presentation/widgets/add_address_widgets/city_address_section.dart';
@@ -24,7 +24,8 @@ class AddAddressLoadedBody extends StatefulWidget {
 class _AddAddressLoadedBodyState extends State<AddAddressLoadedBody> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  SaveUserAddressModel saveUserAddressModel = SaveUserAddressModel();
+  OrdersAddressModel ordersAddressModel = OrdersAddressModel();
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -45,12 +46,12 @@ class _AddAddressLoadedBodyState extends State<AddAddressLoadedBody> {
                 CityAddressSection(
                   getAllAddressesResponseModel:
                       widget.getAllAddressesResponseModel,
-                  saveUserAddressModel: saveUserAddressModel,
+                  ordersAddressModel: ordersAddressModel,
                 ),
                 VerticalGap(screenHeight * 0.06),
                 AddressDetailsSection(
                   formKey: formKey,
-                  saveUserAddressModel: saveUserAddressModel,
+                  ordersAddressModel: ordersAddressModel,
                 ),
               ],
             ),
@@ -73,9 +74,8 @@ class _AddAddressLoadedBodyState extends State<AddAddressLoadedBody> {
                 description: "CONFIRM",
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    context
-                        .read<AddressesCubit>()
-                        .setUserAddress(saveUserAddressModel);
+                    BlocProvider.of<AddressesCubit>(context)
+                        .setUserHomeAddress(ordersAddressModel);
 
                     Navigator.pushReplacementNamed(
                       context,

@@ -1,17 +1,41 @@
-import 'package:e_commerce_app/features/address/data/models/address_model.dart';
-
 class OrdersAddressModel {
-  final String addressInDetails;
-  final AddressModel address;
+  String? addressInDetails;
+  int? addressId;
+  String? country;
+  String? city;
 
-  OrdersAddressModel({required this.addressInDetails, required this.address});
+  OrdersAddressModel({
+    this.addressId,
+    this.country,
+    this.city,
+    this.addressInDetails,
+  });
 
   factory OrdersAddressModel.fromJson(Map<String, dynamic> json) {
     return OrdersAddressModel(
       addressInDetails: json["addressInDetails"],
-      address: AddressModel.fromJson(
-        json: json["Address"],
-      ),
+      addressId: json["Address"]["id"],
+      country: json["Address"]["country"],
+      city: json["Address"]["city"],
     );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is OrdersAddressModel &&
+        other.addressId == addressId &&
+        other.addressInDetails == addressInDetails &&
+        other.country == country &&
+        other.city == city;
+  }
+
+  @override
+  int get hashCode {
+    return addressId.hashCode ^
+        addressInDetails.hashCode ^
+        country.hashCode ^
+        city.hashCode;
   }
 }

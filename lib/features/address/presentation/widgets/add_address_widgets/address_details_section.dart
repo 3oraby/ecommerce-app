@@ -1,17 +1,17 @@
 import 'dart:developer';
 
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
-import 'package:e_commerce_app/features/address/data/models/save_user_address_model.dart';
+import 'package:e_commerce_app/features/address/data/models/orders_address_model.dart';
 import 'package:flutter/material.dart';
 
 class AddressDetailsSection extends StatelessWidget {
   const AddressDetailsSection({
     super.key,
     required this.formKey,
-    required this.saveUserAddressModel,
+    required this.ordersAddressModel,
   });
   final GlobalKey<FormState> formKey;
-  final SaveUserAddressModel saveUserAddressModel;
+  final OrdersAddressModel ordersAddressModel;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class AddressDetailsSection extends StatelessWidget {
           }
           return null;
         },
-        onChanged: (value) => saveUserAddressModel.addressWithDetails = value,
+        onChanged: (value) => ordersAddressModel.addressInDetails = value,
         decoration: InputDecoration(
           label: const Text(
             "Additional Address Details",

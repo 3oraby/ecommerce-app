@@ -79,17 +79,17 @@ class ShowAddressDetailsItem extends StatelessWidget {
               children: [
                 AddressDetailsRow(
                   label: "Country",
-                  labelData: ordersAddressModel.address.country,
+                  labelData: ordersAddressModel.country ?? "",
                 ),
                 const VerticalGap(16),
                 AddressDetailsRow(
                   label: "City",
-                  labelData: ordersAddressModel.address.city,
+                  labelData: ordersAddressModel.city ?? "",
                 ),
                 const VerticalGap(16),
                 AddressDetailsRow(
                   label: "Address Details",
-                  labelData: ordersAddressModel.addressInDetails,
+                  labelData: ordersAddressModel.addressInDetails ?? "",
                 ),
               ],
             ),
