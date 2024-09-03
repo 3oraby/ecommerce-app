@@ -22,6 +22,9 @@ class CheckoutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     List<CartItemModel> cartItems =
         BlocProvider.of<CartCubit>(context).getCartItems;
+    int totalQuantity =
+        BlocProvider.of<CartCubit>(context).calculateTotalQuantity(cartItems);
+    String cartPrice = BlocProvider.of<CartCubit>(context).getCartPrice;
 
     return Scaffold(
       backgroundColor: ThemeColors.backgroundBodiesColor,
@@ -61,15 +64,14 @@ class CheckoutPage extends StatelessWidget {
                   const VerticalGap(4),
                   const AddressSelector(),
                   const VerticalGap(24),
-                  //! get the whole quantity of the whole items
-                  const ShipmentInfo(itemsCount: 1),
+                  ShipmentInfo(itemsCount: totalQuantity),
                   const VerticalGap(8),
                   CartItemsList(cartItems: cartItems),
                   const VerticalGap(24),
                   const PaymentMethod(),
                   const VerticalGap(24),
-                  const OrderSummary(
-                    subTotal: 456, //! pass the right price
+                  OrderSummary(
+                    subTotal: cartPrice,
                   ),
                   const VerticalGap(24),
                 ],
@@ -102,17 +104,15 @@ class CheckoutPage extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        //! put the right quantity of items
-                        "1 Item",
-                        style: TextStyle(
+                      Text(
+                        "$totalQuantity Item",
+                        style: const TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 22,
                         ),
                       ),
                       Text(
-                        //! put the right price of items
-                        "EGP 49595",
+                        "EGP $cartPrice",
                         style: TextStyles.aDLaMDisplayBlackBold24,
                       ),
                     ],

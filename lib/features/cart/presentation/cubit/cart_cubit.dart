@@ -9,16 +9,15 @@ import 'package:e_commerce_app/features/cart/data/repositories/cart_repository.d
 
 class CartCubit extends Cubit<CartState> {
   final CartRepository cartRepository;
-  // int itemsQuantity = 0;
   List<CartItemModel> _cartItems = [];
-
+  String _cartPrice = "";
   CartCubit({required this.cartRepository}) : super(CartInitialState());
 
-  // int get getItemsQuantity => itemsQuantity;
   List<CartItemModel> get getCartItems => _cartItems;
-
-  int calculateTotalQuantity(ShowCartResponseModel cart) {
-    return cart.cartItems!.fold<int>(0, (sum, item) => sum + item.quantity);
+  String get getCartPrice => _cartPrice;
+  
+  int calculateTotalQuantity(List<CartItemModel> cartItems) {
+    return cartItems.fold<int>(0, (sum, item) => sum + item.quantity);
   }
 
   // Future<void> showCart() async {
@@ -61,11 +60,6 @@ class CartCubit extends Cubit<CartState> {
       final DeleteFromCartResponseModel deleteFromCartResponseModel =
           await cartRepository.deleteFromCart(cartItemId);
       if (deleteFromCartResponseModel.status) {
-        // // delete the product quantity from itemsQuantity
-        // CartItemModel cartItemModel =
-        //     await cartRepository.showCartItem(cartItemId);
-        // itemsQuantity -= cartItemModel.quantity;
-
         await showCartAndPrice();
       } else {
         emit(const DeleteFromCartErrorState(
@@ -89,7 +83,6 @@ class CartCubit extends Cubit<CartState> {
       );
       emit(CartItemUpdatedState(success: success));
       if (success) {
-        // itemsQuantity += quantity;
         await showCartAndPrice();
       } else {
         emit(const CartErrorState(message: 'Failed to update item quantity'));
@@ -129,8 +122,9 @@ class CartCubit extends Cubit<CartState> {
       final String price = await cartRepository.showCartPrice();
 
       if (cart.status) {
-        int totalQuantity = calculateTotalQuantity(cart);
+        int totalQuantity = calculateTotalQuantity(cart.cartItems!);
         _cartItems = cart.cartItems!;
+        _cartPrice = price;
         emit(
           CartAndPriceLoadedState(
             cart: cart,

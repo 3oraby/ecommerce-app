@@ -8,7 +8,7 @@ class OrderSummary extends StatelessWidget {
     super.key,
     required this.subTotal,
   });
-  final double subTotal;
+  final String subTotal;
 
   @override
   Widget build(BuildContext context) {
