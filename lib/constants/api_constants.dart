@@ -5,7 +5,7 @@ class ApiConstants {
   static const String registerEndPoint = "auths/signUp";
   static const String verifyEmailEndPoint = "auths/verify?";
   static const String logOutEndPoint = "auths/logout";
-  
+
   // user
   static const String getUserEndPoint = "users/me";
   static const String updateUserEndPoint = "users/";
@@ -40,4 +40,7 @@ class ApiConstants {
   static const String getAllAddressesEndPoint = "addresses";
   static const String getOrdersAddressesEndPoint =
       "orders/getOrdersAddressForUser";
+
+  //orders
+  static const String checkoutEndPoint = "orders/checkOut";
 }
