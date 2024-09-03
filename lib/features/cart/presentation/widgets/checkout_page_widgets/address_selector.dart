@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddressSelector extends StatefulWidget {
-  const AddressSelector({super.key, required this.onTap});
-  final VoidCallback onTap;
+  const AddressSelector({super.key});
 
   @override
   State<AddressSelector> createState() => _AddressSelectorState();
