@@ -13,7 +13,7 @@ class CustomTriggerButton extends StatefulWidget {
     this.isDescriptionBold = true,
     this.backgroundColor = ThemeColors.primaryColor,
     this.descriptionColor = Colors.white,
-    this.descriptionSize = 28,
+    this.descriptionSize = 24,
     this.iconSize = 18,
     this.isUseForOnBoarding = false,
     this.buttonHeight = 70,

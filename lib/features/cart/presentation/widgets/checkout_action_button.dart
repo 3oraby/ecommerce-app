@@ -19,8 +19,6 @@ class CheckoutActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomTriggerButton(
-      borderRadius: 15,
-      borderWidth: 0,
       onPressed: () {
         bool makingOrderBefore =
             SharedPreferencesSingleton.getBool("makingOrderBefore");

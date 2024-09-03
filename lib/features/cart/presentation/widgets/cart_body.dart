@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_state.dart';
@@ -24,7 +23,6 @@ class CartBody extends StatelessWidget {
             child: Text(state.message),
           );
         } else if (state is CartAndPriceLoadedState) {
-          log("CartAndPriceLoadedState");
           return CartBodyLoaded(
             showCartResponseModel: state.cart,
             cartPrice: state.price,
