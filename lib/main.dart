@@ -18,6 +18,9 @@ import 'package:e_commerce_app/features/favorites/data/repositories/favorites_re
 import 'package:e_commerce_app/features/favorites/presentation/cubit/favorites_cubit.dart';
 
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
+import 'package:e_commerce_app/features/orders/data/data_sources/checkout_service.dart';
+import 'package:e_commerce_app/features/orders/data/repositories/order_repository_impl.dart';
+import 'package:e_commerce_app/features/orders/presentation/cubit/order_cubit.dart';
 import 'package:e_commerce_app/features/user/data/data_sources/get_user_service.dart';
 import 'package:e_commerce_app/features/user/data/data_sources/update_user_service.dart';
 import 'package:e_commerce_app/features/user/data/repositories/user_repository_impl.dart';
@@ -70,6 +73,14 @@ Future<void> main() async {
             userRepository: UserRepositoryImpl(
               getUserService: GetUserService(),
               updateUserService: UpdateUserService(),
+            ),
+          ),
+        ),
+        // order cubit
+        BlocProvider(
+          create: (context) => OrderCubit(
+            orderRepository: OrderRepositoryImpl(
+              checkoutService: CheckoutService(),
             ),
           ),
         ),
