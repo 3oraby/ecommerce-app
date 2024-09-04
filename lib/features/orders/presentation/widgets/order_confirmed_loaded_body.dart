@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
+import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_horizontal_product_item.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
@@ -9,6 +10,7 @@ import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cub
 import 'package:e_commerce_app/features/address/presentation/widgets/choose_address_widgets/show_address_details_item.dart';
 import 'package:e_commerce_app/features/cart/data/models/cart_item_model.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -126,13 +128,19 @@ class ViewPageButtons extends StatelessWidget {
           borderColor: ThemeColors.primaryColor,
           descriptionColor: ThemeColors.primaryColor,
           description: "VIEW ORDER",
-          onPressed: () {},
+          onPressed: () {
+            HomePageNavigationService.navigateToMyOrders();
+            Navigator.pushReplacementNamed(context, HomePage.id);
+          },
         ),
         const VerticalGap(16),
         CustomTriggerButton(
           description: "CONTINUE SHOPPING",
           descriptionSize: 20,
-          onPressed: () {},
+          onPressed: () {
+            HomePageNavigationService.navigateToHome();
+            Navigator.pushReplacementNamed(context, HomePage.id);
+          },
         ),
       ],
     );
@@ -185,11 +193,15 @@ class DeliveryShipmentDetailsWidget extends StatelessWidget {
         ),
         const VerticalGap(16),
         SizedBox(
+          //! make this response able
           height: 220,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: cartItems.length,
-            separatorBuilder: (context, index) => const HorizontalGap(16),
+            separatorBuilder: (context, index) => const VerticalDivider(
+              width: 24,
+              color: ThemeColors.unEnabledColor,
+            ),
             itemBuilder: (context, index) => CustomHorizontalProductItem(
               cartItemModel: cartItems[index],
               width: 400,

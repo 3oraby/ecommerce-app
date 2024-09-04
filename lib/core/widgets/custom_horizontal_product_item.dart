@@ -71,7 +71,7 @@ class _CustomHorizontalProductItemState
       decoration: BoxDecoration(
         color: widget.backgroundColor,
         border: Border.all(
-          color: (widget.borderWidth == 0) ? Colors.grey : Colors.white,
+          color: (widget.borderWidth != 0) ? Colors.grey : Colors.white,
           width: widget.borderWidth,
         ),
         borderRadius: BorderRadius.circular(widget.borderRadius),
