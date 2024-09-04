@@ -143,6 +143,7 @@ class CheckoutPage extends StatelessWidget {
 
       if (checkoutResponseModel.status) {
         orderCubit.setCheckoutResponseModel(checkoutResponseModel);
+        orderCubit.increaseOrdersCount();
         Navigator.pushNamedAndRemoveUntil(
           context,
           OrderConfirmedPage.id,

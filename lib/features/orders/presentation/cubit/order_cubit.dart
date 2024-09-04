@@ -11,10 +11,21 @@ class OrderCubit extends Cubit<OrderState> {
   }) : super(OrderInitial());
 
   CheckoutResponseModel? checkoutResponseModel;
+  int totalOrders = 0;
+
   void setCheckoutResponseModel(CheckoutResponseModel address) {
     checkoutResponseModel = address;
   }
 
+  void increaseOrdersCount() {
+    totalOrders++;
+  }
+
+  void decreaseOrdersCount() {
+    totalOrders--;
+  }
+
+  int get getTotalOrdersCount => totalOrders;
   CheckoutResponseModel? get getCheckoutResponseModel => checkoutResponseModel;
 
   Future<CheckoutResponseModel> confirmOrder(
