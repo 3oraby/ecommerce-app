@@ -43,4 +43,5 @@ class ApiConstants {
 
   //orders
   static const String checkoutEndPoint = "orders/checkOut";
+  static const String getOrderEndPoint = "orders/";
 }
