@@ -3,12 +3,13 @@ import 'package:e_commerce_app/features/cart/presentation/widgets/cart_app_bar.d
 import 'package:e_commerce_app/features/cart/presentation/widgets/cart_body.dart';
 import 'package:e_commerce_app/features/favorites/presentation/widgets/favorites_app_bar.dart';
 import 'package:e_commerce_app/features/favorites/presentation/widgets/favorites_body.dart';
-import 'package:e_commerce_app/features/home/presentation/widgets/app_bars/home_app_bar.dart';
-import 'package:e_commerce_app/features/home/presentation/widgets/app_bars/my_orders_app_bar.dart';
-import 'package:e_commerce_app/features/home/presentation/widgets/app_bars/settings_app_bar.dart';
-import 'package:e_commerce_app/features/home/presentation/widgets/bodies/home_body.dart';
-import 'package:e_commerce_app/features/home/presentation/widgets/bodies/my_orders_body.dart';
-import 'package:e_commerce_app/features/home/presentation/widgets/bodies/settings_body.dart';
+import 'package:e_commerce_app/features/home/presentation/widgets/home_app_bar.dart';
+import 'package:e_commerce_app/features/orders/presentation/widgets/my_orders_app_bar.dart';
+import 'package:e_commerce_app/features/orders/presentation/widgets/my_orders_body.dart';
+import 'package:e_commerce_app/features/settings/presentation/widgets/settings_app_bar.dart';
+
+import 'package:e_commerce_app/features/home/presentation/widgets/home_body.dart';
+import 'package:e_commerce_app/features/settings/presentation/widgets/settings_body.dart';
 import 'package:flutter/material.dart';
 
 class AppPageManager {
