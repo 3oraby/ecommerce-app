@@ -6,7 +6,7 @@ class OrdersAddressModel {
 
   OrdersAddressModel({
     this.addressId,
-    this.country,
+    this.country = "Egypt",
     this.city,
     this.addressInDetails,
   });

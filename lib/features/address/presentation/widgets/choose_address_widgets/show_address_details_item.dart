@@ -11,63 +11,79 @@ class ShowAddressDetailsItem extends StatelessWidget {
     super.key,
     required this.ordersAddressModel,
     required this.isSelectedAddress,
+    this.normalBorderWidth = 1,
+    this.selectedBorderWidth = 2,
+    this.showFirstLine = true,
+    this.internalPadding = true,
   });
 
   final OrdersAddressModel ordersAddressModel;
   final bool isSelectedAddress;
+  final double normalBorderWidth;
+  final double selectedBorderWidth;
+  final bool showFirstLine;
+  final bool internalPadding;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 12,
-      ),
+      padding: internalPadding
+          ? const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 12,
+            )
+          : null,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(
           LocalConstants.kBorderRadius,
         ),
         border: Border.all(
-          color:
-              isSelectedAddress ? ThemeColors.primaryColor : Colors.grey[300]!,
-          width: isSelectedAddress ? 2 : 1,
+          color: isSelectedAddress
+              ? ThemeColors.primaryColor
+              : normalBorderWidth == 0
+                  ? Colors.white
+                  : Colors.grey[300]!,
+          width: isSelectedAddress ? selectedBorderWidth : normalBorderWidth,
         ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Icon(
-                Icons.share_location_sharp,
-                color: Colors.grey[600],
-                size: 26,
-              ),
-              const SizedBox(width: 8),
-              Text(
-                "Home",
-                style: TextStyles.aDLaMDisplayBlackBold20,
-              ),
-              const Spacer(),
-              TextButton.icon(
-                onPressed: () {
-                  //! Navigate to the edit address page with the initial data of this address
-                },
-                icon: Icon(
-                  Icons.edit,
+          Visibility(
+            visible: showFirstLine,
+            child: Row(
+              children: [
+                Icon(
+                  Icons.share_location_sharp,
                   color: Colors.grey[600],
-                  size: 20,
+                  size: 26,
                 ),
-                label: Text(
-                  "Edit",
-                  style: TextStyle(
-                    fontSize: 16,
+                const SizedBox(width: 8),
+                Text(
+                  "Home",
+                  style: TextStyles.aDLaMDisplayBlackBold20,
+                ),
+                const Spacer(),
+                TextButton.icon(
+                  onPressed: () {
+                    //! Navigate to the edit address page with the initial data of this address
+                  },
+                  icon: Icon(
+                    Icons.edit,
                     color: Colors.grey[600],
+                    size: 20,
+                  ),
+                  label: Text(
+                    "Edit",
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.grey[600],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           Divider(
             color: Colors.grey[300],
@@ -114,7 +130,7 @@ class AddressDetailsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Row(
-     crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
           width: (screenWidth - 4 * LocalConstants.kHorizontalPadding) * 0.3,

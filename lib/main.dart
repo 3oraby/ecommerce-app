@@ -19,6 +19,7 @@ import 'package:e_commerce_app/features/favorites/presentation/cubit/favorites_c
 
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/features/orders/data/data_sources/checkout_service.dart';
+import 'package:e_commerce_app/features/orders/data/data_sources/get_order_data_service.dart';
 import 'package:e_commerce_app/features/orders/data/repositories/order_repository_impl.dart';
 import 'package:e_commerce_app/features/orders/presentation/cubit/order_cubit.dart';
 import 'package:e_commerce_app/features/user/data/data_sources/get_user_service.dart';
@@ -81,6 +82,7 @@ Future<void> main() async {
           create: (context) => OrderCubit(
             orderRepository: OrderRepositoryImpl(
               checkoutService: CheckoutService(),
+              getOrderDataService: GetOrderDataService(),
             ),
           ),
         ),

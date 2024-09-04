@@ -1,4 +1,3 @@
-
 import 'package:e_commerce_app/features/address/presentation/pages/add_address_page.dart';
 import 'package:e_commerce_app/features/address/presentation/pages/choose_address_page.dart';
 import 'package:e_commerce_app/features/auth/presentation/pages/login_page.dart';
@@ -7,6 +6,7 @@ import 'package:e_commerce_app/features/cart/presentation/pages/checkout_page.da
 import 'package:e_commerce_app/features/entry/presentation/pages/entry_page.dart';
 import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
 import 'package:e_commerce_app/features/onboarding/presentation/pages/onboarding_page.dart';
+import 'package:e_commerce_app/features/orders/presentation/pages/order_confirmed_page.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_product_details_page.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_products_page.dart';
 import 'package:e_commerce_app/features/user/presentation/pages/user_profile_page.dart';
@@ -35,6 +35,7 @@ class ECommerceApp extends StatelessWidget {
         CheckoutPage.id: (context) => const CheckoutPage(),
         AddAddressPage.id: (context) => const AddAddressPage(),
         ChooseAddressPage.id: (context) => const ChooseAddressPage(),
+        OrderConfirmedPage.id: (context) => const OrderConfirmedPage(),
       },
       initialRoute: isFirstTime ? OnboardingPage.id : EntryPage.id,
     );

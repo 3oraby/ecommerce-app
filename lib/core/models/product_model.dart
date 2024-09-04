@@ -4,7 +4,6 @@ class ProductModel {
   final String photo;
   final String name;
   final String description;
-  // final String categoryId;
   final String createdAt;
   final String updatedAt;
   int isFavorite;
@@ -14,7 +13,6 @@ class ProductModel {
     required this.price,
     required this.photo,
     required this.name,
-    // required this.categoryId,
     required this.description,
     required this.createdAt,
     required this.updatedAt,
@@ -30,7 +28,6 @@ class ProductModel {
       photo: json['photo'],
       name: json['name'],
       description: json['description'],
-      // categoryId: json['category_id'],
       createdAt: json["createdAt"],
       updatedAt: json["updatedAt"],
       isFavorite: json["is_favorite"] ?? 1,
@@ -43,7 +40,6 @@ class ProductModel {
       'price': price,
       'photo': photo,
       'name': name,
-      // 'category_id': categoryId,
       'description': description,
       'createdAt': createdAt,
       'updatedAt': updatedAt,

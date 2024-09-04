@@ -71,16 +71,17 @@ class _CustomHorizontalProductItemState
       decoration: BoxDecoration(
         color: widget.backgroundColor,
         border: Border.all(
-          color: Colors.grey,
+          color: (widget.borderWidth == 0) ? Colors.grey : Colors.white,
           width: widget.borderWidth,
         ),
         borderRadius: BorderRadius.circular(widget.borderRadius),
         boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
+          if (widget.borderWidth != 0)
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              blurRadius: 10,
+              offset: const Offset(0, 5),
+            ),
         ],
       ),
       child: Column(
@@ -129,7 +130,11 @@ class _CustomHorizontalProductItemState
                       Text(
                         productModel.description,
                         textAlign: TextAlign.start,
-                        style: TextStyles.aDLaMDisplayBlackBold20,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
                         overflow: TextOverflow.ellipsis,
                         maxLines: 4,
                       ),
@@ -138,7 +143,7 @@ class _CustomHorizontalProductItemState
                         "EGP ${productModel.price}",
                         textAlign: TextAlign.center,
                         style: const TextStyle(
-                          color: Colors.black,
+                          color: ThemeColors.mainLabelsColor,
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),

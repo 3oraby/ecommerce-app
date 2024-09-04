@@ -11,11 +11,14 @@ class CartCubit extends Cubit<CartState> {
   final CartRepository cartRepository;
   List<CartItemModel> _cartItems = [];
   String _cartPrice = "";
+  int _totalItemsQuantity = 0;
+
   CartCubit({required this.cartRepository}) : super(CartInitialState());
 
   List<CartItemModel> get getCartItems => _cartItems;
   String get getCartPrice => _cartPrice;
-  
+  int get getTotalItemsQuantity => _totalItemsQuantity;
+
   int calculateTotalQuantity(List<CartItemModel> cartItems) {
     return cartItems.fold<int>(0, (sum, item) => sum + item.quantity);
   }
@@ -122,14 +125,14 @@ class CartCubit extends Cubit<CartState> {
       final String price = await cartRepository.showCartPrice();
 
       if (cart.status) {
-        int totalQuantity = calculateTotalQuantity(cart.cartItems!);
+        _totalItemsQuantity = calculateTotalQuantity(cart.cartItems!);
         _cartItems = cart.cartItems!;
         _cartPrice = price;
         emit(
           CartAndPriceLoadedState(
             cart: cart,
             price: price,
-            totalQuantity: totalQuantity,
+            totalQuantity: _totalItemsQuantity,
           ),
         );
       } else {
