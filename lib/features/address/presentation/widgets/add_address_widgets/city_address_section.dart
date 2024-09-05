@@ -61,7 +61,7 @@ class _CityAddressSectionState extends State<CityAddressSection> {
         );
         widget.ordersAddressModel.addressId = selectedAddress.id;
         BlocProvider.of<UserCubit>(context).updateUser(
-          userId: BlocProvider.of<UserCubit>(context).getUserModel.id!,
+          userId: BlocProvider.of<UserCubit>(context).getUserModel!.id!,
           jsonData: {
             "address_id": selectedAddress.id,
           },
