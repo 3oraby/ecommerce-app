@@ -14,13 +14,14 @@ class ProductRepositoryImpl implements ProductRepository {
   });
 
   @override
-  Future<GetHomeDetailsResponseModel> getHomeData() async{
+  Future<GetHomeDetailsResponseModel> getHomeData() async {
     return await getHomeDetailsService.getHomeData();
   }
 
   @override
   Future<GetProductsCategoryResponseModel> getProductsByCategory(
       {required int categoryId}) async {
-    return await getProductsByCategory(categoryId: categoryId);
+    return await getProductByCategoryService.getProductsByCategory(
+        categoryId: categoryId);
   }
 }

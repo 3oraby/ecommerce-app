@@ -29,3 +29,15 @@ final class GetCategoriesErrorState extends ProductCatalogState {
   final String message;
   GetCategoriesErrorState({required this.message});
 }
+
+final class GetProductsByCategoryLoadingState extends ProductCatalogState {}
+
+final class GetProductsByCategoryLoadedState extends ProductCatalogState {
+  final List<ProductModel> products;
+  GetProductsByCategoryLoadedState({required this.products});
+}
+
+final class GetProductsByCategoryErrorState extends ProductCatalogState {
+  final String message;
+  GetProductsByCategoryErrorState({required this.message});
+}

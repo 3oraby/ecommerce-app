@@ -1,7 +1,9 @@
 import 'package:e_commerce_app/core/models/category_model.dart';
+import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/features/home/data/models/get_categories_response_model.dart';
 import 'package:e_commerce_app/features/home/data/repositories/category_repository.dart';
 import 'package:e_commerce_app/features/products/data/models/get_home_details_model.dart';
+import 'package:e_commerce_app/features/products/data/models/get_products_response_model.dart';
 import 'package:e_commerce_app/features/products/data/repositories/product_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -47,6 +49,23 @@ class ProductCatalogCubit extends Cubit<ProductCatalogState> {
       }
     } catch (e) {
       emit(GetHomeDataErrorState(message: e.toString()));
+    }
+  }
+
+  Future<void> getProductsByCategory({required int categoryId}) async {
+    emit(GetProductsByCategoryLoadingState());
+    try {
+      GetProductsCategoryResponseModel getProductsCategoryResponseModel =
+          await productRepository.getProductsByCategory(categoryId: categoryId);
+      if (getProductsCategoryResponseModel.status) {
+        emit(GetProductsByCategoryLoadedState(
+            products: getProductsCategoryResponseModel.products!));
+      } else {
+        emit(GetProductsByCategoryErrorState(
+            message: getProductsCategoryResponseModel.message!));
+      }
+    } catch (e) {
+      emit(GetProductsByCategoryErrorState(message: e.toString()));
     }
   }
 }
