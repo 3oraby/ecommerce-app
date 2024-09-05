@@ -1,3 +1,4 @@
+
 import 'package:e_commerce_app/core/models/user_model.dart';
 import 'package:e_commerce_app/features/user/data/models/get_user_response_model.dart';
 import 'package:e_commerce_app/features/user/data/repositories/user_repository.dart';
@@ -7,31 +8,29 @@ part 'user_state.dart';
 
 class UserCubit extends Cubit<UserState> {
   final UserRepository userRepository;
-  late UserModel userModel;
+  UserModel? userModel;
   UserCubit({
     required this.userRepository,
   }) : super(UserInitial());
 
-  UserModel get getUserModel => userModel;
+  void setUserModel (UserModel user){
+    userModel = user;
+  }
+  
+  UserModel? get getUserModel => userModel;
 
-  Future<void> getUser() async {
-    emit(GetUserLoadingState());
+  Future<UserModel> getUser() async {
     try {
       final GetUserResponseModel getUserResponseModel =
           await userRepository.getUser();
       if (getUserResponseModel.status) {
         userModel = getUserResponseModel.user!;
-        emit(GetUserLoadedState(
-          getUserResponseModel: getUserResponseModel,
-        ));
+        return userModel!;
       } else {
-        emit(GetUserErrorState(
-            message: 'Failed to get user: ${getUserResponseModel.message}'));
+        throw Exception("Failed to get user");
       }
     } catch (e) {
-      emit(GetUserErrorState(
-        message: 'Failed to get user: $e',
-      ));
+      throw Exception(e.toString());
     }
   }
 
@@ -46,6 +45,7 @@ class UserCubit extends Cubit<UserState> {
         jsonData: jsonData,
       );
       if (isUpdated) {
+        userModel = await getUser();
         emit(UpdateUserLoadedState());
       } else {
         emit(UpdateUserErrorState(
