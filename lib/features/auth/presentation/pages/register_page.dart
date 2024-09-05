@@ -16,7 +16,9 @@ import 'package:e_commerce_app/features/auth/presentation/widgets/auth_switch_wi
 import 'package:e_commerce_app/features/auth/presentation/widgets/registration_step_form_field.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
+import 'package:e_commerce_app/features/user/presentation/cubit/user_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
@@ -107,6 +109,9 @@ class _RegisterPageState extends State<RegisterPage> {
           if (verifyEmailResponseModel.status) {
             final String accessToken = verifyEmailResponseModel.accessToken!;
             SharedPreferencesSingleton.setString("accessToken", accessToken);
+
+            BlocProvider.of<UserCubit>(context)
+                .setUserModel(verifyEmailResponseModel.user!);
 
             customShowModalBottomSheet(
               context: context,
