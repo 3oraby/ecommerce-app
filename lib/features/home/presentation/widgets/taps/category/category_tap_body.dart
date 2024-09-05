@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/features/home/presentation/widgets/taps/category/category_tap_loaded_body.dart';
 import 'package:e_commerce_app/features/products/presentation/cubit/product_catalog_cubit.dart';
+import 'package:e_commerce_app/features/products/presentation/pages/show_products_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,10 +16,11 @@ class _CategoryTapBodyState extends State<CategoryTapBody> {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<ProductCatalogCubit>(context).getCategories();
+    final productCatalogCubit = BlocProvider.of<ProductCatalogCubit>(context);
+    productCatalogCubit.getCategories();
 
     return BlocBuilder<ProductCatalogCubit, ProductCatalogState>(
-    builder: (context, state) {
+      builder: (context, state) {
         if (state is GetCategoriesLoadingState) {
           return const Center(
             child: CircularProgressIndicator(),
@@ -28,7 +30,19 @@ class _CategoryTapBodyState extends State<CategoryTapBody> {
             child: Text(state.message),
           );
         } else if (state is GetCategoriesLoadedState) {
-          return CategoryTapLoadedBody(categories: state.categories);
+          return CategoryTapLoadedBody(
+            categories: state.categories,
+            onCategoryTap: (index) async {
+              final isRefresh = await Navigator.pushNamed(
+                context,
+                ShowProductsPage.id,
+                arguments: state.categories[index].id,
+              );
+              if (isRefresh is bool && isRefresh) {
+                productCatalogCubit.getCategories();
+              }
+            },
+          );
         } else {
           return const Center(
             child: Text("can not fetch categories"),

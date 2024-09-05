@@ -26,6 +26,12 @@ class _ShowProductsPageState extends State<ShowProductsPage> {
       appBar: AppBar(
         backgroundColor: ThemeColors.backgroundBodiesColor,
         surfaceTintColor: Colors.transparent,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context, true);
+          },
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
         title: const CustomTextFormFieldWidget(
           labelText: "Search for a product",
           borderWidth: 0,

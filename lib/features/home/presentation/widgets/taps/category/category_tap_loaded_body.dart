@@ -5,7 +5,6 @@ import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_rounded_image_container.dart';
 import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
-import 'package:e_commerce_app/features/products/presentation/pages/show_products_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -13,9 +12,11 @@ class CategoryTapLoadedBody extends StatelessWidget {
   const CategoryTapLoadedBody({
     super.key,
     required this.categories,
+    required this.onCategoryTap,
   });
 
   final List<CategoryModel> categories;
+  final void Function(int index) onCategoryTap; 
 
   @override
   Widget build(BuildContext context) {
@@ -26,13 +27,7 @@ class CategoryTapLoadedBody extends StatelessWidget {
         itemCount: categories.length,
         separatorBuilder: (context, index) => const VerticalGap(36),
         itemBuilder: (context, index) => GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(
-              context,
-              ShowProductsPage.id,
-              arguments: categories[index].id,
-            );
-          },
+          onTap: () => onCategoryTap(index),
           child: Container(
             decoration: BoxDecoration(
               color: ThemeColors.backgroundBodiesColor,
