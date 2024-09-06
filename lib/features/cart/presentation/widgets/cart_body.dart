@@ -1,7 +1,8 @@
-
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_state.dart';
 import 'package:e_commerce_app/features/cart/presentation/widgets/cart_body_widgets/cart_body_loaded.dart';
+import 'package:e_commerce_app/features/products/presentation/cubit/product_catalog_cubit.dart';
+import 'package:e_commerce_app/features/products/presentation/pages/show_product_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,7 +11,10 @@ class CartBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<CartCubit>().showCartAndPrice();
+    final ProductCatalogCubit productCatalogCubit =
+        BlocProvider.of<ProductCatalogCubit>(context);
+    final CartCubit cartCubit = BlocProvider.of<CartCubit>(context);
+    cartCubit.showCartAndPrice();
 
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, state) {
@@ -27,6 +31,18 @@ class CartBody extends StatelessWidget {
             showCartResponseModel: state.cart,
             cartPrice: state.price,
             totalQuantity: state.totalQuantity,
+            onProductTap: (selectedProductIndex) async {
+              productCatalogCubit.setSelectedProduct(
+                  state.cart.cartItems![selectedProductIndex].product);
+
+              final isRefresh = await Navigator.pushNamed(
+                context,
+                ShowProductDetailsPage.id,
+              );
+              if (isRefresh is bool && isRefresh) {
+                cartCubit.showCartAndPrice();
+              }
+            },
           );
         } else if (state is EmptyCartState) {
           return const Center(

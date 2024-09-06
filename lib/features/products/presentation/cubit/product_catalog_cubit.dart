@@ -17,6 +17,13 @@ class ProductCatalogCubit extends Cubit<ProductCatalogState> {
 
   final ProductRepository productRepository;
   final CategoryRepository categoryRepository;
+  ProductModel? _selectedProduct;
+
+  void setSelectedProduct(ProductModel product) {
+    _selectedProduct = product;
+  }
+
+  ProductModel? get getSelectedProduct => _selectedProduct;
 
   Future<void> getCategories() async {
     emit(GetCategoriesLoadingState());

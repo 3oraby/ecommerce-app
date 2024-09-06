@@ -2,9 +2,6 @@ import 'package:e_commerce_app/core/widgets/custom_horizontal_product_item.dart'
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/cart/data/models/show_cart_response_model.dart';
 import 'package:e_commerce_app/features/cart/presentation/widgets/checkout_action_button.dart';
-import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
-import 'package:e_commerce_app/features/products/data/models/show_product_details_arguments_model.dart';
-import 'package:e_commerce_app/features/products/presentation/pages/show_product_details_page.dart';
 import 'package:flutter/widgets.dart';
 
 class CartBodyLoaded extends StatelessWidget {
@@ -13,11 +10,14 @@ class CartBodyLoaded extends StatelessWidget {
     required this.showCartResponseModel,
     required this.cartPrice,
     required this.totalQuantity,
+    required this.onProductTap,
   });
 
   final ShowCartResponseModel showCartResponseModel;
   final String cartPrice;
   final int totalQuantity;
+  final void Function(int selectedProductIndex) onProductTap;
+
 
   @override
   Widget build(BuildContext context) {
@@ -33,17 +33,7 @@ class CartBodyLoaded extends StatelessWidget {
               itemCount: showCartResponseModel.cartItems!.length,
               separatorBuilder: (context, index) => const VerticalGap(36),
               itemBuilder: (context, index) => GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    ShowProductDetailsPage.id,
-                    arguments: ShowProductDetailsArgumentsModel(
-                      lastPageId: HomePage.id,
-                      productModel:
-                          showCartResponseModel.cartItems![index].product,
-                    ),
-                  );
-                },
+                onTap: () => onProductTap(index),
                 child: CustomHorizontalProductItem(
                   cartItemModel: showCartResponseModel.cartItems![index],
                 ),

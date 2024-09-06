@@ -1,9 +1,9 @@
 import 'package:e_commerce_app/features/favorites/data/models/get_favorites_response_model.dart';
-import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
 import 'package:e_commerce_app/features/home/presentation/widgets/custom_main_product_card.dart';
-import 'package:e_commerce_app/features/products/data/models/show_product_details_arguments_model.dart';
+import 'package:e_commerce_app/features/products/presentation/cubit/product_catalog_cubit.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_product_details_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FavoritesLoadedBody extends StatelessWidget {
   const FavoritesLoadedBody({
@@ -33,13 +33,12 @@ class FavoritesLoadedBody extends StatelessWidget {
             offset: Offset(0, index.isOdd ? 36 : 0),
             child: GestureDetector(
               onTap: () {
+                final ProductCatalogCubit productCatalogCubit =
+                    BlocProvider.of<ProductCatalogCubit>(context);
+                productCatalogCubit.setSelectedProduct(product);
                 Navigator.pushNamed(
                   context,
                   ShowProductDetailsPage.id,
-                  arguments: ShowProductDetailsArgumentsModel(
-                    lastPageId: HomePage.id,
-                    productModel: product,
-                  ),
                 );
               },
               child: CustomMainProductCard(

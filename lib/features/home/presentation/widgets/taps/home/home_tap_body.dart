@@ -1,8 +1,8 @@
 import 'package:e_commerce_app/features/home/presentation/widgets/taps/home/home_tap_loaded_body.dart';
 import 'package:e_commerce_app/features/products/presentation/cubit/product_catalog_cubit.dart';
+import 'package:e_commerce_app/features/products/presentation/pages/show_products_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 class HomeTapBody extends StatefulWidget {
   const HomeTapBody({super.key});
 
@@ -12,13 +12,17 @@ class HomeTapBody extends StatefulWidget {
 
 class _HomeTapBodyState extends State<HomeTapBody> {
   final PageController pageController = PageController();
+  late ProductCatalogCubit productCatalogCubit;
 
   @override
-  void initState() {
-    super.initState();
-    BlocProvider.of<ProductCatalogCubit>(context).getHomeData();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Initialize the cubit after dependencies are ready
+    productCatalogCubit = BlocProvider.of<ProductCatalogCubit>(context);
+    productCatalogCubit.getHomeData();
   }
 
+  
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProductCatalogCubit, ProductCatalogState>(
@@ -39,15 +43,31 @@ class _HomeTapBodyState extends State<HomeTapBody> {
           return HomeTapLoadedBody(
             pageController: pageController,
             homeDetailsResponseModel: state.getHomeDetailsResponseModel,
+            onShowAllTap: (categoryId) async {
+              final isRefresh = await Navigator.pushNamed(
+                context,
+                ShowProductsPage.id,
+                arguments: categoryId,
+              );
+              if (isRefresh is bool && isRefresh) {
+                productCatalogCubit.getHomeData();
+              }
+            },
           );
         } else {
           return const Scaffold(
             body: Center(
-              child: Text("can not get the user from back-end"),
+              child: Text("Can not get the user from back-end"),
             ),
           );
         }
       },
     );
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
   }
 }

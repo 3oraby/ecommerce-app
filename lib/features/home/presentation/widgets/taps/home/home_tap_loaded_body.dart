@@ -1,4 +1,3 @@
-
 import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
@@ -6,13 +5,13 @@ import 'package:e_commerce_app/core/widgets/custom_rounded_image_container.dart'
 import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/home/constants/home_page_constants.dart';
-import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
 import 'package:e_commerce_app/features/home/presentation/widgets/custom_main_product_card.dart';
 import 'package:e_commerce_app/features/products/data/models/get_home_details_model.dart';
-import 'package:e_commerce_app/features/products/data/models/show_product_details_arguments_model.dart';
+
+import 'package:e_commerce_app/features/products/presentation/cubit/product_catalog_cubit.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_product_details_page.dart';
-import 'package:e_commerce_app/features/products/presentation/pages/show_products_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -21,10 +20,12 @@ class HomeTapLoadedBody extends StatelessWidget {
     super.key,
     required this.pageController,
     required this.homeDetailsResponseModel,
+    required this.onShowAllTap,
   });
 
   final PageController pageController;
   final GetHomeDetailsResponseModel homeDetailsResponseModel;
+  final void Function(int categoryId) onShowAllTap;
 
   @override
   Widget build(BuildContext context) {
@@ -75,13 +76,7 @@ class HomeTapLoadedBody extends StatelessWidget {
                           ),
                         ),
                         TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                              context,
-                              ShowProductsPage.id,
-                              arguments: categoryId,
-                            );
-                          },
+                          onPressed: () => onShowAllTap(categoryId),
                           child: const Text(
                             "show all",
                             style: TextStyle(
@@ -104,14 +99,14 @@ class HomeTapLoadedBody extends StatelessWidget {
                           width: 220,
                           child: GestureDetector(
                             onTap: () {
+                              final ProductCatalogCubit productCatalogCubit =
+                                  BlocProvider.of<ProductCatalogCubit>(context);
+                              productCatalogCubit
+                                  .setSelectedProduct(products[productIndex]);
                               HomePageNavigationService.navigateToHome();
                               Navigator.pushNamed(
                                 context,
                                 ShowProductDetailsPage.id,
-                                arguments: ShowProductDetailsArgumentsModel(
-                                  lastPageId: HomePage.id,
-                                  productModel: products[productIndex],
-                                ),
                               );
                             },
                             child: CustomMainProductCard(

@@ -4,30 +4,40 @@ import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_state.dart';
 import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
-import 'package:e_commerce_app/features/products/data/models/show_product_details_arguments_model.dart';
+import 'package:e_commerce_app/features/products/presentation/cubit/product_catalog_cubit.dart';
 import 'package:e_commerce_app/features/products/presentation/widgets/show_product_details_widgets/show_products_details_loaded_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ShowProductDetailsPage extends StatelessWidget {
+class ShowProductDetailsPage extends StatefulWidget {
   const ShowProductDetailsPage({super.key});
   static const id = "showProductDetailsPage";
 
   @override
+  State<ShowProductDetailsPage> createState() => _ShowProductDetailsPageState();
+}
+
+class _ShowProductDetailsPageState extends State<ShowProductDetailsPage> {
+  late ProductModel productModel;
+  @override
+  void initState() {
+    super.initState();
+    final ProductCatalogCubit productCatalogCubit =
+        BlocProvider.of<ProductCatalogCubit>(context);
+    productModel = productCatalogCubit.getSelectedProduct!;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    ShowProductDetailsArgumentsModel showProductDetailsArgumentsModel =
-        ModalRoute.of(context)!.settings.arguments
-            as ShowProductDetailsArgumentsModel;
+    final CartCubit cartCubit = BlocProvider.of<CartCubit>(context);
 
-    ProductModel productModel = showProductDetailsArgumentsModel.productModel;
-    String lastPageId = showProductDetailsArgumentsModel.lastPageId;
-
-    BlocProvider.of<CartCubit>(context).checkProductInCart(productModel.id);
+    cartCubit.checkProductInCart(productModel.id);
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
         centerTitle: true,
         title: const Text(
           "product Details",
@@ -38,11 +48,7 @@ class ShowProductDetailsPage extends StatelessWidget {
         ),
         leading: IconButton(
           onPressed: () {
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              lastPageId,
-              (Route<dynamic> route) => false,
-            );
+            Navigator.pop(context, true);
           },
           icon: const Icon(
             Icons.arrow_back_ios,
@@ -70,10 +76,9 @@ class ShowProductDetailsPage extends StatelessWidget {
         builder: (context, state) {
           if (state is CartErrorState) {
             return Center(
-              child: Container(
-                color: Colors.red,
-              ),
-            );
+                child: Text(
+              state.message,
+            ));
           } else if (state is CheckProductInCartLoadedState) {
             return ShowProductsDetailsLoadedBody(
               productModel: productModel,

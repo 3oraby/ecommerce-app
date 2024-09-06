@@ -1,11 +1,10 @@
-
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/features/home/presentation/widgets/custom_main_product_card.dart';
-import 'package:e_commerce_app/features/products/data/models/show_product_details_arguments_model.dart';
+import 'package:e_commerce_app/features/products/presentation/cubit/product_catalog_cubit.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_product_details_page.dart';
-import 'package:e_commerce_app/features/products/presentation/pages/show_products_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ShowProductsLoadedBody extends StatelessWidget {
   const ShowProductsLoadedBody({
@@ -35,13 +34,11 @@ class ShowProductsLoadedBody extends StatelessWidget {
               0, index.isOdd ? 36 : 0), // shift the right products to bottom
           child: GestureDetector(
             onTap: () {
+              BlocProvider.of<ProductCatalogCubit>(context)
+                  .setSelectedProduct(products[index]);
               Navigator.pushNamed(
                 context,
                 ShowProductDetailsPage.id,
-                arguments: ShowProductDetailsArgumentsModel(
-                  lastPageId: ShowProductsPage.id,
-                  productModel: products[index],
-                ),
               );
             },
             child: CustomMainProductCard(
