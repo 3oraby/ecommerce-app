@@ -34,12 +34,14 @@ class _ProductCartInteractionState extends State<ProductCartInteraction> {
   Future<void> addProductToCart(
       BuildContext context, int productId, int quantity) async {
     try {
-      await BlocProvider.of<CartCubit>(context).updateCartItemInProductDetails(
+      final CartCubit cartCubit = BlocProvider.of<CartCubit>(context);
+      await cartCubit.updateCartItemInProductDetails(
         productId: productId,
         quantity: quantity + (widget.productQuantityInCart ?? 0),
       );
-      String cartPrice =
-          await BlocProvider.of<CartCubit>(context).loadCartPrice();
+      String cartPrice = await cartCubit.loadCartPrice();
+      cartCubit.refreshPage();
+
       showCartSuccessModal(
         context: context,
         productModel: widget.productModel,

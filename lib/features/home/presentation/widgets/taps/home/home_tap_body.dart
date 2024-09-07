@@ -3,6 +3,7 @@ import 'package:e_commerce_app/features/products/presentation/cubit/product_cata
 import 'package:e_commerce_app/features/products/presentation/pages/show_products_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 class HomeTapBody extends StatefulWidget {
   const HomeTapBody({super.key});
 
@@ -22,7 +23,6 @@ class _HomeTapBodyState extends State<HomeTapBody> {
     productCatalogCubit.getHomeData();
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProductCatalogCubit, ProductCatalogState>(
@@ -57,7 +57,7 @@ class _HomeTapBodyState extends State<HomeTapBody> {
         } else {
           return const Scaffold(
             body: Center(
-              child: Text("Can not get the user from back-end"),
+              child: CircularProgressIndicator(),
             ),
           );
         }

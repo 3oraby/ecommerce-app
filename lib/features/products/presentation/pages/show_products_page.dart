@@ -61,7 +61,8 @@ class _ShowProductsPageState extends State<ShowProductsPage> {
             );
           } else if (state is GetProductsByCategoryLoadedState) {
             return ShowProductsLoadedBody(products: state.products);
-          } else {
+          } 
+          else {
             return const Center(
               child: Text("can not get all products"),
             );

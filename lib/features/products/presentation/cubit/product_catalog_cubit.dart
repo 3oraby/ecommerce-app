@@ -25,6 +25,10 @@ class ProductCatalogCubit extends Cubit<ProductCatalogState> {
 
   ProductModel? get getSelectedProduct => _selectedProduct;
 
+  void refreshPage(){
+    emit(ProductPageRefreshState());
+  }
+
   Future<void> getCategories() async {
     emit(GetCategoriesLoadingState());
     try {

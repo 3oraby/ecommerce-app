@@ -7,6 +7,8 @@ abstract class CartState {
 // Initial state
 class CartInitialState extends CartState {}
 
+class CartRefreshPageState extends CartState {}
+
 // General Loading State (if needed)
 class CartLoadingState extends CartState {}
 
@@ -68,7 +70,7 @@ class CartPriceLoadedState extends CartState {
 
 class CheckProductInCartLoadedState extends CartState {
   final bool inCart;
-  final int ?productQuantityInCart;
+  final int? productQuantityInCart;
   const CheckProductInCartLoadedState({
     required this.inCart,
     this.productQuantityInCart,

@@ -89,6 +89,9 @@ class _ShowProductDetailsPageState extends State<ShowProductDetailsPage> {
             return const Center(
               child: CircularProgressIndicator(),
             );
+          } else if (state is CartRefreshPageState) {
+            cartCubit.checkProductInCart(productModel.id);
+            return const Center(child: Text("in refresh state"),);
           } else {
             return Container();
           }

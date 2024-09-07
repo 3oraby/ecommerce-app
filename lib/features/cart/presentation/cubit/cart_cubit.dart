@@ -56,7 +56,10 @@ class CartCubit extends Cubit<CartState> {
   //     emit(AddToCartErrorState(message: 'Failed to add item to cart: $e'));
   //   }
   // }
-
+  void refreshPage(){
+    emit(CartRefreshPageState());
+  }
+  
   Future<void> deleteItemFromCart(int cartItemId) async {
     emit(DeleteFromCartLoadingState());
     try {
