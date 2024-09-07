@@ -1,4 +1,7 @@
+
 import 'package:e_commerce_app/features/orders/data/models/checkout_response_model.dart';
+import 'package:e_commerce_app/features/orders/data/models/get_all_orders_response_model.dart';
+import 'package:e_commerce_app/features/orders/data/models/order_model.dart';
 import 'package:e_commerce_app/features/orders/data/repositories/order_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,6 +43,23 @@ class OrderCubit extends Cubit<OrderState> {
       }
     } catch (error) {
       throw Exception('Failed to confirm order');
+    }
+  }
+
+  Future<void> getAllOrders(int userId) async {
+    emit(GetAllOrdersLoadingState());
+    try {
+      GetAllOrdersResponseModel getAllOrdersResponseModel =
+          await orderRepository.getAllOrdersData(userId);
+      if (getAllOrdersResponseModel.status) {
+        emit(GetAllOrdersLoadedState(
+            userOrders: getAllOrdersResponseModel.userOrders!));
+      } else {
+        emit(GetAllOrdersErrorState(
+            message: getAllOrdersResponseModel.message!));
+      }
+    } catch (e) {
+      emit(GetAllOrdersErrorState(message: e.toString()));
     }
   }
 }

@@ -27,7 +27,6 @@ class Api {
           headers: headers,
         ),
       );
-      log(response.data.toString());
       return response;
     } on DioException catch (e) {
       if (e.response != null) {

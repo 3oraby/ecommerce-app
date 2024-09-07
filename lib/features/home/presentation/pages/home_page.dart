@@ -47,6 +47,7 @@ class _HomePageState extends State<HomePage> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        backgroundColor: ThemeColors.backgroundBodiesColor,
         appBar: AppPageManager(userModel: userModel)
             .getAppBar(HomePage.currentIndexNotifier.value, context),
         bottomNavigationBar: BottomNavigationBar(

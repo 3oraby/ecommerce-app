@@ -1,27 +1,35 @@
+
+
 import 'package:e_commerce_app/core/models/error_model.dart';
 import 'package:e_commerce_app/features/orders/data/models/order_model.dart';
 
-class GetOrderResponseModel {
+class GetAllOrdersResponseModel {
   final bool status;
-  final OrderModel? orderModel;
+  final List<OrderModel>? userOrders;
   final ErrorModel? error;
   final String? message;
 
-  GetOrderResponseModel({
+  GetAllOrdersResponseModel({
     required this.status,
-    this.orderModel,
+    this.userOrders,
     this.error,
     this.message,
   });
 
-  factory GetOrderResponseModel.fromJson({required Map<String, dynamic> json}) {
+  factory GetAllOrdersResponseModel.fromJson(
+      {required Map<String, dynamic> json}) {
     if (json["status"] == "success") {
-      return GetOrderResponseModel(
+      List orders = json["data"];
+      return GetAllOrdersResponseModel(
         status: true,
-        orderModel: OrderModel.fromJson(json["data"]),
+        userOrders: orders
+            .map(
+              (jsonOrder) => OrderModel.fromJson(jsonOrder),
+            )
+            .toList(),
       );
     } else {
-      return GetOrderResponseModel(
+      return GetAllOrdersResponseModel(
         status: false,
         error: ErrorModel.fromJson(json["error"]),
         message: json["message"],
