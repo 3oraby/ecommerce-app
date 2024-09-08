@@ -29,6 +29,14 @@ import 'package:e_commerce_app/features/products/data/data_sources/get_home_deta
 import 'package:e_commerce_app/features/products/data/data_sources/get_product_by_category_service.dart';
 import 'package:e_commerce_app/features/products/data/repositories/product_repository_impl.dart';
 import 'package:e_commerce_app/features/products/presentation/cubit/product_catalog_cubit.dart';
+import 'package:e_commerce_app/features/reviews/data/data_sources/create_review_service.dart';
+import 'package:e_commerce_app/features/reviews/data/data_sources/delete_review_service.dart';
+import 'package:e_commerce_app/features/reviews/data/data_sources/get_product_average_rating_service.dart';
+import 'package:e_commerce_app/features/reviews/data/data_sources/get_product_reviews_service.dart';
+import 'package:e_commerce_app/features/reviews/data/data_sources/get_review_service.dart';
+import 'package:e_commerce_app/features/reviews/data/data_sources/update_review_service.dart';
+import 'package:e_commerce_app/features/reviews/data/repositories/review_repository_impl.dart';
+import 'package:e_commerce_app/features/reviews/presentation/cubit/review_cubit.dart';
 import 'package:e_commerce_app/features/user/data/data_sources/get_user_service.dart';
 import 'package:e_commerce_app/features/user/data/data_sources/update_user_service.dart';
 import 'package:e_commerce_app/features/user/data/repositories/user_repository_impl.dart';
@@ -91,6 +99,19 @@ Future<void> main() async {
               checkoutService: CheckoutService(),
               getOrderDataService: GetOrderDataService(),
               getAllOrdersService: GetAllOrdersService(),
+            ),
+          ),
+        ),
+        // review cubit
+        BlocProvider(
+          create: (context) => ReviewCubit(
+            reviewRepository: ReviewRepositoryImpl(
+              createReviewService: CreateReviewService(),
+              deleteReviewService: DeleteReviewService(),
+              getProductAverageRatingService: GetProductAverageRatingService(),
+              getProductReviewsService: GetProductReviewsService(),
+              getReviewService: GetReviewService(),
+              updateReviewService: UpdateReviewService(),
             ),
           ),
         ),
