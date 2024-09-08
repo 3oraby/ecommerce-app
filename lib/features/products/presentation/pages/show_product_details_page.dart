@@ -10,39 +10,21 @@ import 'package:e_commerce_app/features/products/presentation/widgets/show_produ
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ShowProductDetailsPage extends StatefulWidget {
+class ShowProductDetailsPage extends StatelessWidget {
   const ShowProductDetailsPage({super.key});
   static const id = "showProductDetailsPage";
 
   @override
-  State<ShowProductDetailsPage> createState() => _ShowProductDetailsPageState();
-}
-
-class _ShowProductDetailsPageState extends State<ShowProductDetailsPage> {
-  late ProductModel productModel;
-  late CartCubit cartCubit;
-  late ReviewCubit reviewCubit;
-  bool cartLoaded = false;
-  bool reviewsLoaded = false;
-
-  @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context) {
     final ProductCatalogCubit productCatalogCubit =
         BlocProvider.of<ProductCatalogCubit>(context);
-    productModel = productCatalogCubit.getSelectedProduct!;
+    final CartCubit cartCubit = BlocProvider.of<CartCubit>(context);
+    final ReviewCubit reviewCubit = BlocProvider.of<ReviewCubit>(context);
 
-    // Trigger both requests at the same time
-    cartCubit = BlocProvider.of<CartCubit>(context);
-    reviewCubit = BlocProvider.of<ReviewCubit>(context);
-
+    final ProductModel productModel = productCatalogCubit.getSelectedProduct!;
     cartCubit.checkProductInCart(productModel.id);
-    reviewCubit.getProductReviews(
-        productId: productModel.id); // Trigger reviews request
-  }
+    reviewCubit.getProductReviews(productId: productModel.id);
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -82,63 +64,37 @@ class _ShowProductDetailsPageState extends State<ShowProductDetailsPage> {
           ),
         ],
       ),
-      body: MultiBlocListener(
-        listeners: [
-          BlocListener<CartCubit, CartState>(
-            listener: (context, state) {
-              if (state is CheckProductInCartLoadedState ||
-                  state is CartErrorState) {
-                setState(() {
-                  cartLoaded = true;
-                });
+      body: BlocConsumer<CartCubit, CartState>(
+        listener: (context, cartState) {
+          if (cartState is CartRefreshPageState) {
+            cartCubit.checkProductInCart(productModel.id);
+          }
+        },
+        builder: (context, cartState) {
+          return BlocBuilder<ReviewCubit, ReviewState>(
+            builder: (context, reviewState) {
+              if (cartState is CartLoadingState ||
+                  reviewState is GetReviewsLoadingState) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (cartState is CartErrorState) {
+                return Center(child: Text(cartState.message));
+              } else if (reviewState is GetReviewsErrorState) {
+                return Center(child: Text(reviewState.message));
+              } else if (cartState is CheckProductInCartLoadedState &&
+                  reviewState is GetReviewsLoadedState) {
+                return ShowProductsDetailsLoadedBody(
+                  productModel: productModel,
+                  inCart: cartState.inCart,
+                  productQuantityInCart: cartState.productQuantityInCart,
+                  productReviews: reviewState.productReviews,
+                  averageRating: reviewState.averageRating,
+                );
+              } else {
+                return Container();
               }
             },
-          ),
-          BlocListener<ReviewCubit, ReviewState>(
-            listener: (context, state) {
-              if (state is GetReviewsLoadedState ||
-                  state is GetReviewsErrorState) {
-                setState(() {
-                  reviewsLoaded = true;
-                });
-              }
-            },
-          ),
-        ],
-        child: BlocBuilder<CartCubit, CartState>(
-          builder: (context, cartState) {
-            return BlocBuilder<ReviewCubit, ReviewState>(
-              builder: (context, reviewState) {
-                // Show loading if either cart or reviews data is still being fetched
-                if (!cartLoaded || !reviewsLoaded) {
-                  return const Center(child: CircularProgressIndicator());
-                } else if (cartState is CartErrorState) {
-                  return Center(child: Text(cartState.message));
-                } else if (reviewState is GetReviewsErrorState) {
-                  return Center(child: Text(reviewState.message));
-                } else if (cartState is CartRefreshPageState) {
-                  cartCubit.checkProductInCart(productModel.id);
-                  cartLoaded = false;
-                  return const Center(
-                    child: Text("in refresh state"),
-                  );
-                } else if (cartState is CheckProductInCartLoadedState &&
-                    reviewState is GetReviewsLoadedState) {
-                  // Both data sets (cart and reviews) are loaded
-                  return ShowProductsDetailsLoadedBody(
-                    productModel: productModel,
-                    inCart: cartState.inCart,
-                    productQuantityInCart: cartState.productQuantityInCart,
-                    productReviews:
-                        reviewState.productReviews, // Pass the loaded reviews
-                  );
-                } else {
-                  return Container(); // Fallback case
-                }
-              },
-            );
-          },
-        ),
+          );
+        },
       ),
     );
   }

@@ -9,6 +9,7 @@ import 'package:e_commerce_app/features/onboarding/presentation/pages/onboarding
 import 'package:e_commerce_app/features/orders/presentation/pages/order_confirmed_page.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_product_details_page.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_products_page.dart';
+import 'package:e_commerce_app/features/reviews/presentation/pages/show_all_reviews_page.dart';
 import 'package:e_commerce_app/features/user/presentation/pages/user_profile_page.dart';
 import 'package:flutter/material.dart';
 
@@ -36,6 +37,7 @@ class ECommerceApp extends StatelessWidget {
         AddAddressPage.id: (context) => const AddAddressPage(),
         ChooseAddressPage.id: (context) => const ChooseAddressPage(),
         OrderConfirmedPage.id: (context) => const OrderConfirmedPage(),
+        ShowAllReviewsPage.id:(context) => const ShowAllReviewsPage(),
       },
       initialRoute: isFirstTime ? OnboardingPage.id : EntryPage.id,
     );

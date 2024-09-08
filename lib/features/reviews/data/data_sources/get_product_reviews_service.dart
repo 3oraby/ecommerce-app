@@ -14,8 +14,7 @@ class GetProductReviewsService {
       );
       return GetProductReviewsResponseModel.fromJson(response.data);
     } catch (e) {
-      throw Exception(
-          "there was an error in the server now ,please try again later");
+      throw Exception(e);
     }
   }
 }

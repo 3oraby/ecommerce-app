@@ -1,12 +1,16 @@
 import 'package:e_commerce_app/constants/api_constants.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
+import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
+import 'package:e_commerce_app/core/widgets/show_all_reviews_widget.dart';
+import 'package:e_commerce_app/core/widgets/show_product_average_rating.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/products/presentation/widgets/show_product_details_widgets/product_cart_interaction.dart';
 import 'package:e_commerce_app/features/products/presentation/widgets/show_product_details_widgets/product_title_section.dart';
 import 'package:e_commerce_app/features/products/presentation/widgets/show_product_details_widgets/show_in_cart_label.dart';
 import 'package:e_commerce_app/features/reviews/data/models/product_review_model.dart';
+import 'package:e_commerce_app/features/reviews/presentation/pages/show_all_reviews_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -17,12 +21,14 @@ class ShowProductsDetailsLoadedBody extends StatelessWidget {
     required this.inCart,
     required this.productQuantityInCart,
     required this.productReviews,
+    required this.averageRating,
   });
 
   final ProductModel productModel;
   final bool inCart;
   final int? productQuantityInCart;
   final List<ProductReviewModel> productReviews;
+  final String averageRating;
 
   @override
   Widget build(BuildContext context) {
@@ -43,28 +49,9 @@ class ShowProductsDetailsLoadedBody extends StatelessWidget {
                   ShowInCartLabel(
                     inCart: inCart,
                   ),
-                  Visibility(
-                    visible: inCart,
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            color: Colors.grey,
-                            borderRadius: BorderRadius.circular(360),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "x $productQuantityInCart",
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                  ShowProductQuantityInCart(
+                    inCart: inCart,
+                    productQuantityInCart: productQuantityInCart,
                   ),
                   const VerticalGap(16),
                   // description section
@@ -121,21 +108,42 @@ class ShowProductsDetailsLoadedBody extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const Text("Reviews:",
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: productReviews.length,
-                    itemBuilder: (context, index) {
-                      final review = productReviews[index];
-                      return ListTile(
-                        title: Text(review.description),
-                        subtitle: Text("Rating: ${review.rate}"),
-                      );
-                    },
+                  const VerticalGap(48),
+                  ShowAverageRating(
+                    averageRating: averageRating,
+                    enablePadding: false,
                   ),
+                  const VerticalGap(24),
+                  const Divider(),
+                  const VerticalGap(24),
+                  ShowAllReviews(
+                    productReviews: productReviews,
+                    showTotalReviews: false,
+                    enablePadding: false,
+                  ),
+                  Visibility(
+                    visible: productReviews.length > 3,
+                    child: Column(
+                      children: [
+                        const Divider(
+                          height: 36,
+                        ),
+                        CustomTriggerButton(
+                          backgroundColor: Colors.white,
+                          borderColor: ThemeColors.primaryColor,
+                          borderWidth: 2,
+                          description: "VIEW MORE",
+                          descriptionSize: 20,
+                          descriptionColor: ThemeColors.primaryColor,
+                          buttonHeight: 50,
+                          onPressed: () {
+                            Navigator.pushNamed(context, ShowAllReviewsPage.id);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  const VerticalGap(48),
                 ],
               ),
             ),
@@ -143,6 +151,44 @@ class ShowProductsDetailsLoadedBody extends StatelessWidget {
           ProductCartInteraction(
             productModel: productModel,
             productQuantityInCart: productQuantityInCart,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ShowProductQuantityInCart extends StatelessWidget {
+  const ShowProductQuantityInCart({
+    super.key,
+    required this.inCart,
+    required this.productQuantityInCart,
+  });
+
+  final bool inCart;
+  final int? productQuantityInCart;
+
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: inCart,
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: Colors.grey,
+              borderRadius: BorderRadius.circular(360),
+            ),
+            child: Center(
+              child: Text(
+                "x $productQuantityInCart",
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+              ),
+            ),
           ),
         ],
       ),

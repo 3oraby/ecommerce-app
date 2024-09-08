@@ -10,10 +10,10 @@ class GetProductAverageRatingService {
     try {
       Response response = await Api().get(
         url:
-            "${ApiConstants.baseUrl}${ApiConstants.getProductReviewsEndPoint(productId)}",
+            "${ApiConstants.baseUrl}${ApiConstants.getProductAverageRatingEndPoint(productId)}",
       );
       if (response.data["status"] == "success") {
-        return response.data["data"]["averageRating"];
+        return response.data["data"][0]["averageRating"];
       } else {
         throw Exception(response.data["message"]);
       }

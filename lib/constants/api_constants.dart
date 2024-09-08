@@ -47,7 +47,7 @@ class ApiConstants {
   static const String getAllOrdersEndPoint = "orders/getUserOrders/";
 
   // reviews
-  static String getAverageRatingEndPoint(int productId) {
+  static String getProductAverageRatingEndPoint(int productId) {
     return "products/$productId/review/getAverageRating";
   }
 
