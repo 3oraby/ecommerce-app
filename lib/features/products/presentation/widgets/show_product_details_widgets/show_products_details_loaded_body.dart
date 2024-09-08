@@ -6,6 +6,7 @@ import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/products/presentation/widgets/show_product_details_widgets/product_cart_interaction.dart';
 import 'package:e_commerce_app/features/products/presentation/widgets/show_product_details_widgets/product_title_section.dart';
 import 'package:e_commerce_app/features/products/presentation/widgets/show_product_details_widgets/show_in_cart_label.dart';
+import 'package:e_commerce_app/features/reviews/data/models/product_review_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -15,11 +16,13 @@ class ShowProductsDetailsLoadedBody extends StatelessWidget {
     required this.productModel,
     required this.inCart,
     required this.productQuantityInCart,
+    required this.productReviews,
   });
 
   final ProductModel productModel;
   final bool inCart;
   final int? productQuantityInCart;
+  final List<ProductReviewModel> productReviews;
 
   @override
   Widget build(BuildContext context) {
@@ -117,6 +120,21 @@ class ShowProductsDetailsLoadedBody extends StatelessWidget {
                         ),
                       ),
                     ],
+                  ),
+                  const Text("Reviews:",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: productReviews.length,
+                    itemBuilder: (context, index) {
+                      final review = productReviews[index];
+                      return ListTile(
+                        title: Text(review.description),
+                        subtitle: Text("Rating: ${review.rate}"),
+                      );
+                    },
                   ),
                 ],
               ),
