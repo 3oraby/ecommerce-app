@@ -4,7 +4,7 @@ import 'package:e_commerce_app/constants/api_constants.dart';
 import 'package:e_commerce_app/core/helpers/api.dart';
 
 class GetProductAverageRatingService {
-  Future<String> getProductAverageRating({
+  Future<String?> getProductAverageRating({
     required int productId,
   }) async {
     try {
@@ -15,7 +15,7 @@ class GetProductAverageRatingService {
       if (response.data["status"] == "success") {
         return response.data["data"][0]["averageRating"];
       } else {
-        throw Exception(response.data["message"]);
+        return null;
       }
     } catch (e) {
       throw Exception(

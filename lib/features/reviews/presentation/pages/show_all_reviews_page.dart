@@ -34,7 +34,7 @@ class ShowAllReviewsPage extends StatelessWidget {
             );
           } else if (state is GetReviewsLoadedState) {
             return ShowAllReviewsLoadedBody(
-              averageRating: state.averageRating,
+              averageRating: state.averageRating!,
               productReviews: state.productReviews,
             );
           } else {

@@ -1,6 +1,3 @@
-
-import 'dart:developer';
-
 import 'package:e_commerce_app/features/orders/data/models/order_items_model.dart';
 import 'package:e_commerce_app/features/orders/data/models/order_state_model.dart';
 
@@ -8,7 +5,7 @@ class OrderModel {
   final int id;
   final int userId;
   final int addressId;
-  final double total;
+  final int total;
   final String addressInDetails;
   final OrderStateModel orderStateModel;
   final List<OrderItemModel> orderItems;
@@ -29,12 +26,11 @@ class OrderModel {
 
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     List orderItems = json["OrderItems"];
-    log("DDDDD " + json[""].runtimeType.toString());
     return OrderModel(
       id: json['id'],
       userId: json['user_id'],
       addressId: json['address_id'],
-      total: double.parse(json['total']),
+      total: json['total'],
       addressInDetails: json['addressInDetails'],
       orderStateModel: OrderStateModel.fromJson(json["OrderState"]),
       orderItems: orderItems

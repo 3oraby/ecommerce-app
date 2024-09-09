@@ -28,7 +28,7 @@ class ShowProductsDetailsLoadedBody extends StatelessWidget {
   final bool inCart;
   final int? productQuantityInCart;
   final List<ProductReviewModel> productReviews;
-  final String averageRating;
+  final String? averageRating;
 
   @override
   Widget build(BuildContext context) {
@@ -109,41 +109,48 @@ class ShowProductsDetailsLoadedBody extends StatelessWidget {
                     ],
                   ),
                   const VerticalGap(48),
-                  ShowAverageRating(
-                    averageRating: averageRating,
-                    enablePadding: false,
-                  ),
-                  const VerticalGap(24),
-                  const Divider(),
-                  const VerticalGap(24),
-                  ShowAllReviews(
-                    productReviews: productReviews,
-                    showTotalReviews: false,
-                    enablePadding: false,
-                  ),
-                  Visibility(
-                    visible: productReviews.length > 3,
-                    child: Column(
+                  if (averageRating != null)
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Divider(
-                          height: 36,
+                        ShowAverageRating(
+                          averageRating: averageRating!,
+                          enablePadding: false,
                         ),
-                        CustomTriggerButton(
-                          backgroundColor: Colors.white,
-                          borderColor: ThemeColors.primaryColor,
-                          borderWidth: 2,
-                          description: "VIEW MORE",
-                          descriptionSize: 20,
-                          descriptionColor: ThemeColors.primaryColor,
-                          buttonHeight: 50,
-                          onPressed: () {
-                            Navigator.pushNamed(context, ShowAllReviewsPage.id);
-                          },
+                        const VerticalGap(24),
+                        const Divider(),
+                        const VerticalGap(24),
+                        ShowAllReviews(
+                          productReviews: productReviews,
+                          showTotalReviews: false,
+                          enablePadding: false,
                         ),
+                        Visibility(
+                          visible: productReviews.length > 3,
+                          child: Column(
+                            children: [
+                              const Divider(
+                                height: 36,
+                              ),
+                              CustomTriggerButton(
+                                backgroundColor: Colors.white,
+                                borderColor: ThemeColors.primaryColor,
+                                borderWidth: 2,
+                                description: "VIEW MORE",
+                                descriptionSize: 20,
+                                descriptionColor: ThemeColors.primaryColor,
+                                buttonHeight: 50,
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                      context, ShowAllReviewsPage.id);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        const VerticalGap(48),
                       ],
                     ),
-                  ),
-                  const VerticalGap(48),
                 ],
               ),
             ),

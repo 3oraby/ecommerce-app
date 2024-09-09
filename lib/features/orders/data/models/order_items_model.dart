@@ -3,8 +3,8 @@ import 'package:e_commerce_app/core/models/product_model.dart';
 class OrderItemModel {
   final int id;
   final int quantity;
-  final double price;
-  final double totalCost;
+  final int price;
+  final int totalCost;
   final DateTime createdAt;
   final DateTime updatedAt;
   final ProductModel product;
@@ -23,8 +23,8 @@ class OrderItemModel {
     return OrderItemModel(
       id: json['id'],
       quantity: json['quantity'],
-      price:double.parse( json['price']),
-      totalCost: double.parse(json['total_cost']),
+      price: (json['price']),
+      totalCost: (json['total_cost']),
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
       product: ProductModel.fromJson(json: json['Product']),

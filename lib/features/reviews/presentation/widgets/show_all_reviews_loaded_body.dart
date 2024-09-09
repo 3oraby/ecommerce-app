@@ -81,5 +81,3 @@ class ShowProductDetails extends StatelessWidget {
     );
   }
 }
-
-

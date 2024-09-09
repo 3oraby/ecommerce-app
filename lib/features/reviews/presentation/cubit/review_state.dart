@@ -8,7 +8,7 @@ final class GetReviewsLoadingState extends ReviewState {}
 
 final class GetReviewsLoadedState extends ReviewState {
   final List<ProductReviewModel> productReviews;
-  final String averageRating;
+  final String? averageRating;
   GetReviewsLoadedState({
     required this.productReviews,
     required this.averageRating,

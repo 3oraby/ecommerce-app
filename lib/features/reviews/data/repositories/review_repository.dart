@@ -25,7 +25,7 @@ abstract class ReviewRepository {
     required int productId,
   });
 
-  Future<String> getProductAverageRating({
+  Future<String?> getProductAverageRating({
     required int productId,
   });
 }

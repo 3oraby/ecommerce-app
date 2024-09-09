@@ -59,7 +59,7 @@ class ReviewRepositoryImpl implements ReviewRepository {
   }
 
   @override
-  Future<String> getProductAverageRating({required int productId}) async {
+  Future<String?> getProductAverageRating({required int productId}) async {
     return await getProductAverageRatingService.getProductAverageRating(
         productId: productId);
   }

@@ -16,8 +16,8 @@ class ReviewCubit extends Cubit<ReviewState> {
       GetProductReviewsResponseModel getProductReviewsResponseModel =
           await reviewRepository.getProductReviews(productId: productId);
 
-      String averageRating =
-          await reviewRepository.getProductAverageRating(productId: productId);
+      String? averageRating =
+          await reviewRepository.getProductAverageRating(productId: productId); 
 
       if (getProductReviewsResponseModel.status) {
         emit(GetReviewsLoadedState(
