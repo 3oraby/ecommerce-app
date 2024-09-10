@@ -7,10 +7,10 @@ import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/address/data/models/orders_address_model.dart';
 import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cubit.dart';
-import 'package:e_commerce_app/features/address/presentation/widgets/choose_address_widgets/show_address_details_item.dart';
 import 'package:e_commerce_app/features/cart/data/models/cart_item_model.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
+import 'package:e_commerce_app/features/orders/presentation/widgets/delivery_address_details_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -52,12 +52,9 @@ class OrderConfirmedLoadedBody extends StatelessWidget {
                   child: const ConfirmedPageLabel(),
                 ),
                 const VerticalGap(16),
-                Container(
-                  color: Colors.white,
-                  padding: pagePadding(context),
-                  child: DeliveryAddressDetailsWidget(
-                    orderAddress: orderAddress,
-                  ),
+                DeliveryAddressDetailsWidget(
+                  orderAddress: orderAddress,
+                  internalPadding: pagePadding(context),
                 ),
                 const VerticalGap(16),
                 Container(
@@ -209,51 +206,6 @@ class DeliveryShipmentDetailsWidget extends StatelessWidget {
               isLastRowEnabled: false,
             ),
           ),
-        ),
-      ],
-    );
-  }
-}
-
-class DeliveryAddressDetailsWidget extends StatelessWidget {
-  const DeliveryAddressDetailsWidget({
-    super.key,
-    required this.orderAddress,
-  });
-  final OrdersAddressModel orderAddress;
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Row(
-          children: [
-            Text(
-              "Delivery address",
-              style: TextStyle(
-                color: ThemeColors.mainLabelsColor,
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            HorizontalGap(6),
-            Text(
-              "(Home)",
-              style: TextStyle(
-                color: ThemeColors.subLabelsColor,
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-        const VerticalGap(10),
-        ShowAddressDetailsItem(
-          ordersAddressModel: orderAddress,
-          isSelectedAddress: false,
-          normalBorderWidth: 0,
-          showFirstLine: false,
-          internalPadding: false,
         ),
       ],
     );

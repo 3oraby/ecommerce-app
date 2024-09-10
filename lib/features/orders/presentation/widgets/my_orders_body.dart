@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/features/orders/presentation/cubit/order_cubit.dart';
 import 'package:e_commerce_app/features/orders/presentation/cubit/order_state.dart';
+import 'package:e_commerce_app/features/orders/presentation/pages/tracking_order_details_page.dart';
 import 'package:e_commerce_app/features/orders/presentation/widgets/my_orders_loaded_body.dart';
 import 'package:e_commerce_app/features/user/presentation/cubit/user_cubit.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,14 @@ class MyOrdersBody extends StatelessWidget {
           return MyOrdersLoadedBody(
             completedOrders: state.completedOrders,
             inProgressOrders: state.inProgressOrders,
+            onOrderTap: (order) async {
+              orderCubit.setOrderModel(order);
+              final isRefresh = await Navigator.pushNamed(
+                  context, TrackingOrderDetailsPage.id);
+              if (isRefresh is bool && isRefresh) {
+                orderCubit.getAllOrders(userId);
+              }
+            },
           );
         } else if (state is GetAllOrdersEmptyState) {
           return const Center(

@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/features/address/data/models/orders_address_model.dart';
 import 'package:e_commerce_app/features/orders/data/models/order_items_model.dart';
 import 'package:e_commerce_app/features/orders/data/models/order_state_model.dart';
 
@@ -10,6 +11,7 @@ class OrderModel {
   final String addressInDetails;
   final OrderStateModel orderStateModel;
   final List<OrderItemModel> orderItems;
+  final OrdersAddressModel ordersAddressModel;
   final DateTime createdAt;
   final DateTime updatedAt;
 
@@ -22,6 +24,7 @@ class OrderModel {
     required this.addressInDetails,
     required this.orderStateModel,
     required this.orderItems,
+    required this.ordersAddressModel,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -41,6 +44,12 @@ class OrderModel {
             (jsonItem) => OrderItemModel.fromJson(json: jsonItem),
           )
           .toList(),
+      ordersAddressModel: OrdersAddressModel(
+        addressId: json["address_id"],
+        country: json["Address"]["country"],
+        city: json["Address"]["city"],
+        addressInDetails: json["addressInDetails"],
+      ),
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),
     );

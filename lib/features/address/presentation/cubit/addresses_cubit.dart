@@ -25,7 +25,7 @@ class AddressesCubit extends Cubit<AddressesState> {
   }
 
   OrdersAddressModel? get getUserHomeAddress => userHomeAddress;
-  OrdersAddressModel? get getOrderAddressChosen => orderAddressChosen;
+  OrdersAddressModel? get getOrderAddressChosen => orderAddressChosen ?? userHomeAddress;
 
   Future<void> getAllAddresses() async {
     emit(AddressesLoadingState());

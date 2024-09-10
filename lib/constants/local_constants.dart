@@ -7,6 +7,11 @@ class LocalConstants {
   static const double kHorizontalPadding = 16;
   static const double kBorderRadius = 10;
 
+  static const internalPadding = EdgeInsets.symmetric(
+    horizontal: kHorizontalPadding,
+    vertical: 10,
+  );
+
   static const List bottomNavigationBarData = [
     BottomNavigationBarModel(
       label: "Home",

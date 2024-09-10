@@ -13,10 +13,15 @@ class OrderCubit extends Cubit<OrderState> {
   OrderCubit({required this.orderRepository}) : super(OrderInitial());
 
   CheckoutResponseModel? checkoutResponseModel;
+  OrderModel? selectedOrder;
   int totalOrders = 0;
 
-  void setCheckoutResponseModel(CheckoutResponseModel address) {
-    checkoutResponseModel = address;
+  void setCheckoutResponseModel(CheckoutResponseModel model) {
+    checkoutResponseModel = model;
+  }
+
+  void setOrderModel(OrderModel order) {
+    selectedOrder = order;
   }
 
   void increaseOrdersCount() {
@@ -29,6 +34,8 @@ class OrderCubit extends Cubit<OrderState> {
 
   int get getTotalOrdersCount => totalOrders;
   CheckoutResponseModel? get getCheckoutResponseModel => checkoutResponseModel;
+  OrderModel? get getSelectedOrderModel => selectedOrder;
+
 
   Future<CheckoutResponseModel> confirmOrder(
       {required Map<String, dynamic> jsonData}) async {

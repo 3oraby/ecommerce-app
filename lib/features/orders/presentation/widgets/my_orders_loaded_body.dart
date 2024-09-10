@@ -11,10 +11,12 @@ class MyOrdersLoadedBody extends StatelessWidget {
     super.key,
     required this.completedOrders,
     required this.inProgressOrders,
+    required this.onOrderTap,
   });
 
   final List<OrderModel> completedOrders;
   final List<OrderModel> inProgressOrders;
+  final void Function(OrderModel order) onOrderTap;
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +30,12 @@ class MyOrdersLoadedBody extends StatelessWidget {
           OrderSection(
             title: "InProgress",
             orders: inProgressOrders,
+            onOrderTap: onOrderTap,
           ),
           OrderSection(
             title: "Completed",
             orders: completedOrders,
+            onOrderTap: onOrderTap,
           ),
         ],
       ),
@@ -44,10 +48,12 @@ class OrderSection extends StatelessWidget {
     super.key,
     required this.title,
     required this.orders,
+    required this.onOrderTap,
   });
 
   final String title;
   final List<OrderModel> orders;
+  final void Function(OrderModel order) onOrderTap;
 
   @override
   Widget build(BuildContext context) {
@@ -81,8 +87,11 @@ class OrderSection extends StatelessWidget {
           shrinkWrap: true,
           itemCount: orders.length,
           separatorBuilder: (context, index) => const VerticalGap(16),
-          itemBuilder: (context, index) => ShowOrderItem(
-            orderModel: orders[index],
+          itemBuilder: (context, index) => GestureDetector(
+            onTap: () => onOrderTap(orders[index]),
+            child: ShowOrderItem(
+              orderModel: orders[index],
+            ),
           ),
         ),
         const VerticalGap(48),
