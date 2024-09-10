@@ -1,5 +1,5 @@
-
 import 'package:e_commerce_app/features/orders/presentation/cubit/order_cubit.dart';
+import 'package:e_commerce_app/features/orders/presentation/cubit/order_state.dart';
 import 'package:e_commerce_app/features/orders/presentation/widgets/my_orders_loaded_body.dart';
 import 'package:e_commerce_app/features/user/presentation/cubit/user_cubit.dart';
 import 'package:flutter/material.dart';
@@ -26,10 +26,17 @@ class MyOrdersBody extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         } else if (state is GetAllOrdersLoadedState) {
-          return MyOrdersLoadedBody(userOrders: state.userOrders);
-        } else {
+          return MyOrdersLoadedBody(
+            completedOrders: state.completedOrders,
+            inProgressOrders: state.inProgressOrders,
+          );
+        } else if (state is GetAllOrdersEmptyState) {
           return const Center(
             child: Text("you do not make any order till now"),
+          );
+        } else {
+          return const Center(
+            child: Text("no state received"),
           );
         }
       },

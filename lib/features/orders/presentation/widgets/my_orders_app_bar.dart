@@ -8,6 +8,8 @@ class MyOrdersAppBar {
         "Orders",
         style: TextStyles.aDLaMDisplayBlackBold26,
       ),
+      backgroundColor: Colors.white,
+      surfaceTintColor: Colors.transparent,
     );
   }
 }

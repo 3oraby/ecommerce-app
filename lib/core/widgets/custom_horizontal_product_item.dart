@@ -3,6 +3,7 @@ import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_rounded_image_container.dart';
+import 'package:e_commerce_app/core/widgets/custom_show_product_quantity.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
 import 'package:e_commerce_app/core/widgets/quantity_selector.dart';
@@ -93,24 +94,9 @@ class _CustomHorizontalProductItemState
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Visibility(
-                      visible: !widget.isLastRowEnabled,
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: Colors.grey,
-                          borderRadius: BorderRadius.circular(360),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "x ${widget.cartItemModel.quantity}",
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                      ),
+                    CustomShowProductQuantity(
+                      isShow: !widget.isLastRowEnabled,
+                      quantity: widget.cartItemModel.quantity,
                     ),
                     CustomRoundedImageContainer(
                       imagePath:

@@ -1,4 +1,5 @@
-part of 'order_cubit.dart';
+import 'package:e_commerce_app/features/orders/data/models/checkout_response_model.dart';
+import 'package:e_commerce_app/features/orders/data/models/order_model.dart';
 
 abstract class OrderState {}
 
@@ -18,12 +19,18 @@ final class CheckoutLoadedState extends OrderState {
 
 final class GetAllOrdersLoadingState extends OrderState {}
 
+final class GetAllOrdersEmptyState extends OrderState {}
+
 final class GetAllOrdersErrorState extends OrderState {
   final String message;
   GetAllOrdersErrorState({required this.message});
 }
 
 final class GetAllOrdersLoadedState extends OrderState {
-  final List<OrderModel> userOrders;
-  GetAllOrdersLoadedState({required this.userOrders});
+  final List<OrderModel> completedOrders;
+  final List<OrderModel> inProgressOrders;
+  GetAllOrdersLoadedState({
+    required this.completedOrders,
+    required this.inProgressOrders,
+  });
 }

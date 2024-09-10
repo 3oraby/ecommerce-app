@@ -9,7 +9,6 @@ class GetAllOrdersService {
       Response response = await Api().get(
         url: "${ApiConstants.baseUrl}${ApiConstants.getAllOrdersEndPoint}$userId",
       );
-
       return GetAllOrdersResponseModel.fromJson(json: response.data);
     } on Exception catch (e) {
       throw Exception(e);

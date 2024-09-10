@@ -6,6 +6,7 @@ class OrderModel {
   final int userId;
   final int addressId;
   final int total;
+  final String date;
   final String addressInDetails;
   final OrderStateModel orderStateModel;
   final List<OrderItemModel> orderItems;
@@ -17,6 +18,7 @@ class OrderModel {
     required this.userId,
     required this.addressId,
     required this.total,
+    required this.date,
     required this.addressInDetails,
     required this.orderStateModel,
     required this.orderItems,
@@ -31,6 +33,7 @@ class OrderModel {
       userId: json['user_id'],
       addressId: json['address_id'],
       total: json['total'],
+      date: json['date'],
       addressInDetails: json['addressInDetails'],
       orderStateModel: OrderStateModel.fromJson(json["OrderState"]),
       orderItems: orderItems
