@@ -1,22 +1,20 @@
-import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
+import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:flutter/material.dart';
 
-class OrderSummary extends StatelessWidget {
-  const OrderSummary({
+class ShowOrderSummaryWidget extends StatelessWidget {
+  const ShowOrderSummaryWidget({
     super.key,
     required this.subTotal,
+    this.showPaymentSection = false,
   });
   final String subTotal;
-
+  final bool showPaymentSection;
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 8,
-      ),
+      padding: LocalConstants.internalPadding,
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(
@@ -27,11 +25,14 @@ class OrderSummary extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Row(
+          const Row(
             children: [
               Text(
                 "Order Summary",
-                style: TextStyles.aDLaMDisplayBlackBold24,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 26,
+                ),
               ),
             ],
           ),
@@ -42,13 +43,13 @@ class OrderSummary extends StatelessWidget {
               const Text(
                 "Subtotal",
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 20,
                 ),
               ),
               Text(
                 "EGP $subTotal",
                 style: const TextStyle(
-                  fontSize: 22,
+                  fontSize: 20,
                 ),
               ),
             ],
@@ -60,7 +61,7 @@ class OrderSummary extends StatelessWidget {
               Text(
                 "Shipping Fee",
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 20,
                 ),
               ),
               Text(
@@ -75,8 +76,8 @@ class OrderSummary extends StatelessWidget {
           ),
           const VerticalGap(10),
           const Divider(
-            color: Colors.grey,
-            thickness: 0.5,
+            color: ThemeColors.backgroundBodiesColor,
+            thickness: 2,
           ),
           const VerticalGap(10),
           Row(
@@ -84,18 +85,49 @@ class OrderSummary extends StatelessWidget {
             children: [
               const Text(
                 "Total",
-                style: TextStyle(
-                  fontSize: 22,
-                ),
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               Text(
                 "EGP $subTotal",
                 style: const TextStyle(
-                  fontSize: 26,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ],
+          ),
+          Visibility(
+            visible: showPaymentSection,
+            // ignore: prefer_const_constructors
+            child: Column(
+              children: const [
+                VerticalGap(10),
+                Divider(
+                  color: ThemeColors.backgroundBodiesColor,
+                  thickness: 2,
+                ),
+                VerticalGap(10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Payment Method",
+                      style: TextStyle(
+                        fontSize: 18,
+                      ),
+                    ),
+                    Text(
+                      "Cash on Delivery",
+                      style:  TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: ThemeColors.mainLabelsColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),

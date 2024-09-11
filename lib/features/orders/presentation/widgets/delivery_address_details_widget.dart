@@ -29,7 +29,6 @@ class DeliveryAddressDetailsWidget extends StatelessWidget {
               Text(
                 "Delivery address",
                 style: TextStyle(
-                  color: ThemeColors.mainLabelsColor,
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
                 ),

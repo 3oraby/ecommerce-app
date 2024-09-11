@@ -9,7 +9,7 @@ import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cub
 import 'package:e_commerce_app/features/cart/data/models/cart_item_model.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:e_commerce_app/features/cart/presentation/widgets/checkout_page_widgets/address_selector.dart';
-import 'package:e_commerce_app/features/cart/presentation/widgets/checkout_page_widgets/order_summary.dart';
+import 'package:e_commerce_app/core/widgets/show_order_summary_widget.dart';
 import 'package:e_commerce_app/features/cart/presentation/widgets/checkout_page_widgets/shipment_info.dart';
 import 'package:e_commerce_app/features/cart/presentation/widgets/checkout_page_widgets/show_cart_item_list.dart';
 import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
@@ -75,7 +75,7 @@ class CheckoutPage extends StatelessWidget {
                   const VerticalGap(24),
                   const PaymentMethod(),
                   const VerticalGap(24),
-                  OrderSummary(
+                  ShowOrderSummaryWidget(
                     subTotal: cartPrice,
                   ),
                   const VerticalGap(24),
