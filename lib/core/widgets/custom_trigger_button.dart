@@ -63,7 +63,7 @@ class _CustomTriggerButtonState extends State<CustomTriggerButton> {
           color: widget.backgroundColor,
           border: Border.all(
             width: widget.borderWidth,
-            color: widget.borderColor,
+            color: widget.borderWidth == 0 ? Colors.white : widget.borderColor,
           ),
           borderRadius: BorderRadius.circular(widget.borderRadius),
         ),

@@ -19,7 +19,7 @@ class SharedPreferencesSingleton {
     instance.setString(key, value);
   }
 
-  static String getString(String key) {
-    return instance.getString(key) ?? "";
+  static String? getString(String key) {
+    return instance.getString(key);
   }
 }

@@ -20,6 +20,17 @@ class OrdersAddressModel {
     );
   }
 
+  Map<String, dynamic> toJson() {
+    return {
+      'addressInDetails': addressInDetails,
+      'Address': {
+        'id': addressId,
+        'country': country,
+        'city': city,
+      },
+    };
+  }
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
