@@ -60,7 +60,6 @@ class ShowOrderSummaryPage extends StatelessWidget {
           const VerticalGap(16),
           ItemsSummaryShipmentDetails(
             orderItems: orderModel.orderItems,
-            isOrderRecieved: orderModel.orderStateModel.state == "recieved",
           ),
           const VerticalGap(32),
         ],

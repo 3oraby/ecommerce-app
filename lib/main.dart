@@ -20,6 +20,7 @@ import 'package:e_commerce_app/features/favorites/presentation/cubit/favorites_c
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/features/home/data/data_sources/get_categories_service.dart';
 import 'package:e_commerce_app/features/home/data/repositories/category_repository_impl.dart';
+import 'package:e_commerce_app/features/orders/data/data_sources/cancel_item_from_order_service.dart';
 import 'package:e_commerce_app/features/orders/data/data_sources/checkout_service.dart';
 import 'package:e_commerce_app/features/orders/data/data_sources/get_all_orders_service.dart';
 import 'package:e_commerce_app/features/orders/data/data_sources/get_order_data_service.dart';
@@ -99,6 +100,7 @@ Future<void> main() async {
               checkoutService: CheckoutService(),
               getOrderDataService: GetOrderDataService(),
               getAllOrdersService: GetAllOrdersService(),
+              cancelItemFromOrderService: CancelItemFromOrderService(),
             ),
           ),
         ),

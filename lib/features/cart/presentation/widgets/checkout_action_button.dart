@@ -20,11 +20,13 @@ class CheckoutActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomTriggerButton(
       onPressed: () {
-        bool makingOrderBefore =
-            SharedPreferencesSingleton.getBool("makingOrderBefore");
+        String? orderAddressJsonString =
+            SharedPreferencesSingleton.getString('orders_address_model');
         Navigator.pushNamed(
           context,
-          makingOrderBefore ? CheckoutPage.id : AddAddressPage.id,
+          (orderAddressJsonString == null)
+              ? AddAddressPage.id
+              : CheckoutPage.id,
         );
       },
       child: Padding(

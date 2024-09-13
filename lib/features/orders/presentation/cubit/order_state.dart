@@ -34,3 +34,12 @@ final class GetAllOrdersLoadedState extends OrderState {
     required this.inProgressOrders,
   });
 }
+
+final class CancelItemFromOrderLoadingState extends OrderState {}
+
+final class CancelItemFromOrderLoadedState extends OrderState {}
+
+final class CancelItemFromOrderErrorState extends OrderState {
+  final String message;
+  CancelItemFromOrderErrorState({required this.message});
+}

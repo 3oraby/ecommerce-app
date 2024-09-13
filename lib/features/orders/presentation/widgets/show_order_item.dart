@@ -149,6 +149,8 @@ class ShowOrderItemsWidget extends StatelessWidget {
                       getPhotoUrl(
                         orderModel.orderItems[index].product.photo,
                       ),
+                      width: MediaQuery.of(context).size.width * 0.25,
+                      height: MediaQuery.of(context).size.height * 0.25,
                     ),
                     const HorizontalGap(10),
                     Expanded(

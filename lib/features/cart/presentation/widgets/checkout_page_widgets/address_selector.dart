@@ -18,8 +18,7 @@ class _AddressSelectorState extends State<AddressSelector> {
   void initState() {
     super.initState();
     ordersAddressModel =
-        BlocProvider.of<AddressesCubit>(context).getOrderAddressChosen ??
-            BlocProvider.of<AddressesCubit>(context).getUserHomeAddress!;
+        BlocProvider.of<AddressesCubit>(context).getOrderAddressChosen!;
   }
 
   @override

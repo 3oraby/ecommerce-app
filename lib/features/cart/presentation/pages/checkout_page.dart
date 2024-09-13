@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
+import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
@@ -135,8 +138,7 @@ class CheckoutPage extends StatelessWidget {
       final orderCubit = BlocProvider.of<OrderCubit>(context);
       CheckoutRequestModel checkoutRequestModel = CheckoutRequestModel(
         addressInDetails:
-            addressesCubit.getOrderAddressChosen?.addressInDetails ??
-                addressesCubit.getUserHomeAddress!.addressInDetails,
+            addressesCubit.getOrderAddressChosen!.addressInDetails,
       );
       final checkoutResponseModel = await orderCubit.confirmOrder(
           jsonData: checkoutRequestModel.toJson());
@@ -144,6 +146,10 @@ class CheckoutPage extends StatelessWidget {
       if (checkoutResponseModel.status) {
         orderCubit.setCheckoutResponseModel(checkoutResponseModel);
         orderCubit.increaseOrdersCount();
+        String jsonString = jsonEncode(addressesCubit.getUserHomeAddress!.toJson());
+
+        SharedPreferencesSingleton.setString('orders_address_model', jsonString);
+
         Navigator.pushNamedAndRemoveUntil(
           context,
           OrderConfirmedPage.id,

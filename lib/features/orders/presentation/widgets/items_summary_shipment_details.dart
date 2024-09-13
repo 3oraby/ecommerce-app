@@ -1,10 +1,10 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
-import 'package:e_commerce_app/core/helpers/functions/get_photo_url.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
-import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/orders/data/models/order_items_model.dart';
+import 'package:e_commerce_app/features/orders/presentation/pages/cancel_items_from_order_page.dart';
+import 'package:e_commerce_app/features/orders/presentation/widgets/custom_product_details_in_orders.dart';
 import 'package:e_commerce_app/features/products/presentation/cubit/product_catalog_cubit.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_product_details_page.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +14,12 @@ class ItemsSummaryShipmentDetails extends StatelessWidget {
   const ItemsSummaryShipmentDetails({
     super.key,
     required this.orderItems,
-    required this.isOrderRecieved,
+    this.showCancelOption = false,
+    this.showReviewOption = false,
   });
   final List<OrderItemModel> orderItems;
-  final bool isOrderRecieved;
+  final bool showCancelOption;
+  final bool showReviewOption;
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +40,11 @@ class ItemsSummaryShipmentDetails extends StatelessWidget {
                 ),
               ),
               Visibility(
-                visible: !isOrderRecieved,
+                visible: showCancelOption,
                 child: CustomTriggerButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, CancelItemsFromOrderPage.id);
+                  },
                   backgroundColor: ThemeColors.backgroundBodiesColor,
                   borderRadius: LocalConstants.kBorderRadius,
                   description: "Cancel Items",
@@ -56,7 +60,7 @@ class ItemsSummaryShipmentDetails extends StatelessWidget {
           ),
           const VerticalGap(10),
           Visibility(
-            visible: !isOrderRecieved,
+            visible: showCancelOption,
             child: const Text(
               "Once packed ,individual items can not be cancelled",
               style: TextStyle(
@@ -82,40 +86,9 @@ class ItemsSummaryShipmentDetails extends StatelessWidget {
               },
               child: Padding(
                 padding: const EdgeInsets.all(16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Image.network(
-                      getPhotoUrl(orderItems[index].product.photo),
-                      width: MediaQuery.of(context).size.width * 0.25,
-                    ),
-                    const HorizontalGap(16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            orderItems[index].product.description,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                          ),
-                          const VerticalGap(12),
-                          Text(
-                            "EGP ${orderItems[index].product.price}",
-                            style: const TextStyle(
-                              color: ThemeColors.mainLabelsColor,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                child: CustomProductDetailsInOrders(
+                  orderItem: orderItems[index],
+                  showReviewOption: showReviewOption,
                 ),
               ),
             ),

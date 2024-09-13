@@ -45,6 +45,12 @@ class ApiConstants {
   static const String checkoutEndPoint = "orders/checkOut";
   static const String getOrderEndPoint = "orders/";
   static const String getAllOrdersEndPoint = "orders/getUserOrders/";
+  static String cancelItemFromOrder({
+    required int orderId,
+    required int orderItemId,
+  }) {
+    return "orders/deleteFromOrder/$orderId/$orderItemId";
+  }
 
   // reviews
   static String getProductAverageRatingEndPoint(int productId) {
@@ -66,7 +72,7 @@ class ApiConstants {
   static String deleteReviewEndPoint(int productId, int reviewId) {
     return "products/$productId/review/$reviewId";
   }
-  
+
   static String updateReviewEndPoint(int productId, int reviewId) {
     return "products/$productId/review/$reviewId";
   }

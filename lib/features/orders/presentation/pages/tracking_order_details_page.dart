@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/helpers/functions/format_string_into_date_time.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
@@ -62,7 +60,8 @@ class TrackingOrderDetailsPage extends StatelessWidget {
           const VerticalGap(16),
           ItemsSummaryShipmentDetails(
             orderItems: order.orderItems,
-            isOrderRecieved: isOrderRecieved,
+            showCancelOption: !isOrderRecieved,
+            showReviewOption: isOrderRecieved,
           ),
           const VerticalGap(32),
         ],
@@ -70,7 +69,6 @@ class TrackingOrderDetailsPage extends StatelessWidget {
     );
   }
 }
-
 
 class ShowOrderSummaryOption extends StatelessWidget {
   const ShowOrderSummaryOption({
@@ -149,10 +147,7 @@ class ShowReviewOption extends StatelessWidget {
                   padding: const EdgeInsets.all(4),
                   child: ListTile(
                     enabled: true,
-                    onTap: () {
-                      // ! go to add reviews page
-                      log("message");
-                    },
+                    onTap: () {},
                     leading: const CustomRoundedIcon(
                       internalPadding: 10,
                       backgroundColor: ThemeColors.backgroundBodiesColor,

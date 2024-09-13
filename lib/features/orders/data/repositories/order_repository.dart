@@ -4,8 +4,14 @@ import 'package:e_commerce_app/features/orders/data/models/get_order_response_mo
 
 abstract class OrderRepository {
   Future<CheckoutResponseModel> checkout(Map<String, dynamic> jsonData);
-  
+
   Future<GetOrderResponseModel> getOrderData(int orderId);
 
   Future<GetAllOrdersResponseModel> getAllOrdersData(int userId);
+
+  Future<bool> cancelItemFromOrder({
+    required int orderId,
+    required int orderItemId,
+  });
+  
 }
