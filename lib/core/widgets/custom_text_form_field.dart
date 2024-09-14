@@ -1,17 +1,19 @@
+import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CustomTextFormFieldWidget extends StatefulWidget {
   const CustomTextFormFieldWidget({
     super.key,
-    required this.labelText,
+    this.formKey,
+    this.labelText,
     this.fillColor = Colors.grey,
     this.keyboardType = TextInputType.text,
     this.isObscure = false,
-    this.borderColor = Colors.black,
-    this.borderWidth = 1,
-    this.enabledBorderColor = Colors.black,
-    this.enabledBorderWidth = 1,
+    this.borderColor = Colors.grey,
+    this.borderWidth = 0.5,
+    this.enabledBorderColor = Colors.grey,
+    this.enabledBorderWidth = 0.5,
     this.hintText,
     this.onChanged,
     this.validator,
@@ -35,11 +37,12 @@ class CustomTextFormFieldWidget extends StatefulWidget {
     this.errorText,
     this.controller,
     this.focusNode,
-    this.borderRadius = 15,
+    this.borderRadius = LocalConstants.kBorderRadius,
     this.contentPadding = 25,
+    this.maxLines = 1,
   });
 
-  final String labelText;
+  final String? labelText;
   final String? hintText;
   final void Function(String)? onChanged;
   final bool isObscure;
@@ -64,6 +67,9 @@ class CustomTextFormFieldWidget extends StatefulWidget {
   final double enabledBorderWidth;
   final double contentPadding;
   final double borderRadius;
+  final int maxLines;
+  final GlobalKey<FormState>? formKey;
+
   @override
   State<CustomTextFormFieldWidget> createState() =>
       _CustomTextFormFieldWidgetState();
@@ -81,55 +87,59 @@ class _CustomTextFormFieldWidgetState extends State<CustomTextFormFieldWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: widget.controller,
-      focusNode: widget.focusNode,
-      obscureText: isObscure!,
-      validator: widget.validator,
-      onChanged: widget.onChanged,
-      keyboardType: widget.keyboardType,
-      onTap: widget.onTap,
-      style: widget.textStyle,
-      inputFormatters: widget.inputFormatters,
-      decoration: InputDecoration(
-        labelText: widget.labelText,
-        hintText: widget.hintText,
-        hintStyle: widget.hintStyle,
-        helperText: widget.helperText,
-        errorText: widget.errorText,
-        errorStyle: widget.errorStyle,
-        prefixIcon: widget.prefixIcon,
-        suffixIcon: useVisibilityIcon!
-            ? IconButton(
-                icon: isObscure!
-                    ? const Icon(Icons.visibility)
-                    : const Icon(Icons.visibility_off),
-                onPressed: () {
-                  setState(() {
-                    isObscure = !isObscure!;
-                  });
-                },
-                iconSize: 30,
-              )
-            : widget.suffixIcon,
-        contentPadding: EdgeInsets.all(widget.contentPadding),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius),
-          borderSide: BorderSide(
-            color: widget.borderColor,
-            width: widget.borderWidth,
+    return Form(
+      key: widget.formKey,
+      child: TextFormField(
+        controller: widget.controller,
+        focusNode: widget.focusNode,
+        obscureText: isObscure!,
+        validator: widget.validator,
+        onChanged: widget.onChanged,
+        keyboardType: widget.keyboardType,
+        onTap: widget.onTap,
+        style: widget.textStyle,
+        inputFormatters: widget.inputFormatters,
+        maxLines: widget.maxLines,
+        decoration: InputDecoration(
+          labelText: widget.labelText,
+          hintText: widget.hintText,
+          hintStyle: widget.hintStyle,
+          helperText: widget.helperText,
+          errorText: widget.errorText,
+          errorStyle: widget.errorStyle,
+          prefixIcon: widget.prefixIcon,
+          suffixIcon: useVisibilityIcon!
+              ? IconButton(
+                  icon: isObscure!
+                      ? const Icon(Icons.visibility)
+                      : const Icon(Icons.visibility_off),
+                  onPressed: () {
+                    setState(() {
+                      isObscure = !isObscure!;
+                    });
+                  },
+                  iconSize: 30,
+                )
+              : widget.suffixIcon,
+          contentPadding: EdgeInsets.all(widget.contentPadding),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(widget.borderRadius),
+            borderSide: BorderSide(
+              color: widget.borderColor,
+              width: widget.borderWidth,
+            ),
           ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius),
-          borderSide: BorderSide(
-            color: widget.enabledBorderColor,
-            width: widget.enabledBorderWidth,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(widget.borderRadius),
+            borderSide: BorderSide(
+              color: widget.enabledBorderColor,
+              width: widget.enabledBorderWidth,
+            ),
           ),
+          filled: true,
+          fillColor: widget.fillColor,
+          labelStyle: widget.labelStyle,
         ),
-        filled: true,
-        fillColor: widget.fillColor,
-        labelStyle: widget.labelStyle,
       ),
     );
   }

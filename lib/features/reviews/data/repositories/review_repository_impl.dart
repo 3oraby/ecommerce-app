@@ -1,9 +1,11 @@
+import 'package:e_commerce_app/features/reviews/data/data_sources/check_user_review_for_product_service.dart';
 import 'package:e_commerce_app/features/reviews/data/data_sources/create_review_service.dart';
 import 'package:e_commerce_app/features/reviews/data/data_sources/delete_review_service.dart';
 import 'package:e_commerce_app/features/reviews/data/data_sources/get_product_average_rating_service.dart';
 import 'package:e_commerce_app/features/reviews/data/data_sources/get_product_reviews_service.dart';
 import 'package:e_commerce_app/features/reviews/data/data_sources/get_review_service.dart';
 import 'package:e_commerce_app/features/reviews/data/data_sources/update_review_service.dart';
+import 'package:e_commerce_app/features/reviews/data/models/check_user_review_for_product_model.dart';
 import 'package:e_commerce_app/features/reviews/data/models/get_product_reviews_response_model.dart';
 import 'package:e_commerce_app/features/reviews/data/models/product_review_model.dart';
 import 'package:e_commerce_app/features/reviews/data/repositories/review_repository.dart';
@@ -16,6 +18,7 @@ class ReviewRepositoryImpl implements ReviewRepository {
     required this.updateReviewService,
     required this.createReviewService,
     required this.getProductAverageRatingService,
+    required this.checkUserReviewForProductService,
   });
 
   final GetProductReviewsService getProductReviewsService;
@@ -24,6 +27,7 @@ class ReviewRepositoryImpl implements ReviewRepository {
   final UpdateReviewService updateReviewService;
   final CreateReviewService createReviewService;
   final GetProductAverageRatingService getProductAverageRatingService;
+  final CheckUserReviewForProductService checkUserReviewForProductService;
 
   @override
   Future<GetProductReviewsResponseModel> getProductReviews(
@@ -54,13 +58,22 @@ class ReviewRepositoryImpl implements ReviewRepository {
   }
 
   @override
-  Future<ProductReviewModel> createReview({required int productId}) async {
-    return await createReviewService.createReview(productId: productId);
+  Future<bool> createReview(
+      {required int productId, required Map<String, dynamic> jsonData}) async {
+    return await createReviewService.createReview(
+      productId: productId,
+      jsonData: jsonData,
+    );
   }
 
   @override
   Future<String?> getProductAverageRating({required int productId}) async {
     return await getProductAverageRatingService.getProductAverageRating(
         productId: productId);
+  }
+
+  @override
+  Future<CheckUserReviewForProductModel> checkUserReviewForProduct({required int productId, required int userId}) async{
+    return await checkUserReviewForProductService.checkUserReviewForProduct(productId: productId, userId: userId);
   }
 }

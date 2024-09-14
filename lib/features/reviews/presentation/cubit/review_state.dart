@@ -19,3 +19,24 @@ final class GetReviewsErrorState extends ReviewState {
   final String message;
   GetReviewsErrorState({required this.message});
 }
+
+final class CreateReviewLoadingState extends ReviewState {}
+
+final class CreateReviewLoadedState extends ReviewState {}
+
+final class CreateReviewErrorState extends ReviewState {
+  final String message;
+  CreateReviewErrorState({required this.message});
+}
+
+final class CheckUserReviewForProductLoadingState extends ReviewState {}
+
+final class CheckUserReviewForProductErrorState extends ReviewState {
+  final String message;
+  CheckUserReviewForProductErrorState({required this.message});
+}
+
+final class CheckUserReviewForProductLoadedState extends ReviewState {
+  final CheckUserReviewForProductModel checkUserReviewForProductModel;
+  CheckUserReviewForProductLoadedState({required this.checkUserReviewForProductModel});
+}

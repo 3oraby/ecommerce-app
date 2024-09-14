@@ -30,6 +30,7 @@ import 'package:e_commerce_app/features/products/data/data_sources/get_home_deta
 import 'package:e_commerce_app/features/products/data/data_sources/get_product_by_category_service.dart';
 import 'package:e_commerce_app/features/products/data/repositories/product_repository_impl.dart';
 import 'package:e_commerce_app/features/products/presentation/cubit/product_catalog_cubit.dart';
+import 'package:e_commerce_app/features/reviews/data/data_sources/check_user_review_for_product_service.dart';
 import 'package:e_commerce_app/features/reviews/data/data_sources/create_review_service.dart';
 import 'package:e_commerce_app/features/reviews/data/data_sources/delete_review_service.dart';
 import 'package:e_commerce_app/features/reviews/data/data_sources/get_product_average_rating_service.dart';
@@ -114,6 +115,8 @@ Future<void> main() async {
               getProductReviewsService: GetProductReviewsService(),
               getReviewService: GetReviewService(),
               updateReviewService: UpdateReviewService(),
+              checkUserReviewForProductService:
+                  CheckUserReviewForProductService(),
             ),
           ),
         ),

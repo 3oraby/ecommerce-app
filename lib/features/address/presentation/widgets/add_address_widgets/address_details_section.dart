@@ -10,7 +10,7 @@ class AddressDetailsSection extends StatelessWidget {
     required this.formKey,
     required this.ordersAddressModel,
   });
-  final GlobalKey<FormState> formKey;
+final GlobalKey<FormState> formKey;
   final OrdersAddressModel ordersAddressModel;
 
   @override

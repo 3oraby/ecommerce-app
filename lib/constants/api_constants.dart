@@ -76,4 +76,8 @@ class ApiConstants {
   static String updateReviewEndPoint(int productId, int reviewId) {
     return "products/$productId/review/$reviewId";
   }
+
+  static String checkUserReviewForProductEndPoint({required int productId,required int userId}) {
+    return "reviews/checkUserReview/$productId/$userId";
+  }
 }
