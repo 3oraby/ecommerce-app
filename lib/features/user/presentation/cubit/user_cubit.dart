@@ -1,5 +1,5 @@
-
 import 'package:e_commerce_app/core/models/user_model.dart';
+import 'package:e_commerce_app/features/auth/data/models/log_out_response_model.dart';
 import 'package:e_commerce_app/features/user/data/models/get_user_response_model.dart';
 import 'package:e_commerce_app/features/user/data/repositories/user_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,10 +13,10 @@ class UserCubit extends Cubit<UserState> {
     required this.userRepository,
   }) : super(UserInitial());
 
-  void setUserModel (UserModel user){
+  void setUserModel(UserModel user) {
     userModel = user;
   }
-  
+
   UserModel? get getUserModel => userModel;
 
   Future<UserModel> getUser() async {
@@ -55,6 +55,25 @@ class UserCubit extends Cubit<UserState> {
     } catch (e) {
       emit(UpdateUserErrorState(
         message: 'Failed to update user: $e',
+      ));
+    }
+  }
+
+  Future<void> logOut() async {
+    emit(LogOutLoadingState());
+    try {
+      LogOutResponseModel logOutResponseModel = await userRepository.logout();
+
+      if (logOutResponseModel.status) {
+        emit(LogOutLoadedState());
+      } else {
+        emit(LogOutErrorState(
+          message: logOutResponseModel.message,
+        ));
+      }
+    } catch (e) {
+      emit(LogOutErrorState(
+        message: 'Failed to log out : $e',
       ));
     }
   }

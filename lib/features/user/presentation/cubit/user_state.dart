@@ -27,3 +27,12 @@ final class UpdateUserErrorState extends UserState {
 }
 
 final class UpdateUserLoadedState extends UserState {}
+
+
+final class LogOutLoadingState extends UserState {}
+final class LogOutLoadedState extends UserState {}
+final class LogOutErrorState extends UserState {
+  final String message;
+  LogOutErrorState({required this.message});
+}
+
