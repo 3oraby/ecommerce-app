@@ -9,6 +9,7 @@ import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/orders/data/models/order_items_model.dart';
 import 'package:e_commerce_app/features/orders/presentation/cubit/order_cubit.dart';
 import 'package:e_commerce_app/features/reviews/constants/review_feature_constants.dart';
+import 'package:e_commerce_app/features/reviews/data/models/product_review_model.dart';
 import 'package:e_commerce_app/features/reviews/presentation/cubit/review_cubit.dart';
 import 'package:e_commerce_app/features/reviews/presentation/pages/make_new_review_page.dart';
 import 'package:e_commerce_app/features/user/presentation/cubit/user_cubit.dart';
@@ -25,8 +26,8 @@ class CustomProductDetailsInOrders extends StatelessWidget {
     this.onItemTap,
     this.showReviewOption = false,
     this.showQuantity = true,
-    this.feedbackProductRating,
     this.onEditReviewTap,
+    this.productReviewModel,
   });
 
   final OrderItemModel orderItem;
@@ -37,7 +38,7 @@ class CustomProductDetailsInOrders extends StatelessWidget {
   final bool showQuantity;
   final void Function()? onItemTap;
   final void Function()? onEditReviewTap;
-  final int? feedbackProductRating;
+  final ProductReviewModel? productReviewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -119,10 +120,11 @@ class CustomProductDetailsInOrders extends StatelessWidget {
             showReviewOption: showReviewOption,
             orderItem: orderItem,
           ),
-          ShowEditReviewOption(
-            feedbackProductRating: feedbackProductRating,
-            onEditReviewTap: onEditReviewTap,
-          ),
+          if (productReviewModel != null)
+            ShowEditReviewOption(
+              onEditReviewTap: onEditReviewTap,
+              productReviewModel: productReviewModel!,
+            ),
         ],
       ),
     );
@@ -180,84 +182,113 @@ class MakeReviewOption extends StatelessWidget {
 class ShowEditReviewOption extends StatelessWidget {
   const ShowEditReviewOption({
     super.key,
-    required this.feedbackProductRating,
     required this.onEditReviewTap,
+    required this.productReviewModel,
   });
-  final int? feedbackProductRating;
   final void Function()? onEditReviewTap;
+  final ProductReviewModel productReviewModel;
 
   @override
   Widget build(BuildContext context) {
-    return Visibility(
-      visible: feedbackProductRating != null,
-      child: Container(
+    return Container(
+      padding: LocalConstants.internalPadding,
+      decoration: BoxDecoration(
         color: ThemeColors.actionButtonsBackgroundColor,
-        padding: LocalConstants.internalPadding,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "Your feedback",
+        borderRadius: BorderRadius.circular(LocalConstants.kBorderRadius),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "Your feedback",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 22,
+                ),
+              ),
+              TextButton(
+                onPressed: onEditReviewTap,
+                child: const Text(
+                  "Edit Review",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 22,
+                    color: ThemeColors.primaryColor,
                   ),
                 ),
-                TextButton(
-                  onPressed: onEditReviewTap,
-                  child: const Text(
-                    "Edit Review",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 22,
-                      color: ThemeColors.primaryColor,
+              )
+            ],
+          ),
+          const VerticalGap(8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                "Product rating",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: ThemeColors.mainLabelsColor,
+                ),
+              ),
+              const HorizontalGap(16),
+              CustomRoundedIcon(
+                internalHorizontalPadding: 12,
+                internalVerticalPadding: 6,
+                backgroundColor: ReviewFeatureConstants
+                    .rateReviewStates[productReviewModel.rate - 1].starColor,
+                child: Row(
+                  children: [
+                    Text(
+                      productReviewModel.rate.toString(),
+                      style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
                     ),
-                  ),
-                )
-              ],
-            ),
-            const VerticalGap(8),
-            Row(
-              children: [
-                const Text(
-                  "Product rating",
+                    const HorizontalGap(4),
+                    const Icon(
+                      Icons.star,
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const VerticalGap(24),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                "review description",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: ThemeColors.mainLabelsColor,
+                ),
+              ),
+              const HorizontalGap(8),
+              Expanded(
+                child: Text(
+                  productReviewModel.description,
+                  maxLines: 5,
+                  overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
-                    color: ThemeColors.mainLabelsColor,
+                    color: ReviewFeatureConstants
+                        .rateReviewStates[productReviewModel.rate - 1]
+                        .starColor,
                   ),
                 ),
-                const HorizontalGap(16),
-                CustomRoundedIcon(
-                  internalHorizontalPadding: 12,
-                  internalVerticalPadding: 6,
-                  backgroundColor: ReviewFeatureConstants
-                      .rateReviewStates[(feedbackProductRating ?? 1) - 1]
-                      .starColor,
-                  child: Row(
-                    children: [
-                      Text(
-                        feedbackProductRating.toString(),
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
-                      ),
-                      const HorizontalGap(4),
-                      const Icon(
-                        Icons.star,
-                        color: Colors.white,
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

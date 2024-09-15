@@ -79,10 +79,7 @@ class _MakeNewReviewLoadedBodyState extends State<MakeNewReviewLoadedBody> {
               CustomProductDetailsInOrders(
                 orderItem: orderItem!,
                 showQuantity: false,
-                feedbackProductRating: showFeedbackRating!
-                    ? widget
-                        .checkUserReviewForProductModel.productReviewModel!.rate
-                    : null,
+                productReviewModel: widget.checkUserReviewForProductModel.productReviewModel,    
                 onEditReviewTap: () {
                   setState(() {
                     showMakingReviewBody = true;
