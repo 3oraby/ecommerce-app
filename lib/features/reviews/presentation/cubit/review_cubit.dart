@@ -10,6 +10,17 @@ class ReviewCubit extends Cubit<ReviewState> {
   ReviewCubit({required this.reviewRepository}) : super(ReviewInitial());
 
   final ReviewRepository reviewRepository;
+  // CheckUserReviewForProductModel? selectedCheckUserReviewForProductModel;
+
+  // void setSelectedCheckUserReviewModel(ProductReviewModel productReviewModel) {
+  //   selectedCheckUserReviewForProductModel = CheckUserReviewForProductModel(
+  //     hasReviewed: true,
+  //     productReviewModel: productReviewModel,
+  //   );
+  // }
+
+  // CheckUserReviewForProductModel? get getSelectedCheckUserReviewModel =>
+  //     selectedCheckUserReviewForProductModel;
 
   Future<void> getProductReviews({required int productId}) async {
     emit(GetReviewsLoadingState());
@@ -38,12 +49,38 @@ class ReviewCubit extends Cubit<ReviewState> {
       {required int productId, required Map<String, dynamic> jsonData}) async {
     emit(CreateReviewLoadingState());
     try {
-      await reviewRepository.createReview(
-          productId: productId, jsonData: jsonData);
+      ProductReviewModel productReviewModel = await reviewRepository
+          .createReview(productId: productId, jsonData: jsonData);
 
-      emit(CreateReviewLoadedState());
+      emit(CreateReviewLoadedState(
+        checkUserReviewForProductModel: CheckUserReviewForProductModel(
+          hasReviewed: true,
+          productReviewModel: productReviewModel,
+        ),
+      ));
     } catch (e) {
-      emit(GetReviewsErrorState(message: e.toString()));
+      emit(CreateReviewErrorState(message: e.toString()));
+    }
+  }
+
+  Future<void> updateReview(
+      {required int productId,
+      required Map<String, dynamic> jsonData,
+      required int reviewId}) async {
+    emit(UpdateReviewLoadingState());
+    try {
+      ProductReviewModel productReviewModel =
+          await reviewRepository.updateReview(
+              productId: productId, jsonData: jsonData, reviewId: reviewId);
+
+      emit(UpdateReviewLoadedState(
+        checkUserReviewForProductModel: CheckUserReviewForProductModel(
+          hasReviewed: true,
+          productReviewModel: productReviewModel,
+        ),
+      ));
+    } catch (e) {
+      emit(UpdateReviewErrorState(message: e.toString()));
     }
   }
 

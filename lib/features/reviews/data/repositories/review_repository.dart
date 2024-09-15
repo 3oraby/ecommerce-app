@@ -17,12 +17,13 @@ abstract class ReviewRepository {
     required int reviewId,
   });
 
-  Future<bool> updateReview({
+  Future<ProductReviewModel> updateReview({
     required int productId,
     required int reviewId,
+    required Map<String,dynamic> jsonData,
   });
 
-  Future<bool> createReview({
+  Future<ProductReviewModel> createReview({
     required int productId,
     required Map<String ,dynamic> jsonData,
   });

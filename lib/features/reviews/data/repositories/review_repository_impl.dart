@@ -51,14 +51,20 @@ class ReviewRepositoryImpl implements ReviewRepository {
   }
 
   @override
-  Future<bool> updateReview(
-      {required int productId, required int reviewId}) async {
+  Future<ProductReviewModel> updateReview({
+    required int productId,
+    required int reviewId,
+    required Map<String, dynamic> jsonData,
+  }) async {
     return await updateReviewService.updateReview(
-        productId: productId, reviewId: reviewId);
+      productId: productId,
+      reviewId: reviewId,
+      jsonData: jsonData,
+    );
   }
 
   @override
-  Future<bool> createReview(
+  Future<ProductReviewModel> createReview(
       {required int productId, required Map<String, dynamic> jsonData}) async {
     return await createReviewService.createReview(
       productId: productId,
@@ -73,7 +79,11 @@ class ReviewRepositoryImpl implements ReviewRepository {
   }
 
   @override
-  Future<CheckUserReviewForProductModel> checkUserReviewForProduct({required int productId, required int userId}) async{
-    return await checkUserReviewForProductService.checkUserReviewForProduct(productId: productId, userId: userId);
+  Future<CheckUserReviewForProductModel> checkUserReviewForProduct({
+    required int productId,
+    required int userId,
+  }) async {
+    return await checkUserReviewForProductService.checkUserReviewForProduct(
+        productId: productId, userId: userId);
   }
 }

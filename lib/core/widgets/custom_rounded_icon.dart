@@ -8,17 +8,23 @@ class CustomRoundedIcon extends StatelessWidget {
     super.key,
     required this.child,
     this.backgroundColor = ThemeColors.successfullyDoneColor,
-    this.internalPadding = 6,
+    this.internalHorizontalPadding = 8,
+    this.internalVerticalPadding = 8,
   });
 
   final Widget child;
   final Color backgroundColor;
-  final double internalPadding;
+  final double internalHorizontalPadding;
+  final double internalVerticalPadding;
+
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(internalPadding),
+      padding: EdgeInsets.symmetric(
+        horizontal: internalHorizontalPadding,
+        vertical: internalVerticalPadding,
+      ),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(360),

@@ -1,19 +1,22 @@
 import 'package:dio/dio.dart';
 import 'package:e_commerce_app/constants/api_constants.dart';
 import 'package:e_commerce_app/core/helpers/api.dart';
+import 'package:e_commerce_app/features/reviews/data/models/product_review_model.dart';
 
 class UpdateReviewService {
-  Future<bool> updateReview({
+  Future<ProductReviewModel> updateReview({
     required int productId,
     required int reviewId,
+    required Map<String, dynamic> jsonData,
   }) async {
     try {
       Response response = await Api().patch(
         url:
             "${ApiConstants.baseUrl}${ApiConstants.updateReviewEndPoint(productId, reviewId)}",
+        jsonData: jsonData,
       );
       if (response.data["status"] == "success") {
-        return true;
+        return ProductReviewModel.fromJson(response.data["data"]);
       } else {
         throw Exception(response.data["message"]);
       }

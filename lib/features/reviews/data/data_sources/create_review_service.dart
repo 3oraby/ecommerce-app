@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:e_commerce_app/constants/api_constants.dart';
 import 'package:e_commerce_app/core/helpers/api.dart';
+import 'package:e_commerce_app/features/reviews/data/models/product_review_model.dart';
 
 class CreateReviewService {
-  Future<bool> createReview({
+  Future<ProductReviewModel> createReview({
     required int productId,
     required Map<String ,dynamic> jsonData,
   }) async {
@@ -14,7 +15,7 @@ class CreateReviewService {
         jsonData: jsonData,    
       );
       if (response.data["status"] == "success") {
-        return true;
+        return ProductReviewModel.fromJson(response.data["data"]);
       } else {
         throw Exception(response.data["message"]);
       }

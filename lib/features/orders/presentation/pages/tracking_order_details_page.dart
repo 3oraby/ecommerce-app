@@ -149,7 +149,7 @@ class ShowReviewOption extends StatelessWidget {
                     enabled: true,
                     onTap: () {},
                     leading: const CustomRoundedIcon(
-                      internalPadding: 10,
+                      internalHorizontalPadding: 10,
                       backgroundColor: ThemeColors.backgroundBodiesColor,
                       child: Icon(
                         Icons.thumb_up_rounded,
