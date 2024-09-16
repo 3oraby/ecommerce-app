@@ -53,6 +53,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
           "Change Password",
           style: TextStyles.aDLaMDisplayBlackBold26,
         ),
+        centerTitle: true,
       ),
       body: Column(
         children: [
