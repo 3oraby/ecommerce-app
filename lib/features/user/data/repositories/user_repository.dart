@@ -10,4 +10,6 @@ abstract class UserRepository {
   });
 
   Future<LogOutResponseModel> logout();
+
+  Future<bool> updateUserPassword({required Map<String, dynamic> jsonData});
 }

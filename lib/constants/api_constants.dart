@@ -9,6 +9,7 @@ class ApiConstants {
   // user
   static const String getUserEndPoint = "users/me";
   static const String updateUserEndPoint = "users/";
+  static const String updateUserPasswordEndPoint = "users/updatePassword";
 
   // photo
   static const String getPhotoEndPoint = "uploads/";
