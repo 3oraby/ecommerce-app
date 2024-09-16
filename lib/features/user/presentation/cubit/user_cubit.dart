@@ -59,6 +59,28 @@ class UserCubit extends Cubit<UserState> {
     }
   }
 
+  Future<void> updateUserPassword({
+    required Map<String, dynamic> jsonData,
+  }) async {
+    emit(UpdateUserPasswordLoadingState());
+    try {
+      final bool isUpdated = await userRepository.updateUserPassword(
+        jsonData: jsonData,
+      );
+      if (isUpdated) {
+        emit(UpdateUserPasswordLoadedState());
+      } else {
+        emit(UpdateUserPasswordErrorState(
+          message: 'Old password not Correct',
+        ));
+      }
+    } catch (e) {
+      emit(UpdateUserPasswordErrorState(
+        message: 'Failed to update password $e',
+      ));
+    }
+  }
+
   Future<void> logOut() async {
     emit(LogOutLoadingState());
     try {

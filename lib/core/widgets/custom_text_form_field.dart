@@ -5,9 +5,8 @@ import 'package:flutter/services.dart';
 class CustomTextFormFieldWidget extends StatefulWidget {
   const CustomTextFormFieldWidget({
     super.key,
-    this.formKey,
     this.labelText,
-    this.fillColor = Colors.grey,
+    this.fillColor = const Color.fromARGB(255, 209, 204, 204),
     this.keyboardType = TextInputType.text,
     this.isObscure = false,
     this.borderColor = Colors.grey,
@@ -68,7 +67,6 @@ class CustomTextFormFieldWidget extends StatefulWidget {
   final double contentPadding;
   final double borderRadius;
   final int maxLines;
-  final GlobalKey<FormState>? formKey;
 
   @override
   State<CustomTextFormFieldWidget> createState() =>
@@ -87,59 +85,56 @@ class _CustomTextFormFieldWidgetState extends State<CustomTextFormFieldWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: widget.formKey,
-      child: TextFormField(
-        controller: widget.controller,
-        focusNode: widget.focusNode,
-        obscureText: isObscure!,
-        validator: widget.validator,
-        onChanged: widget.onChanged,
-        keyboardType: widget.keyboardType,
-        onTap: widget.onTap,
-        style: widget.textStyle,
-        inputFormatters: widget.inputFormatters,
-        maxLines: widget.maxLines,
-        decoration: InputDecoration(
-          labelText: widget.labelText,
-          hintText: widget.hintText,
-          hintStyle: widget.hintStyle,
-          helperText: widget.helperText,
-          errorText: widget.errorText,
-          errorStyle: widget.errorStyle,
-          prefixIcon: widget.prefixIcon,
-          suffixIcon: useVisibilityIcon!
-              ? IconButton(
-                  icon: isObscure!
-                      ? const Icon(Icons.visibility)
-                      : const Icon(Icons.visibility_off),
-                  onPressed: () {
-                    setState(() {
-                      isObscure = !isObscure!;
-                    });
-                  },
-                  iconSize: 30,
-                )
-              : widget.suffixIcon,
-          contentPadding: EdgeInsets.all(widget.contentPadding),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(widget.borderRadius),
-            borderSide: BorderSide(
-              color: widget.borderColor,
-              width: widget.borderWidth,
-            ),
+    return TextFormField(
+      controller: widget.controller,
+      focusNode: widget.focusNode,
+      obscureText: isObscure!,
+      validator: widget.validator,
+      onChanged: widget.onChanged,
+      keyboardType: widget.keyboardType,
+      onTap: widget.onTap,
+      style: widget.textStyle,
+      inputFormatters: widget.inputFormatters,
+      maxLines: widget.maxLines,
+      decoration: InputDecoration(
+        labelText: widget.labelText,
+        hintText: widget.hintText,
+        hintStyle: widget.hintStyle,
+        helperText: widget.helperText,
+        errorText: widget.errorText,
+        errorStyle: widget.errorStyle,
+        prefixIcon: widget.prefixIcon,
+        suffixIcon: useVisibilityIcon!
+            ? IconButton(
+                icon: isObscure!
+                    ? const Icon(Icons.visibility)
+                    : const Icon(Icons.visibility_off),
+                onPressed: () {
+                  setState(() {
+                    isObscure = !isObscure!;
+                  });
+                },
+                iconSize: 30,
+              )
+            : widget.suffixIcon,
+        contentPadding: EdgeInsets.all(widget.contentPadding),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(widget.borderRadius),
+          borderSide: BorderSide(
+            color: widget.borderColor,
+            width: widget.borderWidth,
           ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(widget.borderRadius),
-            borderSide: BorderSide(
-              color: widget.enabledBorderColor,
-              width: widget.enabledBorderWidth,
-            ),
-          ),
-          filled: true,
-          fillColor: widget.fillColor,
-          labelStyle: widget.labelStyle,
         ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(widget.borderRadius),
+          borderSide: BorderSide(
+            color: widget.enabledBorderColor,
+            width: widget.enabledBorderWidth,
+          ),
+        ),
+        filled: true,
+        fillColor: widget.fillColor,
+        labelStyle: widget.labelStyle,
       ),
     );
   }

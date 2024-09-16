@@ -14,6 +14,7 @@ import 'package:e_commerce_app/features/products/presentation/pages/show_product
 import 'package:e_commerce_app/features/products/presentation/pages/show_products_page.dart';
 import 'package:e_commerce_app/features/reviews/presentation/pages/make_new_review_page.dart';
 import 'package:e_commerce_app/features/reviews/presentation/pages/show_all_reviews_page.dart';
+import 'package:e_commerce_app/features/user/presentation/pages/update_password_page.dart';
 import 'package:e_commerce_app/features/user/presentation/pages/user_profile_page.dart';
 import 'package:flutter/material.dart';
 
@@ -48,6 +49,7 @@ class ECommerceApp extends StatelessWidget {
         CancelItemsFromOrderPage.id: (context) =>
             const CancelItemsFromOrderPage(),
         MakeNewReviewPage.id: (context) => const MakeNewReviewPage(),
+        UpdatePasswordPage.id: (context) => const UpdatePasswordPage(),
       },
       initialRoute: isFirstTime ? OnboardingPage.id : EntryPage.id,
     );

@@ -14,11 +14,9 @@ class UnReviewedProductBody extends StatefulWidget {
   const UnReviewedProductBody({
     super.key,
     required this.makeReviewRequestModel,
-    required this.formKey,
     required this.onRateChange,
   });
   final MakeReviewRequestModel makeReviewRequestModel;
-  final GlobalKey<FormState> formKey;
   final Function(double value) onRateChange;
   @override
   State<UnReviewedProductBody> createState() => _UnReviewedProductBodyState();
@@ -99,7 +97,6 @@ class _UnReviewedProductBodyState extends State<UnReviewedProductBody> {
           ),
           const VerticalGap(8),
           CustomTextFormFieldWidget(
-            formKey: widget.formKey,
             hintText: ReviewFeatureConstants.labelTextForMakingReview,
             borderWidth: 0.3,
             fillColor: Colors.white,

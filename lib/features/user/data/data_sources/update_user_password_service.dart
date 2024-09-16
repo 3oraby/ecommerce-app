@@ -8,7 +8,7 @@ class UpdateUserPasswordService {
   }) async {
     try {
       Response response = await Api().patch(
-        url: "${ApiConstants.baseUrl}${ApiConstants.updateUserEndPoint}",
+        url: "${ApiConstants.baseUrl}${ApiConstants.updateUserPasswordEndPoint}",
         jsonData: jsonData,
       );
       return response.data["status"] == "success";

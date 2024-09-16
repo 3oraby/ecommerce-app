@@ -69,36 +69,39 @@ class _MakeNewReviewLoadedBodyState extends State<MakeNewReviewLoadedBody> {
     return Column(
       children: [
         Expanded(
-          child: ListView(
-            children: [
-              Visibility(
-                visible: widget.showSuccessMakingReview,
-                child: const SuccessMakingReviewWidget(),
-              ),
-              const VerticalGap(4),
-              CustomProductDetailsInOrders(
-                orderItem: orderItem!,
-                showQuantity: false,
-                productReviewModel: widget.checkUserReviewForProductModel.productReviewModel,    
-                onEditReviewTap: () {
-                  setState(() {
-                    showMakingReviewBody = true;
-                    showFeedbackRating = false;
-                  });
-                },
-              ),
-              const VerticalGap(4),
-              Visibility(
-                visible: showMakingReviewBody!,
-                child: UnReviewedProductBody(
-                  makeReviewRequestModel: makeReviewRequestModel,
-                  formKey: formKey,
-                  onRateChange: (value) {
-                    setState(() {});
+          child: Form(
+            key: formKey,
+            child: ListView(
+              children: [
+                Visibility(
+                  visible: widget.showSuccessMakingReview,
+                  child: const SuccessMakingReviewWidget(),
+                ),
+                const VerticalGap(4),
+                CustomProductDetailsInOrders(
+                  orderItem: orderItem!,
+                  showQuantity: false,
+                  productReviewModel:
+                      widget.checkUserReviewForProductModel.productReviewModel,
+                  onEditReviewTap: () {
+                    setState(() {
+                      showMakingReviewBody = true;
+                      showFeedbackRating = false;
+                    });
                   },
                 ),
-              ),
-            ],
+                const VerticalGap(4),
+                Visibility(
+                  visible: showMakingReviewBody!,
+                  child: UnReviewedProductBody(
+                    makeReviewRequestModel: makeReviewRequestModel,
+                    onRateChange: (value) {
+                      setState(() {});
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         const VerticalGap(24),

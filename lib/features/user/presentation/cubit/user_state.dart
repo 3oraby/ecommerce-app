@@ -28,6 +28,16 @@ final class UpdateUserErrorState extends UserState {
 
 final class UpdateUserLoadedState extends UserState {}
 
+final class UpdateUserPasswordLoadingState extends UserState {}
+
+final class UpdateUserPasswordErrorState extends UserState {
+  final String message;
+
+  UpdateUserPasswordErrorState({required this.message});
+}
+
+final class UpdateUserPasswordLoadedState extends UserState {}
+
 
 final class LogOutLoadingState extends UserState {}
 final class LogOutLoadedState extends UserState {}
