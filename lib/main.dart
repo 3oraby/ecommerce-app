@@ -41,6 +41,7 @@ import 'package:e_commerce_app/features/reviews/data/data_sources/update_review_
 import 'package:e_commerce_app/features/reviews/data/repositories/review_repository_impl.dart';
 import 'package:e_commerce_app/features/reviews/presentation/cubit/review_cubit.dart';
 import 'package:e_commerce_app/features/user/data/data_sources/get_user_service.dart';
+import 'package:e_commerce_app/features/user/data/data_sources/update_user_password_service.dart';
 import 'package:e_commerce_app/features/user/data/data_sources/update_user_service.dart';
 import 'package:e_commerce_app/features/user/data/repositories/user_repository_impl.dart';
 import 'package:e_commerce_app/features/user/presentation/cubit/user_cubit.dart';
@@ -92,7 +93,8 @@ Future<void> main() async {
             userRepository: UserRepositoryImpl(
               getUserService: GetUserService(),
               updateUserService: UpdateUserService(),
-              logOutService: LogOutService()
+              logOutService: LogOutService(),
+              updateUserPasswordService: UpdateUserPasswordService(),
             ),
           ),
         ),
