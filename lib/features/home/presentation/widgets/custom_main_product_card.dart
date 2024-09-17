@@ -1,11 +1,10 @@
-
-import 'package:e_commerce_app/constants/api_constants.dart';
+import 'package:e_commerce_app/core/helpers/functions/get_photo_url.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
+import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/widgets/custom_favorite_button.dart';
 import 'package:e_commerce_app/core/widgets/custom_rounded_image_container.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CustomMainProductCard extends StatelessWidget {
   const CustomMainProductCard({
@@ -13,30 +12,32 @@ class CustomMainProductCard extends StatelessWidget {
     required this.productModel,
     this.backgroundColor = Colors.white,
     this.borderRadius = 30,
-    this.height = 350,
-    this.width = double.infinity,
     this.isFavoritePage = false,
   });
 
   final ProductModel productModel;
   final Color backgroundColor;
   final double borderRadius;
-  final double height;
-  final double width;
   final bool isFavoritePage;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height,
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(borderRadius),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
+            color: Colors.black.withOpacity(0.1), 
+            blurRadius: 10, 
+            spreadRadius: 2, 
+            offset: const Offset(0, 4), 
+          ),
+          BoxShadow(
+            color:
+                Colors.black.withOpacity(0.05), 
+            blurRadius: 15, 
+            offset: const Offset(0, 8),
           ),
         ],
       ),
@@ -52,8 +53,8 @@ class CustomMainProductCard extends StatelessWidget {
           children: [
             CustomRoundedImageContainer(
               imagePath:
-                  "${ApiConstants.baseUrl}${ApiConstants.getPhotoEndPoint}${productModel.photo}",
-              height: 200,
+                  getPhotoUrl(productModel.photo),
+              height: MediaQuery.of(context).size.height*0.2,
               fit: BoxFit.contain,
             ),
             const VerticalGap(24),
@@ -61,11 +62,7 @@ class CustomMainProductCard extends StatelessWidget {
               child: Text(
                 productModel.name,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.aDLaMDisplay(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyles.aDLaMDisplayBlackBold20,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
               ),
@@ -77,10 +74,7 @@ class CustomMainProductCard extends StatelessWidget {
                 Text(
                   productModel.price.toString(),
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.aDLaMDisplay(
-                    color: Colors.black,
-                    fontSize: 22,
-                  ),
+                  style: TextStyles.aDLaMDisplayBlackBold22,
                 ),
                 CustomFavoriteButton(
                   productModel: productModel,
