@@ -26,7 +26,7 @@ class CustomOptionListTile extends StatelessWidget {
       fontSize: 18,
     ),
     this.titleTextStyle = const TextStyle(
-      fontSize: 18,
+      fontSize: 21,
       fontWeight: FontWeight.bold,
     ),
   });

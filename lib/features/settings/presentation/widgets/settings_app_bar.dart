@@ -10,6 +10,7 @@ class SettingsAppBar {
       ),
       backgroundColor: Colors.white,
       surfaceTintColor: Colors.transparent,
+      centerTitle: true,
     );
   }
 }

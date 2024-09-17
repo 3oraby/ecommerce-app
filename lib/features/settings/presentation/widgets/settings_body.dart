@@ -3,7 +3,7 @@ import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/entry/presentation/pages/entry_page.dart';
-import 'package:e_commerce_app/features/settings/presentation/widgets/custom_option_list_tile.dart';
+import 'package:e_commerce_app/core/widgets/custom_option_list_tile.dart';
 import 'package:e_commerce_app/features/user/presentation/cubit/user_cubit.dart';
 import 'package:e_commerce_app/features/user/presentation/pages/edit_user_profile_page.dart';
 import 'package:e_commerce_app/features/user/presentation/pages/update_password_page.dart';
