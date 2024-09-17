@@ -5,6 +5,7 @@ import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/entry/presentation/pages/entry_page.dart';
 import 'package:e_commerce_app/features/settings/presentation/widgets/custom_option_list_tile.dart';
 import 'package:e_commerce_app/features/user/presentation/cubit/user_cubit.dart';
+import 'package:e_commerce_app/features/user/presentation/pages/edit_user_profile_page.dart';
 import 'package:e_commerce_app/features/user/presentation/pages/update_password_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -49,7 +50,9 @@ class _SettingsBodyState extends State<SettingsBody> {
             CustomOptionListTile(
               leadingIcon: FontAwesomeIcons.user,
               title: 'Edit Profile',
-              onTap: () {},
+              onTap: () {
+                Navigator.pushNamed(context, EditUserProfilePage.id);
+              },
             ),
             const VerticalGap(16),
             CustomOptionListTile(

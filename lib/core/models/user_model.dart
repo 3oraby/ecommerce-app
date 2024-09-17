@@ -25,4 +25,15 @@ class UserModel {
       phoneNumber: json['phone_number'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "address_id": addressId,
+      "user_name": userName,
+      "user_role": userRole,
+      "email": email,
+      "phone_number": phoneNumber,
+    };
+  }
 }

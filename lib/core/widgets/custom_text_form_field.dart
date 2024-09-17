@@ -39,6 +39,8 @@ class CustomTextFormFieldWidget extends StatefulWidget {
     this.borderRadius = LocalConstants.kBorderRadius,
     this.contentPadding = 25,
     this.maxLines = 1,
+    this.makeBorderForTextField = true,
+    this.isEnabled = true,
   });
 
   final String? labelText;
@@ -67,6 +69,8 @@ class CustomTextFormFieldWidget extends StatefulWidget {
   final double contentPadding;
   final double borderRadius;
   final int maxLines;
+  final bool makeBorderForTextField;
+  final bool isEnabled;
 
   @override
   State<CustomTextFormFieldWidget> createState() =>
@@ -96,6 +100,7 @@ class _CustomTextFormFieldWidgetState extends State<CustomTextFormFieldWidget> {
       style: widget.textStyle,
       inputFormatters: widget.inputFormatters,
       maxLines: widget.maxLines,
+      enabled: widget.isEnabled,
       decoration: InputDecoration(
         labelText: widget.labelText,
         hintText: widget.hintText,
@@ -118,20 +123,24 @@ class _CustomTextFormFieldWidgetState extends State<CustomTextFormFieldWidget> {
               )
             : widget.suffixIcon,
         contentPadding: EdgeInsets.all(widget.contentPadding),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius),
-          borderSide: BorderSide(
-            color: widget.borderColor,
-            width: widget.borderWidth,
-          ),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(widget.borderRadius),
-          borderSide: BorderSide(
-            color: widget.enabledBorderColor,
-            width: widget.enabledBorderWidth,
-          ),
-        ),
+        border: widget.makeBorderForTextField
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(widget.borderRadius),
+                borderSide: BorderSide(
+                  color: widget.borderColor,
+                  width: widget.borderWidth,
+                ),
+              )
+            : null,
+        enabledBorder: widget.makeBorderForTextField
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(widget.borderRadius),
+                borderSide: BorderSide(
+                  color: widget.enabledBorderColor,
+                  width: widget.enabledBorderWidth,
+                ),
+              )
+            : null,
         filled: true,
         fillColor: widget.fillColor,
         labelStyle: widget.labelStyle,

@@ -57,9 +57,9 @@ class Validators {
 
   static String? phoneValidator(String? value) {
     if (value == null || value.isEmpty) {
-      return "phone number is required";
-    } else if (!RegExp(r'^\+?[0-9]{10,15}$').hasMatch(value)) {
-      return "Enter a valid phone number";
+      return "Phone number is required";
+    } else if (!RegExp(r'^\+?[0-9]{11}$').hasMatch(value)) {
+      return "Enter a valid phone number with exactly 11 digits";
     } else {
       return null;
     }
@@ -68,7 +68,9 @@ class Validators {
   static String? imageUrlValidator(String? value) {
     if (value == null || value.isEmpty) {
       return null;
-    } else if (!Uri.parse(value).isAbsolute || !Uri.parse(value).isScheme('http') && !Uri.parse(value).isScheme('https')) {
+    } else if (!Uri.parse(value).isAbsolute ||
+        !Uri.parse(value).isScheme('http') &&
+            !Uri.parse(value).isScheme('https')) {
       return "Enter a valid URL starting with http or https";
     } else {
       return null;
