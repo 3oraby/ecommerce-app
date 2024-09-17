@@ -93,7 +93,7 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.transparent,
         title: Text(
-          "Edit Profile",
+          "Profile",
           style: TextStyles.aDLaMDisplayBlackBold26,
         ),
         centerTitle: true,
@@ -103,15 +103,15 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
           Expanded(
             child: Form(
               key: formKey,
-              child: ListView(
-                children: [
-                  const VerticalGap(4),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: LocalConstants.kHorizontalPadding,
-                      vertical: 16,
-                    ),
-                    child: Container(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: LocalConstants.kHorizontalPadding,
+                  vertical: 16,
+                ),
+                child: ListView(
+                  children: [
+                    const VerticalGap(4),
+                    Container(
                       padding: LocalConstants.internalPadding,
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -127,12 +127,12 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
                             "Email",
                             style: TextStyle(
                               fontSize: 22,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
-                          const VerticalGap(4),
                           CustomTextFormFieldWidget(
                             controller: emailController,
-                            hintText: "Enter your email",
+                            contentPadding: 16,
                             fillColor: Colors.white,
                             textStyle: GoogleFonts.rubik(
                               fontWeight: FontWeight.bold,
@@ -145,15 +145,16 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
                               color: ThemeColors.primaryColor,
                             ),
                           ),
-                          const VerticalGap(24),
+                          const VerticalGap(36),
                           const Text(
                             "Name",
                             style: TextStyle(
                               fontSize: 22,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
-                          const VerticalGap(4),
                           CustomTextFormFieldWidget(
+                            contentPadding: 16,
                             controller: nameController,
                             hintText: "Enter your name",
                             fillColor: Colors.white,
@@ -171,15 +172,16 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
                             ),
                             validator: Validators.requiredFieldValidator,
                           ),
-                          const VerticalGap(24),
+                          const VerticalGap(36),
                           const Text(
                             "Phone Number",
                             style: TextStyle(
                               fontSize: 22,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
-                          const VerticalGap(4),
                           CustomTextFormFieldWidget(
+                            contentPadding: 16,
                             controller: phoneNumberController,
                             hintText: "Enter your phone number",
                             fillColor: Colors.white,
@@ -202,12 +204,12 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
                         ],
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
-          BlocListener<UserCubit, UserState>( 
+          BlocListener<UserCubit, UserState>(
             listener: (context, state) {
               if (state is UpdateUserLoadingState) {
                 setState(() {
@@ -224,7 +226,7 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
                   isLoading = false;
                   initialName = nameController.text;
                   initialPhoneNumber = phoneNumberController.text;
-                  isFormChanged = false; // Reset form changed status
+                  isFormChanged = false;
                   showSnackBar(context, "Profile updated successfully",
                       backgroundColor: ThemeColors.successfullyDoneColor);
                 });

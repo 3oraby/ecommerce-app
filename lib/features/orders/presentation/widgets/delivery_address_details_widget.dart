@@ -1,5 +1,4 @@
-
-
+import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
@@ -11,16 +10,21 @@ class DeliveryAddressDetailsWidget extends StatelessWidget {
   const DeliveryAddressDetailsWidget({
     super.key,
     required this.orderAddress,
-    required this.internalPadding,
+    this.internalPadding = LocalConstants.internalPadding,
+    this.borderRadius = 0,
   });
   final OrdersAddressModel orderAddress;
   final EdgeInsets internalPadding;
+  final double borderRadius;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white,
       padding: internalPadding,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(borderRadius),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

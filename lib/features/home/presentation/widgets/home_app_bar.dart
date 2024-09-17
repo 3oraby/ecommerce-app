@@ -1,7 +1,7 @@
 import 'package:e_commerce_app/core/models/user_model.dart';
 import 'package:e_commerce_app/core/utils/app_assets/images/app_images.dart';
 import 'package:e_commerce_app/features/user/presentation/cubit/user_cubit.dart';
-import 'package:e_commerce_app/features/user/presentation/pages/user_profile_page.dart';
+import 'package:e_commerce_app/features/user/presentation/pages/edit_user_profile_page.dart';
 import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,11 +19,12 @@ class HomeAppBar {
     return AppBar(
       elevation: 0,
       backgroundColor: Colors.white,
+      surfaceTintColor: Colors.transparent,
       title: Row(
         children: [
           GestureDetector(
             onTap: () {
-              Navigator.pushNamed(context, UserProfilePage.id);
+              Navigator.pushNamed(context, EditUserProfilePage.id);
             },
             child: Image.asset(
               AppImages.userPhoto,
