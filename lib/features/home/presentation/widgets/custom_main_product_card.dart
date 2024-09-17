@@ -11,7 +11,7 @@ class CustomMainProductCard extends StatelessWidget {
     super.key,
     required this.productModel,
     this.backgroundColor = Colors.white,
-    this.borderRadius = 30,
+    this.borderRadius = 20,
     this.isFavoritePage = false,
   });
 
