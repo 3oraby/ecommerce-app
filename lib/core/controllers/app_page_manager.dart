@@ -39,7 +39,7 @@ class AppPageManager {
   AppBar getAppBar(int index, BuildContext context) {
     switch (index) {
       case 0:
-        return HomeAppBar.getHomeAppBar(userModel: userModel, context: context);
+        return HomeAppBar.getHomeAppBar(context: context);
       case 1:
         return MyOrdersAppBar.getMyOrdersAppBar();
       case 2:
@@ -49,7 +49,7 @@ class AppPageManager {
       case 4:
         return SettingsAppBar.getSettingsAppBar();
       default:
-        return HomeAppBar.getHomeAppBar(userModel: userModel, context: context);
+        return HomeAppBar.getHomeAppBar(context: context);
     }
   }
 }

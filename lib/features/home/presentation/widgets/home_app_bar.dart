@@ -1,15 +1,21 @@
-import 'package:e_commerce_app/core/utils/app_assets/images/app_images.dart';
-import 'package:e_commerce_app/features/user/presentation/pages/user_profile_page.dart';
 import 'package:e_commerce_app/core/models/user_model.dart';
+import 'package:e_commerce_app/core/utils/app_assets/images/app_images.dart';
+import 'package:e_commerce_app/features/user/presentation/cubit/user_cubit.dart';
+import 'package:e_commerce_app/features/user/presentation/pages/user_profile_page.dart';
 import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class HomeAppBar{
+class HomeAppBar {
   static AppBar getHomeAppBar({
-    required UserModel userModel,
     required BuildContext context,
   }) {
+    final UserModel userModel = BlocProvider.of<UserCubit>(context).getUserModel!;
+
+    final nameParts = userModel.userName?.split(' ');
+    final displayName = nameParts != null && nameParts.isNotEmpty ? nameParts.first : 'User';
+
     return AppBar(
       elevation: 0,
       backgroundColor: Colors.white,
@@ -30,7 +36,7 @@ class HomeAppBar{
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Hi, ${userModel.userName}",
+                "Hi, $displayName",
                 style: GoogleFonts.aDLaMDisplay(
                   color: Colors.black,
                   fontSize: 24,
@@ -38,7 +44,7 @@ class HomeAppBar{
                 ),
               ),
               const Text(
-                "let`s go shopping",
+                "let's go shopping",
                 style: TextStyle(
                   fontSize: 18,
                 ),
