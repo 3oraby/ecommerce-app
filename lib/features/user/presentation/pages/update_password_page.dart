@@ -1,4 +1,3 @@
-
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
@@ -33,6 +32,10 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
   bool isLoading = false;
 
   Future<void> changePassword(BuildContext context) async {
+    oldPasswordController.text = oldPasswordController.text.trim();
+    newPasswordController.text = newPasswordController.text.trim();
+    confirmNewPasswordController.text = confirmNewPasswordController.text.trim();
+    
     if (formKey.currentState!.validate()) {
       updateUserPasswordRequestModel.currentPassword =
           oldPasswordController.text;
@@ -155,7 +158,8 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
               } else if (state is UpdateUserPasswordLoadedState) {
                 setState(() {
                   isLoading = false;
-                  showSnackBar(context, "Password has been updated successfully",
+                  showSnackBar(
+                      context, "Password has been updated successfully",
                       backgroundColor: ThemeColors.successfullyDoneColor);
                 });
               }
