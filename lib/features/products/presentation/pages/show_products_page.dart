@@ -1,9 +1,10 @@
+import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
-import 'package:e_commerce_app/features/products/presentation/cubit/product_catalog_cubit.dart';
-import 'package:e_commerce_app/core/widgets/custom_text_form_field.dart';
-import 'package:e_commerce_app/features/products/presentation/widgets/show_products_widgets/show_products_loaded_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:e_commerce_app/core/widgets/custom_text_form_field.dart';
+import 'package:e_commerce_app/features/products/presentation/cubit/product_catalog_cubit.dart';
+import 'package:e_commerce_app/features/products/presentation/widgets/show_products_widgets/show_products_loaded_body.dart';
 
 class ShowProductsPage extends StatefulWidget {
   const ShowProductsPage({super.key});
@@ -14,13 +15,22 @@ class ShowProductsPage extends StatefulWidget {
 }
 
 class _ShowProductsPageState extends State<ShowProductsPage> {
+  final TextEditingController productNameTextEditingController =
+      TextEditingController();
+  late int categoryId;
+  late ProductCatalogCubit productCatalogCubit;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    categoryId = ModalRoute.of(context)!.settings.arguments as int;
+    productCatalogCubit = BlocProvider.of<ProductCatalogCubit>(context);
+
+    productCatalogCubit.getProductsByCategory(categoryId: categoryId);
+  }
+
   @override
   Widget build(BuildContext context) {
-    int categoryId = ModalRoute.of(context)!.settings.arguments as int;
-
-    BlocProvider.of<ProductCatalogCubit>(context)
-        .getProductsByCategory(categoryId: categoryId);
-
     return Scaffold(
       backgroundColor: ThemeColors.backgroundBodiesColor,
       appBar: AppBar(
@@ -32,39 +42,49 @@ class _ShowProductsPageState extends State<ShowProductsPage> {
           },
           icon: const Icon(Icons.arrow_back_ios),
         ),
-        title: const CustomTextFormFieldWidget(
-          labelText: "Search for a product",
+        title: CustomTextFormFieldWidget(
+          hintText: "Search for a product",
           borderWidth: 0,
+          enabledBorderWidth: 0,
           borderColor: Colors.white,
           enabledBorderColor: Colors.white,
-          suffixIcon: Icon(
+          suffixIcon: const Icon(
             Icons.search,
             color: Colors.black,
             size: 35,
           ),
           fillColor: Colors.white,
-          labelStyle: TextStyle(
+          hintStyle: const TextStyle(
             color: Colors.black,
           ),
-          borderRadius: 35,
+          borderRadius: LocalConstants.kBorderRadius,
+          focusedBorderColor: Colors.transparent,
+          onChanged: (value) {
+            // Trigger the search when the user types
+            productCatalogCubit.searchInProducts(
+                categoryId: categoryId, productName: value);
+          },
         ),
       ),
       body: BlocBuilder<ProductCatalogCubit, ProductCatalogState>(
         builder: (context, state) {
-          if (state is GetProductsByCategoryLoadingState) {
+          if (state is GetProductsByCategoryLoadingState ||
+              state is SearchInProductsLoadingState) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (state is GetProductsByCategoryErrorState) {
+          } else if (state is GetProductsByCategoryErrorState ||
+              state is SearchInProductsErrorState) {
             return Center(
-              child: Text(state.message),
+              child: Text((state as dynamic).message),
             );
-          } else if (state is GetProductsByCategoryLoadedState) {
-            return ShowProductsLoadedBody(products: state.products);
-          } 
-          else {
+          } else if (state is GetProductsByCategoryLoadedState ||
+              state is SearchInProductsLoadedState) {
+            return ShowProductsLoadedBody(
+                products: (state as dynamic).products);
+          } else {
             return const Center(
-              child: Text("can not get all products"),
+              child: Text("Cannot get products"),
             );
           }
         },

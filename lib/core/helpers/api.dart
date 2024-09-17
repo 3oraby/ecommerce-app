@@ -20,11 +20,13 @@ class Api {
   Future<Response> get({
     required String url,
     Map<String, dynamic>? headers,
+    Map<String, dynamic>? queryParams,
   }) async {
     try {
       log(url);
       Response response = await dio.get(
         url,
+        queryParameters: queryParams,
         options: Options(
           headers: headers,
         ),

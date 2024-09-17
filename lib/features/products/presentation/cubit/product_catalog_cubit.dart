@@ -25,7 +25,7 @@ class ProductCatalogCubit extends Cubit<ProductCatalogState> {
 
   ProductModel? get getSelectedProduct => _selectedProduct;
 
-  void refreshPage(){
+  void refreshPage() {
     emit(ProductPageRefreshState());
   }
 
@@ -77,6 +77,27 @@ class ProductCatalogCubit extends Cubit<ProductCatalogState> {
       }
     } catch (e) {
       emit(GetProductsByCategoryErrorState(message: e.toString()));
+    }
+  }
+
+  Future<void> searchInProducts(
+      {required int categoryId, required String productName}) async {
+    emit(SearchInProductsLoadingState());
+    try {
+      GetProductsCategoryResponseModel getProductsCategoryResponseModel =
+          await productRepository.searchInProducts(
+        categoryId: categoryId,
+        productName: productName,
+      );
+      if (getProductsCategoryResponseModel.status) {
+        emit(SearchInProductsLoadedState(
+            products: getProductsCategoryResponseModel.products!));
+      } else {
+        emit(SearchInProductsErrorState(
+            message: getProductsCategoryResponseModel.message!));
+      }
+    } catch (e) {
+      emit(SearchInProductsErrorState(message: e.toString()));
     }
   }
 }

@@ -43,3 +43,18 @@ final class GetProductsByCategoryErrorState extends ProductCatalogState {
   final String message;
   GetProductsByCategoryErrorState({required this.message});
 }
+
+
+final class SearchInProductsLoadingState extends ProductCatalogState {}
+
+final class SearchInProductsLoadedState extends ProductCatalogState {
+  final List<ProductModel> products;
+  SearchInProductsLoadedState({required this.products});
+}
+
+final class SearchInProductsErrorState extends ProductCatalogState {
+  final String message;
+  SearchInProductsErrorState({required this.message});
+}
+
+

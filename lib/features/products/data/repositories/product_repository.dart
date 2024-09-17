@@ -8,4 +8,8 @@ abstract class ProductRepository {
     required int categoryId,
   });
   
+  Future<GetProductsCategoryResponseModel> searchInProducts({
+    required int categoryId,
+    required String productName,
+  });
 }

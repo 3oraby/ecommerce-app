@@ -3,45 +3,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CustomTextFormFieldWidget extends StatefulWidget {
-  const CustomTextFormFieldWidget({
-    super.key,
-    this.labelText,
-    this.fillColor = const Color.fromARGB(255, 209, 204, 204),
-    this.keyboardType = TextInputType.text,
-    this.isObscure = false,
-    this.borderColor = Colors.grey,
-    this.borderWidth = 0.5,
-    this.enabledBorderColor = Colors.grey,
-    this.enabledBorderWidth = 0.5,
-    this.hintText,
-    this.onChanged,
-    this.validator,
-    this.textStyle,
-    this.hintStyle,
-    this.labelStyle = const TextStyle(
-      color: Colors.white,
-      fontSize: 22,
-      fontStyle: FontStyle.italic,
-    ),
-    this.errorStyle = const TextStyle(
-      color: Colors.red,
-      fontWeight: FontWeight.bold,
-      fontSize: 13,
-    ),
-    this.onTap,
-    this.inputFormatters,
-    this.prefixIcon,
-    this.suffixIcon,
-    this.helperText,
-    this.errorText,
-    this.controller,
-    this.focusNode,
-    this.borderRadius = LocalConstants.kBorderRadius,
-    this.contentPadding = 25,
-    this.maxLines = 1,
-    this.makeBorderForTextField = true,
-    this.isEnabled = true,
-  });
+  const CustomTextFormFieldWidget(
+      {super.key,
+      this.labelText,
+      this.fillColor = const Color.fromARGB(255, 209, 204, 204),
+      this.keyboardType = TextInputType.text,
+      this.isObscure = false,
+      this.borderColor = Colors.grey,
+      this.borderWidth = 0.5,
+      this.enabledBorderColor = Colors.grey,
+      this.enabledBorderWidth = 0.5,
+      this.hintText,
+      this.onChanged,
+      this.validator,
+      this.textStyle,
+      this.hintStyle,
+      this.labelStyle = const TextStyle(
+        color: Colors.white,
+        fontSize: 22,
+        fontStyle: FontStyle.italic,
+      ),
+      this.errorStyle = const TextStyle(
+        color: Colors.red,
+        fontWeight: FontWeight.bold,
+        fontSize: 13,
+      ),
+      this.onTap,
+      this.inputFormatters,
+      this.prefixIcon,
+      this.suffixIcon,
+      this.helperText,
+      this.errorText,
+      this.controller,
+      this.focusNode,
+      this.borderRadius = LocalConstants.kBorderRadius,
+      this.contentPadding = 25,
+      this.maxLines = 1,
+      this.makeBorderForTextField = true,
+      this.isEnabled = true,
+      this.focusedBorderColor});
 
   final String? labelText;
   final String? hintText;
@@ -71,6 +71,7 @@ class CustomTextFormFieldWidget extends StatefulWidget {
   final int maxLines;
   final bool makeBorderForTextField;
   final bool isEnabled;
+  final Color? focusedBorderColor;
 
   @override
   State<CustomTextFormFieldWidget> createState() =>
@@ -138,6 +139,16 @@ class _CustomTextFormFieldWidgetState extends State<CustomTextFormFieldWidget> {
                 borderSide: BorderSide(
                   color: widget.enabledBorderColor,
                   width: widget.enabledBorderWidth,
+                ),
+              )
+            : null,
+        focusedBorder: widget.makeBorderForTextField
+            ? OutlineInputBorder(
+                borderRadius: BorderRadius.circular(widget.borderRadius),
+                borderSide: BorderSide(
+                  color: widget.focusedBorderColor ??
+                      Theme.of(context).primaryColor,
+                  width: widget.borderWidth,
                 ),
               )
             : null,
