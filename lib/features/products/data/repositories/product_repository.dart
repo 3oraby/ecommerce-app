@@ -6,8 +6,10 @@ abstract class ProductRepository {
 
   Future<GetProductsCategoryResponseModel> getProductsByCategory({
     required int categoryId,
+    Map<String,dynamic> ?queryParams,
+
   });
-  
+
   Future<GetProductsCategoryResponseModel> searchInProducts({
     required int categoryId,
     required String productName,

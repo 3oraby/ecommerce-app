@@ -22,14 +22,20 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<GetProductsCategoryResponseModel> getProductsByCategory(
-      {required int categoryId}) async {
+  Future<GetProductsCategoryResponseModel> getProductsByCategory({
+    required int categoryId,
+    Map<String, dynamic>? queryParams,
+  }) async {
     return await getProductByCategoryService.getProductsByCategory(
-        categoryId: categoryId);
+      categoryId: categoryId,
+      queryParams: queryParams,
+    );
   }
 
   @override
-  Future<GetProductsCategoryResponseModel> searchInProducts({required int categoryId, required String productName}) async{
-    return await searchInProductsService.searchInProducts(productName: productName, categoryId: categoryId);
+  Future<GetProductsCategoryResponseModel> searchInProducts(
+      {required int categoryId, required String productName}) async {
+    return await searchInProductsService.searchInProducts(
+        productName: productName, categoryId: categoryId);
   }
 }

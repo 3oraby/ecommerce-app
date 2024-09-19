@@ -44,10 +44,15 @@ class _HomeTapBodyState extends State<HomeTapBody> {
             pageController: pageController,
             homeDetailsResponseModel: state.getHomeDetailsResponseModel,
             onShowAllTap: (categoryId) async {
+              productCatalogCubit =
+                  BlocProvider.of<ProductCatalogCubit>(context);
+
+              productCatalogCubit.setSelectedCategoryId(categoryId);
+              productCatalogCubit.getProductsByCategory(categoryId: categoryId);
+              productCatalogCubit.resetFilterArgumentsAppliedModel();
               final isRefresh = await Navigator.pushNamed(
                 context,
                 ShowProductsPage.id,
-                arguments: categoryId,
               );
               if (isRefresh is bool && isRefresh) {
                 productCatalogCubit.getHomeData();

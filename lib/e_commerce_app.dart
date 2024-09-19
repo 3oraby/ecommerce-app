@@ -10,6 +10,8 @@ import 'package:e_commerce_app/features/orders/presentation/pages/cancel_items_f
 import 'package:e_commerce_app/features/orders/presentation/pages/order_confirmed_page.dart';
 import 'package:e_commerce_app/features/orders/presentation/pages/show_order_summary_page.dart';
 import 'package:e_commerce_app/features/orders/presentation/pages/tracking_order_details_page.dart';
+import 'package:e_commerce_app/features/products/presentation/pages/apply_price_filter_page.dart';
+import 'package:e_commerce_app/features/products/presentation/pages/show_filter_page.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_product_details_page.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_products_page.dart';
 import 'package:e_commerce_app/features/reviews/presentation/pages/make_new_review_page.dart';
@@ -52,6 +54,8 @@ class ECommerceApp extends StatelessWidget {
         MakeNewReviewPage.id: (context) => const MakeNewReviewPage(),
         UpdatePasswordPage.id: (context) => const UpdatePasswordPage(),
         EditUserProfilePage.id: (context) => const EditUserProfilePage(),
+        ShowFilterPage.id: (context) => const ShowFilterPage(),
+        ApplyPriceFilterPage.id: (context) => const ApplyPriceFilterPage(),
       },
       initialRoute: isFirstTime ? OnboardingPage.id : EntryPage.id,
     );

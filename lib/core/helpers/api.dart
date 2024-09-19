@@ -24,6 +24,7 @@ class Api {
   }) async {
     try {
       log(url);
+      await Future.delayed(const Duration(seconds: 1));
       Response response = await dio.get(
         url,
         queryParameters: queryParams,
@@ -53,6 +54,7 @@ class Api {
   }) async {
     try {
       log("url $url");
+      await Future.delayed(const Duration(seconds: 1));
       Response response = await dio.post(
         url,
         data: jsonData,
@@ -83,6 +85,7 @@ class Api {
   }) async {
     try {
       log("url $url");
+      await Future.delayed(const Duration(seconds: 1));
       Response response = await dio.delete(
         url,
         data: jsonData,
@@ -113,6 +116,7 @@ class Api {
   }) async {
     try {
       log("url $url");
+      await Future.delayed(const Duration(seconds: 1));
       Response response = await dio.patch(
         url,
         data: jsonData,
@@ -142,6 +146,8 @@ class Api {
     Map<String, dynamic>? headers,
   }) async {
     try {
+      log("url $url");
+      await Future.delayed(const Duration(seconds: 1));
       Response response = await dio.put(
         url,
         data: jsonData,

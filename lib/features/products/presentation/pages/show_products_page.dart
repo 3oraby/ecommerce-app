@@ -15,18 +15,14 @@ class ShowProductsPage extends StatefulWidget {
 }
 
 class _ShowProductsPageState extends State<ShowProductsPage> {
-  final TextEditingController productNameTextEditingController =
-      TextEditingController();
   late int categoryId;
   late ProductCatalogCubit productCatalogCubit;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    categoryId = ModalRoute.of(context)!.settings.arguments as int;
+  void initState() {
+    super.initState();
     productCatalogCubit = BlocProvider.of<ProductCatalogCubit>(context);
-
-    productCatalogCubit.getProductsByCategory(categoryId: categoryId);
+    categoryId = productCatalogCubit.getSelectedCategoryId!;
   }
 
   @override
@@ -34,10 +30,11 @@ class _ShowProductsPageState extends State<ShowProductsPage> {
     return Scaffold(
       backgroundColor: ThemeColors.backgroundBodiesColor,
       appBar: AppBar(
-        backgroundColor: ThemeColors.backgroundBodiesColor,
+        backgroundColor: Colors.white,
         surfaceTintColor: Colors.transparent,
         leading: IconButton(
           onPressed: () {
+            productCatalogCubit.resetFilterArgumentsAppliedModel();
             Navigator.pop(context, true);
           },
           icon: const Icon(Icons.arrow_back_ios),
@@ -53,7 +50,7 @@ class _ShowProductsPageState extends State<ShowProductsPage> {
             color: Colors.black,
             size: 35,
           ),
-          fillColor: Colors.white,
+          fillColor: ThemeColors.backgroundBodiesColor,
           hintStyle: const TextStyle(
             color: Colors.black,
           ),
@@ -78,10 +75,18 @@ class _ShowProductsPageState extends State<ShowProductsPage> {
             return Center(
               child: Text((state as dynamic).message),
             );
-          } else if (state is GetProductsByCategoryLoadedState ||
-              state is SearchInProductsLoadedState) {
+          } else if (state is SearchInProductsLoadedState) {
             return ShowProductsLoadedBody(
-                products: (state as dynamic).products);
+              products: state.products,
+              categoryId: categoryId,
+            );
+          } else if (state is GetProductsByCategoryLoadedState) {
+            productCatalogCubit
+                .setFilterArgumentsAppliedModel(state.filterArgumentsModel);
+            return ShowProductsLoadedBody(
+              products: state.products,
+              categoryId: categoryId,
+            );
           } else {
             return const Center(
               child: Text("Cannot get products"),

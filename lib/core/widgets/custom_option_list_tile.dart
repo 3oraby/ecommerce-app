@@ -3,8 +3,8 @@ import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomOptionListTile extends StatelessWidget {
-  final IconData leadingIcon;
-  final String title;
+  final String? title;
+  final IconData? leadingIcon;
   final VoidCallback? onTap;
   final Color tileColor;
   final EdgeInsets internalPadding;
@@ -12,11 +12,13 @@ class CustomOptionListTile extends StatelessWidget {
   final Color leadingIconColor;
   final String? subTitle;
   final TextStyle subTitleTextStyle;
-
+  final Widget? leadingWidget;
+  final bool showLeadingWidget;
+  final bool isThreeLine;
   const CustomOptionListTile({
     super.key,
-    required this.leadingIcon,
-    required this.title,
+    this.title,
+    this.leadingIcon,
     this.onTap,
     this.tileColor = Colors.white,
     this.internalPadding = LocalConstants.internalPadding,
@@ -29,6 +31,9 @@ class CustomOptionListTile extends StatelessWidget {
       fontSize: 21,
       fontWeight: FontWeight.bold,
     ),
+    this.leadingWidget,
+    this.showLeadingWidget = true,
+    this.isThreeLine = false,
   });
 
   @override
@@ -36,11 +41,14 @@ class CustomOptionListTile extends StatelessWidget {
     return ListTile(
       contentPadding: internalPadding,
       tileColor: tileColor,
-      leading: Icon(leadingIcon, color: leadingIconColor),
+      leading: showLeadingWidget
+          ? leadingWidget ?? Icon(leadingIcon, color: leadingIconColor)
+          : null,
       title: Text(
-        title,
+        title ?? "",
         style: titleTextStyle,
       ),
+      isThreeLine: isThreeLine,
       subtitle: subTitle == null
           ? null
           : Text(

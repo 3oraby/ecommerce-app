@@ -2,6 +2,7 @@ import 'package:e_commerce_app/core/models/category_model.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/features/home/data/models/get_categories_response_model.dart';
 import 'package:e_commerce_app/features/home/data/repositories/category_repository.dart';
+import 'package:e_commerce_app/features/products/data/models/filter_arguments_model.dart';
 import 'package:e_commerce_app/features/products/data/models/get_home_details_model.dart';
 import 'package:e_commerce_app/features/products/data/models/get_products_response_model.dart';
 import 'package:e_commerce_app/features/products/data/repositories/product_repository.dart';
@@ -18,12 +19,36 @@ class ProductCatalogCubit extends Cubit<ProductCatalogState> {
   final ProductRepository productRepository;
   final CategoryRepository categoryRepository;
   ProductModel? _selectedProduct;
+  FilterArgumentsModel? _filterArgumentsModel;
+  int? _selectedCategoryId;
+  String _selectedSortOption = "Popularity"; 
+
+  String get getSelectedSortOption => _selectedSortOption;
+
+  void setSelectedSortOption(String option) {
+    _selectedSortOption = option;
+  }
 
   void setSelectedProduct(ProductModel product) {
     _selectedProduct = product;
   }
 
+  void setSelectedCategoryId(int category) {
+    _selectedCategoryId = category;
+  }
+
+  void setFilterArgumentsAppliedModel(FilterArgumentsModel? filter) {
+    _filterArgumentsModel = filter;
+  }
+
+  void resetFilterArgumentsAppliedModel() {
+    _filterArgumentsModel = null;
+  }
+
   ProductModel? get getSelectedProduct => _selectedProduct;
+  int? get getSelectedCategoryId => _selectedCategoryId;
+  FilterArgumentsModel? get getFilterArgumentsAppliedModel =>
+      _filterArgumentsModel;
 
   void refreshPage() {
     emit(ProductPageRefreshState());
@@ -63,14 +88,23 @@ class ProductCatalogCubit extends Cubit<ProductCatalogState> {
     }
   }
 
-  Future<void> getProductsByCategory({required int categoryId}) async {
+  Future<void> getProductsByCategory({
+    required int categoryId,
+    Map<String, dynamic>? queryParams,
+  }) async {
     emit(GetProductsByCategoryLoadingState());
     try {
       GetProductsCategoryResponseModel getProductsCategoryResponseModel =
-          await productRepository.getProductsByCategory(categoryId: categoryId);
+          await productRepository.getProductsByCategory(
+        categoryId: categoryId,
+        queryParams: queryParams,
+      );
       if (getProductsCategoryResponseModel.status) {
         emit(GetProductsByCategoryLoadedState(
-            products: getProductsCategoryResponseModel.products!));
+          products: getProductsCategoryResponseModel.products!,
+          filterArgumentsModel:
+              FilterArgumentsModel.fromJson(queryParams ?? {}),
+        ));
       } else {
         emit(GetProductsByCategoryErrorState(
             message: getProductsCategoryResponseModel.message!));

@@ -36,14 +36,17 @@ final class GetProductsByCategoryLoadingState extends ProductCatalogState {}
 
 final class GetProductsByCategoryLoadedState extends ProductCatalogState {
   final List<ProductModel> products;
-  GetProductsByCategoryLoadedState({required this.products});
+  final FilterArgumentsModel filterArgumentsModel;
+  GetProductsByCategoryLoadedState({
+    required this.products,
+    required this.filterArgumentsModel,
+  });
 }
 
 final class GetProductsByCategoryErrorState extends ProductCatalogState {
   final String message;
   GetProductsByCategoryErrorState({required this.message});
 }
-
 
 final class SearchInProductsLoadingState extends ProductCatalogState {}
 
@@ -56,5 +59,3 @@ final class SearchInProductsErrorState extends ProductCatalogState {
   final String message;
   SearchInProductsErrorState({required this.message});
 }
-
-
