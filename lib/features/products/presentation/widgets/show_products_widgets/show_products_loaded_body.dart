@@ -1,4 +1,3 @@
-
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
@@ -11,6 +10,7 @@ import 'package:e_commerce_app/features/products/data/models/filter_arguments_mo
 import 'package:e_commerce_app/features/products/presentation/cubit/product_catalog_cubit.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_filter_page.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_product_details_page.dart';
+import 'package:e_commerce_app/features/products/presentation/widgets/show_products_widgets/custom_pagination_widget.dart';
 import 'package:e_commerce_app/features/products/presentation/widgets/show_products_widgets/price_input_widget.dart';
 import 'package:e_commerce_app/features/products/presentation/widgets/show_products_widgets/show_available_filter_section.dart';
 import 'package:e_commerce_app/features/products/presentation/widgets/show_products_widgets/sort_and_filter_button_widget.dart';
@@ -65,8 +65,7 @@ class _ShowProductsLoadedBodyState extends State<ShowProductsLoadedBody> {
 
   void applySort(String sortCriteria) {
     setState(() {
-      productCatalogCubit.setSelectedSortOption(
-          sortCriteria); 
+      productCatalogCubit.setSelectedSortOption(sortCriteria);
 
       if (sortCriteria == "Price: High to Low") {
         filterArgumentsModel?.sort = "price";
@@ -159,9 +158,10 @@ class _ShowProductsLoadedBodyState extends State<ShowProductsLoadedBody> {
         minPriceValue! <= maxPriceValue!;
   }
 
-  void onApplyPriceRangePressed(context) async {
+  void onApplyPriceRangePressed(context){
     filterArgumentsModel?.minPrice = minPriceValue;
     filterArgumentsModel?.maxPrice = maxPriceValue;
+    filterArgumentsModel?.page = 1;
     productCatalogCubit.getProductsByCategory(
       categoryId: widget.categoryId,
       queryParams: filterArgumentsModel?.toJson(),
@@ -266,28 +266,38 @@ class _ShowProductsLoadedBodyState extends State<ShowProductsLoadedBody> {
                   top: 40,
                   bottom: 80,
                 ),
-                child: GridView.builder(
-                  padding: EdgeInsets.only(
-                    bottom: widget.products.length % 2 == 0 ? 72 : 36,
-                  ),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 48,
-                    childAspectRatio: 0.5,
-                  ),
-                  itemCount: widget.products.length,
-                  itemBuilder: (context, index) => Transform.translate(
-                    offset: Offset(0, index.isOdd ? 36 : 0),
-                    child: GestureDetector(
-                      onTap: () {
-                        onProductTap(context, index);
-                      },
-                      child: CustomMainProductCard(
-                        productModel: widget.products[index],
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: GridView.builder(
+                        padding: EdgeInsets.only(
+                          bottom: widget.products.length % 2 == 0 ? 72 : 36,
+                        ),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 48,
+                          childAspectRatio: 0.5,
+                        ),
+                        itemCount: widget.products.length,
+                        itemBuilder: (context, index) => Transform.translate(
+                          offset: Offset(0, index.isOdd ? 36 : 0),
+                          child: GestureDetector(
+                            onTap: () {
+                              onProductTap(context, index);
+                            },
+                            child: CustomMainProductCard(
+                              productModel: widget.products[index],
+                            ),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
+                    CustomPaginationWidget(
+                      filterArgumentsModel: filterArgumentsModel,
+                    ),
+                  ],
                 ),
               ),
               SortAndFilterButtonWidget(

@@ -21,12 +21,22 @@ class ProductCatalogCubit extends Cubit<ProductCatalogState> {
   ProductModel? _selectedProduct;
   FilterArgumentsModel? _filterArgumentsModel;
   int? _selectedCategoryId;
-  String _selectedSortOption = "Popularity"; 
+  String _selectedSortOption = "Popularity";
+  int? _totalPages;
+  int? _currentPage;
 
   String get getSelectedSortOption => _selectedSortOption;
 
   void setSelectedSortOption(String option) {
     _selectedSortOption = option;
+  }
+
+  void setTotalPages(int totalPages) {
+    _totalPages = totalPages;
+  }
+
+  void setCurrentPage(int currentPage) {
+    _currentPage = currentPage;
   }
 
   void setSelectedProduct(ProductModel product) {
@@ -49,6 +59,9 @@ class ProductCatalogCubit extends Cubit<ProductCatalogState> {
   int? get getSelectedCategoryId => _selectedCategoryId;
   FilterArgumentsModel? get getFilterArgumentsAppliedModel =>
       _filterArgumentsModel;
+
+  int? get getTotalPages => _totalPages;
+  int? get getCurrentPage => _currentPage;
 
   void refreshPage() {
     emit(ProductPageRefreshState());
@@ -100,6 +113,8 @@ class ProductCatalogCubit extends Cubit<ProductCatalogState> {
         queryParams: queryParams,
       );
       if (getProductsCategoryResponseModel.status) {
+        setCurrentPage(getProductsCategoryResponseModel.currentPage!);
+        setTotalPages(getProductsCategoryResponseModel.totalPages!);
         emit(GetProductsByCategoryLoadedState(
           products: getProductsCategoryResponseModel.products!,
           filterArgumentsModel:
