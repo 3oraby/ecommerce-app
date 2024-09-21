@@ -33,10 +33,12 @@ class _CategoryTapBodyState extends State<CategoryTapBody> {
           return CategoryTapLoadedBody(
             categories: state.categories,
             onCategoryTap: (index) async {
+              int categoryId = state.categories[index].id;
+              productCatalogCubit.setSelectedCategoryId(categoryId);
+              productCatalogCubit.getProductsByCategory(categoryId: categoryId);
               final isRefresh = await Navigator.pushNamed(
                 context,
                 ShowProductsPage.id,
-                arguments: state.categories[index].id,
               );
               if (isRefresh is bool && isRefresh) {
                 productCatalogCubit.getCategories();
