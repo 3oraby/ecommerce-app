@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/widgets/grid_view_items_loading.dart';
 import 'package:e_commerce_app/features/favorites/presentation/widgets/favorites_empty_body.dart';
 import 'package:e_commerce_app/features/favorites/presentation/widgets/favorites_loaded_body.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class FavoritesBody extends StatelessWidget {
     return BlocBuilder<FavoritesCubit, FavoritesState>(
       builder: (context, state) {
         if (state is FavoritesLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return const GridViewItemsLoading();
         } else if (state is FavoritesLoaded) {
           return FavoritesLoadedBody(
             getFavoritesResponseModel: state.favorites,

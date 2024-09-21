@@ -2,8 +2,8 @@ import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-class MainItemsLoading extends StatelessWidget {
-  const MainItemsLoading({super.key});
+class GridViewItemsLoading extends StatelessWidget {
+  const GridViewItemsLoading({super.key});
 
   @override
   Widget build(BuildContext context) {

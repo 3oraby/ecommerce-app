@@ -29,6 +29,7 @@ import 'package:e_commerce_app/features/orders/data/repositories/order_repositor
 import 'package:e_commerce_app/features/orders/presentation/cubit/order_cubit.dart';
 import 'package:e_commerce_app/features/products/data/data_sources/get_home_details_service.dart';
 import 'package:e_commerce_app/features/products/data/data_sources/get_product_by_category_service.dart';
+import 'package:e_commerce_app/features/products/data/data_sources/get_product_details_service.dart';
 import 'package:e_commerce_app/features/products/data/data_sources/search_in_products_service.dart';
 import 'package:e_commerce_app/features/products/data/repositories/product_repository_impl.dart';
 import 'package:e_commerce_app/features/products/presentation/cubit/product_catalog_cubit.dart';
@@ -132,6 +133,7 @@ Future<void> main() async {
               getHomeDetailsService: GetHomeDetailsService(),
               getProductByCategoryService: GetProductByCategoryService(),
               searchInProductsService: SearchInProductsService(),
+              getProductDetailsService: GetProductDetailsService(),
             ),
             categoryRepository: CategoryRepositoryImpl(
               getCategoriesService: GetCategoriesService(),

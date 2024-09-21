@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:e_commerce_app/core/models/category_model.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/features/home/data/models/get_categories_response_model.dart';
 import 'package:e_commerce_app/features/home/data/repositories/category_repository.dart';
 import 'package:e_commerce_app/features/products/data/models/filter_arguments_model.dart';
 import 'package:e_commerce_app/features/products/data/models/get_home_details_model.dart';
+import 'package:e_commerce_app/features/products/data/models/get_product_response_model.dart';
 import 'package:e_commerce_app/features/products/data/models/get_products_response_model.dart';
 import 'package:e_commerce_app/features/products/data/repositories/product_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -147,6 +150,16 @@ class ProductCatalogCubit extends Cubit<ProductCatalogState> {
       }
     } catch (e) {
       emit(SearchInProductsErrorState(message: e.toString()));
+    }
+  }
+
+  Future<GetProductResponseModel> getProductDetails(
+      {required int productId}) async {
+    try {
+      return await productRepository.getProductDetails(productId: productId);
+    } catch (e) {
+      log(e.toString());
+      throw Exception(e);
     }
   }
 }

@@ -1,3 +1,4 @@
+
 import 'package:e_commerce_app/features/home/presentation/widgets/taps/home/home_tap_loaded_body.dart';
 import 'package:e_commerce_app/features/products/presentation/cubit/product_catalog_cubit.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_products_page.dart';
@@ -46,9 +47,10 @@ class _HomeTapBodyState extends State<HomeTapBody> {
             onShowAllTap: (categoryId) async {
               productCatalogCubit =
                   BlocProvider.of<ProductCatalogCubit>(context);
-
+          
               productCatalogCubit.setSelectedCategoryId(categoryId);
-              productCatalogCubit.getProductsByCategory(categoryId: categoryId);
+              productCatalogCubit.getProductsByCategory(
+                  categoryId: categoryId);
               productCatalogCubit.resetFilterArgumentsAppliedModel();
               final isRefresh = await Navigator.pushNamed(
                 context,

@@ -15,7 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-class HomeTapLoadedBody extends StatelessWidget {
+class HomeTapLoadedBody extends StatefulWidget {
   const HomeTapLoadedBody({
     super.key,
     required this.pageController,
@@ -28,15 +28,21 @@ class HomeTapLoadedBody extends StatelessWidget {
   final void Function(int categoryId) onShowAllTap;
 
   @override
+  State<HomeTapLoadedBody> createState() => _HomeTapLoadedBodyState();
+}
+
+class _HomeTapLoadedBodyState extends State<HomeTapLoadedBody> {
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: ListView(
         children: [
-          PromoImagesSection(pageController: pageController),
+          PromoImagesSection(pageController: widget.pageController),
           Center(
             child: SmoothPageIndicator(
-              controller: pageController,
+              controller: widget.pageController,
               count: HomePageConstants.homeTapBodySalePhotos.length,
               effect: const WormEffect(
                 activeDotColor: ThemeColors.primaryColor,
@@ -45,7 +51,7 @@ class HomeTapLoadedBody extends StatelessWidget {
           ),
           const VerticalGap(24),
           ListView.separated(
-            itemCount: homeDetailsResponseModel.data!.length,
+            itemCount: widget.homeDetailsResponseModel.data!.length,
             separatorBuilder: (context, index) => const Divider(
               color: Colors.grey,
               thickness: 1,
@@ -55,11 +61,12 @@ class HomeTapLoadedBody extends StatelessWidget {
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
-              int categoryId = homeDetailsResponseModel.data![index].categoryId;
+              int categoryId =
+                  widget.homeDetailsResponseModel.data![index].categoryId;
               String categoryName =
-                  homeDetailsResponseModel.data![index].categoryName;
+                  widget.homeDetailsResponseModel.data![index].categoryName;
               List<ProductModel> products =
-                  homeDetailsResponseModel.data![index].products;
+                  widget.homeDetailsResponseModel.data![index].products;
               return SizedBox(
                 height: 500,
                 child: Column(
@@ -76,7 +83,7 @@ class HomeTapLoadedBody extends StatelessWidget {
                           ),
                         ),
                         TextButton(
-                          onPressed: () => onShowAllTap(categoryId),
+                          onPressed: () => widget.onShowAllTap(categoryId),
                           child: const Text(
                             "show all",
                             style: TextStyle(
@@ -100,7 +107,8 @@ class HomeTapLoadedBody extends StatelessWidget {
                           child: GestureDetector(
                             onTap: () {
                               final ProductCatalogCubit productCatalogCubit =
-                                  BlocProvider.of<ProductCatalogCubit>(context);
+                                  BlocProvider.of<ProductCatalogCubit>(
+                                      context);
                               productCatalogCubit
                                   .setSelectedProduct(products[productIndex]);
                               HomePageNavigationService.navigateToHome();

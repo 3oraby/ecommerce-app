@@ -22,3 +22,16 @@ class FavoritesError extends FavoritesState {
 
   const FavoritesError({required this.message});
 }
+
+class ToggleFavoritesLoadingState extends FavoritesState {
+  final int productId;
+  ToggleFavoritesLoadingState({required this.productId});
+}
+
+class ToggleFavoritesErrorState extends FavoritesState {
+  final String message;
+  ToggleFavoritesErrorState({required this.message});
+}
+
+class ToggleFavoritesLoadedState extends FavoritesState {
+}

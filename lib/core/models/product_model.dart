@@ -8,6 +8,7 @@ class ProductModel {
   final String createdAt;
   final String updatedAt;
   int isFavorite;
+  bool isLoading;
 
   ProductModel({
     required this.id,
@@ -18,6 +19,7 @@ class ProductModel {
     required this.createdAt,
     required this.updatedAt,
     required this.isFavorite,
+    this.isLoading = false,
   });
 
   factory ProductModel.fromJson({

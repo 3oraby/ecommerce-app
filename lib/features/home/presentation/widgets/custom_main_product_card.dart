@@ -28,15 +28,14 @@ class CustomMainProductCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(borderRadius),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.1), 
-            blurRadius: 10, 
-            spreadRadius: 2, 
-            offset: const Offset(0, 4), 
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 10,
+            spreadRadius: 2,
+            offset: const Offset(0, 4),
           ),
           BoxShadow(
-            color:
-                Colors.black.withOpacity(0.05), 
-            blurRadius: 15, 
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 15,
             offset: const Offset(0, 8),
           ),
         ],
@@ -52,9 +51,8 @@ class CustomMainProductCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CustomRoundedImageContainer(
-              imagePath:
-                  getPhotoUrl(productModel.photo),
-              height: MediaQuery.of(context).size.height*0.2,
+              imagePath: getPhotoUrl(productModel.photo),
+              height: MediaQuery.of(context).size.height * 0.2,
               fit: BoxFit.contain,
             ),
             const VerticalGap(24),
