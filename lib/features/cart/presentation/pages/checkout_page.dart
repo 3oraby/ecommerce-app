@@ -1,8 +1,7 @@
-import 'dart:convert';
+
 
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
-import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
@@ -28,11 +27,12 @@ class CheckoutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final CartCubit cartCubit =BlocProvider.of<CartCubit>(context); 
     List<CartItemModel> cartItems =
-        BlocProvider.of<CartCubit>(context).getCartItems;
+        cartCubit.getCartItems;
     int totalQuantity =
-        BlocProvider.of<CartCubit>(context).calculateTotalQuantity(cartItems);
-    String cartPrice = BlocProvider.of<CartCubit>(context).getCartPrice;
+        cartCubit.calculateTotalQuantity(cartItems);
+    String cartPrice = cartCubit.getCartPrice;
 
     return Scaffold(
       backgroundColor: ThemeColors.backgroundBodiesColor,
@@ -145,10 +145,6 @@ class CheckoutPage extends StatelessWidget {
 
       if (checkoutResponseModel.status) {
         orderCubit.setCheckoutResponseModel(checkoutResponseModel);
-        orderCubit.increaseOrdersCount();
-        String jsonString = jsonEncode(addressesCubit.getUserHomeAddress!.toJson());
-
-        SharedPreferencesSingleton.setString('orders_address_model', jsonString);
 
         Navigator.pushNamedAndRemoveUntil(
           context,

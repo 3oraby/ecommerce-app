@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesSingleton {
@@ -16,10 +18,12 @@ class SharedPreferencesSingleton {
   }
 
   static void setString(String key, String value) {
+    log("set string in pref $key");
     instance.setString(key, value);
   }
 
   static String? getString(String key) {
+    log("get string from pref $key");
     return instance.getString(key);
   }
 }

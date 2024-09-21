@@ -1,4 +1,3 @@
-
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
@@ -6,6 +5,7 @@ import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/address/data/models/get_orders_addresses_response_model.dart';
 import 'package:e_commerce_app/features/address/data/models/orders_address_model.dart';
 import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cubit.dart';
+import 'package:e_commerce_app/features/address/presentation/utils/get_user_home_address.dart';
 import 'package:e_commerce_app/features/address/presentation/widgets/choose_address_widgets/show_address_details_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,12 +30,11 @@ class _ChooseAddressLoadedBodyState extends State<ChooseAddressLoadedBody> {
   @override
   void initState() {
     super.initState();
-    final OrdersAddressModel? ordersAddressModel =
-        BlocProvider.of<AddressesCubit>(context).getUserHomeAddress;
+    final OrdersAddressModel? userHomeAddress = getUserHomeAddress();
 
     // add the initial address to list of addresses
-    if (ordersAddressModel != null) {
-      ordersAddresses.add(ordersAddressModel);
+    if (userHomeAddress != null) {
+      ordersAddresses.add(userHomeAddress);
     }
     // Add all other addresses from the response model
     ordersAddresses

@@ -4,6 +4,7 @@ import 'package:e_commerce_app/features/address/data/models/get_all_addresses_re
 import 'package:e_commerce_app/features/address/data/models/get_orders_addresses_response_model.dart';
 import 'package:e_commerce_app/features/address/data/models/orders_address_model.dart';
 import 'package:e_commerce_app/features/address/data/repositories/addresses_repository.dart';
+import 'package:e_commerce_app/features/address/presentation/utils/get_user_home_address.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'addresses_state.dart';
@@ -11,21 +12,16 @@ part 'addresses_state.dart';
 class AddressesCubit extends Cubit<AddressesState> {
   final AddressesRepository addressesRepository;
   OrdersAddressModel? orderAddressChosen;
-  OrdersAddressModel? userHomeAddress;
 
-  AddressesCubit({
-    required this.addressesRepository
-  }) : super(AddressesInitialState());
+  AddressesCubit({required this.addressesRepository})
+      : super(AddressesInitialState());
 
-  void setUserHomeAddress(OrdersAddressModel address) {
-    userHomeAddress = address;
-  }
   void setOrderAddressChosen(OrdersAddressModel address) {
     orderAddressChosen = address;
   }
 
-  OrdersAddressModel? get getUserHomeAddress => userHomeAddress;
-  OrdersAddressModel? get getOrderAddressChosen => orderAddressChosen ?? userHomeAddress;
+  OrdersAddressModel? get getOrderAddressChosen =>
+      orderAddressChosen ?? getUserHomeAddress();
 
   Future<void> getAllAddresses() async {
     emit(AddressesLoadingState());

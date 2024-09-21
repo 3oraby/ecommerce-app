@@ -1,9 +1,8 @@
-import 'dart:developer';
 
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/features/address/data/models/get_all_addresses_response_model.dart';
 import 'package:e_commerce_app/features/address/data/models/orders_address_model.dart';
-import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cubit.dart';
+import 'package:e_commerce_app/features/address/presentation/utils/get_user_home_address.dart';
 import 'package:e_commerce_app/features/user/presentation/cubit/user_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,11 +25,10 @@ class _CityAddressSectionState extends State<CityAddressSection> {
   @override
   void initState() {
     super.initState();
-    final AddressesCubit addressesCubit =
-        BlocProvider.of<AddressesCubit>(context);
-        log(addressesCubit.getUserHomeAddress!.addressId!.toString());
-    selectedValue = addressesCubit.getUserHomeAddress!.city;
-    widget.ordersAddressModel.city = addressesCubit.getUserHomeAddress!.city;
+
+    final OrdersAddressModel? userHomeAddress = getUserHomeAddress();
+    selectedValue = userHomeAddress!.city;
+    widget.ordersAddressModel.city = userHomeAddress.city;
 
     widget.ordersAddressModel.addressId =
         widget.getAllAddressesResponseModel.addresses!.first.id;

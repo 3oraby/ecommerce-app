@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/features/address/presentation/pages/add_address_page.dart';
@@ -22,6 +24,8 @@ class CheckoutActionButton extends StatelessWidget {
       onPressed: () {
         String? orderAddressJsonString =
             SharedPreferencesSingleton.getString('orders_address_model');
+        log(orderAddressJsonString.toString());
+        
         Navigator.pushNamed(
           context,
           (orderAddressJsonString == null)

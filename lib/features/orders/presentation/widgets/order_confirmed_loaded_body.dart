@@ -32,7 +32,7 @@ class OrderConfirmedLoadedBody extends StatelessWidget {
     final cartCubit = BlocProvider.of<CartCubit>(context);
 
     OrdersAddressModel orderAddress =
-        addressCubit.getOrderAddressChosen ?? addressCubit.getUserHomeAddress!;
+        addressCubit.getOrderAddressChosen!;
 
     List<CartItemModel> cartItems = cartCubit.getCartItems;
     int totalItemsQuantity = cartCubit.getTotalItemsQuantity;

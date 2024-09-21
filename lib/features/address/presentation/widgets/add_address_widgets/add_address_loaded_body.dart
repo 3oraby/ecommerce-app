@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/address/data/models/get_all_addresses_response_model.dart';
@@ -75,8 +78,11 @@ class _AddAddressLoadedBodyState extends State<AddAddressLoadedBody> {
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     BlocProvider.of<AddressesCubit>(context)
-                        .setUserHomeAddress(ordersAddressModel);
+                        .setOrderAddressChosen(ordersAddressModel);
+                    String jsonString = jsonEncode(ordersAddressModel.toJson());
 
+                    SharedPreferencesSingleton.setString(
+                        'orders_address_model', jsonString);
                     Navigator.pushReplacementNamed(
                       context,
                       CheckoutPage.id,

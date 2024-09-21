@@ -18,6 +18,8 @@ class ChooseAddressPage extends StatelessWidget {
       backgroundColor: ThemeColors.backgroundBodiesColor,
       appBar: AppBar(
         automaticallyImplyLeading: false,
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
         actions: [
           TextButton(
             onPressed: () {
