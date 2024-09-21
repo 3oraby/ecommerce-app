@@ -31,17 +31,14 @@ class CartBody extends StatelessWidget {
             showCartResponseModel: state.cart,
             cartPrice: state.price,
             totalQuantity: state.totalQuantity,
-            onProductTap: (selectedProductIndex) async {
+            onProductTap: (selectedProductIndex) {
               productCatalogCubit.setSelectedProduct(
                   state.cart.cartItems![selectedProductIndex].product);
 
-              final isRefresh = await Navigator.pushNamed(
+              Navigator.pushNamed(
                 context,
                 ShowProductDetailsPage.id,
               );
-              if (isRefresh is bool && isRefresh) {
-                cartCubit.showCartAndPrice();
-              }
             },
           );
         } else if (state is EmptyCartState) {

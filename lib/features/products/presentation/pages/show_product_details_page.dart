@@ -40,7 +40,8 @@ class ShowProductDetailsPage extends StatelessWidget {
         ),
         leading: IconButton(
           onPressed: () {
-            Navigator.pop(context, true);
+            Navigator.pop(context);
+            cartCubit.showCartAndPrice();
           },
           icon: const Icon(
             Icons.arrow_back_ios,
