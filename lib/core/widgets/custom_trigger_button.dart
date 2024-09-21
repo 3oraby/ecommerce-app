@@ -21,6 +21,7 @@ class CustomTriggerButton extends StatefulWidget {
     this.borderWidth = 0,
     this.borderColor = Colors.black,
     this.borderRadius = 10,
+    this.iconColor = Colors.white,
   });
 
   final bool isEnabled;
@@ -39,6 +40,8 @@ class CustomTriggerButton extends StatefulWidget {
   final Color borderColor;
   final double borderRadius;
   final bool isUseForOnBoarding;
+  final Color iconColor;
+
   @override
   State<CustomTriggerButton> createState() => _CustomTriggerButtonState();
 }
@@ -90,7 +93,7 @@ class _CustomTriggerButtonState extends State<CustomTriggerButton> {
                 if (widget.icon != null)
                   Icon(
                     widget.icon!,
-                    color: widget.descriptionColor,
+                    color: widget.iconColor,
                     size: widget.iconSize,
                   ),
               ],

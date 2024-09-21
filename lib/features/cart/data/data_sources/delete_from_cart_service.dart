@@ -8,7 +8,7 @@ class DeleteFromCartService {
     required int cartItemId,
   }) async {
     try {
-      Response response = await Api().get(
+      Response response = await Api().post(
         url:
             "${ApiConstants.baseUrl}${ApiConstants.deleteFromCartEndPoint}$cartItemId",
       );

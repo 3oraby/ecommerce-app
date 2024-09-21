@@ -1,4 +1,5 @@
-import 'package:e_commerce_app/constants/api_constants.dart';
+import 'package:e_commerce_app/constants/local_constants.dart';
+import 'package:e_commerce_app/core/helpers/functions/get_photo_url.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
@@ -10,6 +11,7 @@ import 'package:e_commerce_app/core/widgets/quantity_selector.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/cart/data/models/cart_item_model.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:e_commerce_app/features/favorites/presentation/cubit/favorites_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -61,6 +63,9 @@ class _CustomHorizontalProductItemState
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width -
+        (2 * LocalConstants.kHorizontalPadding);
+
     ProductModel productModel = widget.cartItemModel.product;
     return Container(
       height: height,
@@ -99,8 +104,7 @@ class _CustomHorizontalProductItemState
                       quantity: widget.cartItemModel.quantity,
                     ),
                     CustomRoundedImageContainer(
-                      imagePath:
-                          "${ApiConstants.baseUrl}${ApiConstants.getPhotoEndPoint}${productModel.photo}",
+                      imagePath: getPhotoUrl(productModel.photo),
                       height: widget.imageHeight,
                       width: widget.imageWidth,
                       fit: BoxFit.contain,
@@ -212,10 +216,29 @@ class _CustomHorizontalProductItemState
                     ),
                     CustomTriggerButton(
                       onPressed: () {
-                        //! add to favorites
-                        //! then remove from the cart
+                        BlocProvider.of<CartCubit>(context)
+                            .deleteItemFromCart(widget.cartItemModel.id);
                       },
-                      buttonWidth: 220,
+                      buttonWidth: screenWidth * 0.2,
+                      buttonHeight: 40,
+                      icon: Icons.delete,
+                      iconColor: const Color.fromARGB(255, 129, 33, 24),
+                      backgroundColor: Colors.white,
+                      borderWidth: 1,
+                      borderColor: Colors.grey,
+                      iconSize: 28,
+                    ),
+                    CustomTriggerButton(
+                      onPressed: () {
+                        if (productModel.isFavorite == 0) {
+                          BlocProvider.of<FavoritesCubit>(context)
+                              .toggleFavorite(productId: productModel.id);
+                        }
+
+                        BlocProvider.of<CartCubit>(context)
+                            .deleteItemFromCart(widget.cartItemModel.id);
+                      },
+                      buttonWidth: screenWidth * 0.5,
                       buttonHeight: 40,
                       borderRadius: 10,
                       description: "move to favorites",
