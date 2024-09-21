@@ -1,13 +1,14 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:e_commerce_app/constants/local_constants.dart';
 
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 
 class Api {
   final Dio dio = Dio();
   String accessToken =
-      SharedPreferencesSingleton.getString("accessToken") ?? "";
+      SharedPreferencesSingleton.getString(LocalConstants.accessTokenNameInPref) ?? "";
   String refreshToken =
       SharedPreferencesSingleton.getString("refreshToken") ?? "";
 

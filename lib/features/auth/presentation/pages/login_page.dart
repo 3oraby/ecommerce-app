@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/features/auth/data/data_sources/login_service.dart';
 import 'package:e_commerce_app/features/auth/data/models/login_request_model.dart';
@@ -46,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
 
         if (loginResponseModel.status) {
           final String accessToken = loginResponseModel.accessToken!;
-          SharedPreferencesSingleton.setString("accessToken", accessToken);
+          SharedPreferencesSingleton.setString(LocalConstants.accessTokenNameInPref, accessToken);
 
           BlocProvider.of<UserCubit>(context)
               .setUserModel(loginResponseModel.user!);

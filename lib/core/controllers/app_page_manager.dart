@@ -1,4 +1,3 @@
-import 'package:e_commerce_app/core/models/user_model.dart';
 import 'package:e_commerce_app/features/cart/presentation/widgets/cart_app_bar.dart';
 import 'package:e_commerce_app/features/cart/presentation/widgets/cart_body.dart';
 import 'package:e_commerce_app/features/favorites/presentation/widgets/favorites_app_bar.dart';
@@ -13,11 +12,8 @@ import 'package:e_commerce_app/features/settings/presentation/widgets/settings_b
 import 'package:flutter/material.dart';
 
 class AppPageManager {
-  final UserModel userModel;
 
-  AppPageManager({
-    required this.userModel,
-  });
+  AppPageManager();
 
   Widget getPage(int index) {
     switch (index) {

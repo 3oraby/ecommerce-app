@@ -2,30 +2,31 @@ import 'package:e_commerce_app/core/models/user_model.dart';
 import 'package:e_commerce_app/features/auth/data/models/log_out_response_model.dart';
 import 'package:e_commerce_app/features/user/data/models/get_user_response_model.dart';
 import 'package:e_commerce_app/features/user/data/repositories/user_repository.dart';
+import 'package:e_commerce_app/features/user/presentation/utils/get_user_stored_model.dart';
+import 'package:e_commerce_app/features/user/presentation/utils/save_user_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'user_state.dart';
 
 class UserCubit extends Cubit<UserState> {
   final UserRepository userRepository;
-  UserModel? userModel;
   UserCubit({
     required this.userRepository,
   }) : super(UserInitial());
 
   void setUserModel(UserModel user) {
-    userModel = user;
+    saveUserModel(user);
   }
 
-  UserModel? get getUserModel => userModel;
+  UserModel? get getUserModel => getUserStoredModel();
 
   Future<UserModel> getUser() async {
     try {
       final GetUserResponseModel getUserResponseModel =
           await userRepository.getUser();
       if (getUserResponseModel.status) {
-        userModel = getUserResponseModel.user!;
-        return userModel!;
+        saveUserModel(getUserResponseModel.user!);
+        return getUserStoredModel()!;
       } else {
         throw Exception("Failed to get user");
       }
@@ -45,7 +46,7 @@ class UserCubit extends Cubit<UserState> {
         jsonData: jsonData,
       );
       if (isUpdated) {
-        userModel = await getUser();
+        saveUserModel(await getUser());
         emit(UpdateUserLoadedState());
       } else {
         emit(UpdateUserErrorState(
@@ -99,6 +100,4 @@ class UserCubit extends Cubit<UserState> {
       ));
     }
   }
-
-  
 }

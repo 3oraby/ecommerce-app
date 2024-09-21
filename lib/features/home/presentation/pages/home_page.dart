@@ -1,10 +1,7 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/controllers/app_page_manager.dart';
-import 'package:e_commerce_app/core/models/user_model.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
-import 'package:e_commerce_app/features/user/presentation/cubit/user_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,14 +15,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final double kTabBarHeight = 48.0;
-  late UserModel userModel;
+
   @override
   void initState() {
     super.initState();
     // Add a listener to rebuild the UI whenever currentIndex changes
     HomePage.currentIndexNotifier.addListener(handleIndexChange);
-    final userCubit = BlocProvider.of<UserCubit>(context);
-    userModel = userCubit.getUserModel!;
   }
 
   @override
@@ -48,7 +43,7 @@ class _HomePageState extends State<HomePage> {
       length: 2,
       child: Scaffold(
         backgroundColor: ThemeColors.backgroundBodiesColor,
-        appBar: AppPageManager(userModel: userModel)
+        appBar: AppPageManager()
             .getAppBar(HomePage.currentIndexNotifier.value, context),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: HomePage.currentIndexNotifier.value,
@@ -72,8 +67,7 @@ class _HomePageState extends State<HomePage> {
               ),
           ],
         ),
-        body: AppPageManager(userModel: userModel)
-            .getPage(HomePage.currentIndexNotifier.value),
+        body: AppPageManager().getPage(HomePage.currentIndexNotifier.value),
       ),
     );
   }

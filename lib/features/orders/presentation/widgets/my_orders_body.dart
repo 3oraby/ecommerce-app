@@ -2,7 +2,7 @@ import 'package:e_commerce_app/features/orders/presentation/cubit/order_cubit.da
 import 'package:e_commerce_app/features/orders/presentation/cubit/order_state.dart';
 import 'package:e_commerce_app/features/orders/presentation/pages/tracking_order_details_page.dart';
 import 'package:e_commerce_app/features/orders/presentation/widgets/my_orders_loaded_body.dart';
-import 'package:e_commerce_app/features/user/presentation/cubit/user_cubit.dart';
+import 'package:e_commerce_app/features/user/presentation/utils/get_user_stored_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,7 +11,7 @@ class MyOrdersBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final int userId = BlocProvider.of<UserCubit>(context).userModel!.id!;
+    final int userId = getUserStoredModel()!.id!;
 
     final OrderCubit orderCubit = BlocProvider.of<OrderCubit>(context);
     orderCubit.getAllOrders(userId);

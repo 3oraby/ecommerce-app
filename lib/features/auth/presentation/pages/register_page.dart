@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/features/auth/constants/register_page_constants.dart';
 import 'package:e_commerce_app/features/auth/data/data_sources/register_service.dart';
@@ -108,7 +109,7 @@ class _RegisterPageState extends State<RegisterPage> {
           log("verify ${verifyEmailResponseModel.status}");
           if (verifyEmailResponseModel.status) {
             final String accessToken = verifyEmailResponseModel.accessToken!;
-            SharedPreferencesSingleton.setString("accessToken", accessToken);
+            SharedPreferencesSingleton.setString(LocalConstants.accessTokenNameInPref, accessToken);
 
             BlocProvider.of<UserCubit>(context)
                 .setUserModel(verifyEmailResponseModel.user!);

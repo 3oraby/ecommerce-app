@@ -6,6 +6,9 @@ class LocalConstants {
   static const int limitProductNumberInCart = 15;
   static const double kHorizontalPadding = 16;
   static const double kBorderRadius = 10;
+  static const String accessTokenNameInPref = "acessToken";
+  static const String userModelNameInPref = "uerModel";
+  static const String isOnBoardingSeenNameInPref = "isFirstTime";
 
   static const internalPadding = EdgeInsets.symmetric(
     horizontal: kHorizontalPadding,
