@@ -1,4 +1,5 @@
 
+import 'package:e_commerce_app/features/home/presentation/widgets/home_page_shimmer_loading.dart';
 import 'package:e_commerce_app/features/home/presentation/widgets/taps/home/home_tap_loaded_body.dart';
 import 'package:e_commerce_app/features/products/presentation/cubit/product_catalog_cubit.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_products_page.dart';
@@ -30,9 +31,7 @@ class _HomeTapBodyState extends State<HomeTapBody> {
       builder: (context, state) {
         if (state is GetHomeDataLoadingState) {
           return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
+            body: HomePageShimmerLoading(),
           );
         } else if (state is GetHomeDataErrorState) {
           return Scaffold(

@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_state.dart';
+import 'package:e_commerce_app/features/cart/presentation/widgets/cart_body_shimmer_loading.dart';
 import 'package:e_commerce_app/features/cart/presentation/widgets/cart_body_widgets/cart_body_loaded.dart';
 import 'package:e_commerce_app/features/products/presentation/cubit/product_catalog_cubit.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_product_details_page.dart';
@@ -19,7 +20,7 @@ class CartBody extends StatelessWidget {
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, state) {
         if (state is ShowCartLoadingState) {
-          return const Center(child: CircularProgressIndicator());
+          return const CartBodyShimmerLoading();
         } else if (state is ShowCartErrorState) {
           return Container(
             height: 400,

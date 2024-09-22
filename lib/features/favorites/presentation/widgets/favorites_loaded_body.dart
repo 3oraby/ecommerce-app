@@ -20,6 +20,9 @@ class FavoritesLoadedBody extends StatelessWidget {
         vertical: 48,
       ),
       child: GridView.builder(
+        padding: const EdgeInsets.only(
+          bottom: 48,
+        ),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           crossAxisSpacing: 16,

@@ -1,6 +1,7 @@
 import 'package:e_commerce_app/features/orders/presentation/cubit/order_cubit.dart';
 import 'package:e_commerce_app/features/orders/presentation/cubit/order_state.dart';
 import 'package:e_commerce_app/features/orders/presentation/pages/tracking_order_details_page.dart';
+import 'package:e_commerce_app/features/orders/presentation/widgets/my_orders_body_shimmer_loading.dart';
 import 'package:e_commerce_app/features/orders/presentation/widgets/my_orders_loaded_body.dart';
 import 'package:e_commerce_app/features/user/presentation/utils/get_user_stored_model.dart';
 import 'package:flutter/material.dart';
@@ -23,9 +24,7 @@ class MyOrdersBody extends StatelessWidget {
             child: Text(state.message),
           );
         } else if (state is GetAllOrdersLoadingState) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
+          return const MyOrdersBodyShimmerLoading();
         } else if (state is GetAllOrdersLoadedState) {
           return MyOrdersLoadedBody(
             completedOrders: state.completedOrders,
