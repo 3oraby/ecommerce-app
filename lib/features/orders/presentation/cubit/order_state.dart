@@ -43,3 +43,12 @@ final class CancelItemFromOrderErrorState extends OrderState {
   final String message;
   CancelItemFromOrderErrorState({required this.message});
 }
+
+final class MakeOrderLoadingState extends OrderState {}
+
+final class MakeOrderLoadedState extends OrderState {}
+
+final class MakeOrderErrorState extends OrderState {
+  final String message;
+  MakeOrderErrorState({required this.message});
+}

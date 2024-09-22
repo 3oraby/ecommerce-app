@@ -101,19 +101,20 @@ class OrderCubit extends Cubit<OrderState> {
     selectedItemsForCancellation.clear();
   }
 
-  Future<CheckoutResponseModel> confirmOrder(
-      {required Map<String, dynamic> jsonData}) async {
+  Future<void> confirmOrder({required Map<String, dynamic> jsonData}) async {
     try {
+      emit(MakeOrderLoadingState());
       CheckoutResponseModel checkoutResponseModel =
           await orderRepository.checkout(jsonData);
       if (checkoutResponseModel.status) {
-        return checkoutResponseModel;
+        setCheckoutResponseModel(checkoutResponseModel);
+        emit(MakeOrderLoadedState());
       } else {
-        throw Exception(checkoutResponseModel.message);
+        emit(MakeOrderErrorState(message: checkoutResponseModel.message!));
       }
     } catch (error) {
       log(error.toString());
-      throw Exception('Failed to confirm order');
+      emit(MakeOrderErrorState(message: 'Failed to confirm order'));
     }
   }
 
