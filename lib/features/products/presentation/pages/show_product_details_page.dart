@@ -5,6 +5,7 @@ import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart'
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_state.dart';
 import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
 import 'package:e_commerce_app/features/products/presentation/cubit/product_catalog_cubit.dart';
+import 'package:e_commerce_app/features/products/presentation/widgets/show_product_details_widgets/show_products_details_loading_body.dart';
 import 'package:e_commerce_app/features/reviews/presentation/cubit/review_cubit.dart';
 import 'package:e_commerce_app/features/products/presentation/widgets/show_product_details_widgets/show_products_details_loaded_body.dart';
 import 'package:flutter/material.dart';
@@ -71,12 +72,17 @@ class ShowProductDetailsPage extends StatelessWidget {
             cartCubit.checkProductInCart(productModel.id);
           }
         },
+        buildWhen: (previous, current) {
+          return current is CartLoadingState ||
+              current is CartErrorState ||
+              current is CheckProductInCartLoadedState;
+        },
         builder: (context, cartState) {
           return BlocBuilder<ReviewCubit, ReviewState>(
             builder: (context, reviewState) {
               if (cartState is CartLoadingState ||
                   reviewState is GetReviewsLoadingState) {
-                return const Center(child: CircularProgressIndicator());
+                return const ShowProductsDetailsLoadingBody();
               } else if (cartState is CartErrorState) {
                 return Center(child: Text(cartState.message));
               } else if (reviewState is GetReviewsErrorState) {
@@ -91,7 +97,9 @@ class ShowProductDetailsPage extends StatelessWidget {
                   averageRating: reviewState.averageRating,
                 );
               } else {
-                return Container();
+                return Container(
+                  color: Colors.red,
+                );
               }
             },
           );

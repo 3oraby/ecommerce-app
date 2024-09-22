@@ -13,7 +13,8 @@ abstract class CartRepository {
   Future<String> showCartPrice();
 
   Future<bool> updateCartItem({
-    required int cartId,
+    int? cartId,
+    int? productId,
     required int newQuantity,
   });
 
@@ -25,5 +26,4 @@ abstract class CartRepository {
   Future<CartItemModel> showCartItem(int cartItemId);
 
   Future<bool> checkProductInCart(int productId);
-  
 }

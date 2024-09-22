@@ -56,10 +56,10 @@ class CartCubit extends Cubit<CartState> {
   //     emit(AddToCartErrorState(message: 'Failed to add item to cart: $e'));
   //   }
   // }
-  void refreshPage(){
+  void refreshPage() {
     emit(CartRefreshPageState());
   }
-  
+
   Future<void> deleteItemFromCart(int cartItemId) async {
     emit(DeleteFromCartLoadingState());
     try {
@@ -78,39 +78,30 @@ class CartCubit extends Cubit<CartState> {
   }
 
   Future<void> updateCartItem({
-    required int cartId,
     required int quantity,
+    int? cartId,
+    int? productId,
   }) async {
-    emit(CartLoadingState());
+    emit(CartItemUpdatedLoadingState());
     try {
       final bool success = await cartRepository.updateCartItem(
         cartId: cartId,
-        newQuantity: quantity,
-      );
-      emit(CartItemUpdatedState(success: success));
-      if (success) {
-        await showCartAndPrice();
-      } else {
-        emit(const CartErrorState(message: 'Failed to update item quantity'));
-      }
-    } catch (e) {
-      emit(CartErrorState(message: 'Failed to update item quantity: $e'));
-    }
-  }
-
-  Future<void> updateCartItemInProductDetails({
-    required int productId,
-    required int quantity,
-  }) async {
-    try {
-      await cartRepository.updateCartItemInProductDetails(
         productId: productId,
         newQuantity: quantity,
       );
+      emit(CartItemUpdatedLoadedState(success: success));
+      if (success) {
+        await showCartAndPrice();
+      } else {
+        emit(CartItemUpdatedErrorState(
+            message: 'Failed to update item quantity'));
+      }
     } catch (e) {
-      log(e.toString());
+      emit(CartItemUpdatedErrorState(
+          message: 'Failed to update item quantity: $e'));
     }
   }
+
 
   Future<String> loadCartPrice() async {
     try {

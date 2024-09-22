@@ -57,9 +57,10 @@ class CartRepositoryImpl implements CartRepository {
 
   @override
   Future<bool> updateCartItem(
-      {required int cartId, required int newQuantity}) async {
+      {int ?cartId, required int newQuantity,int? productId}) async {
     return await updateCartItemService.updateCartItem(
       cartId: cartId,
+      productId: productId,
       newQuantity: newQuantity,
     );
   }
