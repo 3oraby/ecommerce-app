@@ -37,10 +37,12 @@ class _CityAddressSectionState extends State<CityAddressSection> {
     if (isUserSignedIn()) {
       final OrdersAddressModel? userHomeAddress = getUserHomeAddress();
       if (userHomeAddress != null) {
+        log("address depends on userHomeAddress");
         selectedValue = userHomeAddress.city;
         widget.ordersAddressModel.city = userHomeAddress.city;
         widget.ordersAddressModel.addressId = userHomeAddress.addressId;
       } else {
+        log("address depends on userModel");
         UserModel userModel = userCubit.getUserModel!;
         final matchingAddress =
             widget.getAllAddressesResponseModel.addresses!.firstWhere(
@@ -53,8 +55,8 @@ class _CityAddressSectionState extends State<CityAddressSection> {
         widget.ordersAddressModel.addressId = matchingAddress.id;
       }
     } else {
+      log("address depends on make new address for register");
       selectedValue = widget.getAllAddressesResponseModel.addresses!.first.city;
-      log(userCubit.registerRequestModel.toString());
       userCubit.registerRequestModel.addressId =
           widget.getAllAddressesResponseModel.addresses!.first.id;
     }
