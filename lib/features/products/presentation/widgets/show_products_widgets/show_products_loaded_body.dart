@@ -23,10 +23,12 @@ class ShowProductsLoadedBody extends StatefulWidget {
     super.key,
     required this.products,
     required this.categoryId,
+    this.isSearchingForProduct = false,
   });
 
   final List<ProductModel> products;
   final int categoryId;
+  final bool isSearchingForProduct;
 
   @override
   State<ShowProductsLoadedBody> createState() => _ShowProductsLoadedBodyState();
@@ -158,7 +160,7 @@ class _ShowProductsLoadedBodyState extends State<ShowProductsLoadedBody> {
         minPriceValue! <= maxPriceValue!;
   }
 
-  void onApplyPriceRangePressed(context){
+  void onApplyPriceRangePressed(context) {
     filterArgumentsModel?.minPrice = minPriceValue;
     filterArgumentsModel?.maxPrice = maxPriceValue;
     filterArgumentsModel?.page = 1;
@@ -294,8 +296,11 @@ class _ShowProductsLoadedBodyState extends State<ShowProductsLoadedBody> {
                         ),
                       ),
                     ),
-                    CustomPaginationWidget(
-                      filterArgumentsModel: filterArgumentsModel,
+                    Visibility(
+                      visible: !widget.isSearchingForProduct,
+                      child: CustomPaginationWidget(
+                        filterArgumentsModel: filterArgumentsModel,
+                      ),
                     ),
                   ],
                 ),

@@ -17,12 +17,19 @@ class ShowProductsPage extends StatefulWidget {
 class _ShowProductsPageState extends State<ShowProductsPage> {
   late int categoryId;
   late ProductCatalogCubit productCatalogCubit;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     productCatalogCubit = BlocProvider.of<ProductCatalogCubit>(context);
     categoryId = productCatalogCubit.getSelectedCategoryId!;
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose(); 
+    super.dispose();
   }
 
   @override
@@ -40,6 +47,7 @@ class _ShowProductsPageState extends State<ShowProductsPage> {
           icon: const Icon(Icons.arrow_back_ios),
         ),
         title: CustomTextFormFieldWidget(
+          controller: _searchController,
           hintText: "Search for a product",
           borderWidth: 0,
           enabledBorderWidth: 0,
@@ -59,40 +67,52 @@ class _ShowProductsPageState extends State<ShowProductsPage> {
           onChanged: (value) {
             // Trigger the search when the user types
             productCatalogCubit.searchInProducts(
-                categoryId: categoryId, productName: value);
+              categoryId: categoryId,
+              productName: value,
+            );
           },
         ),
       ),
-      body: BlocBuilder<ProductCatalogCubit, ProductCatalogState>(
-        builder: (context, state) {
-          if (state is GetProductsByCategoryLoadingState ||
-              state is SearchInProductsLoadingState) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is GetProductsByCategoryErrorState ||
-              state is SearchInProductsErrorState) {
-            return Center(
-              child: Text((state as dynamic).message),
-            );
-          } else if (state is SearchInProductsLoadedState) {
-            return ShowProductsLoadedBody(
-              products: state.products,
-              categoryId: categoryId,
-            );
-          } else if (state is GetProductsByCategoryLoadedState) {
-            productCatalogCubit
-                .setFilterArgumentsAppliedModel(state.filterArgumentsModel);
-            return ShowProductsLoadedBody(
-              products: state.products,
-              categoryId: categoryId,
-            );
-          } else {
-            return const Center(
-              child: Text("Cannot get products"),
-            );
+      body: BlocListener<ProductCatalogCubit, ProductCatalogState>(
+        listener: (context, state) {
+          if (state is GetProductsByCategoryLoadedState) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              _searchController.clear();
+            });
           }
         },
+        child: BlocBuilder<ProductCatalogCubit, ProductCatalogState>(
+          builder: (context, state) {
+            if (state is GetProductsByCategoryLoadingState ||
+                state is SearchInProductsLoadingState) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            } else if (state is GetProductsByCategoryErrorState ||
+                state is SearchInProductsErrorState) {
+              return Center(
+                child: Text((state as dynamic).message),
+              );
+            } else if (state is SearchInProductsLoadedState) {
+              return ShowProductsLoadedBody(
+                products: state.products,
+                categoryId: categoryId,
+                isSearchingForProduct: true,
+              );
+            } else if (state is GetProductsByCategoryLoadedState) {
+              productCatalogCubit
+                  .setFilterArgumentsAppliedModel(state.filterArgumentsModel);
+              return ShowProductsLoadedBody(
+                products: state.products,
+                categoryId: categoryId,
+              );
+            } else {
+              return const Center(
+                child: Text("Cannot get products"),
+              );
+            }
+          },
+        ),
       ),
     );
   }
