@@ -12,6 +12,7 @@ part 'addresses_state.dart';
 class AddressesCubit extends Cubit<AddressesState> {
   final AddressesRepository addressesRepository;
   OrdersAddressModel? orderAddressChosen;
+  // OrdersAddressModel? _userAddressInRegisterStep;
 
   AddressesCubit({required this.addressesRepository})
       : super(AddressesInitialState());
@@ -20,8 +21,8 @@ class AddressesCubit extends Cubit<AddressesState> {
     orderAddressChosen = address;
   }
 
-  OrdersAddressModel? get getOrderAddressChosen =>
-      orderAddressChosen ?? getUserHomeAddress();
+  OrdersAddressModel? get getOrderAddressChosen => orderAddressChosen ?? getUserHomeAddress();
+
 
   Future<void> getAllAddresses() async {
     emit(AddressesLoadingState());

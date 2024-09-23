@@ -1,7 +1,11 @@
+import 'dart:developer';
 
+import 'package:e_commerce_app/core/helpers/functions/is_user_signed_in.dart';
+import 'package:e_commerce_app/core/models/user_model.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/features/address/data/models/get_all_addresses_response_model.dart';
 import 'package:e_commerce_app/features/address/data/models/orders_address_model.dart';
+import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cubit.dart';
 import 'package:e_commerce_app/features/address/presentation/utils/get_user_home_address.dart';
 import 'package:e_commerce_app/features/user/presentation/cubit/user_cubit.dart';
 import 'package:flutter/material.dart';
@@ -22,16 +26,38 @@ class CityAddressSection extends StatefulWidget {
 
 class _CityAddressSectionState extends State<CityAddressSection> {
   String? selectedValue;
+  late AddressesCubit addressesCubit;
+  late UserCubit userCubit;
+
   @override
   void initState() {
     super.initState();
+    addressesCubit = BlocProvider.of<AddressesCubit>(context);
+    userCubit = BlocProvider.of<UserCubit>(context);
+    if (isUserSignedIn()) {
+      final OrdersAddressModel? userHomeAddress = getUserHomeAddress();
+      if (userHomeAddress != null) {
+        selectedValue = userHomeAddress.city;
+        widget.ordersAddressModel.city = userHomeAddress.city;
+        widget.ordersAddressModel.addressId = userHomeAddress.addressId;
+      } else {
+        UserModel userModel = userCubit.getUserModel!;
+        final matchingAddress =
+            widget.getAllAddressesResponseModel.addresses!.firstWhere(
+          (address) => address.id == userModel.addressId,
+          orElse: () => widget.getAllAddressesResponseModel.addresses!.first,
+        );
 
-    final OrdersAddressModel? userHomeAddress = getUserHomeAddress();
-    selectedValue = userHomeAddress!.city;
-    widget.ordersAddressModel.city = userHomeAddress.city;
-
-    widget.ordersAddressModel.addressId =
-        widget.getAllAddressesResponseModel.addresses!.first.id;
+        selectedValue = matchingAddress.city;
+        widget.ordersAddressModel.city = matchingAddress.city;
+        widget.ordersAddressModel.addressId = matchingAddress.id;
+      }
+    } else {
+      selectedValue = widget.getAllAddressesResponseModel.addresses!.first.city;
+      log(userCubit.registerRequestModel.toString());
+      userCubit.registerRequestModel.addressId =
+          widget.getAllAddressesResponseModel.addresses!.first.id;
+    }
   }
 
   @override
@@ -53,7 +79,7 @@ class _CityAddressSectionState extends State<CityAddressSection> {
             ),
           )
           .toList(),
-      onChanged: (value) {
+      onChanged: (value) async {
         widget.ordersAddressModel.city = value;
         setState(() {
           selectedValue = value;
@@ -62,13 +88,18 @@ class _CityAddressSectionState extends State<CityAddressSection> {
             widget.getAllAddressesResponseModel.addresses!.firstWhere(
           (address) => address.city == value,
         );
-        widget.ordersAddressModel.addressId = selectedAddress.id;
-        BlocProvider.of<UserCubit>(context).updateUser(
-          userId: BlocProvider.of<UserCubit>(context).getUserModel!.id!,
-          jsonData: {
-            "address_id": selectedAddress.id,
-          },
-        );
+
+        if (isUserSignedIn()) {
+          widget.ordersAddressModel.addressId = selectedAddress.id;
+          await userCubit.updateUser(
+            userId: userCubit.getUserModel!.id!,
+            jsonData: {
+              "address_id": selectedAddress.id,
+            },
+          );
+        } else {
+          userCubit.registerRequestModel.addressId = selectedAddress.id;
+        }
       },
       icon: const Icon(
         Icons.arrow_drop_down_circle,
@@ -87,7 +118,7 @@ class _CityAddressSectionState extends State<CityAddressSection> {
         ),
       ),
       iconSize: 35,
-      menuMaxHeight: screenHeight / 2,
+      menuMaxHeight: screenHeight * 0.5,
       borderRadius: BorderRadius.circular(20),
     );
   }

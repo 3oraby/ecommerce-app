@@ -1,4 +1,6 @@
+import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
+import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
@@ -39,7 +41,11 @@ class _SettingsBodyState extends State<SettingsBody> {
           setState(() {
             isPageLoading = false;
           });
-          Navigator.pushReplacementNamed(context, EntryPage.id);
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            EntryPage.id,
+            (Route<dynamic> route) => false,
+          );
         }
       },
       child: ModalProgressHUD(
@@ -105,6 +111,10 @@ class _SettingsBodyState extends State<SettingsBody> {
               descriptionColor: ThemeColors.errorColor,
               onPressed: () async {
                 Navigator.of(context).pop();
+                SharedPreferencesSingleton.deleteStringFromSharedPreferences(
+                    LocalConstants.userAddressModelInPref);
+                SharedPreferencesSingleton.deleteStringFromSharedPreferences(
+                    LocalConstants.userModelNameInPref);
                 BlocProvider.of<UserCubit>(context).logOut();
               },
             ),

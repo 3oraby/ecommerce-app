@@ -1,5 +1,5 @@
+import 'package:e_commerce_app/features/address/presentation/pages/add_address_page.dart';
 import 'package:e_commerce_app/features/auth/presentation/pages/login_page.dart';
-import 'package:e_commerce_app/features/auth/presentation/pages/register_page.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +34,7 @@ class EntryPage extends StatelessWidget {
             const Spacer(flex: 1),
             CustomTriggerButton(
               onPressed: () {
-                Navigator.pushReplacementNamed(context, RegisterPage.id);
+                Navigator.pushNamed(context, AddAddressPage.id);
               },
               description: "Create new account",
               backgroundColor: ThemeColors.secondaryColor,

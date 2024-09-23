@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
+import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
 import 'package:e_commerce_app/features/auth/constants/register_page_constants.dart';
 import 'package:e_commerce_app/features/auth/data/data_sources/register_service.dart';
 import 'package:e_commerce_app/features/auth/data/data_sources/verify_email_service.dart';
@@ -40,7 +41,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final ScrollController listViewScrollController = ScrollController();
   final TextEditingController textEditingController = TextEditingController();
   // models
-  RegisterRequestModel registerRequestModel = RegisterRequestModel();
+  RegisterRequestModel? registerRequestModel;
   // variables
   int completedSteps = 0;
   bool inAsyncCall = false;
@@ -86,9 +87,11 @@ class _RegisterPageState extends State<RegisterPage> {
         inAsyncCall = true;
       });
       try {
+        final UserCubit userCubit = BlocProvider.of<UserCubit>(context);
+
         RegisterResponseModel registerResponseModel =
             await RegisterService().createAccount(
-          jsonData: registerRequestModel.toJson(),
+          jsonData: userCubit.registerRequestModel.toJson(),
         );
         log("register ${registerResponseModel.status}");
         if (registerResponseModel.status) {
@@ -109,10 +112,11 @@ class _RegisterPageState extends State<RegisterPage> {
           log("verify ${verifyEmailResponseModel.status}");
           if (verifyEmailResponseModel.status) {
             final String accessToken = verifyEmailResponseModel.accessToken!;
-            SharedPreferencesSingleton.setString(LocalConstants.accessTokenNameInPref, accessToken);
+            SharedPreferencesSingleton.setString(
+                LocalConstants.accessTokenNameInPref, accessToken);
 
-            BlocProvider.of<UserCubit>(context)
-                .setUserModel(verifyEmailResponseModel.user!);
+            log("user Address : ${verifyEmailResponseModel.user!.addressId}");
+            userCubit.setUserModel(verifyEmailResponseModel.user!);
 
             customShowModalBottomSheet(
               context: context,
@@ -120,6 +124,7 @@ class _RegisterPageState extends State<RegisterPage> {
               sheetDescription:
                   "Congratulations! You have successfully registered. Welcome aboard! We're excited to have you with us.",
               onPressed: () {
+                HomePageNavigationService.navigateToHome();
                 Navigator.pushNamedAndRemoveUntil(
                   context,
                   HomePage.id,
@@ -165,6 +170,13 @@ class _RegisterPageState extends State<RegisterPage> {
         curve: Curves.easeInOut,
       );
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    registerRequestModel =
+        BlocProvider.of<UserCubit>(context).registerRequestModel;
   }
 
   @override
@@ -235,7 +247,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         completedSteps: completedSteps,
                         scrollPageToBottom: scrollPageToBottom,
                         stepValues: stepValues,
-                        registerRequestModel: registerRequestModel,
+                        // registerRequestModel: registerRequestModel,
                       );
                     }).toList(),
                   ),

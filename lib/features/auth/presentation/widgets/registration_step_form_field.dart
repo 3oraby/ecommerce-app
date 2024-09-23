@@ -1,8 +1,9 @@
 import 'package:e_commerce_app/features/auth/constants/register_page_constants.dart';
-import 'package:e_commerce_app/features/auth/data/models/register_request_model.dart';
 import 'package:e_commerce_app/features/auth/presentation/widgets/register_page_stepper.dart';
 import 'package:e_commerce_app/core/widgets/custom_text_form_field.dart';
+import 'package:e_commerce_app/features/user/presentation/cubit/user_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class RegistrationStepFormField extends StatelessWidget {
   final ScrollController stepperScrollController;
@@ -10,7 +11,7 @@ class RegistrationStepFormField extends StatelessWidget {
   final TextEditingController textEditingController;
   final VoidCallback scrollPageToBottom;
   final Map<RegistrationStep, String?> stepValues;
-  final RegisterRequestModel registerRequestModel;
+  // final RegisterRequestModel registerRequestModel;
 
   const RegistrationStepFormField({
     super.key,
@@ -19,11 +20,13 @@ class RegistrationStepFormField extends StatelessWidget {
     required this.textEditingController,
     required this.scrollPageToBottom,
     required this.stepValues,
-    required this.registerRequestModel,
+    // required this.registerRequestModel,
   });
 
   @override
   Widget build(BuildContext context) {
+    final UserCubit userCubit = BlocProvider.of<UserCubit>(context);
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -51,11 +54,6 @@ class RegistrationStepFormField extends StatelessWidget {
           CustomTextFormFieldWidget(
             controller: textEditingController,
             labelText: stepLabels[stepsList[completedSteps]]!,
-            labelStyle: const TextStyle(
-              color: Colors.white,
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-            ),
             isObscure: stepsList[completedSteps] == RegistrationStep.password ||
                     stepsList[completedSteps] ==
                         RegistrationStep.confirmPassword
@@ -64,24 +62,24 @@ class RegistrationStepFormField extends StatelessWidget {
             onTap: scrollPageToBottom,
             validator: getValidatorForCurrentStep(
               completedSteps,
-              registerRequestModel.password,
+              userCubit.registerRequestModel.password,
             ),
             onChanged: (value) {
               switch (stepsList[completedSteps]) {
                 case RegistrationStep.name:
-                  registerRequestModel.userName = value;
+                  userCubit.registerRequestModel.userName = value;
                   break;
                 case RegistrationStep.email:
-                  registerRequestModel.email = value;
+                  userCubit.registerRequestModel.email = value;
                   break;
                 case RegistrationStep.password:
-                  registerRequestModel.password = value;
+                  userCubit.registerRequestModel.password = value;
                   break;
                 case RegistrationStep.confirmPassword:
-                  registerRequestModel.confirmPassword = value;
+                  userCubit.registerRequestModel.confirmPassword = value;
                   break;
                 case RegistrationStep.phone:
-                  registerRequestModel.phoneNumber = value;
+                  userCubit.registerRequestModel.phoneNumber = value;
                   break;
                 // case RegistrationStep.addressId:
                 //   registerRequestModel.addressId = value;

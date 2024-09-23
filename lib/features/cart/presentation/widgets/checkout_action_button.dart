@@ -1,8 +1,7 @@
-import 'dart:developer';
-
-import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
+import 'package:e_commerce_app/features/address/data/models/orders_address_model.dart';
 import 'package:e_commerce_app/features/address/presentation/pages/add_address_page.dart';
+import 'package:e_commerce_app/features/address/presentation/utils/get_user_home_address.dart';
 import 'package:e_commerce_app/features/cart/data/models/cart_item_model.dart';
 import 'package:e_commerce_app/features/cart/presentation/pages/checkout_page.dart';
 import 'package:flutter/material.dart';
@@ -22,13 +21,11 @@ class CheckoutActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomTriggerButton(
       onPressed: () {
-        String? orderAddressJsonString =
-            SharedPreferencesSingleton.getString('orders_address_model');
-        log(orderAddressJsonString.toString());
-        
+        OrdersAddressModel? userHomeAddress = getUserHomeAddress();
+
         Navigator.pushNamed(
           context,
-          (orderAddressJsonString == null)
+          (userHomeAddress == null)
               ? AddAddressPage.id
               : CheckoutPage.id,
         );

@@ -2,10 +2,11 @@ import 'dart:developer';
 
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
+import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
+import 'package:e_commerce_app/features/address/presentation/pages/add_address_page.dart';
 import 'package:e_commerce_app/features/auth/data/data_sources/login_service.dart';
 import 'package:e_commerce_app/features/auth/data/models/login_request_model.dart';
 import 'package:e_commerce_app/features/auth/data/models/login_response_model.dart';
-import 'package:e_commerce_app/features/auth/presentation/pages/register_page.dart';
 import 'package:e_commerce_app/features/auth/presentation/widgets/auth_switch_widget.dart';
 import 'package:e_commerce_app/core/helpers/functions/custom_show_modal_bottom_sheet.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
@@ -58,6 +59,7 @@ class _LoginPageState extends State<LoginPage> {
             sheetDescription:
                 "You've logged in successfully. Great to see you again!",
             onPressed: () {
+              HomePageNavigationService.navigateToHome();
               Navigator.pushNamedAndRemoveUntil(
                 context,
                 HomePage.id,
@@ -130,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
                   promptText: "don't have an account?",
                   actionText: "Register",
                   onActionPressed: () {
-                    Navigator.pushReplacementNamed(context, RegisterPage.id);
+                    Navigator.pushReplacementNamed(context, AddAddressPage.id);
                   },
                 ),
                 const VerticalGap(100),

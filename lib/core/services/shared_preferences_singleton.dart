@@ -26,4 +26,22 @@ class SharedPreferencesSingleton {
     log("get string from pref $key");
     return instance.getString(key);
   }
+
+  static void deleteStringFromSharedPreferences(String key) {
+    if (instance.containsKey(key)) {
+      instance.remove(key);
+      log('$key has been deleted');
+    } else {
+      log('No value found for $key');
+    }
+  }
+
+  static void deleteBoolFromSharedPreferences(String key) {
+    if (instance.containsKey(key)) {
+      instance.remove(key);
+      log('$key has been deleted');
+    } else {
+      log('No value found for $key');
+    }
+  }
 }

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:e_commerce_app/constants/local_constants.dart';
+import 'package:e_commerce_app/core/helpers/functions/is_user_signed_in.dart';
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
@@ -9,6 +11,7 @@ import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cub
 import 'package:e_commerce_app/features/address/presentation/widgets/add_address_widgets/address_details_section.dart';
 import 'package:e_commerce_app/features/address/presentation/widgets/add_address_widgets/city_address_section.dart';
 import 'package:e_commerce_app/features/address/presentation/widgets/add_address_widgets/country_address_section.dart';
+import 'package:e_commerce_app/features/auth/presentation/pages/register_page.dart';
 import 'package:e_commerce_app/features/cart/presentation/pages/checkout_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,23 +43,27 @@ class _AddAddressLoadedBodyState extends State<AddAddressLoadedBody> {
               horizontal: 16,
               vertical: 8,
             ),
-            child: ListView(
-              children: [
-                //! add phone number details
-                VerticalGap(screenHeight * 0.01),
-                const CountryAddressSection(),
-                VerticalGap(screenHeight * 0.05),
-                CityAddressSection(
-                  getAllAddressesResponseModel:
-                      widget.getAllAddressesResponseModel,
-                  ordersAddressModel: ordersAddressModel,
-                ),
-                VerticalGap(screenHeight * 0.06),
-                AddressDetailsSection(
-                  formKey: formKey,
-                  ordersAddressModel: ordersAddressModel,
-                ),
-              ],
+            child: Form(
+              key: formKey,
+              child: ListView(
+                children: [
+                  VerticalGap(screenHeight * 0.01),
+                  const CountryAddressSection(),
+                  VerticalGap(screenHeight * 0.05),
+                  CityAddressSection(
+                    getAllAddressesResponseModel:
+                        widget.getAllAddressesResponseModel,
+                    ordersAddressModel: ordersAddressModel,
+                  ),
+                  VerticalGap(screenHeight * 0.06),
+                  Visibility(
+                    visible: isUserSignedIn(),
+                    child: AddressDetailsSection(
+                      ordersAddressModel: ordersAddressModel,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -76,13 +83,19 @@ class _AddAddressLoadedBodyState extends State<AddAddressLoadedBody> {
               child: CustomTriggerButton(
                 description: "CONFIRM",
                 onPressed: () {
-                  if (formKey.currentState!.validate()) {
+                  if (!isUserSignedIn()) {
+                    Navigator.pushReplacementNamed(
+                      context,
+                      RegisterPage.id,
+                    );
+                  } else if (formKey.currentState!.validate()) {
                     BlocProvider.of<AddressesCubit>(context)
                         .setOrderAddressChosen(ordersAddressModel);
+
                     String jsonString = jsonEncode(ordersAddressModel.toJson());
 
                     SharedPreferencesSingleton.setString(
-                        'orders_address_model', jsonString);
+                        LocalConstants.userAddressModelInPref, jsonString);
                     Navigator.pushReplacementNamed(
                       context,
                       CheckoutPage.id,

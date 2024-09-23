@@ -33,7 +33,7 @@ class AddAddressPage extends StatelessWidget {
           ),
         ],
         title: Text(
-          "Add new address",
+          "Add address",
           style: TextStyles.aDLaMDisplayBlackBold22,
         ),
       ),
