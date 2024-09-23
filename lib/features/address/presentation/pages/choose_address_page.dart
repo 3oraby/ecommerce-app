@@ -1,4 +1,3 @@
-
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cubit.dart';
@@ -13,7 +12,9 @@ class ChooseAddressPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<AddressesCubit>(context).getOrdersAddresses();
+    final AddressesCubit addressesCubit =
+        BlocProvider.of<AddressesCubit>(context);
+    addressesCubit.getOrdersAddresses();
     return Scaffold(
       backgroundColor: ThemeColors.backgroundBodiesColor,
       appBar: AppBar(
@@ -51,7 +52,7 @@ class ChooseAddressPage extends StatelessWidget {
                     await Navigator.pushNamed(context, AddAddressPage.id);
 
                 if (isRefresh is bool && isRefresh == true) {
-                  BlocProvider.of<AddressesCubit>(context).getOrdersAddresses();
+                  addressesCubit.getOrdersAddresses();
                 }
               },
             );
