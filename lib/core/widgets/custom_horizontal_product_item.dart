@@ -1,10 +1,10 @@
+
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/helpers/functions/get_photo_url.dart';
-import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
-import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
+import 'package:e_commerce_app/core/widgets/custom_delete_button.dart';
 import 'package:e_commerce_app/core/widgets/custom_rounded_image_container.dart';
 import 'package:e_commerce_app/core/widgets/custom_show_product_quantity.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
@@ -13,11 +13,9 @@ import 'package:e_commerce_app/core/widgets/quantity_selector.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/cart/data/models/cart_item_model.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart';
-import 'package:e_commerce_app/features/cart/presentation/cubit/cart_state.dart';
 import 'package:e_commerce_app/features/favorites/presentation/cubit/favorites_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 
 class CustomHorizontalProductItem extends StatefulWidget {
   const CustomHorizontalProductItem({
@@ -222,6 +220,7 @@ class _CustomHorizontalProductItemState
                     ),
                     CustomDeleteButton(
                       onDeleteItemPressed: widget.onDeleteItemPressed,
+                      cartItemId: widget.cartItemModel.id,
                     ),
                     CustomTriggerButton(
                       onPressed: () {
@@ -277,61 +276,3 @@ class _CustomHorizontalProductItemState
   }
 }
 
-class CustomDeleteButton extends StatefulWidget {
-  const CustomDeleteButton({
-    super.key,
-    this.onDeleteItemPressed,
-  });
-  final VoidCallback? onDeleteItemPressed;
-
-  @override
-  State<CustomDeleteButton> createState() => _CustomDeleteButtonState();
-}
-
-class _CustomDeleteButtonState extends State<CustomDeleteButton> {
-  bool isLoading = false;
-
-  @override
-  Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width -
-        (2 * LocalConstants.kHorizontalPadding);
-    return BlocListener<CartCubit, CartState>(
-      listenWhen: (previous, current) {
-        return current is DeleteFromCartLoadingState ||
-            current is DeleteFromCartErrorState ||
-            current is DeleteCartNoNetworkErrorState;
-      },
-      listener: (context, state) {
-        if (state is DeleteFromCartLoadingState) {
-          setState(() {
-            isLoading = true;
-          });
-        } else if (state is DeleteCartNoNetworkErrorState) {
-          setState(() {
-            isLoading = false;
-          });
-          showErrorWithInternetDialog(context);
-        } else if (state is DeleteFromCartErrorState) {
-          setState(() {
-            isLoading = false;
-          });
-          showSnackBar(context, state.message);
-        }
-      },
-      child: CustomTriggerButton(
-        onPressed: widget.onDeleteItemPressed,
-        buttonWidth: screenWidth * 0.2,
-        buttonHeight: 40,
-        icon: Icons.delete,
-        iconColor: const Color.fromARGB(255, 129, 33, 24),
-        backgroundColor: Colors.white,
-        borderWidth: 1,
-        borderColor: Colors.grey,
-        iconSize: 28,
-        child: isLoading
-            ? Lottie.asset("assets/animations/button_loading.json")
-            : null,
-      ),
-    );
-  }
-}

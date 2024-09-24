@@ -32,7 +32,10 @@ class DeleteFromCartErrorState extends CartState {
   const DeleteFromCartErrorState({required this.message});
 }
 
-class DeleteCartNoNetworkErrorState extends CartState {}
+class DeleteCartNoNetworkErrorState extends CartState {
+  final int cartItemId;
+  const DeleteCartNoNetworkErrorState({required this.cartItemId});
+}
 
 // Loading and error states for showing the cart
 class ShowCartLoadingState extends CartState {}

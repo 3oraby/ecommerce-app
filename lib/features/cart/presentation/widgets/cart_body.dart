@@ -81,7 +81,6 @@ class _CartBodyState extends State<CartBody> {
                 ShowProductDetailsPage.id,
               );
             },
-          
           );
         } else if (state is EmptyCartState) {
           return const Center(

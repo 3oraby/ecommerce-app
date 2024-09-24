@@ -13,71 +13,45 @@ class CartCubit extends Cubit<CartState> {
   List<CartItemModel> _cartItems = [];
   String _cartPrice = "";
   int _totalItemsQuantity = 0;
+  List<int> _itemsWillBeDeleted = [];
 
   CartCubit({required this.cartRepository}) : super(CartInitialState());
 
   List<CartItemModel> get getCartItems => _cartItems;
   String get getCartPrice => _cartPrice;
   int get getTotalItemsQuantity => _totalItemsQuantity;
+  List<int> get getItemsWillBeDeleted => _itemsWillBeDeleted;
 
   int calculateTotalQuantity(List<CartItemModel> cartItems) {
     return cartItems.fold<int>(0, (sum, item) => sum + item.quantity);
   }
 
-  // Future<void> showCart() async {
-  //   emit(ShowCartLoadingState());
-  //   try {
-  //     final ShowCartResponseModel cart = await cartRepository.showCart();
-  //     if (cart.status) {
-  //       if (cart.cartItems!.isEmpty) {
-  //         emit(EmptyCartState());
-  //       } else {
-  //         emit(ShowCartLoadedState(cart: cart));
-  //       }
-  //     } else {
-  //       emit(ShowCartErrorState(
-  //           message: 'Failed to load cart: ${cart.message}'));
-  //     }
-  //   } catch (e) {
-  //     emit(ShowCartErrorState(message: 'Failed to load cart: $e'));
-  //   }
-  // }
-
-  // Future<void> addItemToCart(int productId) async {
-  //   emit(AddToCartLoadingState());
-  //   try {
-  //     final AddToCartResponseModel addToCartResponseModel =
-  //         await cartRepository.addToCart(productId);
-  //     if (addToCartResponseModel.status) {
-  //       itemsQuantity += 1;
-  //     } else {
-  //       emit(const AddToCartErrorState(message: 'Failed to add item to cart'));
-  //     }
-  //   } catch (e) {
-  //     emit(AddToCartErrorState(message: 'Failed to add item to cart: $e'));
-  //   }
-  // }
   void refreshPage() {
     emit(CartRefreshPageState());
   }
 
   Future<void> deleteItemFromCart(int cartItemId) async {
-    if (! await checkConnectionWithInternet()){
-    emit(DeleteCartNoNetworkErrorState());
-    return;
+    if (!await checkConnectionWithInternet()) {
+      emit(DeleteCartNoNetworkErrorState(cartItemId: cartItemId));
+      return;
     }
     emit(DeleteFromCartLoadingState());
     try {
+      _itemsWillBeDeleted.add(cartItemId);
       final DeleteFromCartResponseModel deleteFromCartResponseModel =
           await cartRepository.deleteFromCart(cartItemId);
       if (deleteFromCartResponseModel.status) {
         emit(DeleteFromCartLoadedState());
+        _itemsWillBeDeleted.remove(cartItemId);
+
         await showCartAndPrice();
       } else {
+        _itemsWillBeDeleted.remove(cartItemId);
         emit(const DeleteFromCartErrorState(
             message: 'Failed to delete item from cart'));
       }
     } catch (e) {
+      _itemsWillBeDeleted.remove(cartItemId);
       emit(DeleteFromCartErrorState(
           message: 'Failed to delete item from cart: $e'));
     }
@@ -108,7 +82,6 @@ class CartCubit extends Cubit<CartState> {
     }
   }
 
-
   Future<String> loadCartPrice() async {
     try {
       return await cartRepository.showCartPrice();
@@ -119,6 +92,10 @@ class CartCubit extends Cubit<CartState> {
   }
 
   Future<void> showCartAndPrice() async {
+    if (!await checkConnectionWithInternet()) {
+      emit(CartNoNetworkErrorState());
+      return;
+    }
     emit(ShowCartLoadingState());
     try {
       final ShowCartResponseModel cart = await cartRepository.showCart();
