@@ -37,7 +37,7 @@ class HomeAppBar {
               Navigator.pushNamed(context, EditUserProfilePage.id);
             },
             child: Image.asset(
-              AppImages.userPhoto,
+              AppImages.imagesUserPhoto,
               width: 50,
               height: 50,
             ),

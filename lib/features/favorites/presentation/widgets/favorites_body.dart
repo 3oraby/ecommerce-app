@@ -48,9 +48,7 @@ class FavoritesBody extends StatelessWidget {
             },
           );
         } else {
-          return Container(
-            color: Colors.red,
-          );
+          return Container();
         }
       },
     );

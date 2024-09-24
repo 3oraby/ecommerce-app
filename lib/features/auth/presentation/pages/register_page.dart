@@ -194,6 +194,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return ModalProgressHUD(
       inAsyncCall: inAsyncCall,
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: ListView(
@@ -247,7 +248,6 @@ class _RegisterPageState extends State<RegisterPage> {
                         completedSteps: completedSteps,
                         scrollPageToBottom: scrollPageToBottom,
                         stepValues: stepValues,
-                        // registerRequestModel: registerRequestModel,
                       );
                     }).toList(),
                   ),

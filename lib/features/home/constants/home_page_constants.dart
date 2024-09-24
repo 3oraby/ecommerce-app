@@ -13,8 +13,8 @@ class HomePageConstants {
 
   // home tab body
   static const List homeTapBodySalePhotos = [
-    AppImages.salesPhoto1,
-    AppImages.salesPhoto2,
-    AppImages.salesPhoto3,
+    AppImages.imagesSalesPhoto1,
+    AppImages.imagesSalesPhoto2,
+    AppImages.imagesSalesPhoto3,
   ];
 }
