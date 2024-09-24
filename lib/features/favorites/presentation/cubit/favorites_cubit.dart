@@ -35,31 +35,34 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     }
   }
 
-  Future<void> toggleFavorite({
+  Future<bool> toggleFavorite({
     required int productId,
     bool shouldRefresh = false,
   }) async {
     if (!await checkConnectionWithInternet()) {
-      emit(FavoritesNoInternetConnectionState());
-      return;
+      emit(ToggleFavoritesNoInternetConnectionState(productId: productId));
+      return false; 
     }
     emit(ToggleFavoritesLoadingState(productId: productId));
     try {
       final success = await favoritesRepository.toggleFavorite(productId);
-      if (success && shouldRefresh) {
+      if (success) {
         log('Favorite toggled successfully');
         emit(ToggleFavoritesLoadedState());
-        await getFavorites();
-      } else if (success) {
-        emit(ToggleFavoritesLoadedState());
+        if (shouldRefresh) {
+          await getFavorites(); 
+        }
+        return true; 
       } else {
         emit(ToggleFavoritesErrorState(
             message: 'Failed to update favorite status'));
         log('Failed to update favorite status');
+        return false; 
       }
     } catch (e) {
       emit(ToggleFavoritesErrorState(message: 'Error toggling favorite: $e'));
       log('Error toggling favorite: $e');
+      return false; 
     }
   }
 }

@@ -8,6 +8,10 @@ abstract class FavoritesState {
 class FavoritesInitial extends FavoritesState {}
 
 class FavoritesNoInternetConnectionState extends FavoritesState {}
+class ToggleFavoritesNoInternetConnectionState extends FavoritesState {
+  final int productId;
+  ToggleFavoritesNoInternetConnectionState({required this.productId});
+}
 
 class FavoritesLoading extends FavoritesState {}
 

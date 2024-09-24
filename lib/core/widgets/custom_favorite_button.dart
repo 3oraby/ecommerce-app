@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
+import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
 import 'package:e_commerce_app/features/favorites/presentation/cubit/favorites_states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,9 +44,17 @@ class _CustomFavoriteButtonState extends State<CustomFavoriteButton> {
           setState(() {
             productToggledId = favoritesState.productId;
           });
-        } else if (favoritesState is FavoritesNoInternetConnectionState) {
+        } else if (favoritesState is ToggleFavoritesNoInternetConnectionState) {
+          setState(() {
+            productToggledId = favoritesState.productId;
+          });
           log("show dialog");
-          showErrorWithInternetDialog(context);
+          if (productToggledId == widget.productModel.id) {
+            setState(() {
+              productToggledId = null;
+            });
+            showErrorWithInternetDialog(context);
+          }
         } else {
           setState(() {
             productToggledId = null;
@@ -73,16 +82,27 @@ class _CustomFavoriteButtonState extends State<CustomFavoriteButton> {
                 ),
                 iconSize: 30,
                 onPressed: () async {
-                  await context.read<FavoritesCubit>().toggleFavorite(
-                        productId: widget.productModel.id,
-                        shouldRefresh: widget.isFavoritePage,
-                      );
+                  final success =
+                      await BlocProvider.of<FavoritesCubit>(context).toggleFavorite(
+                            productId: widget.productModel.id,
+                            shouldRefresh: widget.isFavoritePage,
+                          );
 
                   if (mounted) {
-                    setState(() {
-                      isFavorite = !isFavorite;
-                      widget.productModel.isFavorite = isFavorite ? 1 : 0;
-                    });
+                    if (success) {
+                      setState(() {
+                        isFavorite = !isFavorite;
+                        widget.productModel.isFavorite = isFavorite ? 1 : 0;
+                      });
+                      showSnackBar(
+                          context,
+                          isFavorite
+                              ? 'Added to favorites'
+                              : 'Removed from favorites',
+                          backgroundColor: isFavorite
+                              ? ThemeColors.successfullyDoneColor
+                              : ThemeColors.mainLabelsColor);
+                    }
                   }
                 },
               ),

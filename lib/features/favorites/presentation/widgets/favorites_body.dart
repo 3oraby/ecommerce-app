@@ -18,6 +18,13 @@ class FavoritesBody extends StatelessWidget {
     favoritesCubit.getFavorites();
 
     return BlocBuilder<FavoritesCubit, FavoritesState>(
+      buildWhen: (previous, current) {
+        return current is FavoritesLoading ||
+            current is FavoritesLoaded ||
+            current is FavoritesError ||
+            current is FavoritesEmpty ||
+            current is FavoritesNoInternetConnectionState;
+      },
       builder: (context, state) {
         if (state is FavoritesLoading) {
           return const GridViewItemsLoading();
@@ -29,7 +36,7 @@ class FavoritesBody extends StatelessWidget {
           return Center(
             child: Text(
               state.message,
-              style: const TextStyle(fontSize: 25, color: Colors.red),
+              style: const TextStyle(fontSize: 25),
             ),
           );
         } else if (state is FavoritesEmpty) {
@@ -41,7 +48,9 @@ class FavoritesBody extends StatelessWidget {
             },
           );
         } else {
-          return Container();
+          return Container(
+            color: Colors.red,
+          );
         }
       },
     );
