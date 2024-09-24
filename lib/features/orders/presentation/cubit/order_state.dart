@@ -35,6 +35,8 @@ final class GetAllOrdersLoadedState extends OrderState {
   });
 }
 
+final class OrderNoInternetConnectionState extends OrderState {}
+
 final class CancelItemFromOrderLoadingState extends OrderState {}
 
 final class CancelItemFromOrderLoadedState extends OrderState {}

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:e_commerce_app/core/helpers/functions/check_connection_with_internet.dart';
 import 'package:e_commerce_app/features/cart/data/models/cart_item_model.dart';
 import 'package:e_commerce_app/features/cart/data/models/delete_from_cart_response_model.dart';
 import 'package:e_commerce_app/features/cart/data/models/show_cart_response_model.dart';
@@ -61,6 +62,10 @@ class CartCubit extends Cubit<CartState> {
   }
 
   Future<void> deleteItemFromCart(int cartItemId) async {
+    if (! await checkConnectionWithInternet()){
+    emit(CartNoNetworkErrorState());
+    return;
+    }
     emit(DeleteFromCartLoadingState());
     try {
       final DeleteFromCartResponseModel deleteFromCartResponseModel =

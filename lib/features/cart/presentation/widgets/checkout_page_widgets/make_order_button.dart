@@ -1,6 +1,8 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
+import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
+import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cubit.dart';
 import 'package:e_commerce_app/features/orders/data/models/checkout_request_model.dart';
@@ -57,6 +59,11 @@ class _MakeOrderButtonState extends State<MakeOrderButton> {
             isMakeOrderLoading = false;
           });
           showSnackBar(context, state.message);
+        } else if (state is OrderNoInternetConnectionState) {
+          setState(() {
+            isMakeOrderLoading = false;
+          });
+          showErrorWithInternetDialog(context);
         }
       },
       child: Container(
@@ -78,10 +85,13 @@ class _MakeOrderButtonState extends State<MakeOrderButton> {
             children: [
               CustomTriggerButton(
                 description: "MAKE ORDER",
+                backgroundColor: isMakeOrderLoading
+                    ? ThemeColors.unEnabledButtonsColor
+                    : ThemeColors.primaryColor,
                 child: isMakeOrderLoading
                     ? const Center(
                         child: CircularProgressIndicator(
-                          color: Colors.white,
+                          color: ThemeColors.primaryColor,
                         ),
                       )
                     : null,

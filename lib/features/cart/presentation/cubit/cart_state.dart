@@ -7,6 +7,8 @@ abstract class CartState {
 // Initial state
 class CartInitialState extends CartState {}
 
+class CartNoNetworkErrorState extends CartState {}
+
 class CartRefreshPageState extends CartState {}
 
 // General Loading State (if needed)

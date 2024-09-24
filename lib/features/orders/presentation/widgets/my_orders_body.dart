@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/widgets/custom_no_internet_connection_body.dart';
 import 'package:e_commerce_app/features/orders/presentation/cubit/order_cubit.dart';
 import 'package:e_commerce_app/features/orders/presentation/cubit/order_state.dart';
 import 'package:e_commerce_app/features/orders/presentation/pages/tracking_order_details_page.dart';
@@ -42,6 +43,10 @@ class MyOrdersBody extends StatelessWidget {
           return const Center(
             child: Text("you do not make any order till now"),
           );
+        } else if (state is OrderNoInternetConnectionState) {
+          return CustomNoInternetConnectionBody(onTryAgainPressed: () {
+            orderCubit.getAllOrders(userId);
+          });
         } else {
           return const Center(
             child: Text("no state received"),

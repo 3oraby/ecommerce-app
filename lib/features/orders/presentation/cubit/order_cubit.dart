@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:e_commerce_app/core/helpers/functions/check_connection_with_internet.dart';
 import 'package:e_commerce_app/features/orders/data/models/checkout_response_model.dart';
 import 'package:e_commerce_app/features/orders/data/models/get_all_orders_response_model.dart';
 import 'package:e_commerce_app/features/orders/data/models/order_items_model.dart';
@@ -56,7 +57,7 @@ class OrderCubit extends Cubit<OrderState> {
     selectedItemsForCancellation[item] = !isSelected;
   }
 
-  Future<void> cancelSelectedItems() async {
+  Future<bool> cancelSelectedItems() async {
     final List<OrderItemModel> selectedItems = selectedItemsForCancellation
         .entries
         .where((entry) => entry.value == true)
@@ -64,6 +65,10 @@ class OrderCubit extends Cubit<OrderState> {
         .toList();
 
     if (selectedItems.isNotEmpty) {
+      if (!await checkConnectionWithInternet()) {
+        emit(OrderNoInternetConnectionState());
+        return false;
+      }
       emit(CancelItemFromOrderLoadingState());
 
       try {
@@ -76,20 +81,23 @@ class OrderCubit extends Cubit<OrderState> {
           if (!itemCancelled) {
             emit(CancelItemFromOrderErrorState(
                 message: "Cannot cancel item with id: ${orderItem.id}"));
-            return;
+            return false;
           }
         }
 
         emit(CancelItemFromOrderLoadedState());
         resetSelectedItemsForCancellation();
+        return true;
       } catch (e) {
         log(e.toString());
         emit(CancelItemFromOrderErrorState(
             message: "Error occurred while cancelling items."));
+        return false;
       }
     } else {
       emit(CancelItemFromOrderErrorState(
           message: 'No items selected for cancellation.'));
+      return true;
     }
   }
 
@@ -102,8 +110,12 @@ class OrderCubit extends Cubit<OrderState> {
   }
 
   Future<void> confirmOrder({required Map<String, dynamic> jsonData}) async {
+    if (!await checkConnectionWithInternet()) {
+      emit(OrderNoInternetConnectionState());
+      return;
+    }
+    emit(MakeOrderLoadingState());
     try {
-      emit(MakeOrderLoadingState());
       CheckoutResponseModel checkoutResponseModel =
           await orderRepository.checkout(jsonData);
       if (checkoutResponseModel.status) {
@@ -119,6 +131,10 @@ class OrderCubit extends Cubit<OrderState> {
   }
 
   Future<void> getAllOrders(int userId) async {
+    if (!await checkConnectionWithInternet()) {
+      emit(OrderNoInternetConnectionState());
+      return;
+    }
     emit(GetAllOrdersLoadingState());
     try {
       GetAllOrdersResponseModel getAllOrdersResponseModel =
