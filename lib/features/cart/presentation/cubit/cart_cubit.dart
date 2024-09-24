@@ -63,7 +63,7 @@ class CartCubit extends Cubit<CartState> {
 
   Future<void> deleteItemFromCart(int cartItemId) async {
     if (! await checkConnectionWithInternet()){
-    emit(CartNoNetworkErrorState());
+    emit(DeleteCartNoNetworkErrorState());
     return;
     }
     emit(DeleteFromCartLoadingState());
@@ -71,6 +71,7 @@ class CartCubit extends Cubit<CartState> {
       final DeleteFromCartResponseModel deleteFromCartResponseModel =
           await cartRepository.deleteFromCart(cartItemId);
       if (deleteFromCartResponseModel.status) {
+        emit(DeleteFromCartLoadedState());
         await showCartAndPrice();
       } else {
         emit(const DeleteFromCartErrorState(

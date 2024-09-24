@@ -1,8 +1,10 @@
 import 'package:e_commerce_app/core/widgets/custom_horizontal_product_item.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/cart/data/models/show_cart_response_model.dart';
+import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:e_commerce_app/features/cart/presentation/widgets/checkout_action_button.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CartBodyLoaded extends StatelessWidget {
   const CartBodyLoaded({
@@ -17,7 +19,6 @@ class CartBodyLoaded extends StatelessWidget {
   final String cartPrice;
   final int totalQuantity;
   final void Function(int selectedProductIndex) onProductTap;
-
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +37,11 @@ class CartBodyLoaded extends StatelessWidget {
                 onTap: () => onProductTap(index),
                 child: CustomHorizontalProductItem(
                   cartItemModel: showCartResponseModel.cartItems![index],
+                  onDeleteItemPressed: () async {
+                    await BlocProvider.of<CartCubit>(context)
+                        .deleteItemFromCart(
+                            showCartResponseModel.cartItems![index].id);
+                  },
                 ),
               ),
             ),

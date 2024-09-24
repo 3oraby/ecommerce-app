@@ -25,10 +25,14 @@ class AddToCartErrorState extends CartState {
 // Loading and error states for deleting from cart
 class DeleteFromCartLoadingState extends CartState {}
 
+class DeleteFromCartLoadedState extends CartState {}
+
 class DeleteFromCartErrorState extends CartState {
   final String message;
   const DeleteFromCartErrorState({required this.message});
 }
+
+class DeleteCartNoNetworkErrorState extends CartState {}
 
 // Loading and error states for showing the cart
 class ShowCartLoadingState extends CartState {}
