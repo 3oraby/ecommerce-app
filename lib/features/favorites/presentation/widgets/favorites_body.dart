@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/widgets/custom_no_internet_connection_body.dart';
 import 'package:e_commerce_app/core/widgets/grid_view_items_loading.dart';
 import 'package:e_commerce_app/features/favorites/presentation/widgets/favorites_empty_body.dart';
 import 'package:e_commerce_app/features/favorites/presentation/widgets/favorites_loaded_body.dart';
@@ -11,7 +12,10 @@ class FavoritesBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<FavoritesCubit>().getFavorites();
+    final FavoritesCubit favoritesCubit =
+        BlocProvider.of<FavoritesCubit>(context);
+
+    favoritesCubit.getFavorites();
 
     return BlocBuilder<FavoritesCubit, FavoritesState>(
       builder: (context, state) {
@@ -30,6 +34,12 @@ class FavoritesBody extends StatelessWidget {
           );
         } else if (state is FavoritesEmpty) {
           return const FavoritesEmptyBody();
+        } else if (state is FavoritesNoInternetConnectionState) {
+          return CustomNoInternetConnectionBody(
+            onTryAgainPressed: () {
+              favoritesCubit.getFavorites();
+            },
+          );
         } else {
           return Container();
         }

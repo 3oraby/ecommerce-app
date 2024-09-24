@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/widgets/custom_no_internet_connection_body.dart';
 import 'package:e_commerce_app/features/home/presentation/widgets/taps/category/category_tap_loaded_body.dart';
 import 'package:e_commerce_app/features/products/presentation/cubit/product_catalog_cubit.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_products_page.dart';
@@ -45,7 +46,14 @@ class _CategoryTapBodyState extends State<CategoryTapBody> {
               }
             },
           );
-        } else {
+        }else if (state is ProductNoInternetConnectionState){
+          return CustomNoInternetConnectionBody(
+            onTryAgainPressed: () {
+              productCatalogCubit.getCategories();
+            },
+          );
+        }
+         else {
           return const Center(
             child: Text("can not fetch categories"),
           );

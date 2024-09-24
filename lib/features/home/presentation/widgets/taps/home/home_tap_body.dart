@@ -1,4 +1,4 @@
-
+import 'package:e_commerce_app/core/widgets/custom_no_internet_connection_body.dart';
 import 'package:e_commerce_app/features/home/presentation/widgets/home_page_shimmer_loading.dart';
 import 'package:e_commerce_app/features/home/presentation/widgets/taps/home/home_tap_loaded_body.dart';
 import 'package:e_commerce_app/features/products/presentation/cubit/product_catalog_cubit.dart';
@@ -46,10 +46,9 @@ class _HomeTapBodyState extends State<HomeTapBody> {
             onShowAllTap: (categoryId) async {
               productCatalogCubit =
                   BlocProvider.of<ProductCatalogCubit>(context);
-          
+
               productCatalogCubit.setSelectedCategoryId(categoryId);
-              productCatalogCubit.getProductsByCategory(
-                  categoryId: categoryId);
+              productCatalogCubit.getProductsByCategory(categoryId: categoryId);
               productCatalogCubit.resetFilterArgumentsAppliedModel();
               final isRefresh = await Navigator.pushNamed(
                 context,
@@ -58,6 +57,12 @@ class _HomeTapBodyState extends State<HomeTapBody> {
               if (isRefresh is bool && isRefresh) {
                 productCatalogCubit.getHomeData();
               }
+            },
+          );
+        } else if (state is ProductNoInternetConnectionState) {
+          return CustomNoInternetConnectionBody(
+            onTryAgainPressed: () {
+              productCatalogCubit.getHomeData();
             },
           );
         } else {

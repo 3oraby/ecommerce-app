@@ -1,12 +1,11 @@
-import 'dart:developer';
 
+import 'package:e_commerce_app/core/helpers/functions/check_connection_with_internet.dart';
 import 'package:e_commerce_app/core/models/category_model.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/features/home/data/models/get_categories_response_model.dart';
 import 'package:e_commerce_app/features/home/data/repositories/category_repository.dart';
 import 'package:e_commerce_app/features/products/data/models/filter_arguments_model.dart';
 import 'package:e_commerce_app/features/products/data/models/get_home_details_model.dart';
-import 'package:e_commerce_app/features/products/data/models/get_product_response_model.dart';
 import 'package:e_commerce_app/features/products/data/models/get_products_response_model.dart';
 import 'package:e_commerce_app/features/products/data/repositories/product_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -71,36 +70,44 @@ class ProductCatalogCubit extends Cubit<ProductCatalogState> {
   }
 
   Future<void> getCategories() async {
-    emit(GetCategoriesLoadingState());
-    try {
-      GetCategoriesResponseModel getCategoriesResponseModel =
-          await categoryRepository.getCategories();
-      if (getCategoriesResponseModel.status) {
-        emit(GetCategoriesLoadedState(
-            categories: getCategoriesResponseModel.categories!));
-      } else {
-        emit(GetCategoriesErrorState(
-            message: getCategoriesResponseModel.message!));
+    if (!await checkConnectionWithInternet()) {
+      emit(ProductNoInternetConnectionState());
+    } else {
+      emit(GetCategoriesLoadingState());
+      try {
+        GetCategoriesResponseModel getCategoriesResponseModel =
+            await categoryRepository.getCategories();
+        if (getCategoriesResponseModel.status) {
+          emit(GetCategoriesLoadedState(
+              categories: getCategoriesResponseModel.categories!));
+        } else {
+          emit(GetCategoriesErrorState(
+              message: getCategoriesResponseModel.message!));
+        }
+      } catch (e) {
+        emit(GetHomeDataErrorState(message: e.toString()));
       }
-    } catch (e) {
-      emit(GetHomeDataErrorState(message: e.toString()));
     }
   }
 
   Future<void> getHomeData() async {
-    emit(GetHomeDataLoadingState());
-    try {
-      GetHomeDetailsResponseModel getHomeDetailsResponseModel =
-          await productRepository.getHomeData();
-      if (getHomeDetailsResponseModel.status) {
-        emit(GetHomeDataLoadedState(
-            getHomeDetailsResponseModel: getHomeDetailsResponseModel));
-      } else {
-        emit(GetHomeDataErrorState(
-            message: getHomeDetailsResponseModel.message!));
+    if (!await checkConnectionWithInternet()) {
+      emit(ProductNoInternetConnectionState());
+    } else {
+      emit(GetHomeDataLoadingState());
+      try {
+        GetHomeDetailsResponseModel getHomeDetailsResponseModel =
+            await productRepository.getHomeData();
+        if (getHomeDetailsResponseModel.status) {
+          emit(GetHomeDataLoadedState(
+              getHomeDetailsResponseModel: getHomeDetailsResponseModel));
+        } else {
+          emit(GetHomeDataErrorState(
+              message: getHomeDetailsResponseModel.message!));
+        }
+      } catch (e) {
+        emit(GetHomeDataErrorState(message: e.toString()));
       }
-    } catch (e) {
-      emit(GetHomeDataErrorState(message: e.toString()));
     }
   }
 
@@ -108,58 +115,70 @@ class ProductCatalogCubit extends Cubit<ProductCatalogState> {
     required int categoryId,
     Map<String, dynamic>? queryParams,
   }) async {
-    emit(GetProductsByCategoryLoadingState());
-    try {
-      GetProductsCategoryResponseModel getProductsCategoryResponseModel =
-          await productRepository.getProductsByCategory(
-        categoryId: categoryId,
-        queryParams: queryParams,
-      );
-      if (getProductsCategoryResponseModel.status) {
-        setCurrentPage(getProductsCategoryResponseModel.currentPage!);
-        setTotalPages(getProductsCategoryResponseModel.totalPages!);
-        emit(GetProductsByCategoryLoadedState(
-          products: getProductsCategoryResponseModel.products!,
-          filterArgumentsModel:
-              FilterArgumentsModel.fromJson(queryParams ?? {}),
-        ));
-      } else {
-        emit(GetProductsByCategoryErrorState(
-            message: getProductsCategoryResponseModel.message!));
+    if (!await checkConnectionWithInternet()) {
+      emit(ProductNoInternetConnectionState());
+    } else {
+      emit(GetProductsByCategoryLoadingState());
+      try {
+        GetProductsCategoryResponseModel getProductsCategoryResponseModel =
+            await productRepository.getProductsByCategory(
+          categoryId: categoryId,
+          queryParams: queryParams,
+        );
+        if (getProductsCategoryResponseModel.status) {
+          setCurrentPage(getProductsCategoryResponseModel.currentPage!);
+          setTotalPages(getProductsCategoryResponseModel.totalPages!);
+          emit(GetProductsByCategoryLoadedState(
+            products: getProductsCategoryResponseModel.products!,
+            filterArgumentsModel:
+                FilterArgumentsModel.fromJson(queryParams ?? {}),
+          ));
+        } else {
+          emit(GetProductsByCategoryErrorState(
+              message: getProductsCategoryResponseModel.message!));
+        }
+      } catch (e) {
+        emit(GetProductsByCategoryErrorState(message: e.toString()));
       }
-    } catch (e) {
-      emit(GetProductsByCategoryErrorState(message: e.toString()));
     }
   }
 
   Future<void> searchInProducts(
       {required int categoryId, required String productName}) async {
-    emit(SearchInProductsLoadingState());
-    try {
-      GetProductsCategoryResponseModel getProductsCategoryResponseModel =
-          await productRepository.searchInProducts(
-        categoryId: categoryId,
-        productName: productName,
-      );
-      if (getProductsCategoryResponseModel.status) {
-        emit(SearchInProductsLoadedState(
-            products: getProductsCategoryResponseModel.products!));
-      } else {
-        emit(SearchInProductsErrorState(
-            message: getProductsCategoryResponseModel.message!));
+    if (!await checkConnectionWithInternet()) {
+      emit(ProductNoInternetConnectionState());
+    } else {
+      emit(SearchInProductsLoadingState());
+      try {
+        GetProductsCategoryResponseModel getProductsCategoryResponseModel =
+            await productRepository.searchInProducts(
+          categoryId: categoryId,
+          productName: productName,
+        );
+        if (getProductsCategoryResponseModel.status) {
+          emit(SearchInProductsLoadedState(
+              products: getProductsCategoryResponseModel.products!));
+        } else {
+          emit(SearchInProductsErrorState(
+              message: getProductsCategoryResponseModel.message!));
+        }
+      } catch (e) {
+        emit(SearchInProductsErrorState(message: e.toString()));
       }
-    } catch (e) {
-      emit(SearchInProductsErrorState(message: e.toString()));
     }
   }
 
-  Future<GetProductResponseModel> getProductDetails(
-      {required int productId}) async {
-    try {
-      return await productRepository.getProductDetails(productId: productId);
-    } catch (e) {
-      log(e.toString());
-      throw Exception(e);
-    }
-  }
+  // Future<GetProductResponseModel?> getProductDetails(
+  //     {required int productId}) async {
+  //   if (!await checkConnectionWithInternet()) {
+  //     emit(ProductNoInternetConnectionState());
+  //   } else {
+  //     try {
+  //       return await productRepository.getProductDetails(productId: productId);
+  //     } catch (e) {
+  //       log(e.toString());
+  //       throw Exception(e);
+  //     }
+  //   }
+  // }
 }

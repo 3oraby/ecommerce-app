@@ -1,5 +1,7 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
+import 'package:e_commerce_app/core/widgets/custom_no_internet_connection_body.dart';
+import 'package:e_commerce_app/core/widgets/grid_view_items_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:e_commerce_app/core/widgets/custom_text_form_field.dart';
@@ -28,7 +30,7 @@ class _ShowProductsPageState extends State<ShowProductsPage> {
 
   @override
   void dispose() {
-    _searchController.dispose(); 
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -85,9 +87,7 @@ class _ShowProductsPageState extends State<ShowProductsPage> {
           builder: (context, state) {
             if (state is GetProductsByCategoryLoadingState ||
                 state is SearchInProductsLoadingState) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return const GridViewItemsLoading();
             } else if (state is GetProductsByCategoryErrorState ||
                 state is SearchInProductsErrorState) {
               return Center(
@@ -105,6 +105,17 @@ class _ShowProductsPageState extends State<ShowProductsPage> {
               return ShowProductsLoadedBody(
                 products: state.products,
                 categoryId: categoryId,
+              );
+            } else if (state is ProductNoInternetConnectionState) {
+              return CustomNoInternetConnectionBody(
+                onTryAgainPressed: () {
+                  productCatalogCubit.getProductsByCategory(
+                    categoryId: categoryId,
+                    queryParams: productCatalogCubit
+                        .getFilterArgumentsAppliedModel
+                        ?.toJson(),
+                  );
+                },
               );
             } else {
               return const Center(

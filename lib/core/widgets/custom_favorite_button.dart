@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
 import 'package:e_commerce_app/features/favorites/presentation/cubit/favorites_states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,6 +43,9 @@ class _CustomFavoriteButtonState extends State<CustomFavoriteButton> {
           setState(() {
             productToggledId = favoritesState.productId;
           });
+        } else if (favoritesState is FavoritesNoInternetConnectionState) {
+          log("show dialog");
+          showErrorWithInternetDialog(context);
         } else {
           setState(() {
             productToggledId = null;

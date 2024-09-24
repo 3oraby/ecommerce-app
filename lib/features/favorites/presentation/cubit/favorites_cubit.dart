@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:e_commerce_app/core/helpers/functions/check_connection_with_internet.dart';
 import 'package:e_commerce_app/features/favorites/data/models/get_favorites_response_model.dart';
 import 'package:e_commerce_app/features/favorites/data/repositories/favorites_repository.dart';
 import 'package:e_commerce_app/features/favorites/presentation/cubit/favorites_states.dart';
@@ -11,6 +12,10 @@ class FavoritesCubit extends Cubit<FavoritesState> {
       : super(FavoritesInitial());
 
   Future<void> getFavorites() async {
+    if (!await checkConnectionWithInternet()) {
+      emit(FavoritesNoInternetConnectionState());
+      return;
+    }
     emit(FavoritesLoading());
     log('Fetching favorites...');
     try {
@@ -34,7 +39,10 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     required int productId,
     bool shouldRefresh = false,
   }) async {
-
+    if (!await checkConnectionWithInternet()) {
+      emit(FavoritesNoInternetConnectionState());
+      return;
+    }
     emit(ToggleFavoritesLoadingState(productId: productId));
     try {
       final success = await favoritesRepository.toggleFavorite(productId);

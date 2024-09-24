@@ -29,6 +29,7 @@ class ECommerceApp extends StatelessWidget {
   });
 
   final bool isFirstTime;
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -58,10 +59,10 @@ class ECommerceApp extends StatelessWidget {
         ShowFilterPage.id: (context) => const ShowFilterPage(),
         ApplyPriceFilterPage.id: (context) => const ApplyPriceFilterPage(),
       },
-      initialRoute: isFirstTime
-          ? OnboardingPage.id
-          : isUserSignedIn()
-              ? HomePage.id
+      initialRoute: isUserSignedIn()
+          ? HomePage.id
+          : isFirstTime
+              ? OnboardingPage.id
               : EntryPage.id,
     );
   }

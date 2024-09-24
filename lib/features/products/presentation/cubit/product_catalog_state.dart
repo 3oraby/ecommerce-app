@@ -6,6 +6,8 @@ final class ProductInitial extends ProductCatalogState {}
 
 final class ProductPageRefreshState extends ProductCatalogState {}
 
+final class ProductNoInternetConnectionState extends ProductCatalogState {}
+
 final class GetHomeDataLoadingState extends ProductCatalogState {}
 
 final class GetHomeDataLoadedState extends ProductCatalogState {

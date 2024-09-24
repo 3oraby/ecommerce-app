@@ -7,6 +7,8 @@ abstract class FavoritesState {
 
 class FavoritesInitial extends FavoritesState {}
 
+class FavoritesNoInternetConnectionState extends FavoritesState {}
+
 class FavoritesLoading extends FavoritesState {}
 
 class FavoritesEmpty extends FavoritesState {}
@@ -33,5 +35,4 @@ class ToggleFavoritesErrorState extends FavoritesState {
   ToggleFavoritesErrorState({required this.message});
 }
 
-class ToggleFavoritesLoadedState extends FavoritesState {
-}
+class ToggleFavoritesLoadedState extends FavoritesState {}

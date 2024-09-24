@@ -1,0 +1,176 @@
+import 'package:e_commerce_app/constants/local_constants.dart';
+import 'package:e_commerce_app/core/models/product_model.dart';
+import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
+import 'package:e_commerce_app/core/utils/theme/colors.dart';
+import 'package:e_commerce_app/core/widgets/grid_view_items_loading.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:e_commerce_app/core/widgets/custom_text_form_field.dart';
+import 'package:e_commerce_app/features/products/presentation/cubit/product_catalog_cubit.dart';
+import 'package:e_commerce_app/features/products/presentation/widgets/show_products_widgets/show_products_loaded_body.dart';
+
+class ShowProductsPage extends StatefulWidget {
+  const ShowProductsPage({super.key});
+  static const String id = "showProductsPage";
+
+  @override
+  State<ShowProductsPage> createState() => _ShowProductsPageState();
+}
+
+class _ShowProductsPageState extends State<ShowProductsPage> {
+  late int categoryId;
+  late ProductCatalogCubit productCatalogCubit;
+  late List<ProductModel> allProducts;
+  late List<ProductModel> searchedForProducts;
+
+  @override
+  void initState() {
+    super.initState();
+    productCatalogCubit = BlocProvider.of<ProductCatalogCubit>(context);
+    categoryId = productCatalogCubit.getSelectedCategoryId!;
+  }
+
+  bool _isSearching = false;
+  final _searchTextController = TextEditingController();
+
+  Widget _buildSearchField() {
+    return CustomTextFormFieldWidget(
+      controller: _searchTextController,
+      hintText: "Search for a product",
+      borderWidth: 0,
+      enabledBorderWidth: 0,
+      borderColor: Colors.white,
+      enabledBorderColor: Colors.white,
+      suffixIcon: const Icon(
+        Icons.search,
+        color: Colors.black,
+        size: 35,
+      ),
+      fillColor: ThemeColors.backgroundBodiesColor,
+      hintStyle: const TextStyle(
+        color: Colors.black,
+      ),
+      borderRadius: LocalConstants.kBorderRadius,
+      focusedBorderColor: Colors.transparent,
+      onChanged: (value) {
+        // Trigger the search when the user types
+        // productCatalogCubit.searchInProducts(
+        //     categoryId: categoryId, productName: value);
+        addSearchedForItemsToSearchedList(value);
+      },
+    );
+  }
+
+  void addSearchedForItemsToSearchedList(String searchedProduct) {
+    searchedForProducts = allProducts
+        .where((character) =>
+            character.name.toLowerCase().startsWith(searchedProduct))
+        .toList();
+    setState(() {});
+  }
+
+  List<Widget> _buildAppBarActions() {
+    if (_isSearching) {
+      return [
+        IconButton(
+          onPressed: () {
+            _clearSearch();
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.clear,
+            size: 35,
+          ),
+        ),
+      ];
+    } else {
+      return [
+        IconButton(
+          onPressed: _startSearch,
+          icon: const Icon(
+            Icons.search,
+            size: 35,
+          ),
+        ),
+      ];
+    }
+  }
+
+  void _startSearch() {
+    ModalRoute.of(context)!
+        .addLocalHistoryEntry(LocalHistoryEntry(onRemove: _stopSearching));
+
+    setState(() {
+      _isSearching = true;
+    });
+  }
+
+  void _stopSearching() {
+    _clearSearch();
+
+    setState(() {
+      _isSearching = false;
+    });
+  }
+
+  void _clearSearch() {
+    setState(() {
+      _searchTextController.clear();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: ThemeColors.backgroundBodiesColor,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
+        leading: IconButton(
+          onPressed: () {
+            productCatalogCubit.resetFilterArgumentsAppliedModel();
+            Navigator.pop(context, true);
+          },
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
+        title: _isSearching
+            ? _buildSearchField()
+            : Text(
+                'Search for products',
+                style: TextStyles.aDLaMDisplayBlackBold22,
+              ),
+        actions: _buildAppBarActions(),
+      ),
+      body: BlocBuilder<ProductCatalogCubit, ProductCatalogState>(
+        builder: (context, state) {
+          if (state is GetProductsByCategoryLoadingState) {
+            return const GridViewItemsLoading();
+          } else if (state is GetProductsByCategoryErrorState) {
+            return Center(
+              child: Text(state.message),
+            );
+          } else if (state is GetProductsByCategoryLoadedState) {
+            allProducts = state.products;
+            productCatalogCubit
+                .setFilterArgumentsAppliedModel(state.filterArgumentsModel);
+            if (_searchTextController.text.isEmpty) {
+              return ShowProductsLoadedBody(
+                products: allProducts,
+                categoryId: categoryId,
+              );
+            } else {
+              return ShowProductsLoadedBody(
+                products: searchedForProducts,
+                categoryId: categoryId,
+              );
+            }
+          } else {
+            return const Center(
+              child: Text("Cannot get products"),
+            );
+          }
+        },
+      ),
+    );
+  }
+}
