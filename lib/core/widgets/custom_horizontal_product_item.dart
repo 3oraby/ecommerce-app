@@ -1,4 +1,3 @@
-
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/helpers/functions/get_photo_url.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
@@ -13,9 +12,11 @@ import 'package:e_commerce_app/core/widgets/quantity_selector.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/cart/data/models/cart_item_model.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart';
+import 'package:e_commerce_app/features/cart/presentation/cubit/cart_state.dart';
 import 'package:e_commerce_app/features/favorites/presentation/cubit/favorites_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 
 class CustomHorizontalProductItem extends StatefulWidget {
   const CustomHorizontalProductItem({
@@ -53,7 +54,7 @@ class _CustomHorizontalProductItemState
   late int productAmount = widget.cartItemModel.quantity;
   late double height = widget.height;
   bool showQuantity = false;
-
+  bool isUpdatedItemQuantityLoading = false;
   @override
   void initState() {
     super.initState();
@@ -182,39 +183,60 @@ class _CustomHorizontalProductItemState
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          showQuantity = !showQuantity;
-                          if (showQuantity) {
-                            height += 80;
-                          } else {
-                            height -= 80;
-                          }
-                        });
+                    BlocListener<CartCubit, CartState>(
+                      listenWhen: (previous, current) {
+                        return current is CartItemUpdatedErrorState ||
+                            current is CartItemUpdatedLoadingState ||
+                            current is CartItemUpdatedLoadedState;
                       },
-                      child: Container(
-                        height: 40,
-                        width: 80,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            width: 1,
-                            color: Colors.grey,
-                          ),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Text(
-                              "$productAmount",
-                              style: TextStyles.aDLaMDisplayBlackBold20,
+                      listener: (context, state) {
+                        if (state is CartItemUpdatedLoadingState) {
+                          setState(() {
+                            isUpdatedItemQuantityLoading = true;
+                          });
+                        } else {
+                          setState(() {
+                            isUpdatedItemQuantityLoading = false;
+                          });
+                        }
+                      },
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            showQuantity = !showQuantity;
+                            if (showQuantity) {
+                              height += 80;
+                            } else {
+                              height -= 80;
+                            }
+                          });
+                        },
+                        child: Container(
+                          height: 40,
+                          width: 80,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              width: 1,
+                              color: Colors.grey,
                             ),
-                            const Icon(
-                              Icons.arrow_drop_down,
-                              size: 30,
-                            )
-                          ],
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              isUpdatedItemQuantityLoading
+                                  ? Lottie.asset(
+                                      "assets/animations/button_loading.json")
+                                  : Text(
+                                      "$productAmount",
+                                      style: TextStyles.aDLaMDisplayBlackBold20,
+                                    ),
+                              const Icon(
+                                Icons.arrow_drop_down,
+                                size: 30,
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -254,7 +276,6 @@ class _CustomHorizontalProductItemState
                     },
                     onQuantitySelected: (value) async {
                       setState(() {
-                        productAmount = value;
                         showQuantity = false;
                         height = widget.height;
                       });
@@ -262,7 +283,6 @@ class _CustomHorizontalProductItemState
                         cartId: widget.cartItemModel.id,
                         quantity: value,
                       );
-                      // update the value of the product quantity to pass the model to checkout page
                       widget.cartItemModel.quantity = value;
                     },
                   ),
@@ -275,4 +295,3 @@ class _CustomHorizontalProductItemState
     );
   }
 }
-

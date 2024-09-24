@@ -62,6 +62,10 @@ class CartCubit extends Cubit<CartState> {
     int? cartId,
     int? productId,
   }) async {
+    if (!await checkConnectionWithInternet()) {
+      emit(UpdateCartNoNetworkErrorState());
+      return;
+    }
     emit(CartItemUpdatedLoadingState());
     try {
       final bool success = await cartRepository.updateCartItem(
@@ -78,7 +82,8 @@ class CartCubit extends Cubit<CartState> {
       }
     } catch (e) {
       emit(CartItemUpdatedErrorState(
-          message: 'Failed to update item quantity: $e'));
+          message: 'Failed to update item quantity: $e',
+          ));
     }
   }
 
