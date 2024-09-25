@@ -4,6 +4,11 @@ import 'package:e_commerce_app/features/address/data/data_sources/get_all_orders
 import 'package:e_commerce_app/features/address/data/repositories/addresses_repository_impl.dart';
 import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cubit.dart';
 import 'package:e_commerce_app/features/auth/data/data_sources/log_out_service.dart';
+import 'package:e_commerce_app/features/auth/data/data_sources/login_service.dart';
+import 'package:e_commerce_app/features/auth/data/data_sources/register_service.dart';
+import 'package:e_commerce_app/features/auth/data/data_sources/verify_email_service.dart';
+import 'package:e_commerce_app/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:e_commerce_app/features/cart/data/data_sources/add_to_cart_service.dart';
 import 'package:e_commerce_app/features/cart/data/data_sources/check_product_in_cart_service.dart';
 import 'package:e_commerce_app/features/cart/data/data_sources/delete_from_cart_service.dart';
@@ -51,7 +56,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 Future<void> main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesSingleton.init();
   bool isFirstTime = SharedPreferencesSingleton.getBool("isFirstTime");
@@ -59,6 +63,16 @@ Future<void> main() async {
     MultiBlocProvider(
       providers: [
         // favorites cubit
+        BlocProvider(
+          create: (context) => AuthCubit(
+            authRepository: AuthRepositoryImpl(
+              logOutService: LogOutService(),
+              loginService: LoginService(),
+              registerService: RegisterService(),
+              verifyEmailService: VerifyEmailService(),
+            ),
+          ),
+        ),
         BlocProvider(
           create: (context) => FavoritesCubit(
             favoritesRepository: FavoritesRepositoryImpl(

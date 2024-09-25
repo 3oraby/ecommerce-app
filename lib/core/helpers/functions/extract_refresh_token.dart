@@ -20,9 +20,10 @@ String extractRefreshToken({
       refreshToken = "";
       log('Refresh token not found in set-cookie');
     }
+    log("refreshToken: $refreshToken");
     return refreshToken;
   } else {
-    print('set-cookie header not found');
+    log('set-cookie header not found');
   }
   return "";
 }

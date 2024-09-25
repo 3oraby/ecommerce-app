@@ -18,12 +18,12 @@ class SharedPreferencesSingleton {
   }
 
   static void setString(String key, String value) {
-    log("set string in pref $key");
+    log("set string in pref $key :${instance.setString(key, value)}");
     instance.setString(key, value);
   }
 
   static String? getString(String key) {
-    log("get string from pref $key");
+    log("get string from pref $key : ${instance.getString(key)}");
     return instance.getString(key);
   }
 

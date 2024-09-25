@@ -2,13 +2,13 @@ import 'package:e_commerce_app/core/models/error_model.dart';
 
 class RegisterResponseModel {
   final bool status;
-  final String? link;
+  final String? verifyAccLink;
   final ErrorModel? error;
   final String? message;
 
   RegisterResponseModel({
     required this.status,
-    this.link,
+    this.verifyAccLink,
     this.error,
     this.message,
   });
@@ -17,7 +17,7 @@ class RegisterResponseModel {
     if (json['status'] == 'success') {
       return RegisterResponseModel(
         status: true,
-        link: json["link"],
+        verifyAccLink: json["verifyAccLink"],
       );
     } else {
       return RegisterResponseModel(

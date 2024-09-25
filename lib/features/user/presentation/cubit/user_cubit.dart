@@ -96,6 +96,8 @@ class UserCubit extends Cubit<UserState> {
         emit(LogOutLoadedState());
         SharedPreferencesSingleton.deleteStringFromSharedPreferences(
             LocalConstants.accessTokenNameInPref);
+        SharedPreferencesSingleton.deleteStringFromSharedPreferences(
+            LocalConstants.refreshTokenNameInPref);
       } else {
         emit(LogOutErrorState(
           message: logOutResponseModel.message,

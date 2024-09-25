@@ -7,15 +7,19 @@ import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 
 class Api {
   final Dio dio = Dio();
-  String accessToken =
-      SharedPreferencesSingleton.getString(LocalConstants.accessTokenNameInPref) ?? "";
-  String refreshToken =
-      SharedPreferencesSingleton.getString("refreshToken") ?? "";
 
-  // Constructor to automatically add the tokens to every request
   Api() {
-    dio.options.headers['Authorization'] = 'Bearer $accessToken';
-    dio.options.headers['Cookie'] = "refreshToken=$refreshToken";
+    String? accessToken = SharedPreferencesSingleton.getString(
+        LocalConstants.accessTokenNameInPref);
+    String? refreshToken = SharedPreferencesSingleton.getString(
+        LocalConstants.refreshTokenNameInPref);
+
+    if (accessToken != null) {
+      dio.options.headers['Authorization'] = 'Bearer $accessToken';
+    }
+    if (refreshToken != null || refreshToken != "") {
+      dio.options.headers['Cookie'] = "refreshToken=$refreshToken";
+    }
   }
 
   Future<Response> get({

@@ -7,6 +7,7 @@ class LocalConstants {
   static const double kHorizontalPadding = 16;
   static const double kBorderRadius = 10;
   static const String accessTokenNameInPref = "kAccessToken";
+  static const String refreshTokenNameInPref = "kRefreshToken";
   static const String userModelNameInPref = "kUserModel";
   static const String isOnBoardingSeenNameInPref = "isFirstTime";
   static const String userAddressModelInPref = "kUserAddressModel";
