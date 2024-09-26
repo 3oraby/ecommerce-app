@@ -1,6 +1,4 @@
-
-
-
+import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +9,9 @@ class ShowProductsDetailsLoadingBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width -
+        (2 * LocalConstants.kHorizontalPadding);
+
     return SafeArea(
       child: Column(
         children: [
@@ -137,15 +138,45 @@ class ShowProductsDetailsLoadingBody extends StatelessWidget {
               ),
             ),
           ),
-          Shimmer.fromColors(
-            baseColor: Colors.grey[300]!,
-            highlightColor: Colors.grey[100]!,
-            child: Container(
-              height: 50,
-              width: double.infinity,
-              color: Colors.grey[300],
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: LocalConstants.kHorizontalPadding),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Shimmer.fromColors(
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
+                  child: Container(
+                    height: 50,
+                    width: screenWidth * 0.2,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius:
+                          BorderRadius.circular(LocalConstants.kBorderRadius),
+                    ),
+                  ),
+                ),
+                const HorizontalGap(16),
+                Expanded(
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    child: Container(
+                      height: 50,
+                      width: screenWidth * 0.6,
+                      decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius:
+                            BorderRadius.circular(LocalConstants.kBorderRadius),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
+          const VerticalGap(16),
         ],
       ),
     );
