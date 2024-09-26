@@ -1,4 +1,3 @@
-
 import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
 import 'package:e_commerce_app/features/favorites/presentation/cubit/favorites_states.dart';
@@ -27,8 +26,7 @@ class CustomFavoriteButton extends StatefulWidget {
 
 class _CustomFavoriteButtonState extends State<CustomFavoriteButton> {
   late bool isFavorite;
-  int? productToggledId;
-
+  bool isLoading = false;
   @override
   void initState() {
     super.initState();
@@ -37,25 +35,29 @@ class _CustomFavoriteButtonState extends State<CustomFavoriteButton> {
 
   @override
   Widget build(BuildContext context) {
+    final FavoritesCubit favoritesCubit =
+        BlocProvider.of<FavoritesCubit>(context);
     return BlocListener<FavoritesCubit, FavoritesState>(
       listener: (context, favoritesState) {
         if (favoritesState is ToggleFavoritesLoadingState) {
-          setState(() {
-            productToggledId = favoritesState.productId;
-          });
-        } else if (favoritesState is ToggleFavoritesNoInternetConnectionState) {
-          setState(() {
-            productToggledId = favoritesState.productId;
-          });
-          if (productToggledId == widget.productModel.id) {
+          if (favoritesCubit.getProductWillMoveToFavorites
+              .contains(widget.productModel.id)) {
             setState(() {
-              productToggledId = null;
+              isLoading = true;
             });
+          }
+        } else if (favoritesState is ToggleFavoritesNoInternetConnectionState) {
+          if (favoritesState.productId == widget.productModel.id) {
             showErrorWithInternetDialog(context);
           }
-        } else {
+        } else if (favoritesState is ToggleFavoritesErrorState) {
           setState(() {
-            productToggledId = null;
+            isLoading = false;
+          });
+          showSnackBar(context, favoritesState.message);
+        }else if (favoritesState is ToggleFavoritesLoadedState){
+          setState(() {
+            isLoading = false;
           });
         }
       },
@@ -68,7 +70,7 @@ class _CustomFavoriteButtonState extends State<CustomFavoriteButton> {
             width: widget.borderWidth,
           ),
         ),
-        child: productToggledId == widget.productModel.id
+        child: isLoading
             ? SizedBox(
                 height: MediaQuery.of(context).size.height * 0.05,
                 child: Lottie.asset("assets/animations/button_loading.json"),
@@ -80,11 +82,11 @@ class _CustomFavoriteButtonState extends State<CustomFavoriteButton> {
                 ),
                 iconSize: 30,
                 onPressed: () async {
-                  final success =
-                      await BlocProvider.of<FavoritesCubit>(context).toggleFavorite(
-                            productId: widget.productModel.id,
-                            shouldRefresh: widget.isFavoritePage,
-                          );
+                  final success = await BlocProvider.of<FavoritesCubit>(context)
+                      .toggleFavorite(
+                    productId: widget.productModel.id,
+                    shouldRefresh: widget.isFavoritePage,
+                  );
 
                   if (mounted) {
                     if (success) {

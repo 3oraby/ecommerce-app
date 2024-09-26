@@ -11,6 +11,9 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   FavoritesCubit({required this.favoritesRepository})
       : super(FavoritesInitial());
 
+  List<int> _productsWillMoveToFavorites = [];
+  List<int> get getProductWillMoveToFavorites => _productsWillMoveToFavorites;
+
   Future<void> getFavorites() async {
     if (!await checkConnectionWithInternet()) {
       emit(FavoritesNoInternetConnectionState());
@@ -41,28 +44,35 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   }) async {
     if (!await checkConnectionWithInternet()) {
       emit(ToggleFavoritesNoInternetConnectionState(productId: productId));
-      return false; 
+      return false;
     }
     emit(ToggleFavoritesLoadingState(productId: productId));
+    _productsWillMoveToFavorites.add(productId);
     try {
       final success = await favoritesRepository.toggleFavorite(productId);
       if (success) {
         log('Favorite toggled successfully');
         emit(ToggleFavoritesLoadedState());
+        _productsWillMoveToFavorites.remove(productId);
+
         if (shouldRefresh) {
-          await getFavorites(); 
+          await getFavorites();
         }
-        return true; 
+        return true;
       } else {
         emit(ToggleFavoritesErrorState(
             message: 'Failed to update favorite status'));
         log('Failed to update favorite status');
-        return false; 
+        _productsWillMoveToFavorites.remove(productId);
+
+        return false;
       }
     } catch (e) {
       emit(ToggleFavoritesErrorState(message: 'Error toggling favorite: $e'));
       log('Error toggling favorite: $e');
-      return false; 
+      _productsWillMoveToFavorites.remove(productId);
+
+      return false;
     }
   }
 }
