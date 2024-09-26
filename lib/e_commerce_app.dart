@@ -60,7 +60,7 @@ class ECommerceApp extends StatelessWidget {
         ApplyPriceFilterPage.id: (context) => const ApplyPriceFilterPage(),
         SplashPage.id: (context) => const SplashPage(),
       },
-      initialRoute: isFirstTime ? OnboardingPage.id : EntryPage.id,
+      initialRoute: isFirstTime ? OnboardingPage.id : HomePage.id,
     );
   }
 }
