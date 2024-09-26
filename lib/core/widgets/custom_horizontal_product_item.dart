@@ -1,4 +1,3 @@
-import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/helpers/functions/get_photo_url.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
@@ -6,14 +5,13 @@ import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_delete_button.dart';
 import 'package:e_commerce_app/core/widgets/custom_rounded_image_container.dart';
 import 'package:e_commerce_app/core/widgets/custom_show_product_quantity.dart';
-import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
+import 'package:e_commerce_app/core/widgets/move_item_from_cart_to_favorite_button.dart';
 import 'package:e_commerce_app/core/widgets/quantity_selector.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/cart/data/models/cart_item_model.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_state.dart';
-import 'package:e_commerce_app/features/favorites/presentation/cubit/favorites_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -31,6 +29,7 @@ class CustomHorizontalProductItem extends StatefulWidget {
     this.width = double.infinity,
     this.isLastRowEnabled = true,
     this.onDeleteItemPressed,
+    this.onMoveToFavoritesItemPressed,
   });
 
   final CartItemModel cartItemModel;
@@ -43,6 +42,7 @@ class CustomHorizontalProductItem extends StatefulWidget {
   final double imageWidth;
   final bool isLastRowEnabled;
   final VoidCallback? onDeleteItemPressed;
+  final VoidCallback? onMoveToFavoritesItemPressed;
 
   @override
   State<CustomHorizontalProductItem> createState() =>
@@ -68,9 +68,6 @@ class _CustomHorizontalProductItemState
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width -
-        (2 * LocalConstants.kHorizontalPadding);
-
     ProductModel productModel = widget.cartItemModel.product;
     return Container(
       height: height,
@@ -244,23 +241,10 @@ class _CustomHorizontalProductItemState
                       onDeleteItemPressed: widget.onDeleteItemPressed,
                       cartItemId: widget.cartItemModel.id,
                     ),
-                    CustomTriggerButton(
-                      onPressed: () {
-                        if (productModel.isFavorite == 0) {
-                          BlocProvider.of<FavoritesCubit>(context)
-                              .toggleFavorite(productId: productModel.id);
-                        }
-
-                        BlocProvider.of<CartCubit>(context)
-                            .deleteItemFromCart(widget.cartItemModel.id);
-                      },
-                      buttonWidth: screenWidth * 0.5,
-                      buttonHeight: 40,
-                      borderRadius: 10,
-                      description: "move to favorites",
-                      descriptionSize: 18,
-                      icon: Icons.favorite_outline_outlined,
-                      iconSize: 28,
+                    MoveItemFromCartToFavoritesButton(
+                      cartItemId: widget.cartItemModel.id,
+                      onMoveToFavoritesItemPressed:
+                          widget.onMoveToFavoritesItemPressed,
                     ),
                   ],
                 ),

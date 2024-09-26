@@ -14,6 +14,7 @@ class CartCubit extends Cubit<CartState> {
   String _cartPrice = "";
   int _totalItemsQuantity = 0;
   List<int> _itemsWillBeDeleted = [];
+  List<int> _itemsWillMoveToFavorites = [];
 
   CartCubit({required this.cartRepository}) : super(CartInitialState());
 
@@ -21,6 +22,7 @@ class CartCubit extends Cubit<CartState> {
   String get getCartPrice => _cartPrice;
   int get getTotalItemsQuantity => _totalItemsQuantity;
   List<int> get getItemsWillBeDeleted => _itemsWillBeDeleted;
+  List<int> get getItemsWillMoveToFavorites => _itemsWillMoveToFavorites;
 
   int calculateTotalQuantity(List<CartItemModel> cartItems) {
     return cartItems.fold<int>(0, (sum, item) => sum + item.quantity);
@@ -28,6 +30,33 @@ class CartCubit extends Cubit<CartState> {
 
   void refreshPage() {
     emit(CartRefreshPageState());
+  }
+
+  Future<void> moveItemToFavorites(int cartItemId) async {
+    if (!await checkConnectionWithInternet()) {
+      emit(MoveToFavoritesNoNetworkErrorState(cartItemId: cartItemId));
+      return;
+    }
+    emit(MoveToFavoritesLoadingState());
+    try {
+      _itemsWillMoveToFavorites.add(cartItemId);
+      final DeleteFromCartResponseModel deleteFromCartResponseModel =
+          await cartRepository.deleteFromCart(cartItemId);
+      if (deleteFromCartResponseModel.status) {
+        emit(MoveToFavoritesLoadedState());
+        _itemsWillMoveToFavorites.remove(cartItemId);
+
+        await showCartAndPrice();
+      } else {
+        _itemsWillMoveToFavorites.remove(cartItemId);
+        emit(const MoveToFavoritesErrorState(
+            message: 'Failed to move item to favorites'));
+      }
+    } catch (e) {
+      _itemsWillMoveToFavorites.remove(cartItemId);
+      emit(MoveToFavoritesErrorState(
+          message: 'Failed to move item to favorites: $e'));
+    }
   }
 
   Future<void> deleteItemFromCart(int cartItemId) async {
@@ -82,8 +111,8 @@ class CartCubit extends Cubit<CartState> {
       }
     } catch (e) {
       emit(CartItemUpdatedErrorState(
-          message: 'Failed to update item quantity: $e',
-          ));
+        message: 'Failed to update item quantity: $e',
+      ));
     }
   }
 

@@ -37,6 +37,20 @@ class DeleteCartNoNetworkErrorState extends CartState {
   const DeleteCartNoNetworkErrorState({required this.cartItemId});
 }
 
+class MoveToFavoritesLoadingState extends CartState {}
+
+class MoveToFavoritesLoadedState extends CartState {}
+
+class MoveToFavoritesErrorState extends CartState {
+  final String message;
+  const MoveToFavoritesErrorState({required this.message});
+}
+
+class MoveToFavoritesNoNetworkErrorState extends CartState {
+  final int cartItemId;
+  const MoveToFavoritesNoNetworkErrorState({required this.cartItemId});
+}
+
 // Loading and error states for showing the cart
 class ShowCartLoadingState extends CartState {}
 
@@ -95,5 +109,4 @@ class CartItemUpdatedLoadedState extends CartState {
   const CartItemUpdatedLoadedState({required this.success});
 }
 
-class UpdateCartNoNetworkErrorState extends CartState {
-}
+class UpdateCartNoNetworkErrorState extends CartState {}

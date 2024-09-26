@@ -3,6 +3,7 @@ import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/cart/data/models/show_cart_response_model.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:e_commerce_app/features/cart/presentation/widgets/checkout_action_button.dart';
+import 'package:e_commerce_app/features/favorites/presentation/cubit/favorites_cubit.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,7 +41,20 @@ class CartBodyLoaded extends StatelessWidget {
                   onDeleteItemPressed: () async {
                     await BlocProvider.of<CartCubit>(context)
                         .deleteItemFromCart(
-                            showCartResponseModel.cartItems![index].id);
+                      showCartResponseModel.cartItems![index].id,
+                    );
+                  },
+                  onMoveToFavoritesItemPressed: () {
+                    if (showCartResponseModel
+                            .cartItems![index].product.isFavorite ==
+                        0) {
+                      BlocProvider.of<FavoritesCubit>(context).toggleFavorite(
+                          productId: showCartResponseModel
+                              .cartItems![index].product.id);
+                    }
+
+                    BlocProvider.of<CartCubit>(context).moveItemToFavorites(
+                        showCartResponseModel.cartItems![index].id);
                   },
                 ),
               ),
