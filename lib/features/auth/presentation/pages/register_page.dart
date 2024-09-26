@@ -1,14 +1,6 @@
-import 'dart:developer';
-
-import 'package:e_commerce_app/constants/local_constants.dart';
-import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
 import 'package:e_commerce_app/features/auth/constants/register_page_constants.dart';
-import 'package:e_commerce_app/features/auth/data/data_sources/register_service.dart';
-import 'package:e_commerce_app/features/auth/data/data_sources/verify_email_service.dart';
-import 'package:e_commerce_app/features/auth/data/models/register_request_model.dart';
-import 'package:e_commerce_app/features/auth/data/models/register_response_model.dart';
-import 'package:e_commerce_app/features/auth/data/models/verify_email_response_model.dart';
+import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:e_commerce_app/features/auth/presentation/pages/login_page.dart';
 import 'package:e_commerce_app/core/helpers/functions/custom_show_modal_bottom_sheet.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
@@ -41,11 +33,22 @@ class _RegisterPageState extends State<RegisterPage> {
   final ScrollController listViewScrollController = ScrollController();
   final TextEditingController textEditingController = TextEditingController();
   // models
-  RegisterRequestModel? registerRequestModel;
+  // RegisterRequestModel? registerRequestModel;
   // variables
   int completedSteps = 0;
   bool inAsyncCall = false;
   final Map<RegistrationStep, String?> stepValues = {};
+  late UserCubit userCubit;
+  late AuthCubit authCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    userCubit = BlocProvider.of<UserCubit>(context);
+    authCubit = BlocProvider.of<AuthCubit>(context);
+    // registerRequestModel = authCubit.registerRequestModel;
+  }
+
   // methods
   void scrollPageToBottom() {
     listViewScrollController.animateTo(
@@ -83,71 +86,7 @@ class _RegisterPageState extends State<RegisterPage> {
         curve: Curves.easeInOut,
       );
     } else {
-      setState(() {
-        inAsyncCall = true;
-      });
-      try {
-        final UserCubit userCubit = BlocProvider.of<UserCubit>(context);
-
-        RegisterResponseModel registerResponseModel =
-            await RegisterService().createAccount(
-          jsonData: userCubit.registerRequestModel.toJson(),
-        );
-        log("register ${registerResponseModel.status}");
-        if (registerResponseModel.status) {
-          // get the email and token from the link to verify
-          String link = registerResponseModel.link!;
-          // Parse the URL
-          Uri uri = Uri.parse(link);
-          // Extract query parameters
-          String token = uri.queryParameters['token']!;
-          String email = uri.queryParameters['email']!;
-          log(email);
-          log(token);
-          VerifyEmailResponseModel verifyEmailResponseModel =
-              await VerifyEmailService().verifyEmail(
-            token: token,
-            email: email,
-          );
-          log("verify ${verifyEmailResponseModel.status}");
-          if (verifyEmailResponseModel.status) {
-            final String accessToken = verifyEmailResponseModel.accessToken!;
-            SharedPreferencesSingleton.setString(
-                LocalConstants.accessTokenNameInPref, accessToken);
-
-            log("user Address : ${verifyEmailResponseModel.user!.addressId}");
-            userCubit.setUserModel(verifyEmailResponseModel.user!);
-
-            customShowModalBottomSheet(
-              context: context,
-              imageName: "assets/animations/orderSuccessfullyDone.json",
-              sheetDescription:
-                  "Congratulations! You have successfully registered. Welcome aboard! We're excited to have you with us.",
-              onPressed: () {
-                HomePageNavigationService.navigateToHome();
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  HomePage.id,
-                  (Route<dynamic> route) => false,
-                );
-              },
-            );
-          } else {
-            showSnackBar(context, verifyEmailResponseModel.message!);
-          }
-        } else {
-          if (registerResponseModel.message! == "Validation error") {
-            showSnackBar(context, "Email is already in use");
-          } else {
-            showSnackBar(context, registerResponseModel.message!);
-          }
-        }
-      } on Exception catch (e) {
-        showSnackBar(context, e.toString());
-      }
-      setState(() {
-        inAsyncCall = false;
-      });
+      authCubit.register();
     }
   }
 
@@ -173,13 +112,6 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    registerRequestModel =
-        BlocProvider.of<UserCubit>(context).registerRequestModel;
-  }
-
-  @override
   void dispose() {
     super.dispose();
     // dispose controllers
@@ -194,95 +126,151 @@ class _RegisterPageState extends State<RegisterPage> {
     return ModalProgressHUD(
       inAsyncCall: inAsyncCall,
       child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: ListView(
-            controller: listViewScrollController,
-            reverse: true,
-            children: [
-              const VerticalGap(4),
-              if (completedSteps != 0)
+        body: BlocListener<AuthCubit, AuthState>(
+          listener: (context, state) {
+            if (state is RegisterLoadingState ||
+                state is VerifyEmailLoadingState) {
+              setState(() {
+                inAsyncCall = true;
+              });
+            } else if (state is RegisterLoadedState) {
+              setState(() {
+                inAsyncCall = true;
+              });
+              String link = state.verifyAccLink;
+              Uri uri = Uri.parse(link);
+              String token = uri.queryParameters['token']!;
+              String email = uri.queryParameters['email']!;
+              authCubit.verifyEmail(
+                accessToken: token,
+                email: email,
+              );
+            } else if (state is RegisterErrorState) {
+              setState(() {
+                inAsyncCall = false;
+              });
+              if (state.message == "Validation error") {
+                showSnackBar(context, "Email is already in use");
+              } else {
+                showSnackBar(context, state.message);
+              }
+            } else if (state is VerifyEmailErrorState) {
+              setState(() {
+                inAsyncCall = false;
+              });
+              showSnackBar(context, state.message);
+            } else if (state is VerifyEmailLoadedState) {
+              setState(() {
+                inAsyncCall = false;
+              });
+              userCubit.setUserModel(state.userModel);
+
+              customShowModalBottomSheet(
+                context: context,
+                imageName: "assets/animations/orderSuccessfullyDone.json",
+                sheetDescription:
+                    "Congratulations! You have successfully registered. Welcome aboard! We're excited to have you with us.",
+                onPressed: () {
+                  HomePageNavigationService.navigateToHome();
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    HomePage.id,
+                    (Route<dynamic> route) => false,
+                  );
+                },
+              );
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: ListView(
+              controller: listViewScrollController,
+              reverse: true,
+              children: [
+                const VerticalGap(4),
+                if (completedSteps != 0)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      CustomTriggerButton(
+                        icon: Icons.arrow_back,
+                        onPressed: onBackPressed,
+                        buttonWidth: 70,
+                        buttonHeight: 40,
+                      ),
+                    ],
+                  ),
+                const VerticalGap(8),
+                Image.asset(
+                  "assets/images/register_page.png",
+                  height: 300,
+                ),
+                Text(
+                  "Create account",
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.pollerOne(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const VerticalGap(24),
+                SizedBox(
+                  // height: completedSteps < stepsList.length &&
+                  //         stepsList[completedSteps] == RegistrationStep.image
+                  //     ? 280
+                  //     : 240,
+                  height: 240,
+                  child: Form(
+                    key: formKey,
+                    child: PageView(
+                      controller: pageController,
+                      onPageChanged: onPageChanged,
+                      physics:
+                          const NeverScrollableScrollPhysics(), // to prevent user scrolling
+                      children: stepsList.map((step) {
+                        return RegistrationStepFormField(
+                          stepperScrollController: stepperScrollController,
+                          textEditingController: textEditingController,
+                          completedSteps: completedSteps,
+                          scrollPageToBottom: scrollPageToBottom,
+                          stepValues: stepValues,
+                          // registerRequestModel: registerRequestModel,
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+                const VerticalGap(24),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomTriggerButton(
-                      icon: Icons.arrow_back,
-                      onPressed: onBackPressed,
-                      buttonWidth: 70,
-                      buttonHeight: 40,
+                      description: completedSteps == stepsList.length
+                          ? "Create account"
+                          : "Continue",
+                      backgroundColor: completedSteps == stepsList.length
+                          ? ThemeColors.secondaryColor
+                          : ThemeColors.primaryColor,
+                      onPressed: () async {
+                        if (formKey.currentState!.validate()) {
+                          await onContinuePressed(context);
+                        }
+                      },
+                      descriptionColor: Colors.white,
+                      buttonWidth: 300,
                     ),
                   ],
                 ),
-              const VerticalGap(8),
-              Image.asset(
-                "assets/images/register_page.png",
-                height: 300,
-              ),
-              Text(
-                "Create account",
-                textAlign: TextAlign.center,
-                style: GoogleFonts.pollerOne(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
+                AuthSwitchWidget(
+                  promptText: "already have an account ?",
+                  actionText: "Login",
+                  onActionPressed: () {
+                    Navigator.pushReplacementNamed(context, LoginPage.id);
+                  },
                 ),
-              ),
-              const VerticalGap(24),
-              SizedBox(
-                // height: completedSteps < stepsList.length &&
-                //         stepsList[completedSteps] == RegistrationStep.image
-                //     ? 280
-                //     : 240,
-                height: 240,
-                child: Form(
-                  key: formKey,
-                  child: PageView(
-                    controller: pageController,
-                    onPageChanged: onPageChanged,
-                    physics:
-                        const NeverScrollableScrollPhysics(), // to prevent user scrolling
-                    children: stepsList.map((step) {
-                      return RegistrationStepFormField(
-                        stepperScrollController: stepperScrollController,
-                        textEditingController: textEditingController,
-                        completedSteps: completedSteps,
-                        scrollPageToBottom: scrollPageToBottom,
-                        stepValues: stepValues,
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ),
-              const VerticalGap(24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomTriggerButton(
-                    description: completedSteps == stepsList.length
-                        ? "Create account"
-                        : "Continue",
-                    backgroundColor: completedSteps == stepsList.length
-                        ? ThemeColors.secondaryColor
-                        : ThemeColors.primaryColor,
-                    onPressed: () async {
-                      if (formKey.currentState!.validate()) {
-                        await onContinuePressed(context);
-                      }
-                    },
-                    descriptionColor: Colors.white,
-                    buttonWidth: 300,
-                  ),
-                ],
-              ),
-              AuthSwitchWidget(
-                promptText: "already have an account ?",
-                actionText: "Login",
-                onActionPressed: () {
-                  Navigator.pushReplacementNamed(context, LoginPage.id);
-                },
-              ),
-              const VerticalGap(48),
-            ].reversed.toList(),
+                const VerticalGap(48),
+              ].reversed.toList(),
+            ),
           ),
         ),
       ),

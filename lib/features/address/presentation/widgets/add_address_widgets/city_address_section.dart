@@ -7,6 +7,7 @@ import 'package:e_commerce_app/features/address/data/models/get_all_addresses_re
 import 'package:e_commerce_app/features/address/data/models/orders_address_model.dart';
 import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cubit.dart';
 import 'package:e_commerce_app/features/address/presentation/utils/get_user_home_address.dart';
+import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:e_commerce_app/features/user/presentation/cubit/user_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,12 +29,14 @@ class _CityAddressSectionState extends State<CityAddressSection> {
   String? selectedValue;
   late AddressesCubit addressesCubit;
   late UserCubit userCubit;
+  late AuthCubit authCubit;
 
   @override
   void initState() {
     super.initState();
     addressesCubit = BlocProvider.of<AddressesCubit>(context);
     userCubit = BlocProvider.of<UserCubit>(context);
+    authCubit = BlocProvider.of<AuthCubit>(context);
     if (isUserSignedIn()) {
       final OrdersAddressModel? userHomeAddress = getUserHomeAddress();
       if (userHomeAddress != null) {
@@ -57,7 +60,7 @@ class _CityAddressSectionState extends State<CityAddressSection> {
     } else {
       log("address depends on make new address for register");
       selectedValue = widget.getAllAddressesResponseModel.addresses!.first.city;
-      userCubit.registerRequestModel.addressId =
+      authCubit.registerRequestModel.addressId =
           widget.getAllAddressesResponseModel.addresses!.first.id;
     }
   }
@@ -100,7 +103,7 @@ class _CityAddressSectionState extends State<CityAddressSection> {
             },
           );
         } else {
-          userCubit.registerRequestModel.addressId = selectedAddress.id;
+          authCubit.registerRequestModel.addressId = selectedAddress.id;
         }
       },
       icon: const Icon(

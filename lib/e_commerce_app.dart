@@ -1,4 +1,3 @@
-import 'package:e_commerce_app/core/helpers/functions/is_user_signed_in.dart';
 import 'package:e_commerce_app/features/address/presentation/pages/add_address_page.dart';
 import 'package:e_commerce_app/features/address/presentation/pages/choose_address_page.dart';
 import 'package:e_commerce_app/features/auth/presentation/pages/login_page.dart';
@@ -59,11 +58,7 @@ class ECommerceApp extends StatelessWidget {
         ShowFilterPage.id: (context) => const ShowFilterPage(),
         ApplyPriceFilterPage.id: (context) => const ApplyPriceFilterPage(),
       },
-      initialRoute: isUserSignedIn()
-          ? HomePage.id
-          : isFirstTime
-              ? OnboardingPage.id
-              : EntryPage.id,
+      initialRoute: isFirstTime ? OnboardingPage.id : EntryPage.id,
     );
   }
 }

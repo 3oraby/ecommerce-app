@@ -1,7 +1,7 @@
 import 'package:e_commerce_app/features/auth/constants/register_page_constants.dart';
+import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:e_commerce_app/features/auth/presentation/widgets/register_page_stepper.dart';
 import 'package:e_commerce_app/core/widgets/custom_text_form_field.dart';
-import 'package:e_commerce_app/features/user/presentation/cubit/user_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -25,7 +25,7 @@ class RegistrationStepFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UserCubit userCubit = BlocProvider.of<UserCubit>(context);
+    final AuthCubit authCubit = BlocProvider.of<AuthCubit>(context);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -62,24 +62,24 @@ class RegistrationStepFormField extends StatelessWidget {
             onTap: scrollPageToBottom,
             validator: getValidatorForCurrentStep(
               completedSteps,
-              userCubit.registerRequestModel.password,
+              authCubit.registerRequestModel.password,
             ),
             onChanged: (value) {
               switch (stepsList[completedSteps]) {
                 case RegistrationStep.name:
-                  userCubit.registerRequestModel.userName = value;
+                  authCubit.registerRequestModel.userName = value;
                   break;
                 case RegistrationStep.email:
-                  userCubit.registerRequestModel.email = value;
+                  authCubit.registerRequestModel.email = value;
                   break;
                 case RegistrationStep.password:
-                  userCubit.registerRequestModel.password = value;
+                  authCubit.registerRequestModel.password = value;
                   break;
                 case RegistrationStep.confirmPassword:
-                  userCubit.registerRequestModel.confirmPassword = value;
+                  authCubit.registerRequestModel.confirmPassword = value;
                   break;
                 case RegistrationStep.phone:
-                  userCubit.registerRequestModel.phoneNumber = value;
+                  authCubit.registerRequestModel.phoneNumber = value;
                   break;
                 // case RegistrationStep.addressId:
                 //   registerRequestModel.addressId = value;

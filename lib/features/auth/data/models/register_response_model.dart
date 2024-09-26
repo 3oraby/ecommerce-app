@@ -17,7 +17,7 @@ class RegisterResponseModel {
     if (json['status'] == 'success') {
       return RegisterResponseModel(
         status: true,
-        verifyAccLink: json["verifyAccLink"],
+        verifyAccLink: json["link"],
       );
     } else {
       return RegisterResponseModel(

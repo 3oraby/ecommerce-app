@@ -1,10 +1,10 @@
-import 'dart:developer';
 
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/helpers/functions/check_connection_with_internet.dart';
 import 'package:e_commerce_app/core/models/user_model.dart';
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/features/auth/data/models/login_response_model.dart';
+import 'package:e_commerce_app/features/auth/data/models/register_request_model.dart';
 import 'package:e_commerce_app/features/auth/data/models/register_response_model.dart';
 import 'package:e_commerce_app/features/auth/data/models/verify_email_response_model.dart';
 import 'package:e_commerce_app/features/auth/data/repositories/auth_repository.dart';
@@ -16,6 +16,7 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit({required this.authRepository}) : super(AuthInitial());
 
   final AuthRepository authRepository;
+  RegisterRequestModel registerRequestModel = RegisterRequestModel();
 
   Future<void> login({required Map<String, dynamic> jsonData}) async {
     if (!await checkConnectionWithInternet()) {
@@ -40,7 +41,7 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  Future<void> register({required Map<String, dynamic> jsonData}) async {
+  Future<void> register() async {
     if (!await checkConnectionWithInternet()) {
       emit(AuthNoNetworkErrorState());
       return;
@@ -48,9 +49,8 @@ class AuthCubit extends Cubit<AuthState> {
     emit(RegisterLoadingState());
     try {
       final RegisterResponseModel registerResponseModel =
-          await authRepository.createAccount(jsonData: jsonData);
+          await authRepository.createAccount(jsonData: registerRequestModel.toJson());
       if (registerResponseModel.status) {
-        log("55555555555555555555555555555");
         emit(RegisterLoadedState(
             verifyAccLink: registerResponseModel.verifyAccLink!));
       } else {

@@ -2,7 +2,6 @@ import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/models/user_model.dart';
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/features/auth/data/models/log_out_response_model.dart';
-import 'package:e_commerce_app/features/auth/data/models/register_request_model.dart';
 import 'package:e_commerce_app/features/user/data/models/get_user_response_model.dart';
 import 'package:e_commerce_app/features/user/data/repositories/user_repository.dart';
 import 'package:e_commerce_app/features/user/presentation/utils/get_user_stored_model.dart';
@@ -17,7 +16,6 @@ class UserCubit extends Cubit<UserState> {
     required this.userRepository,
   }) : super(UserInitial());
 
-  RegisterRequestModel registerRequestModel = RegisterRequestModel();
 
   void setUserModel(UserModel user) {
     saveUserModel(user);
