@@ -1,7 +1,9 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
+import 'package:e_commerce_app/core/utils/app_assets/images/app_images.dart';
 import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_horizontal_product_item.dart';
+import 'package:e_commerce_app/core/widgets/custom_rounded_icon.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
@@ -31,8 +33,7 @@ class OrderConfirmedLoadedBody extends StatelessWidget {
     final addressCubit = BlocProvider.of<AddressesCubit>(context);
     final cartCubit = BlocProvider.of<CartCubit>(context);
 
-    OrdersAddressModel orderAddress =
-        addressCubit.getOrderAddressChosen!;
+    OrdersAddressModel orderAddress = addressCubit.getOrderAddressChosen!;
 
     List<CartItemModel> cartItems = cartCubit.getCartItems;
     int totalItemsQuantity = cartCubit.getTotalItemsQuantity;
@@ -87,19 +88,32 @@ class ConfirmedPageLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Your order has been placed",
-          style: TextStyle(
-            color: ThemeColors.mainLabelsColor,
-            fontSize: 26,
-            fontWeight: FontWeight.bold,
-          ),
+        Image.asset(AppImages.imagesOrderConfirmed),
+        const VerticalGap(16),
+        const Row(
+          children: [
+            Text(
+              "Your order has been placed",
+              style: TextStyle(
+                color: ThemeColors.mainLabelsColor,
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            HorizontalGap(16),
+            CustomRoundedIcon(
+              child: Icon(
+                Icons.done,
+                color: Colors.white,
+              ),
+            ),
+          ],
         ),
-        VerticalGap(8),
-        Text(
+        const VerticalGap(16),
+        const Text(
           "Thank you for making order. Order confirmation will be sent to your email",
           style: TextStyle(
             fontSize: 18,
