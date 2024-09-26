@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
+import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
 import 'package:e_commerce_app/core/models/user_model.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
@@ -230,6 +231,8 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
                   showSnackBar(context, "Profile updated successfully",
                       backgroundColor: ThemeColors.successfullyDoneColor);
                 });
+              } else if (state is UserNoNetworkErrorState){
+                showErrorWithInternetDialog(context);
               }
             },
             child: Container(

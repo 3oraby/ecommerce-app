@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/helpers/functions/check_connection_with_internet.dart';
 import 'package:e_commerce_app/core/models/user_model.dart';
 import 'package:e_commerce_app/features/user/data/models/get_user_response_model.dart';
 import 'package:e_commerce_app/features/user/data/repositories/user_repository.dart';
@@ -39,6 +40,10 @@ class UserCubit extends Cubit<UserState> {
     required int userId,
     required Map<String, dynamic> jsonData,
   }) async {
+    if (! await checkConnectionWithInternet()){
+      emit(UserNoNetworkErrorState());
+      return;
+    }
     emit(UpdateUserLoadingState());
     try {
       final bool isUpdated = await userRepository.updateUser(

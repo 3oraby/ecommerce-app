@@ -3,6 +3,7 @@ part of 'user_cubit.dart';
 abstract class UserState {}
 
 final class UserInitial extends UserState {}
+final class UserNoNetworkErrorState extends UserState {}
 
 final class GetUserLoadingState extends UserState {}
 
