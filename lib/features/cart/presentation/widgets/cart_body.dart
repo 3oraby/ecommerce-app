@@ -25,32 +25,6 @@ class _CartBodyState extends State<CartBody> {
     cartCubit.showCartAndPrice();
 
     return BlocBuilder<CartCubit, CartState>(
-      // listenWhen: (previous, current) {
-      //   return current is DeleteFromCartLoadingState ||
-      //       current is DeleteFromCartErrorState ||
-      //       current is CartNoNetworkErrorState;
-      // },
-      // listener: (context, state) {
-      //   if (state is DeleteFromCartLoadingState) {
-      //     setState(() {
-      //       isDeleteItemLoading = true;
-      //     });
-      //   } else if (state is DeleteCartNoNetworkErrorState) {
-      //     setState(() {
-      //       isDeleteItemLoading = false;
-      //     });
-      //     showErrorWithInternetDialog(context);
-      //   } else if (state is DeleteFromCartErrorState) {
-      //     setState(() {
-      //       isDeleteItemLoading = false;
-      //     });
-      //     showSnackBar(context, state.message);
-      //   } else if (state is DeleteFromCartLoadedState) {
-      //     setState(() {
-      //       isDeleteItemLoading = false;
-      //     });
-      //   }
-      // },
       buildWhen: (previous, current) {
         return current is ShowCartLoadingState ||
             current is ShowCartErrorState ||

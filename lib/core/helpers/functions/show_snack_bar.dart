@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 void showSnackBar(
   BuildContext context,
   String message, {
-  Color backgroundColor = ThemeColors.primaryColor,
+  Color backgroundColor = ThemeColors.mainLabelsColor,
 }) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
