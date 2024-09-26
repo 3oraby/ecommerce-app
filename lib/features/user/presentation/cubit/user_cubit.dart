@@ -1,7 +1,4 @@
-import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/models/user_model.dart';
-import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
-import 'package:e_commerce_app/features/auth/data/models/log_out_response_model.dart';
 import 'package:e_commerce_app/features/user/data/models/get_user_response_model.dart';
 import 'package:e_commerce_app/features/user/data/repositories/user_repository.dart';
 import 'package:e_commerce_app/features/user/presentation/utils/get_user_stored_model.dart';
@@ -81,29 +78,6 @@ class UserCubit extends Cubit<UserState> {
     } catch (e) {
       emit(UpdateUserPasswordErrorState(
         message: 'Failed to update password $e',
-      ));
-    }
-  }
-
-  Future<void> logOut() async {
-    emit(LogOutLoadingState());
-    try {
-      LogOutResponseModel logOutResponseModel = await userRepository.logout();
-
-      if (logOutResponseModel.status) {
-        emit(LogOutLoadedState());
-        SharedPreferencesSingleton.deleteStringFromSharedPreferences(
-            LocalConstants.accessTokenNameInPref);
-        SharedPreferencesSingleton.deleteStringFromSharedPreferences(
-            LocalConstants.refreshTokenNameInPref);
-      } else {
-        emit(LogOutErrorState(
-          message: logOutResponseModel.message,
-        ));
-      }
-    } catch (e) {
-      emit(LogOutErrorState(
-        message: 'Failed to log out : $e',
       ));
     }
   }

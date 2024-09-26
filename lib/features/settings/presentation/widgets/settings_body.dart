@@ -4,9 +4,9 @@ import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
+import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:e_commerce_app/features/entry/presentation/pages/entry_page.dart';
 import 'package:e_commerce_app/core/widgets/custom_option_list_tile.dart';
-import 'package:e_commerce_app/features/user/presentation/cubit/user_cubit.dart';
 import 'package:e_commerce_app/features/user/presentation/pages/edit_user_profile_page.dart';
 import 'package:e_commerce_app/features/user/presentation/pages/update_password_page.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +26,7 @@ class _SettingsBodyState extends State<SettingsBody> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<UserCubit, UserState>(
+    return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is LogOutLoadingState) {
           setState(() {
@@ -115,7 +115,7 @@ class _SettingsBodyState extends State<SettingsBody> {
                     LocalConstants.userAddressModelInPref);
                 SharedPreferencesSingleton.deleteStringFromSharedPreferences(
                     LocalConstants.userModelNameInPref);
-                BlocProvider.of<UserCubit>(context).logOut();
+                BlocProvider.of<AuthCubit>(context).logOut();
               },
             ),
           ],

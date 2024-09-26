@@ -39,10 +39,3 @@ final class UpdateUserPasswordErrorState extends UserState {
 final class UpdateUserPasswordLoadedState extends UserState {}
 
 
-final class LogOutLoadingState extends UserState {}
-final class LogOutLoadedState extends UserState {}
-final class LogOutErrorState extends UserState {
-  final String message;
-  LogOutErrorState({required this.message});
-}
-

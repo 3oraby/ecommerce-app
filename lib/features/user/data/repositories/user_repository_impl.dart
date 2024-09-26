@@ -1,5 +1,4 @@
 import 'package:e_commerce_app/features/auth/data/data_sources/log_out_service.dart';
-import 'package:e_commerce_app/features/auth/data/models/log_out_response_model.dart';
 import 'package:e_commerce_app/features/user/data/data_sources/get_user_service.dart';
 import 'package:e_commerce_app/features/user/data/data_sources/update_user_password_service.dart';
 import 'package:e_commerce_app/features/user/data/data_sources/update_user_service.dart';
@@ -33,11 +32,6 @@ class UserRepositoryImpl implements UserRepository {
       userId: userId,
       jsonData: jsonData,
     );
-  }
-
-  @override
-  Future<LogOutResponseModel> logout() async {
-    return await logOutService.logOut();
   }
 
   @override
