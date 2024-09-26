@@ -46,6 +46,10 @@ class AppImages {
   /// assets/images/sales_photo3.jpg
   static const String imagesSalesPhoto3 = "assets/images/sales_photo3.jpg";
 
+  /// Assets for imagesSplashPage
+  /// assets/images/splash_page.png
+  static const String imagesSplashPage = "assets/images/splash_page.png";
+
   /// Assets for imagesUserPhoto
   /// assets/images/user_photo.png
   static const String imagesUserPhoto = "assets/images/user_photo.png";

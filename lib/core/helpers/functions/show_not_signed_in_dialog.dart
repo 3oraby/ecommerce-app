@@ -1,6 +1,6 @@
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
-import 'package:e_commerce_app/features/entry/presentation/pages/entry_page.dart';
+import 'package:e_commerce_app/features/auth/presentation/pages/entry_page.dart';
 import 'package:flutter/material.dart';
 
 void showNotSignedInDialog(BuildContext context) {

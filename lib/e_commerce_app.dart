@@ -3,9 +3,10 @@ import 'package:e_commerce_app/features/address/presentation/pages/choose_addres
 import 'package:e_commerce_app/features/auth/presentation/pages/login_page.dart';
 import 'package:e_commerce_app/features/auth/presentation/pages/register_page.dart';
 import 'package:e_commerce_app/features/cart/presentation/pages/checkout_page.dart';
-import 'package:e_commerce_app/features/entry/presentation/pages/entry_page.dart';
+import 'package:e_commerce_app/features/auth/presentation/pages/entry_page.dart';
 import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
 import 'package:e_commerce_app/features/onboarding/presentation/pages/onboarding_page.dart';
+import 'package:e_commerce_app/features/onboarding/presentation/pages/splash_page.dart';
 import 'package:e_commerce_app/features/orders/presentation/pages/cancel_items_from_order_page.dart';
 import 'package:e_commerce_app/features/orders/presentation/pages/order_confirmed_page.dart';
 import 'package:e_commerce_app/features/orders/presentation/pages/show_order_summary_page.dart';
@@ -57,6 +58,7 @@ class ECommerceApp extends StatelessWidget {
         EditUserProfilePage.id: (context) => const EditUserProfilePage(),
         ShowFilterPage.id: (context) => const ShowFilterPage(),
         ApplyPriceFilterPage.id: (context) => const ApplyPriceFilterPage(),
+        SplashPage.id: (context) => const SplashPage(),
       },
       initialRoute: isFirstTime ? OnboardingPage.id : EntryPage.id,
     );

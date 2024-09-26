@@ -4,7 +4,7 @@ import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/features/auth/data/data_sources/log_out_service.dart';
 import 'package:e_commerce_app/features/auth/data/models/log_out_response_model.dart';
-import 'package:e_commerce_app/features/entry/presentation/pages/entry_page.dart';
+import 'package:e_commerce_app/features/auth/presentation/pages/entry_page.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:flutter/material.dart';
 
