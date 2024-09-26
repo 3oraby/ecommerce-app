@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
+import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
@@ -32,6 +33,11 @@ class _SettingsBodyState extends State<SettingsBody> {
           setState(() {
             isPageLoading = true;
           });
+        } else if (state is AuthNoNetworkErrorState) {
+          setState(() {
+            isPageLoading = false;
+          });
+          showErrorWithInternetDialog(context);
         } else if (state is LogOutErrorState) {
           setState(() {
             isPageLoading = false;

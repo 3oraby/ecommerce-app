@@ -89,6 +89,10 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> logOut() async {
+    if (!await checkConnectionWithInternet()) {
+      emit(AuthNoNetworkErrorState());
+      return;
+    }
     emit(LogOutLoadingState());
     try {
       LogOutResponseModel logOutResponseModel = await authRepository.logOut();

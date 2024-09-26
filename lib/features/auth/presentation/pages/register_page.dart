@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
 import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
 import 'package:e_commerce_app/features/auth/constants/register_page_constants.dart';
 import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit.dart';
@@ -128,7 +129,10 @@ class _RegisterPageState extends State<RegisterPage> {
       child: Scaffold(
         body: BlocListener<AuthCubit, AuthState>(
           listener: (context, state) {
-            if (state is RegisterLoadingState ||
+            if (state is AuthNoNetworkErrorState){
+              showErrorWithInternetDialog(context);
+            }
+            else if (state is RegisterLoadingState ||
                 state is VerifyEmailLoadingState) {
               setState(() {
                 inAsyncCall = true;
