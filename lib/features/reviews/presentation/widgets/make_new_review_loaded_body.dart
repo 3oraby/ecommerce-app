@@ -49,18 +49,22 @@ class _MakeNewReviewLoadedBodyState extends State<MakeNewReviewLoadedBody> {
     if (formKey.currentState!.validate()) {
       final ReviewCubit reviewCubit = BlocProvider.of<ReviewCubit>(context);
       if (widget.checkUserReviewForProductModel.hasReviewed) {
-        await reviewCubit.updateReview(
+        reviewCubit.updateReview(
           productId: orderItem!.product.id,
           jsonData: makeReviewRequestModel.toJson(),
           reviewId:
               widget.checkUserReviewForProductModel.productReviewModel!.id,
         );
       } else {
-        await reviewCubit.createReview(
+        reviewCubit.createReview(
           productId: orderItem!.product.id,
           jsonData: makeReviewRequestModel.toJson(),
         );
       }
+      setState(() {
+        showFeedbackRating = true;
+        showMakingReviewBody = false;
+      });
     }
   }
 

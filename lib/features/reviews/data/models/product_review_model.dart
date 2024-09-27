@@ -25,7 +25,9 @@ class ProductReviewModel {
       rate: json['rate'],
       description: json['description'],
       date: DateTime.parse(json['date']),
-      productId: json['product_id'],
+      productId: json["product_id"].runtimeType == int
+          ? json["product_id"]
+          : int.parse(json['product_id']),
       userId: json['user_id'],
       createdAt: DateTime.parse(json['createdAt']),
       updatedAt: DateTime.parse(json['updatedAt']),

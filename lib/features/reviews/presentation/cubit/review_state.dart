@@ -4,6 +4,8 @@ abstract class ReviewState {}
 
 final class ReviewInitial extends ReviewState {}
 
+final class ReviewNoNetworkErrorState extends ReviewState {}
+
 final class GetReviewsLoadingState extends ReviewState {}
 
 final class GetReviewsLoadedState extends ReviewState {
@@ -20,6 +22,8 @@ final class GetReviewsErrorState extends ReviewState {
   GetReviewsErrorState({required this.message});
 }
 
+final class GetReviewsNoNetworkErrorState extends ReviewState {}
+
 final class CreateReviewLoadingState extends ReviewState {}
 
 final class CreateReviewLoadedState extends ReviewState {
@@ -31,6 +35,8 @@ final class CreateReviewErrorState extends ReviewState {
   final String message;
   CreateReviewErrorState({required this.message});
 }
+
+final class CreateReviewNoNetworkErrorState extends ReviewState {}
 
 final class CheckUserReviewForProductLoadingState extends ReviewState {}
 
@@ -45,15 +51,17 @@ final class CheckUserReviewForProductLoadedState extends ReviewState {
       {required this.checkUserReviewForProductModel});
 }
 
+
 final class UpdateReviewLoadingState extends ReviewState {}
 
 final class UpdateReviewLoadedState extends ReviewState {
   final CheckUserReviewForProductModel checkUserReviewForProductModel;
   UpdateReviewLoadedState({required this.checkUserReviewForProductModel});
-
 }
 
 final class UpdateReviewErrorState extends ReviewState {
   final String message;
   UpdateReviewErrorState({required this.message});
 }
+
+final class UpdateReviewNoNetworkErrorState extends ReviewState {}

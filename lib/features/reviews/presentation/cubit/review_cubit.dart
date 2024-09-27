@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/helpers/functions/check_connection_with_internet.dart';
 import 'package:e_commerce_app/features/reviews/data/models/check_user_review_for_product_model.dart';
 import 'package:e_commerce_app/features/reviews/data/models/get_product_reviews_response_model.dart';
 import 'package:e_commerce_app/features/reviews/data/models/product_review_model.dart';
@@ -10,19 +11,13 @@ class ReviewCubit extends Cubit<ReviewState> {
   ReviewCubit({required this.reviewRepository}) : super(ReviewInitial());
 
   final ReviewRepository reviewRepository;
-  // CheckUserReviewForProductModel? selectedCheckUserReviewForProductModel;
 
-  // void setSelectedCheckUserReviewModel(ProductReviewModel productReviewModel) {
-  //   selectedCheckUserReviewForProductModel = CheckUserReviewForProductModel(
-  //     hasReviewed: true,
-  //     productReviewModel: productReviewModel,
-  //   );
-  // }
-
-  // CheckUserReviewForProductModel? get getSelectedCheckUserReviewModel =>
-  //     selectedCheckUserReviewForProductModel;
 
   Future<void> getProductReviews({required int productId}) async {
+    if (!await checkConnectionWithInternet()) {
+      emit(GetReviewsNoNetworkErrorState());
+      return;
+    }
     emit(GetReviewsLoadingState());
     try {
       GetProductReviewsResponseModel getProductReviewsResponseModel =
@@ -47,6 +42,10 @@ class ReviewCubit extends Cubit<ReviewState> {
 
   Future<void> createReview(
       {required int productId, required Map<String, dynamic> jsonData}) async {
+    if (!await checkConnectionWithInternet()) {
+      emit(CreateReviewNoNetworkErrorState());
+      return;
+    }
     emit(CreateReviewLoadingState());
     try {
       ProductReviewModel productReviewModel = await reviewRepository
@@ -67,6 +66,10 @@ class ReviewCubit extends Cubit<ReviewState> {
       {required int productId,
       required Map<String, dynamic> jsonData,
       required int reviewId}) async {
+    if (!await checkConnectionWithInternet()) {
+      emit(UpdateReviewNoNetworkErrorState());
+      return;
+    }
     emit(UpdateReviewLoadingState());
     try {
       ProductReviewModel productReviewModel =
@@ -86,6 +89,10 @@ class ReviewCubit extends Cubit<ReviewState> {
 
   Future<void> checkUserReviewForProduct(
       {required int productId, required int userId}) async {
+    if (!await checkConnectionWithInternet()) {
+      emit(ReviewNoNetworkErrorState());
+      return;
+    }
     emit(CheckUserReviewForProductLoadingState());
     try {
       CheckUserReviewForProductModel checkUserReviewForProductModel =

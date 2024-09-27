@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:e_commerce_app/constants/api_constants.dart';
 import 'package:e_commerce_app/core/helpers/api.dart';
@@ -18,6 +20,7 @@ class CheckUserReviewForProductService {
       );
       return CheckUserReviewForProductModel.fromJson(response.data);
     } catch (e) {
+      log("error in check user review service : $e");
       throw Exception(
           "there was an error in the server now ,please try again later");
     }
