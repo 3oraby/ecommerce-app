@@ -155,6 +155,10 @@ class CartCubit extends Cubit<CartState> {
   }
 
   Future<void> checkProductInCart(int productId) async {
+    if (!await checkConnectionWithInternet()) {
+      emit(CartNoNetworkErrorState());
+      return;
+    }
     emit(CartLoadingState());
     try {
       int? productQuantityInCart;

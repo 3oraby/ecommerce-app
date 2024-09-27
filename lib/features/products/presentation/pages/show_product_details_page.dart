@@ -1,6 +1,7 @@
 import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
+import 'package:e_commerce_app/core/widgets/custom_no_internet_connection_body.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_state.dart';
 import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
@@ -75,7 +76,8 @@ class ShowProductDetailsPage extends StatelessWidget {
         buildWhen: (previous, current) {
           return current is CartLoadingState ||
               current is CartErrorState ||
-              current is CheckProductInCartLoadedState;
+              current is CheckProductInCartLoadedState ||
+              current is CartNoNetworkErrorState;
         },
         builder: (context, cartState) {
           return BlocBuilder<ReviewCubit, ReviewState>(
@@ -96,10 +98,13 @@ class ShowProductDetailsPage extends StatelessWidget {
                   productReviews: reviewState.productReviews,
                   averageRating: reviewState.averageRating,
                 );
+              } else if (cartState is CartNoNetworkErrorState) {
+                return CustomNoInternetConnectionBody(onTryAgainPressed: () {
+                  cartCubit.checkProductInCart(productModel.id);
+                  reviewCubit.getProductReviews(productId: productModel.id);
+                });
               } else {
-                return Container(
-                  color: Colors.red,
-                );
+                return Container();
               }
             },
           );
