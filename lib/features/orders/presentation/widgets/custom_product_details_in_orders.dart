@@ -157,13 +157,7 @@ class MakeReviewOption extends StatelessWidget {
           ),
           CustomTriggerButton(
             onPressed: () {
-              // final int userId =
-              //     BlocProvider.of<UserCubit>(context).getUserModel!.id!;
               BlocProvider.of<OrderCubit>(context).setOrderItemModel(orderItem);
-              // BlocProvider.of<ReviewCubit>(context).checkUserReviewForProduct(
-              //   productId: orderItem.product.id,
-              //   userId: userId,
-              // );
               final int userId =
                   BlocProvider.of<UserCubit>(context).getUserModel!.id!;
 

@@ -1,4 +1,6 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
+import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
+import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_rounded_icon.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
@@ -18,10 +20,8 @@ class MakeNewReviewLoadedBody extends StatefulWidget {
   const MakeNewReviewLoadedBody({
     super.key,
     required this.checkUserReviewForProductModel,
-    required this.showSuccessMakingReview,
   });
   final CheckUserReviewForProductModel checkUserReviewForProductModel;
-  final bool showSuccessMakingReview;
 
   @override
   State<MakeNewReviewLoadedBody> createState() =>
@@ -35,6 +35,8 @@ class _MakeNewReviewLoadedBodyState extends State<MakeNewReviewLoadedBody> {
   bool? showMakingReviewBody;
   bool? showFeedbackRating;
   UserCubit? userCubit;
+  bool isOperationLoading = false;
+  bool showSuccessMakingReview = false;
 
   @override
   void initState() {
@@ -61,10 +63,6 @@ class _MakeNewReviewLoadedBodyState extends State<MakeNewReviewLoadedBody> {
           jsonData: makeReviewRequestModel.toJson(),
         );
       }
-      setState(() {
-        showFeedbackRating = true;
-        showMakingReviewBody = false;
-      });
     }
   }
 
@@ -78,7 +76,7 @@ class _MakeNewReviewLoadedBodyState extends State<MakeNewReviewLoadedBody> {
             child: ListView(
               children: [
                 Visibility(
-                  visible: widget.showSuccessMakingReview,
+                  visible: showSuccessMakingReview,
                   child: const SuccessMakingReviewWidget(),
                 ),
                 const VerticalGap(4),
@@ -111,24 +109,65 @@ class _MakeNewReviewLoadedBodyState extends State<MakeNewReviewLoadedBody> {
         const VerticalGap(24),
         Visibility(
           visible: showMakingReviewBody!,
-          child: Container(
-            color: Colors.white,
-            height: MediaQuery.of(context).size.height * 0.14,
-            padding: LocalConstants.internalPadding,
-            child: Center(
-              child: CustomTriggerButton(
-                description: widget.checkUserReviewForProductModel.hasReviewed
-                    ? "UPDATE REVIEW"
-                    : "SUBMIT REVIEW",
-                descriptionSize: 22,
-                buttonHeight: 55,
-                backgroundColor: makeReviewRequestModel.isRateNull()
-                    ? ThemeColors.unEnabledButtonsColor
-                    : ThemeColors.primaryColor,
-                isEnabled: !makeReviewRequestModel.isRateNull(),
-                onPressed: () async {
-                  await submitReview(context);
-                },
+          child: BlocListener<ReviewCubit, ReviewState>(
+            listener: (context, state) {
+              if (state is CreateReviewNoNetworkErrorState ||
+                  state is UpdateReviewNoNetworkErrorState) {
+                showErrorWithInternetDialog(context);
+              } else if (state is CreateReviewLoadingState ||
+                  state is UpdateReviewLoadingState ||
+                  state is CheckUserReviewForProductLoadingState) {
+                setState(() {
+                  isOperationLoading = true;
+                });
+              } else if (state is CreateReviewErrorState ||
+                  state is UpdateReviewErrorState ||
+                  state is CheckUserReviewForProductErrorState) {
+                setState(() {
+                  isOperationLoading = false;
+                });
+                showSnackBar(context, (state as dynamic).message);
+              } else if (state is CreateReviewLoadedState ||
+                  state is UpdateReviewLoadedState) {
+                setState(() {
+                  isOperationLoading = false;
+                  showSuccessMakingReview = true;
+                  showMakingReviewBody = false;
+                  makeReviewRequestModel = MakeReviewRequestModel();
+                });
+              } else if (state is CheckUserReviewForProductLoadedState) {
+                setState(() {
+                  isOperationLoading = false;
+                });
+              }
+            },
+            child: Container(
+              color: Colors.white,
+              height: MediaQuery.of(context).size.height * 0.14,
+              padding: LocalConstants.internalPadding,
+              child: Center(
+                child: CustomTriggerButton(
+                  description: widget.checkUserReviewForProductModel.hasReviewed
+                      ? "UPDATE REVIEW"
+                      : "SUBMIT REVIEW",
+                  descriptionSize: 22,
+                  buttonHeight: 55,
+                  backgroundColor:
+                      makeReviewRequestModel.isRateNull() || isOperationLoading
+                          ? ThemeColors.unEnabledButtonsColor
+                          : ThemeColors.primaryColor,
+                  isEnabled: !makeReviewRequestModel.isRateNull(),
+                  onPressed: () async {
+                    await submitReview(context);
+                  },
+                  child: isOperationLoading
+                      ? const Center(
+                          child: CircularProgressIndicator(
+                            color: ThemeColors.primaryColor,
+                          ),
+                        )
+                      : null,
+                ),
               ),
             ),
           ),
