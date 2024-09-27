@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
+import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
@@ -145,7 +146,10 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
           ),
           BlocListener<UserCubit, UserState>(
             listener: (context, state) {
-              if (state is UpdateUserPasswordLoadingState) {
+              if (state is UserNoNetworkErrorState){
+                showErrorWithInternetDialog(context);
+              }
+              else if (state is UpdateUserPasswordLoadingState) {
                 setState(() {
                   isLoading = true;
                 });

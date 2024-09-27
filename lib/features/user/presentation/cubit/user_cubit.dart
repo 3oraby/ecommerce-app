@@ -14,7 +14,6 @@ class UserCubit extends Cubit<UserState> {
     required this.userRepository,
   }) : super(UserInitial());
 
-
   void setUserModel(UserModel user) {
     saveUserModel(user);
   }
@@ -40,7 +39,7 @@ class UserCubit extends Cubit<UserState> {
     required int userId,
     required Map<String, dynamic> jsonData,
   }) async {
-    if (! await checkConnectionWithInternet()){
+    if (!await checkConnectionWithInternet()) {
       emit(UserNoNetworkErrorState());
       return;
     }
@@ -68,6 +67,10 @@ class UserCubit extends Cubit<UserState> {
   Future<void> updateUserPassword({
     required Map<String, dynamic> jsonData,
   }) async {
+    if (!await checkConnectionWithInternet()) {
+      emit(UserNoNetworkErrorState());
+      return;
+    }
     emit(UpdateUserPasswordLoadingState());
     try {
       final bool isUpdated = await userRepository.updateUserPassword(
