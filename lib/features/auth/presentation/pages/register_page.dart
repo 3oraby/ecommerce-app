@@ -127,6 +127,7 @@ class _RegisterPageState extends State<RegisterPage> {
     return ModalProgressHUD(
       inAsyncCall: inAsyncCall,
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: BlocListener<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state is AuthNoNetworkErrorState){
@@ -219,10 +220,6 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 const VerticalGap(24),
                 SizedBox(
-                  // height: completedSteps < stepsList.length &&
-                  //         stepsList[completedSteps] == RegistrationStep.image
-                  //     ? 280
-                  //     : 240,
                   height: 240,
                   child: Form(
                     key: formKey,
