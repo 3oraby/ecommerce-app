@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/auth/constants/register_page_constants.dart';
 import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:e_commerce_app/features/auth/presentation/widgets/register_page_stepper.dart';
@@ -34,22 +35,7 @@ class RegistrationStepFormField extends StatelessWidget {
           stepperScrollController: stepperScrollController,
           completedSteps: completedSteps,
         ),
-        //? optional image
-        // const VerticalGap(32),
-        // if (completedSteps < stepsList.length &&
-        //     stepsList[completedSteps] == RegistrationStep.image)
-        //   const Column(
-        //     children: [
-        //       Text(
-        //         "Optional",
-        //         style: TextStyle(
-        //           fontSize: 20,
-        //           fontWeight: FontWeight.bold,
-        //         ),
-        //       ),
-        //       VerticalGap(8),
-        //     ],
-        //   ),
+        const VerticalGap(16),
         if (completedSteps < stepsList.length)
           CustomTextFormFieldWidget(
             controller: textEditingController,
@@ -81,9 +67,6 @@ class RegistrationStepFormField extends StatelessWidget {
                 case RegistrationStep.phone:
                   authCubit.registerRequestModel.phoneNumber = value;
                   break;
-                // case RegistrationStep.addressId:
-                //   registerRequestModel.addressId = value;
-                //   break;
               }
             },
           ),
