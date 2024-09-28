@@ -52,9 +52,7 @@ class _CategoryTapBodyState extends State<CategoryTapBody> {
             },
           );
         } else {
-          return const Center(
-            child: Text("can not fetch categories"),
-          );
+          return const SizedBox();
         }
       },
     );
