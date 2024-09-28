@@ -268,30 +268,31 @@ class _ShowProductsLoadedBodyState extends State<ShowProductsLoadedBody> {
                   top: 40,
                   bottom: 80,
                 ),
-                child: Column(
+                child: ListView(
                   children: [
-                    Expanded(
-                      child: GridView.builder(
-                        padding: EdgeInsets.only(
-                          bottom: widget.products.length % 2 == 0 ? 72 : 36,
-                        ),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 16,
-                          mainAxisSpacing: 48,
-                          childAspectRatio: 0.5,
-                        ),
-                        itemCount: widget.products.length,
-                        itemBuilder: (context, index) => Transform.translate(
-                          offset: Offset(0, index.isOdd ? 36 : 0),
-                          child: GestureDetector(
-                            onTap: () {
-                              onProductTap(context, index);
-                            },
-                            child: CustomMainProductCard(
-                              productModel: widget.products[index],
-                            ),
+                    GridView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      primary: false,
+                      padding: EdgeInsets.only(
+                        bottom: widget.products.length % 2 == 0 ? 72 : 36,
+                      ),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 16,
+                        mainAxisSpacing: 48,
+                        childAspectRatio: 0.5,
+                      ),
+                      itemCount: widget.products.length,
+                      itemBuilder: (context, index) => Transform.translate(
+                        offset: Offset(0, index.isOdd ? 36 : 0),
+                        child: GestureDetector(
+                          onTap: () {
+                            onProductTap(context, index);
+                          },
+                          child: CustomMainProductCard(
+                            productModel: widget.products[index],
                           ),
                         ),
                       ),
