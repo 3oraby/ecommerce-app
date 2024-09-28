@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
@@ -91,6 +93,8 @@ class ShowProductDetailsPage extends StatelessWidget {
                 return Center(child: Text(reviewState.message));
               } else if (cartState is CheckProductInCartLoadedState &&
                   reviewState is GetReviewsLoadedState) {
+                    log(reviewState.productReviews.toString());
+                    log(reviewState.productReviews.length.toString());
                 return ShowProductsDetailsLoadedBody(
                   productModel: productModel,
                   inCart: cartState.inCart,

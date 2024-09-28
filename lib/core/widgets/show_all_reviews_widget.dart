@@ -1,3 +1,4 @@
+
 import 'package:e_commerce_app/core/helpers/functions/get_time_ago.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
@@ -53,42 +54,48 @@ class ShowAllReviews extends StatelessWidget {
           ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: showTotalReviews ? productReviews.length : 3,
+            itemCount: showTotalReviews
+                ? productReviews.length
+                : productReviews.length < 3
+                    ? productReviews.length
+                    : 3,
             separatorBuilder: (context, index) => const Divider(
               color: Colors.grey,
               thickness: 0.3,
               height: 36,
             ),
-            itemBuilder: (context, index) => Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CustomRatingBarIndicator(
-                      averageRating: productReviews[index].rate.toString(),
-                      itemSize: 30,
-                    ),
-                    Text(
-                      getTimeAgo(productReviews[index].date),
-                      style: const TextStyle(
-                        color: ThemeColors.subLabelsColor,
-                        fontSize: 16,
+            itemBuilder: (context, index) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      CustomRatingBarIndicator(
+                        averageRating: productReviews[index].rate.toString(),
+                        itemSize: 30,
                       ),
-                    ),
-                  ],
-                ),
-                const VerticalGap(16),
-                Text(
-                  productReviews[index].description,
-                  style: const TextStyle(
-                    color: ThemeColors.mainLabelsColor,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                      Text(
+                        getTimeAgo(productReviews[index].date),
+                        style: const TextStyle(
+                          color: ThemeColors.subLabelsColor,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
+                  const VerticalGap(16),
+                  Text(
+                    productReviews[index].description,
+                    style: const TextStyle(
+                      color: ThemeColors.mainLabelsColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),
