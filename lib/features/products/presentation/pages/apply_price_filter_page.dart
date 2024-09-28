@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
+import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
@@ -22,11 +23,12 @@ class _ApplyPriceFilterPageState extends State<ApplyPriceFilterPage> {
   bool isLoading = false;
   String? minPrice;
   String? maxPrice;
+  bool internetConnection = true;
 
   double? minPriceValue;
   double? maxPriceValue;
   late ProductCatalogCubit productCatalogCubit;
-  FilterArgumentsModel ?filterArgumentsModel;
+  FilterArgumentsModel? filterArgumentsModel;
   @override
   void initState() {
     super.initState();
@@ -100,6 +102,8 @@ class _ApplyPriceFilterPageState extends State<ApplyPriceFilterPage> {
               isLoading = true;
             });
             showSnackBar(context, state.message);
+          } else if (state is ProductNoInternetConnectionState) {
+            Navigator.pop(context, true);
           }
         },
         child: Padding(
@@ -137,7 +141,9 @@ class _ApplyPriceFilterPageState extends State<ApplyPriceFilterPage> {
                 buttonHeight: 50,
                 isEnabled: _isApplyPriceFilterButtonEnabled(),
                 onPressed: () {
-                  onApplyPriceRangePressed(context);
+                  internetConnection
+                      ? onApplyPriceRangePressed(context)
+                      : showErrorWithInternetDialog(context);
                 },
                 description: "APPLY",
                 backgroundColor: _isApplyPriceFilterButtonEnabled()
