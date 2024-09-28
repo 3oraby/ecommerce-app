@@ -16,9 +16,10 @@ class ShowCartResponseModel {
 
   factory ShowCartResponseModel.fromJson({required Map<String, dynamic> json}) {
     if (json["status"] == "success") {
-      List dataList = json["data"]["CartItems"];
-      List<CartItemModel> cartItems =
-          dataList.map((jsonData) => CartItemModel.fromJson(json: jsonData)).toList();
+      List dataList = json["data"].isEmpty ? [] : json["data"]["CartItems"];
+      List<CartItemModel> cartItems = dataList
+          .map((jsonData) => CartItemModel.fromJson(json: jsonData))
+          .toList();
       return ShowCartResponseModel(
         status: true,
         cartItems: cartItems,

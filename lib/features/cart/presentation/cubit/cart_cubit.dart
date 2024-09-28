@@ -136,18 +136,22 @@ class CartCubit extends Cubit<CartState> {
       final String price = await cartRepository.showCartPrice();
 
       if (cart.status) {
-        _totalItemsQuantity = calculateTotalQuantity(cart.cartItems!);
-        _cartItems = cart.cartItems!;
-        _cartPrice = price;
-        emit(
-          CartAndPriceLoadedState(
-            cart: cart,
-            price: price,
-            totalQuantity: _totalItemsQuantity,
-          ),
-        );
+        if (cart.cartItems!.isEmpty) {
+          emit(EmptyCartState());
+        } else {
+          _totalItemsQuantity = calculateTotalQuantity(cart.cartItems!);
+          _cartItems = cart.cartItems!;
+          _cartPrice = price;
+          emit(
+            CartAndPriceLoadedState(
+              cart: cart,
+              price: price,
+              totalQuantity: _totalItemsQuantity,
+            ),
+          );
+        }
       } else {
-        emit(EmptyCartState());
+        emit(ShowCartErrorState(message: cart.message!));
       }
     } catch (e) {
       emit(ShowCartErrorState(message: 'Failed to load cart: $e'));
