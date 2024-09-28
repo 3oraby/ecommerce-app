@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:e_commerce_app/core/helpers/functions/check_connection_with_internet.dart';
+import 'package:e_commerce_app/core/helpers/functions/is_user_signed_in.dart';
 import 'package:e_commerce_app/features/favorites/data/models/get_favorites_response_model.dart';
 import 'package:e_commerce_app/features/favorites/data/repositories/favorites_repository.dart';
 import 'package:e_commerce_app/features/favorites/presentation/cubit/favorites_states.dart';
@@ -44,6 +45,12 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   }) async {
     if (!await checkConnectionWithInternet()) {
       emit(ToggleFavoritesNoInternetConnectionState(productId: productId));
+      return false;
+    }
+    if (!isUserSignedIn()) {
+      emit(ToggleFavoritesUnAuthState(
+        productId: productId,
+      ));
       return false;
     }
     emit(ToggleFavoritesLoadingState(productId: productId));

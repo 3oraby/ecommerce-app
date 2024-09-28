@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
+import 'package:e_commerce_app/core/helpers/functions/show_not_signed_in_dialog.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
 import 'package:e_commerce_app/features/favorites/presentation/cubit/favorites_states.dart';
 import 'package:flutter/material.dart';
@@ -55,10 +56,17 @@ class _CustomFavoriteButtonState extends State<CustomFavoriteButton> {
             isLoading = false;
           });
           showSnackBar(context, favoritesState.message);
-        }else if (favoritesState is ToggleFavoritesLoadedState){
+        } else if (favoritesState is ToggleFavoritesLoadedState) {
           setState(() {
             isLoading = false;
           });
+        } else if (favoritesState is ToggleFavoritesUnAuthState) {
+          setState(() {
+            isLoading = false;
+          });
+          if (favoritesState.productId == widget.productModel.id) {
+            showNotSignedInDialog(context);
+          }
         }
       },
       child: Container(

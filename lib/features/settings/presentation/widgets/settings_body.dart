@@ -2,12 +2,13 @@ import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
+import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:e_commerce_app/features/auth/presentation/pages/entry_page.dart';
 import 'package:e_commerce_app/core/widgets/custom_option_list_tile.dart';
+import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
 import 'package:e_commerce_app/features/user/presentation/pages/edit_user_profile_page.dart';
 import 'package:e_commerce_app/features/user/presentation/pages/update_password_page.dart';
 import 'package:flutter/material.dart';
@@ -47,9 +48,10 @@ class _SettingsBodyState extends State<SettingsBody> {
           setState(() {
             isPageLoading = false;
           });
+          HomePageNavigationService.navigateToHome();
           Navigator.pushNamedAndRemoveUntil(
             context,
-            EntryPage.id,
+            HomePage.id,
             (Route<dynamic> route) => false,
           );
         }

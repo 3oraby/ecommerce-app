@@ -1,5 +1,7 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/controllers/app_page_manager.dart';
+import 'package:e_commerce_app/core/helpers/functions/is_user_signed_in.dart';
+import 'package:e_commerce_app/core/helpers/functions/show_not_signed_in_dialog.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -52,9 +54,13 @@ class _HomePageState extends State<HomePage> {
           selectedItemColor: ThemeColors.primaryColor,
           onTap: (int index) {
             if (mounted) {
-              setState(() {
-                HomePage.currentIndexNotifier.value = index;
-              });
+              if (index > 0 && !isUserSignedIn()) {
+                showNotSignedInDialog(context);
+              } else {
+                setState(() {
+                  HomePage.currentIndexNotifier.value = index;
+                });
+              }
             }
           },
           items: [

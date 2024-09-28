@@ -1,6 +1,6 @@
-import 'dart:developer';
 
 import 'package:e_commerce_app/core/helpers/functions/is_user_signed_in.dart';
+import 'package:e_commerce_app/core/helpers/functions/show_not_signed_in_dialog.dart';
 import 'package:e_commerce_app/core/models/user_model.dart';
 import 'package:e_commerce_app/core/utils/app_assets/images/app_images.dart';
 import 'package:e_commerce_app/features/user/presentation/cubit/user_cubit.dart';
@@ -33,8 +33,9 @@ class HomeAppBar {
         children: [
           GestureDetector(
             onTap: () {
-              log(isUserSignedIn().toString());
-              Navigator.pushNamed(context, EditUserProfilePage.id);
+              isUserSignedIn()
+                  ? Navigator.pushNamed(context, EditUserProfilePage.id)
+                  : showNotSignedInDialog(context);
             },
             child: Image.asset(
               AppImages.imagesUserPhoto,
