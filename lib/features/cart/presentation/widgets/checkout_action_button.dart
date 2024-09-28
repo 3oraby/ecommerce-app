@@ -1,6 +1,6 @@
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/features/address/data/models/orders_address_model.dart';
-import 'package:e_commerce_app/features/address/presentation/pages/add_address_page.dart';
+import 'package:e_commerce_app/features/address/presentation/pages/choose_address_page.dart';
 import 'package:e_commerce_app/features/address/presentation/utils/get_user_home_address.dart';
 import 'package:e_commerce_app/features/cart/data/models/cart_item_model.dart';
 import 'package:e_commerce_app/features/cart/presentation/pages/checkout_page.dart';
@@ -26,7 +26,7 @@ class CheckoutActionButton extends StatelessWidget {
         Navigator.pushNamed(
           context,
           (userHomeAddress == null)
-              ? AddAddressPage.id
+              ? ChooseAddressPage.id
               : CheckoutPage.id,
         );
       },

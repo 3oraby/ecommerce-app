@@ -1,4 +1,3 @@
-
 import 'package:e_commerce_app/core/helpers/functions/check_connection_with_internet.dart';
 import 'package:e_commerce_app/features/address/data/models/get_all_addresses_response_model.dart';
 import 'package:e_commerce_app/features/address/data/models/get_orders_addresses_response_model.dart';
@@ -28,15 +27,15 @@ class AddressesCubit extends Cubit<AddressesState> {
       emit(AddressesNoNetworkConnectionState());
       return;
     }
-    emit(AddressesLoadingState());
+    emit(GetAddressesLoadingState());
     try {
       final GetAllAddressesResponseModel getAllAddressesResponseModel =
           await addressesRepository.getAllAddresses();
 
-      emit(AddressesLoadedState(
+      emit(GetAddressesLoadedState(
           getAllAddressesResponseModel: getAllAddressesResponseModel));
     } catch (e) {
-      emit(AddressesErrorState(
+      emit(GetAddressesErrorState(
         message: 'Failed to fetch favorites: $e',
       ));
     }
@@ -47,7 +46,7 @@ class AddressesCubit extends Cubit<AddressesState> {
       emit(AddressesNoNetworkConnectionState());
       return;
     }
-    emit(AddressesLoadingState());
+    emit(OrderAddressesLoadingState());
     try {
       final GetOrdersAddressesResponseModel getOrdersAddressesResponseModel =
           await addressesRepository.getOrdersAddresses();
@@ -56,11 +55,11 @@ class AddressesCubit extends Cubit<AddressesState> {
         emit(OrderAddressesLoadedState(
             getOrdersAddressesResponseModel: getOrdersAddressesResponseModel));
       } else {
-        emit(AddressesErrorState(
+        emit(OrderAddressesErrorState(
             message: getOrdersAddressesResponseModel.message!));
       }
     } catch (e) {
-      emit(AddressesErrorState(
+      emit(OrderAddressesErrorState(
         message: 'Failed to fetch Addresses: $e',
       ));
     }

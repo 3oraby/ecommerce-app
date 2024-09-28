@@ -59,6 +59,14 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesSingleton.init();
   bool isFirstTime = SharedPreferencesSingleton.getBool("isFirstTime");
+  // SharedPreferencesSingleton.deleteStringFromSharedPreferences(
+  //     LocalConstants.userAddressModelInPref);
+  // SharedPreferencesSingleton.deleteStringFromSharedPreferences(
+  //     LocalConstants.userModelNameInPref);
+  // SharedPreferencesSingleton.deleteStringFromSharedPreferences(
+  //     LocalConstants.accessTokenNameInPref);
+  // SharedPreferencesSingleton.deleteStringFromSharedPreferences(
+  //     LocalConstants.refreshTokenNameInPref);
   runApp(
     MultiBlocProvider(
       providers: [

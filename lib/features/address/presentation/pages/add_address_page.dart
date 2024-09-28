@@ -41,16 +41,22 @@ class AddAddressPage extends StatelessWidget {
         ),
       ),
       body: BlocBuilder<AddressesCubit, AddressesState>(
+        buildWhen: (previous, current) {
+          return current is GetAddressesLoadingState ||
+              current is GetAddressesLoadedState ||
+              current is GetAddressesErrorState ||
+              current is AddressesNoNetworkConnectionState;
+        },
         builder: (context, state) {
-          if (state is AddressesLoadingState) {
+          if (state is GetAddressesLoadingState) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (state is AddressesLoadedState) {
+          } else if (state is GetAddressesLoadedState) {
             return AddAddressLoadedBody(
               getAllAddressesResponseModel: state.getAllAddressesResponseModel,
             );
-          } else if (state is AddressesErrorState) {
+          } else if (state is GetAddressesErrorState) {
             return Center(
               child: Text(state.message),
             );
@@ -60,7 +66,7 @@ class AddAddressPage extends StatelessWidget {
             });
           } else {
             return const Center(
-              child: Text("there is no addresses"),
+              child: Text("it is not available to add addresses now"),
             );
           }
         },

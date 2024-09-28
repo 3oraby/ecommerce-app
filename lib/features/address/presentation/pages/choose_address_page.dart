@@ -13,6 +13,7 @@ class ChooseAddressPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     final AddressesCubit addressesCubit =
         BlocProvider.of<AddressesCubit>(context);
     addressesCubit.getOrdersAddresses();
@@ -57,7 +58,7 @@ class ChooseAddressPage extends StatelessWidget {
                 }
               },
             );
-          } else if (state is AddressesErrorState) {
+          } else if (state is OrderAddressesErrorState) {
             return Center(
               child: Text(state.message),
             );
