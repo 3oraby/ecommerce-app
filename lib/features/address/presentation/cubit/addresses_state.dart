@@ -4,6 +4,8 @@ abstract class AddressesState {}
 
 final class AddressesInitialState extends AddressesState {}
 
+final class AddressesNoNetworkConnectionState extends AddressesState {}
+
 final class AddressesLoadedState extends AddressesState {
   final GetAllAddressesResponseModel getAllAddressesResponseModel;
   AddressesLoadedState({

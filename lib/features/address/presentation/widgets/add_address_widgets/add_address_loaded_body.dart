@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:e_commerce_app/constants/local_constants.dart';
+import 'package:e_commerce_app/core/helpers/functions/check_connection_with_internet.dart';
 import 'package:e_commerce_app/core/helpers/functions/is_user_signed_in.dart';
+import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
@@ -82,8 +84,10 @@ class _AddAddressLoadedBodyState extends State<AddAddressLoadedBody> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: CustomTriggerButton(
                 description: "CONFIRM",
-                onPressed: () {
-                  if (!isUserSignedIn()) {
+                onPressed: () async {
+                  if (!await checkConnectionWithInternet()) {
+                    showErrorWithInternetDialog(context);
+                  } else if (!isUserSignedIn()) {
                     Navigator.pushReplacementNamed(
                       context,
                       RegisterPage.id,

@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
+import 'package:e_commerce_app/core/widgets/custom_no_internet_connection_body.dart';
 import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cubit.dart';
 import 'package:e_commerce_app/features/address/presentation/widgets/add_address_widgets/add_address_loaded_body.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,9 @@ class AddAddressPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<AddressesCubit>(context).getAllAddresses();
+    final AddressesCubit addressesCubit =
+        BlocProvider.of<AddressesCubit>(context);
+    addressesCubit.getAllAddresses();
 
     return Scaffold(
       backgroundColor: ThemeColors.backgroundBodiesColor,
@@ -51,6 +54,10 @@ class AddAddressPage extends StatelessWidget {
             return Center(
               child: Text(state.message),
             );
+          } else if (state is AddressesNoNetworkConnectionState) {
+            return CustomNoInternetConnectionBody(onTryAgainPressed: () {
+              addressesCubit.getAllAddresses();
+            });
           } else {
             return const Center(
               child: Text("there is no addresses"),

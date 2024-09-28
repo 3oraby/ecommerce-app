@@ -1,5 +1,5 @@
-import 'dart:developer';
 
+import 'package:e_commerce_app/core/helpers/functions/check_connection_with_internet.dart';
 import 'package:e_commerce_app/features/address/data/models/get_all_addresses_response_model.dart';
 import 'package:e_commerce_app/features/address/data/models/get_orders_addresses_response_model.dart';
 import 'package:e_commerce_app/features/address/data/models/orders_address_model.dart';
@@ -12,7 +12,6 @@ part 'addresses_state.dart';
 class AddressesCubit extends Cubit<AddressesState> {
   final AddressesRepository addressesRepository;
   OrdersAddressModel? orderAddressChosen;
-  // OrdersAddressModel? _userAddressInRegisterStep;
 
   AddressesCubit({required this.addressesRepository})
       : super(AddressesInitialState());
@@ -21,10 +20,14 @@ class AddressesCubit extends Cubit<AddressesState> {
     orderAddressChosen = address;
   }
 
-  OrdersAddressModel? get getOrderAddressChosen => orderAddressChosen ?? getUserHomeAddress();
-
+  OrdersAddressModel? get getOrderAddressChosen =>
+      orderAddressChosen ?? getUserHomeAddress();
 
   Future<void> getAllAddresses() async {
+    if (!await checkConnectionWithInternet()) {
+      emit(AddressesNoNetworkConnectionState());
+      return;
+    }
     emit(AddressesLoadingState());
     try {
       final GetAllAddressesResponseModel getAllAddressesResponseModel =
@@ -40,7 +43,10 @@ class AddressesCubit extends Cubit<AddressesState> {
   }
 
   Future<void> getOrdersAddresses() async {
-    log("get orders addresses");
+    if (!await checkConnectionWithInternet()) {
+      emit(AddressesNoNetworkConnectionState());
+      return;
+    }
     emit(AddressesLoadingState());
     try {
       final GetOrdersAddressesResponseModel getOrdersAddressesResponseModel =

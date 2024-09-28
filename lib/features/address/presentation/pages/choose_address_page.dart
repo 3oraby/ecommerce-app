@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
+import 'package:e_commerce_app/core/widgets/custom_no_internet_connection_body.dart';
 import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cubit.dart';
 import 'package:e_commerce_app/features/address/presentation/pages/add_address_page.dart';
 import 'package:e_commerce_app/features/address/presentation/widgets/choose_address_widgets/choose_address_loaded_body.dart';
@@ -60,6 +61,10 @@ class ChooseAddressPage extends StatelessWidget {
             return Center(
               child: Text(state.message),
             );
+          } else if (state is AddressesNoNetworkConnectionState) {
+            return CustomNoInternetConnectionBody(onTryAgainPressed: () {
+              addressesCubit.getOrdersAddresses();
+            });
           } else {
             return const Center(
               child: CircularProgressIndicator(),
