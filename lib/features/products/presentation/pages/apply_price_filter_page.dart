@@ -1,5 +1,4 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
-import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
@@ -23,7 +22,6 @@ class _ApplyPriceFilterPageState extends State<ApplyPriceFilterPage> {
   bool isLoading = false;
   String? minPrice;
   String? maxPrice;
-  bool internetConnection = true;
 
   double? minPriceValue;
   double? maxPriceValue;
@@ -141,9 +139,7 @@ class _ApplyPriceFilterPageState extends State<ApplyPriceFilterPage> {
                 buttonHeight: 50,
                 isEnabled: _isApplyPriceFilterButtonEnabled(),
                 onPressed: () {
-                  internetConnection
-                      ? onApplyPriceRangePressed(context)
-                      : showErrorWithInternetDialog(context);
+                  onApplyPriceRangePressed(context);
                 },
                 description: "APPLY",
                 backgroundColor: _isApplyPriceFilterButtonEnabled()
