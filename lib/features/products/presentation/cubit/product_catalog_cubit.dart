@@ -167,18 +167,4 @@ class ProductCatalogCubit extends Cubit<ProductCatalogState> {
       }
     }
   }
-
-  // Future<GetProductResponseModel?> getProductDetails(
-  //     {required int productId}) async {
-  //   if (!await checkConnectionWithInternet()) {
-  //     emit(ProductNoInternetConnectionState());
-  //   } else {
-  //     try {
-  //       return await productRepository.getProductDetails(productId: productId);
-  //     } catch (e) {
-  //       log(e.toString());
-  //       throw Exception(e);
-  //     }
-  //   }
-  // }
 }

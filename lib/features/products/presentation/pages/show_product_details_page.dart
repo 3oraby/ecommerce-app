@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:e_commerce_app/core/helpers/functions/is_user_signed_in.dart';
 import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
@@ -14,21 +13,36 @@ import 'package:e_commerce_app/features/products/presentation/widgets/show_produ
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ShowProductDetailsPage extends StatelessWidget {
+class ShowProductDetailsPage extends StatefulWidget {
   const ShowProductDetailsPage({super.key});
   static const id = "showProductDetailsPage";
 
   @override
-  Widget build(BuildContext context) {
-    final ProductCatalogCubit productCatalogCubit =
-        BlocProvider.of<ProductCatalogCubit>(context);
-    final CartCubit cartCubit = BlocProvider.of<CartCubit>(context);
-    final ReviewCubit reviewCubit = BlocProvider.of<ReviewCubit>(context);
+  State<ShowProductDetailsPage> createState() => _ShowProductDetailsPageState();
+}
 
-    final ProductModel productModel = productCatalogCubit.getSelectedProduct!;
-    cartCubit.checkProductInCart(productModel.id);
+class _ShowProductDetailsPageState extends State<ShowProductDetailsPage> {
+  late ProductCatalogCubit productCatalogCubit;
+  late CartCubit cartCubit;
+  late ReviewCubit reviewCubit;
+  late ProductModel productModel;
+
+  @override
+  void initState() {
+    super.initState();
+    productCatalogCubit = BlocProvider.of<ProductCatalogCubit>(context);
+    cartCubit = BlocProvider.of<CartCubit>(context);
+    reviewCubit = BlocProvider.of<ReviewCubit>(context);
+
+    productModel = productCatalogCubit.getSelectedProduct!;
+    if (isUserSignedIn()) {
+      cartCubit.checkProductInCart(productModel.id);
+    }
     reviewCubit.getProductReviews(productId: productModel.id);
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -45,7 +59,7 @@ class ShowProductDetailsPage extends StatelessWidget {
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
-            cartCubit.showCartAndPrice();
+            cartCubit.refreshPage();
           },
           icon: const Icon(
             Icons.arrow_back_ios,
@@ -71,7 +85,7 @@ class ShowProductDetailsPage extends StatelessWidget {
       ),
       body: BlocConsumer<CartCubit, CartState>(
         listener: (context, cartState) {
-          if (cartState is CartRefreshPageState) {
+          if (cartState is CartRefreshPageState && isUserSignedIn()) {
             cartCubit.checkProductInCart(productModel.id);
           }
         },
@@ -92,9 +106,7 @@ class ShowProductDetailsPage extends StatelessWidget {
               } else if (reviewState is GetReviewsErrorState) {
                 return Center(child: Text(reviewState.message));
               } else if (cartState is CheckProductInCartLoadedState &&
-                  reviewState is GetReviewsLoadedState) {
-                    log(reviewState.productReviews.toString());
-                    log(reviewState.productReviews.length.toString());
+                  reviewState is GetReviewsLoadedState && isUserSignedIn()) {
                 return ShowProductsDetailsLoadedBody(
                   productModel: productModel,
                   inCart: cartState.inCart,
@@ -104,12 +116,20 @@ class ShowProductDetailsPage extends StatelessWidget {
                 );
               } else if (cartState is CartNoNetworkErrorState) {
                 return CustomNoInternetConnectionBody(onTryAgainPressed: () {
-                  cartCubit.checkProductInCart(productModel.id);
+                  if (isUserSignedIn()) {
+                    cartCubit.checkProductInCart(productModel.id);
+                  }
                   reviewCubit.getProductReviews(productId: productModel.id);
                 });
-              } else {
-                return Container();
+              } else if (reviewState is GetReviewsLoadedState) {
+                return ShowProductsDetailsLoadedBody(
+                  productModel: productModel,
+                  inCart: false,
+                  productReviews: reviewState.productReviews,
+                  averageRating: reviewState.averageRating,
+                );
               }
+              return Container();
             },
           );
         },

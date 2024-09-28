@@ -19,7 +19,7 @@ class ShowProductsDetailsLoadedBody extends StatelessWidget {
     super.key,
     required this.productModel,
     required this.inCart,
-    required this.productQuantityInCart,
+    this.productQuantityInCart,
     required this.productReviews,
     required this.averageRating,
   });

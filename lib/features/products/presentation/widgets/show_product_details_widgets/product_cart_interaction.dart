@@ -1,6 +1,9 @@
 import 'dart:developer';
 
 import 'package:e_commerce_app/constants/local_constants.dart';
+import 'package:e_commerce_app/core/helpers/functions/is_user_signed_in.dart';
+import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
+import 'package:e_commerce_app/core/helpers/functions/show_not_signed_in_dialog.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
@@ -146,6 +149,13 @@ class _ProductCartInteractionState extends State<ProductCartInteraction> {
                           );
                         }
                       });
+                    }else if (state is UpdateCartNoNetworkErrorState){
+                      if (mounted){
+                        setState(() {
+                          productAmount = 1;
+                        });
+                      }
+                      showErrorWithInternetDialog(context);
                     }
                   },
                   child: Expanded(
@@ -156,7 +166,10 @@ class _ProductCartInteractionState extends State<ProductCartInteraction> {
                           ? ThemeColors.unEnabledColor 
                           : ThemeColors.primaryColor,
                       onPressed: () async {
-                        if (!isMaxQuantity) {
+                        if (!isUserSignedIn()){
+                          showNotSignedInDialog(context);
+                        }
+                        else if (!isMaxQuantity) {
                           await addProductToCart(
                             context,
                             widget.productModel.id,
