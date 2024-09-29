@@ -15,28 +15,13 @@ class CategoryTapLoadingBody extends StatelessWidget {
           baseColor: Colors.grey[300]!,
           highlightColor: Colors.grey[100]!,
           child: Container(
+            height: MediaQuery.of(context).size.height * 0.15,
             decoration: BoxDecoration(
               color: Colors.white,
               border: Border.all(
                 color: Colors.grey,
               ),
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: Row(
-              children: [
-                const SizedBox(width: 5),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  height: 25,
-                  color: Colors.grey[300], 
-                ),
-                const SizedBox(width: 5),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  height: 100,
-                  color: Colors.grey[300], 
-                ),
-              ],
+              borderRadius: BorderRadius.circular(10),
             ),
           ),
         ),

@@ -1,12 +1,10 @@
-import 'package:e_commerce_app/constants/api_constants.dart';
 import 'package:e_commerce_app/constants/local_constants.dart';
+import 'package:e_commerce_app/core/helpers/functions/get_photo_url.dart';
 import 'package:e_commerce_app/core/models/category_model.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_rounded_image_container.dart';
-import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CategoryTapLoadedBody extends StatelessWidget {
   const CategoryTapLoadedBody({
@@ -16,13 +14,15 @@ class CategoryTapLoadedBody extends StatelessWidget {
   });
 
   final List<CategoryModel> categories;
-  final void Function(int index) onCategoryTap; 
+  final void Function(int index) onCategoryTap;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
-          horizontal: LocalConstants.kHorizontalPadding),
+        horizontal: LocalConstants.kHorizontalPadding,
+        vertical: 16,
+      ),
       child: ListView.separated(
         itemCount: categories.length,
         separatorBuilder: (context, index) => const VerticalGap(36),
@@ -32,33 +32,14 @@ class CategoryTapLoadedBody extends StatelessWidget {
             decoration: BoxDecoration(
               color: ThemeColors.backgroundBodiesColor,
               border: Border.all(
-                color: Colors.black,
+                color: ThemeColors.mainLabelsColor,
               ),
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(10),
             ),
-            child: Row(
-              children: [
-                const HorizontalGap(5),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  child: Text(
-                    categories[index].name,
-                    style: GoogleFonts.aDLaMDisplay(
-                      color: Colors.black,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 3,
-                  ),
-                ),
-                const HorizontalGap(5),
-                CustomRoundedImageContainer(
-                  imagePath:
-                      "${ApiConstants.baseUrl}${ApiConstants.getPhotoEndPoint}${categories[index].photo}",
-                  width: MediaQuery.of(context).size.width * 0.6,
-                ),
-              ],
+            child: CustomRoundedImageContainer(
+              imagePath: getPhotoUrl(categories[index].photo),
+              borderRadius: 10,
+              height: MediaQuery.of(context).size.height * 0.15,
             ),
           ),
         ),
