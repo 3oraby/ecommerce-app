@@ -1,3 +1,5 @@
+import 'package:e_commerce_app/core/utils/app_assets/images/app_images.dart';
+import 'package:e_commerce_app/core/widgets/custom_empty_body_widget.dart';
 import 'package:e_commerce_app/core/widgets/custom_no_internet_connection_body.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_state.dart';
@@ -36,9 +38,8 @@ class _CartBodyState extends State<CartBody> {
         if (state is ShowCartLoadingState) {
           return const CartBodyShimmerLoading();
         } else if (state is ShowCartErrorState) {
-          return Container(
+          return SizedBox(
             height: 400,
-            color: Colors.red,
             child: Text(state.message),
           );
         } else if (state is CartAndPriceLoadedState) {
@@ -57,8 +58,12 @@ class _CartBodyState extends State<CartBody> {
             },
           );
         } else if (state is EmptyCartState) {
-          return const Center(
-            child: Text("No items in your cart"),
+          return const CustomEmptyBodyWidget(
+            mainLabel: "Your Cart is Empty",
+            subLabel:
+                "Looks like you haven’t added any items to your cart yet.",
+            buttonDescription: 'Shop Now',
+            imageName: AppImages.imagesEmptyCart,
           );
         } else if (state is CartNoNetworkErrorState) {
           return CustomNoInternetConnectionBody(onTryAgainPressed: () {

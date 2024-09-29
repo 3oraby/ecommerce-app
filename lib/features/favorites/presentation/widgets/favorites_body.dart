@@ -1,6 +1,6 @@
+import 'package:e_commerce_app/core/widgets/custom_empty_body_widget.dart';
 import 'package:e_commerce_app/core/widgets/custom_no_internet_connection_body.dart';
 import 'package:e_commerce_app/core/widgets/grid_view_items_loading.dart';
-import 'package:e_commerce_app/features/favorites/presentation/widgets/favorites_empty_body.dart';
 import 'package:e_commerce_app/features/favorites/presentation/widgets/favorites_loaded_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,7 +40,12 @@ class FavoritesBody extends StatelessWidget {
             ),
           );
         } else if (state is FavoritesEmpty) {
-          return const FavoritesEmptyBody();
+          return const CustomEmptyBodyWidget(
+            mainLabel: "No Favorites Yet!",
+            subLabel:
+                "Start adding your favorite items by tapping the heart icon.",
+            buttonDescription: 'Explore Products',
+          );
         } else if (state is FavoritesNoInternetConnectionState) {
           return CustomNoInternetConnectionBody(
             onTryAgainPressed: () {

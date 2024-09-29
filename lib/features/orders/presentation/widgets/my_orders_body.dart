@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/core/widgets/custom_empty_body_widget.dart';
 import 'package:e_commerce_app/core/widgets/custom_no_internet_connection_body.dart';
 import 'package:e_commerce_app/features/orders/presentation/cubit/order_cubit.dart';
 import 'package:e_commerce_app/features/orders/presentation/cubit/order_state.dart';
@@ -40,8 +41,10 @@ class MyOrdersBody extends StatelessWidget {
             },
           );
         } else if (state is GetAllOrdersEmptyState) {
-          return const Center(
-            child: Text("you do not make any order till now"),
+          return const CustomEmptyBodyWidget(
+            mainLabel: "No Orders Yet",
+            subLabel: "You haven't placed any orders yet. Start shopping now.",
+            buttonDescription: 'Start Shopping',
           );
         } else if (state is OrderNoInternetConnectionState) {
           return CustomNoInternetConnectionBody(onTryAgainPressed: () {
