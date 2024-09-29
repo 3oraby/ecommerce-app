@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
+import 'package:e_commerce_app/core/widgets/custom_empty_body_widget.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/address/data/models/get_orders_addresses_response_model.dart';
@@ -55,7 +56,7 @@ class _ChooseAddressLoadedBodyState extends State<ChooseAddressLoadedBody> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return ordersAddresses.isEmpty
-        ? EmptyOrdersAddressesBody(addressesCubit: addressesCubit)
+        ? const EmptyOrdersAddressesBody()
         : Column(
             children: [
               Padding(
@@ -129,42 +130,24 @@ class _ChooseAddressLoadedBodyState extends State<ChooseAddressLoadedBody> {
 }
 
 class EmptyOrdersAddressesBody extends StatelessWidget {
-  const EmptyOrdersAddressesBody({
-    super.key,
-    required this.addressesCubit,
-  });
-
-  final AddressesCubit addressesCubit;
+  const EmptyOrdersAddressesBody({super.key});
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
+    final AddressesCubit addressesCubit =
+        BlocProvider.of<AddressesCubit>(context);
+    return CustomEmptyBodyWidget(
+      mainLabel: "No Saved Addresses",
+      subLabel:
+          "You haven't added any addresses yet. Save your addresses to speed up checkout.",
+      buttonDescription: "Add new addresses",
+      onButtonPressed: () async {
+        final isRefresh = await Navigator.pushNamed(context, AddAddressPage.id);
 
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text("you do not have Addresses yet, please choose one"),
-          const VerticalGap(16),
-          CustomTriggerButton(
-            buttonHeight: screenHeight * 0.06,
-            backgroundColor: ThemeColors.backgroundBodiesColor,
-            borderWidth: 2,
-            borderColor: ThemeColors.primaryColor,
-            description: "ADD A NEW ADDRESS",
-            descriptionColor: ThemeColors.primaryColor,
-            descriptionSize: 18,
-            onPressed: () async {
-              final isRefresh =
-                  await Navigator.pushNamed(context, AddAddressPage.id);
-
-              if (isRefresh is bool && isRefresh == true) {
-                addressesCubit.getOrdersAddresses();
-              }
-            },
-          ),
-        ],
-      ),
+        if (isRefresh is bool && isRefresh == true) {
+          addressesCubit.getOrdersAddresses();
+        }
+      },
     );
   }
 }
