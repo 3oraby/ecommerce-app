@@ -17,7 +17,7 @@ void showCartSuccessModal({
     context: context,
     builder: (context) {
       return Container(
-        height: 350,
+        height: MediaQuery.of(context).size.height * 0.35,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(35),
