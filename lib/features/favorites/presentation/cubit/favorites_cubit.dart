@@ -15,6 +15,10 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   List<int> _productsWillMoveToFavorites = [];
   List<int> get getProductWillMoveToFavorites => _productsWillMoveToFavorites;
 
+  void refreshPage() {
+    emit(RefreshFavoritesPageState());
+  }
+
   Future<void> getFavorites() async {
     if (!await checkConnectionWithInternet()) {
       emit(FavoritesNoInternetConnectionState());

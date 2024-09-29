@@ -5,6 +5,7 @@ import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/core/widgets/custom_no_internet_connection_body.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_state.dart';
+import 'package:e_commerce_app/features/favorites/presentation/cubit/favorites_cubit.dart';
 import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
 import 'package:e_commerce_app/features/products/presentation/cubit/product_catalog_cubit.dart';
 import 'package:e_commerce_app/features/products/presentation/widgets/show_product_details_widgets/show_products_details_loading_body.dart';
@@ -25,6 +26,7 @@ class _ShowProductDetailsPageState extends State<ShowProductDetailsPage> {
   late ProductCatalogCubit productCatalogCubit;
   late CartCubit cartCubit;
   late ReviewCubit reviewCubit;
+  late FavoritesCubit favoritesCubit;
   late ProductModel productModel;
 
   @override
@@ -33,6 +35,7 @@ class _ShowProductDetailsPageState extends State<ShowProductDetailsPage> {
     productCatalogCubit = BlocProvider.of<ProductCatalogCubit>(context);
     cartCubit = BlocProvider.of<CartCubit>(context);
     reviewCubit = BlocProvider.of<ReviewCubit>(context);
+    favoritesCubit = BlocProvider.of<FavoritesCubit>(context);
 
     productModel = productCatalogCubit.getSelectedProduct!;
     if (isUserSignedIn()) {
@@ -60,6 +63,7 @@ class _ShowProductDetailsPageState extends State<ShowProductDetailsPage> {
           onPressed: () {
             Navigator.pop(context);
             cartCubit.refreshPage();
+            favoritesCubit.refreshPage();
           },
           icon: const Icon(
             Icons.arrow_back_ios,

@@ -7,6 +7,8 @@ abstract class FavoritesState {
 
 class FavoritesInitial extends FavoritesState {}
 
+class RefreshFavoritesPageState extends FavoritesState {}
+
 class FavoritesNoInternetConnectionState extends FavoritesState {}
 
 class FavoritesLoading extends FavoritesState {}

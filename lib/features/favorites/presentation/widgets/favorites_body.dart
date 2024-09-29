@@ -17,7 +17,15 @@ class FavoritesBody extends StatelessWidget {
 
     favoritesCubit.getFavorites();
 
-    return BlocBuilder<FavoritesCubit, FavoritesState>(
+    return BlocConsumer<FavoritesCubit, FavoritesState>(
+      listenWhen: (previous, current) {
+        return current is RefreshFavoritesPageState;
+      },
+      listener: (context, state) {
+        if (state is RefreshFavoritesPageState) {
+          favoritesCubit.getFavorites();
+        }
+      },
       buildWhen: (previous, current) {
         return current is FavoritesLoading ||
             current is FavoritesLoaded ||
