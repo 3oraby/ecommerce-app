@@ -73,7 +73,14 @@ class _CancelItemsFromOrderLoadedBodyState
                 isLoading = false;
               });
               showSnackBar(context, "Items successfully cancelled!",
-                  backgroundColor: Colors.green);
+                  backgroundColor: ThemeColors.successfullyDoneColor);
+              orderCubit.resetSelectedItemsForCancellation();
+              HomePageNavigationService.navigateToMyOrders();
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                HomePage.id,
+                (Route<dynamic> route) => false,
+              );
             } else if (state is CancelItemFromOrderLoadingState) {
               setState(() {
                 isLoading = true;
@@ -103,17 +110,8 @@ class _CancelItemsFromOrderLoadedBodyState
                 descriptionSize: 20,
                 isEnabled: orderCubit.getSelectedItemsCountForCancellation > 0,
                 buttonHeight: 55,
-                onPressed: () async {
-                  bool isCancelledDone = await orderCubit.cancelSelectedItems();
-                  if (isCancelledDone) {
-                    orderCubit.resetSelectedItemsForCancellation();
-                    HomePageNavigationService.navigateToMyOrders();
-                    Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      HomePage.id,
-                      (Route<dynamic> route) => false,
-                    );
-                  }
+                onPressed: () {
+                  orderCubit.cancelSelectedItems();
                 },
                 child: isLoading
                     ? const Center(

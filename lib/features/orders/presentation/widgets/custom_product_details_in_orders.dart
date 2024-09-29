@@ -1,11 +1,13 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/helpers/functions/get_photo_url.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
+import 'package:e_commerce_app/core/widgets/custom_option_list_tile.dart';
 import 'package:e_commerce_app/core/widgets/custom_rounded_icon.dart';
 import 'package:e_commerce_app/core/widgets/custom_show_product_quantity.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
+import 'package:e_commerce_app/features/orders/constants/orders_constants.dart';
 import 'package:e_commerce_app/features/orders/data/models/order_items_model.dart';
 import 'package:e_commerce_app/features/orders/presentation/cubit/order_cubit.dart';
 import 'package:e_commerce_app/features/reviews/constants/review_feature_constants.dart';
@@ -115,7 +117,10 @@ class CustomProductDetailsInOrders extends StatelessWidget {
             ),
           ),
           const VerticalGap(16),
-          ShowSelectReasonForCancel(showCancelOption: showCancelOption),
+          ShowSelectReasonForCancel(
+            showCancelOption: showCancelOption,
+            orderItemModel: orderItem,
+          ),
           MakeReviewOption(
             showReviewOption: showReviewOption,
             orderItem: orderItem,
@@ -295,36 +300,44 @@ class ShowEditReviewOption extends StatelessWidget {
   }
 }
 
-class ShowSelectReasonForCancel extends StatelessWidget {
+class ShowSelectReasonForCancel extends StatefulWidget {
   const ShowSelectReasonForCancel({
     super.key,
     required this.showCancelOption,
+    required this.orderItemModel,
   });
 
   final bool showCancelOption;
+  final OrderItemModel orderItemModel;
+
+  @override
+  State<ShowSelectReasonForCancel> createState() =>
+      _ShowSelectReasonForCancelState();
+}
+
+class _ShowSelectReasonForCancelState extends State<ShowSelectReasonForCancel> {
+  late bool isItemSelected;
+
+  @override
+  void initState() {
+    super.initState();
+    isItemSelected = widget.orderItemModel.cancelItemReason != null;
+  }
 
   @override
   Widget build(BuildContext context) {
     return Visibility(
-      visible: showCancelOption,
+      visible: widget.showCancelOption,
       child: Column(
         children: [
           const VerticalGap(32),
           GestureDetector(
-            onTap: () {
-              showModalBottomSheet(
-                context: context,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                  ),
-                ),
-                builder: (context) => ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) => Container(),
-                ),
-              );
+            onTap: () async {
+              final isRefresh =
+                  await showSelectReasonForCancelOrderBottomSheet(context);
+              if (isRefresh is bool && isRefresh) {
+                setState(() {});
+              }
             },
             child: Container(
               decoration: BoxDecoration(
@@ -339,18 +352,18 @@ class ShowSelectReasonForCancel extends StatelessWidget {
                 horizontal: 8,
                 vertical: 12,
               ),
-              child: const Row(
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Select a Reason",
-                    style: TextStyle(
+                    widget.orderItemModel.cancelItemReason ?? "Select a Reason",
+                    style: const TextStyle(
                       color: ThemeColors.mainLabelsColor,
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  Icon(
+                  const Icon(
                     Icons.arrow_forward_ios,
                     size: 20,
                   ),
@@ -360,6 +373,110 @@ class ShowSelectReasonForCancel extends StatelessWidget {
           ),
           const VerticalGap(16),
         ],
+      ),
+    );
+  }
+
+  Future<dynamic> showSelectReasonForCancelOrderBottomSheet(
+      BuildContext context) async {
+    String? reasonSelected = widget.orderItemModel.cancelItemReason;
+
+    return await showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+      ),
+      builder: (context) => StatefulBuilder(
+        builder: (context, modalSetState) => Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: LocalConstants.kHorizontalPadding,
+            vertical: 8,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "Reason for cancellation",
+                    style: TextStyle(
+                      color: ThemeColors.mainLabelsColor,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(
+                      Icons.cancel,
+                      size: 30,
+                    ),
+                  ),
+                ],
+              ),
+              const VerticalGap(16),
+              Expanded(
+                child: ListView.builder(
+                  itemCount:
+                      OrdersConstants.reasonsForCancelItemsFromOrder.length,
+                  itemBuilder: (context, index) => CustomOptionListTile(
+                    onTap: () {
+                      modalSetState(
+                        () {
+                          isItemSelected = true;
+                          reasonSelected = OrdersConstants
+                              .reasonsForCancelItemsFromOrder[index];
+                        },
+                      );
+                    },
+                    internalPadding: const EdgeInsets.all(0),
+                    leadingWidget: reasonSelected ==
+                            OrdersConstants
+                                .reasonsForCancelItemsFromOrder[index]
+                        ? const Icon(
+                            Icons.check_circle,
+                            color: ThemeColors.primaryColor,
+                            size: 35,
+                          )
+                        : const Icon(
+                            Icons.circle_outlined,
+                            color: ThemeColors.unEnabledColor,
+                            size: 35,
+                          ),
+                    trailingIcon: null,
+                    title:
+                        OrdersConstants.reasonsForCancelItemsFromOrder[index],
+                    titleTextStyle: const TextStyle(
+                      color: ThemeColors.subLabelsColor,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              CustomTriggerButton(
+                onPressed: () {
+                  widget.orderItemModel.cancelItemReason = reasonSelected;
+                  Navigator.pop(context, true);
+                },
+                isEnabled: isItemSelected,
+                description: "CONFIRM",
+                backgroundColor: isItemSelected
+                    ? ThemeColors.primaryColor
+                    : ThemeColors.unEnabledButtonsColor,
+                buttonHeight: 55,
+              ),
+              const VerticalGap(16)
+            ],
+          ),
+        ),
       ),
     );
   }

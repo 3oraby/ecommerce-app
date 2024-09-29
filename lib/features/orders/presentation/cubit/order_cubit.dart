@@ -107,6 +107,9 @@ class OrderCubit extends Cubit<OrderState> {
 
   void resetSelectedItemsForCancellation() {
     selectedItemsForCancellation.clear();
+    for (OrderItemModel orderItem in selectedOrder!.orderItems) {
+      orderItem.cancelItemReason = null;
+    }
   }
 
   Future<void> confirmOrder({required Map<String, dynamic> jsonData}) async {

@@ -15,6 +15,8 @@ class CustomOptionListTile extends StatelessWidget {
   final Widget? leadingWidget;
   final bool showLeadingWidget;
   final bool isThreeLine;
+  final Icon? trailingIcon;
+
   const CustomOptionListTile({
     super.key,
     this.title,
@@ -34,6 +36,10 @@ class CustomOptionListTile extends StatelessWidget {
     this.leadingWidget,
     this.showLeadingWidget = true,
     this.isThreeLine = false,
+    this.trailingIcon = const Icon(
+      Icons.arrow_forward_ios,
+      size: 24,
+    ),
   });
 
   @override
@@ -55,10 +61,7 @@ class CustomOptionListTile extends StatelessWidget {
               subTitle!,
               style: subTitleTextStyle,
             ),
-      trailing: const Icon(
-        Icons.arrow_forward_ios,
-        size: 24,
-      ),
+      trailing: trailingIcon,
       onTap: onTap,
     );
   }

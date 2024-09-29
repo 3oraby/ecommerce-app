@@ -43,6 +43,7 @@ class CancelItemsFromOrderPage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
+              BlocProvider.of<OrderCubit>(context).resetSelectedItemsForCancellation();
               Navigator.pop(context);
             },
             icon: const Icon(

@@ -8,6 +8,7 @@ class OrderItemModel {
   final DateTime createdAt;
   final DateTime updatedAt;
   final ProductModel product;
+  String? cancelItemReason;
 
   OrderItemModel({
     required this.id,
@@ -17,6 +18,7 @@ class OrderItemModel {
     required this.createdAt,
     required this.updatedAt,
     required this.product,
+    this.cancelItemReason,
   });
 
   factory OrderItemModel.fromJson({required Map<String, dynamic> json}) {
