@@ -73,34 +73,36 @@ class ShowInformationAboutOrder extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Text(
-              orderModel.orderStateModel.state == "inProgress"
-                  ? "Done"
-                  : "Recieved",
-              style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
-                  color: ThemeColors.successfullyDoneColor),
-            ),
-            const Text(
-              " on ",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
+        Expanded(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                orderModel.orderStateModel.state == "inProgress"
+                    ? "Done"
+                    : "Recieved",
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                    color: ThemeColors.successfullyDoneColor),
               ),
-            ),
-            Text(
-              formatStringIntoDateTime(orderModel.date),
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
+              Expanded(
+                child: Text(
+                  " on ${formatStringIntoDateTime(orderModel.date, showTotalDate: true)}",
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
+        const HorizontalGap(8),
         const Icon(
           Icons.arrow_forward_ios,
           size: 22,
