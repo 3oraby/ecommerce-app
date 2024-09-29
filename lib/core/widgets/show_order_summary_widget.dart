@@ -98,9 +98,8 @@ class ShowOrderSummaryWidget extends StatelessWidget {
           ),
           Visibility(
             visible: showPaymentSection,
-            // ignore: prefer_const_constructors
-            child: Column(
-              children: const [
+            child: const Column(
+              children: [
                 VerticalGap(10),
                 Divider(
                   color: ThemeColors.backgroundBodiesColor,
@@ -116,9 +115,15 @@ class ShowOrderSummaryWidget extends StatelessWidget {
                         fontSize: 18,
                       ),
                     ),
+                    Spacer(flex: 10),
+                    Icon(
+                      Icons.money_rounded,
+                      color: ThemeColors.subLabelsColor,
+                    ),
+                    Spacer(flex: 1),
                     Text(
                       "Cash on Delivery",
-                      style:  TextStyle(
+                      style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: ThemeColors.mainLabelsColor,
