@@ -12,7 +12,6 @@ class RegistrationStepFormField extends StatelessWidget {
   final TextEditingController textEditingController;
   final VoidCallback scrollPageToBottom;
   final Map<RegistrationStep, String?> stepValues;
-  // final RegisterRequestModel registerRequestModel;
 
   const RegistrationStepFormField({
     super.key,
@@ -21,7 +20,6 @@ class RegistrationStepFormField extends StatelessWidget {
     required this.textEditingController,
     required this.scrollPageToBottom,
     required this.stepValues,
-    // required this.registerRequestModel,
   });
 
   @override
@@ -50,27 +48,67 @@ class RegistrationStepFormField extends StatelessWidget {
               completedSteps,
               authCubit.registerRequestModel.password,
             ),
-            onChanged: (value) {
-              switch (stepsList[completedSteps]) {
-                case RegistrationStep.name:
-                  authCubit.registerRequestModel.userName = value;
-                  break;
-                case RegistrationStep.email:
-                  authCubit.registerRequestModel.email = value;
-                  break;
-                case RegistrationStep.password:
-                  authCubit.registerRequestModel.password = value;
-                  break;
-                case RegistrationStep.confirmPassword:
-                  authCubit.registerRequestModel.confirmPassword = value;
-                  break;
-                case RegistrationStep.phone:
-                  authCubit.registerRequestModel.phoneNumber = value;
-                  break;
-              }
-            },
+            onChanged: (value) =>
+                handleInputChange(value, completedSteps, authCubit),
+            prefixIcon: chooseIconForEachStep(completedSteps: completedSteps),
+            keyboardType:
+                chooseKeyboardTypeForEachStep(completedSteps: completedSteps),
           ),
       ],
     );
+  }
+
+  Icon chooseIconForEachStep({required int completedSteps}) {
+    switch (stepsList[completedSteps]) {
+      case RegistrationStep.name:
+        return const Icon(Icons.person);
+      case RegistrationStep.email:
+        return const Icon(Icons.email);
+      case RegistrationStep.password:
+        return const Icon(Icons.lock);
+      case RegistrationStep.confirmPassword:
+        return const Icon(Icons.lock_outline);
+      case RegistrationStep.phone:
+        return const Icon(Icons.phone);
+      default:
+        return const Icon(Icons.help_outline);
+    }
+  }
+
+  TextInputType chooseKeyboardTypeForEachStep({required int completedSteps}) {
+    switch (stepsList[completedSteps]) {
+      case RegistrationStep.name:
+        return TextInputType.text;
+      case RegistrationStep.email:
+        return TextInputType.emailAddress;
+      case RegistrationStep.password:
+      case RegistrationStep.confirmPassword:
+        return TextInputType.text;
+      case RegistrationStep.phone:
+        return TextInputType.phone;
+      default:
+        return TextInputType.text;
+    }
+  }
+
+  void handleInputChange(
+      String value, int completedSteps, AuthCubit authCubit) {
+    switch (stepsList[completedSteps]) {
+      case RegistrationStep.name:
+        authCubit.registerRequestModel.userName = value;
+        break;
+      case RegistrationStep.email:
+        authCubit.registerRequestModel.email = value;
+        break;
+      case RegistrationStep.password:
+        authCubit.registerRequestModel.password = value;
+        break;
+      case RegistrationStep.confirmPassword:
+        authCubit.registerRequestModel.confirmPassword = value;
+        break;
+      case RegistrationStep.phone:
+        authCubit.registerRequestModel.phoneNumber = value;
+        break;
+    }
   }
 }
