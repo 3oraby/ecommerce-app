@@ -1,4 +1,4 @@
-import 'package:e_commerce_app/constants/api_constants.dart';
+import 'package:e_commerce_app/core/helpers/functions/get_photo_url.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
@@ -66,7 +66,7 @@ class ShowProductsDetailsLoadedBody extends StatelessWidget {
                   const VerticalGap(24),
                   // image section
                   Image.network(
-                    "${ApiConstants.baseUrl}${ApiConstants.getPhotoEndPoint}${productModel.photo}",
+                    getPhotoUrl(productModel.photo),
                     width: MediaQuery.of(context).size.width * 0.75,
                     height: MediaQuery.of(context).size.height * 0.3,
                     fit: BoxFit.contain,

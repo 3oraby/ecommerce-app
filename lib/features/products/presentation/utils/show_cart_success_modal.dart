@@ -2,6 +2,7 @@ import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
+import 'package:e_commerce_app/core/widgets/custom_rounded_icon.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
 import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
@@ -34,37 +35,31 @@ void showCartSuccessModal({
               const Spacer(),
               Row(
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: ThemeColors.successfullyDoneColor,
-                      borderRadius: BorderRadius.circular(200),
-                    ),
-                    child: const Center(
-                      child: Icon(
-                        Icons.done_outlined,
-                        size: 32,
-                        color: Colors.white,
-                      ),
+                  const CustomRoundedIcon(
+                    child: Icon(
+                      Icons.done,
+                      color: Colors.white,
                     ),
                   ),
                   const HorizontalGap(24),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        //! make a limit for te name
-                        productModel.name,
-                        style: TextStyles.aDLaMDisplayBlackBold20,
-                      ),
-                      const Text(
-                        "Added to cart",
-                        style: TextStyle(
-                          color: ThemeColors.successfullyDoneColor,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          productModel.name,
+                          style: TextStyles.aDLaMDisplayBlackBold20,
                         ),
-                      ),
-                    ],
+                        const Text(
+                          "Added to cart",
+                          style: TextStyle(
+                            color: ThemeColors.successfullyDoneColor,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
