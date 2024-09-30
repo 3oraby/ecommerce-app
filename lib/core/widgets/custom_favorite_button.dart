@@ -1,3 +1,4 @@
+
 import 'package:e_commerce_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_not_signed_in_dialog.dart';
@@ -13,7 +14,6 @@ class CustomFavoriteButton extends StatefulWidget {
   final ProductModel productModel;
   final bool isFavoritePage;
   final double borderWidth;
-
   const CustomFavoriteButton({
     super.key,
     required this.productModel,
@@ -60,6 +60,12 @@ class _CustomFavoriteButtonState extends State<CustomFavoriteButton> {
           setState(() {
             isLoading = false;
           });
+          if (favoritesState.productId == widget.productModel.id) {
+            setState(() {
+              isFavorite = !isFavorite;
+              widget.productModel.isFavorite = isFavorite ? 1 : 0;
+            });
+          }
         } else if (favoritesState is ToggleFavoritesUnAuthState) {
           setState(() {
             isLoading = false;
@@ -89,27 +95,29 @@ class _CustomFavoriteButtonState extends State<CustomFavoriteButton> {
                   color: isFavorite ? ThemeColors.secondaryColor : Colors.grey,
                 ),
                 iconSize: 30,
-                onPressed: () async {
-                  final success = await BlocProvider.of<FavoritesCubit>(context)
-                      .toggleFavorite(
+                onPressed: () {
+                  BlocProvider.of<FavoritesCubit>(context).toggleFavorite(
                     productId: widget.productModel.id,
                     shouldRefresh: widget.isFavoritePage,
                   );
 
-                  if (mounted) {
-                    if (success) {
-                      setState(() {
-                        isFavorite = !isFavorite;
-                        widget.productModel.isFavorite = isFavorite ? 1 : 0;
-                      });
-                      showCustomSnackBar(
-                        context,
-                        isFavorite
-                            ? 'Added to favorites'
-                            : 'Removed from favorites',
-                      );
-                    }
-                  }
+                  // if (mounted) {
+                  //   if (success) {
+                  //     setState(() {
+                  //       log("change the state");
+                  //       isFavorite = !isFavorite;
+                  //       widget.productModel.isFavorite = isFavorite ? 1 : 0;
+                  //       log("new isFavorite : $isFavorite");
+                  //       log("new isFavorite in product model : ${widget.productModel.isFavorite}");
+                  //     });
+                  // showCustomSnackBar(
+                  //   context,
+                  //   isFavorite
+                  //       ? 'Added to favorites'
+                  //       : 'Removed from favorites',
+                  // );
+                  //     }
+                  //   }
                 },
               ),
       ),

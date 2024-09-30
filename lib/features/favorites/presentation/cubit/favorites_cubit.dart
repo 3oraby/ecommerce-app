@@ -63,7 +63,9 @@ class FavoritesCubit extends Cubit<FavoritesState> {
       final success = await favoritesRepository.toggleFavorite(productId);
       if (success) {
         log('Favorite toggled successfully');
-        emit(ToggleFavoritesLoadedState());
+        emit(ToggleFavoritesLoadedState(
+          productId: productId,
+        ));
         _productsWillMoveToFavorites.remove(productId);
 
         if (shouldRefresh) {

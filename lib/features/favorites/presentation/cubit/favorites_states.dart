@@ -37,7 +37,11 @@ class ToggleFavoritesErrorState extends FavoritesState {
   ToggleFavoritesErrorState({required this.message});
 }
 
-class ToggleFavoritesLoadedState extends FavoritesState {}
+class ToggleFavoritesLoadedState extends FavoritesState {
+  final int productId;
+  ToggleFavoritesLoadedState({required this.productId});
+
+}
 
 class ToggleFavoritesUnAuthState extends FavoritesState {
   final int productId;
