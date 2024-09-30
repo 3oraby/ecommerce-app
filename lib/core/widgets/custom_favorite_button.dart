@@ -1,6 +1,6 @@
+import 'package:e_commerce_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_not_signed_in_dialog.dart';
-import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
 import 'package:e_commerce_app/features/favorites/presentation/cubit/favorites_states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,7 +55,7 @@ class _CustomFavoriteButtonState extends State<CustomFavoriteButton> {
           setState(() {
             isLoading = false;
           });
-          showSnackBar(context, favoritesState.message);
+          showCustomSnackBar(context, favoritesState.message);
         } else if (favoritesState is ToggleFavoritesLoadedState) {
           setState(() {
             isLoading = false;
@@ -102,14 +102,12 @@ class _CustomFavoriteButtonState extends State<CustomFavoriteButton> {
                         isFavorite = !isFavorite;
                         widget.productModel.isFavorite = isFavorite ? 1 : 0;
                       });
-                      showSnackBar(
-                          context,
-                          isFavorite
-                              ? 'Added to favorites'
-                              : 'Removed from favorites',
-                          backgroundColor: isFavorite
-                              ? ThemeColors.successfullyDoneColor
-                              : ThemeColors.mainLabelsColor);
+                      showCustomSnackBar(
+                        context,
+                        isFavorite
+                            ? 'Added to favorites'
+                            : 'Removed from favorites',
+                      );
                     }
                   }
                 },
