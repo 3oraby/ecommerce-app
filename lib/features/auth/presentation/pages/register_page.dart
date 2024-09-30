@@ -4,7 +4,7 @@ import 'package:e_commerce_app/features/auth/constants/register_page_constants.d
 import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:e_commerce_app/features/auth/presentation/pages/login_page.dart';
 import 'package:e_commerce_app/core/helpers/functions/custom_show_modal_bottom_sheet.dart';
-import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
+import 'package:e_commerce_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/features/auth/presentation/widgets/auth_switch_widget.dart';
@@ -155,15 +155,15 @@ class _RegisterPageState extends State<RegisterPage> {
                 inAsyncCall = false;
               });
               if (state.message == "Validation error") {
-                showSnackBar(context, "Email is already in use");
+                showCustomSnackBar(context, "Email is already in use");
               } else {
-                showSnackBar(context, state.message);
+                showCustomSnackBar(context, state.message);
               }
             } else if (state is VerifyEmailErrorState) {
               setState(() {
                 inAsyncCall = false;
               });
-              showSnackBar(context, state.message);
+              showCustomSnackBar(context, state.message);
             } else if (state is VerifyEmailLoadedState) {
               setState(() {
                 inAsyncCall = false;

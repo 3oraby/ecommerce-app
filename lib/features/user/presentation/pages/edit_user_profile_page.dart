@@ -1,6 +1,6 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
-import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
+import 'package:e_commerce_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:e_commerce_app/core/models/user_model.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
@@ -219,7 +219,7 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
               } else if (state is UpdateUserErrorState) {
                 setState(() {
                   isLoading = false;
-                  showSnackBar(context, state.message,
+                  showCustomSnackBar(context, state.message,
                       backgroundColor: ThemeColors.errorColor);
                 });
               } else if (state is UpdateUserLoadedState) {
@@ -228,7 +228,7 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
                   initialName = nameController.text;
                   initialPhoneNumber = phoneNumberController.text;
                   isFormChanged = false;
-                  showSnackBar(context, "Profile updated successfully",
+                  showCustomSnackBar(context, "Profile updated successfully",
                       backgroundColor: ThemeColors.successfullyDoneColor);
                 });
               } else if (state is UserNoNetworkErrorState){

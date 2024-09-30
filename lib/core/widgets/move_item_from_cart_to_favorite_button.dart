@@ -1,7 +1,7 @@
 
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
-import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
+import 'package:e_commerce_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart';
@@ -58,7 +58,7 @@ class _MoveItemFromCartToFavoritesButtonState
           setState(() {
             isLoading = false;
           });
-          showSnackBar(context, state.message);
+          showCustomSnackBar(context, state.message);
         } else if (state is MoveToFavoritesLoadedState) {
           setState(() {
             isLoading = false;

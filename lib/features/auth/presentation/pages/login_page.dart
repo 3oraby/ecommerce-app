@@ -8,7 +8,7 @@ import 'package:e_commerce_app/features/auth/data/models/login_request_model.dar
 import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:e_commerce_app/features/auth/presentation/widgets/auth_switch_widget.dart';
 import 'package:e_commerce_app/core/helpers/functions/custom_show_modal_bottom_sheet.dart';
-import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
+import 'package:e_commerce_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
 import 'package:e_commerce_app/core/utils/validation/validators.dart';
 import 'package:e_commerce_app/core/widgets/custom_text_form_field.dart';
@@ -89,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
               setState(() {
                 isAsyncCall = false;
               });
-              showSnackBar(context, state.message);
+              showCustomSnackBar(context, state.message);
             }
           },
           child: Padding(

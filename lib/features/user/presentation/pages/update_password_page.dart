@@ -1,6 +1,6 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
-import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
+import 'package:e_commerce_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/utils/validation/registration_validators.dart';
@@ -156,13 +156,13 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
               } else if (state is UpdateUserPasswordErrorState) {
                 setState(() {
                   isLoading = false;
-                  showSnackBar(context, state.message,
+                  showCustomSnackBar(context, state.message,
                       backgroundColor: ThemeColors.errorColor);
                 });
               } else if (state is UpdateUserPasswordLoadedState) {
                 setState(() {
                   isLoading = false;
-                  showSnackBar(
+                  showCustomSnackBar(
                       context, "Password has been updated successfully",
                       backgroundColor: ThemeColors.successfullyDoneColor);
                 });

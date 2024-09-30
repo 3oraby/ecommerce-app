@@ -1,6 +1,6 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
-import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
+import 'package:e_commerce_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_rounded_icon.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
@@ -126,7 +126,7 @@ class _MakeNewReviewLoadedBodyState extends State<MakeNewReviewLoadedBody> {
                 setState(() {
                   isOperationLoading = false;
                 });
-                showSnackBar(context, (state as dynamic).message);
+                showCustomSnackBar(context, (state as dynamic).message);
               } else if (state is CreateReviewLoadedState ||
                   state is UpdateReviewLoadedState) {
                 setState(() {

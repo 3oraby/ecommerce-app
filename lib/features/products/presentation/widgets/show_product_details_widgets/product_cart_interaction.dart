@@ -4,7 +4,7 @@ import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/helpers/functions/is_user_signed_in.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_not_signed_in_dialog.dart';
-import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
+import 'package:e_commerce_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
@@ -52,7 +52,7 @@ class _ProductCartInteractionState extends State<ProductCartInteraction> {
       );
     } catch (error) {
       if (mounted) {
-        showSnackBar(context, "Something went wrong. Please try again.");
+        showCustomSnackBar(context, "Something went wrong. Please try again.");
       }
       log(error.toString());
     }
@@ -128,7 +128,7 @@ class _ProductCartInteractionState extends State<ProductCartInteraction> {
                       }
                     } else if (state is CartItemUpdatedErrorState) {
                       if (mounted) {
-                        showSnackBar(context, state.message);
+                        showCustomSnackBar(context, state.message);
                         setState(() {
                           isAddToCartLoading = false;
                         });

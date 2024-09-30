@@ -1,6 +1,6 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
-import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
+import 'package:e_commerce_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
@@ -43,7 +43,7 @@ class _SettingsBodyState extends State<SettingsBody> {
           setState(() {
             isPageLoading = false;
           });
-          showSnackBar(context, state.message);
+          showCustomSnackBar(context, state.message);
         } else if (state is LogOutLoadedState) {
           setState(() {
             isPageLoading = false;

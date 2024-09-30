@@ -1,5 +1,5 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:e_commerce_app/core/helpers/functions/show_snack_bar.dart';
+import 'package:e_commerce_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/features/auth/data/data_sources/log_out_service.dart';
@@ -49,10 +49,10 @@ class UserProfilePage extends StatelessWidget {
                       LogOutResponseModel logOutResponseModel =
                           await LogOutService().logOut();
                       if (logOutResponseModel.status) {
-                        showSnackBar(context, logOutResponseModel.message);
+                        showCustomSnackBar(context, logOutResponseModel.message);
                         Navigator.pushReplacementNamed(context, EntryPage.id);
                       } else {
-                        showSnackBar(context, logOutResponseModel.message);
+                        showCustomSnackBar(context, logOutResponseModel.message);
                       }
                       //! navigate to entry page
                     },
