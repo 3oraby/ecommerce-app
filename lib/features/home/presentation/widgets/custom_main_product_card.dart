@@ -1,3 +1,4 @@
+
 import 'package:e_commerce_app/core/helpers/functions/get_photo_url.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
@@ -5,6 +6,7 @@ import 'package:e_commerce_app/core/widgets/custom_favorite_button.dart';
 import 'package:e_commerce_app/core/widgets/custom_rounded_image_container.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CustomMainProductCard extends StatelessWidget {
   const CustomMainProductCard({
@@ -70,7 +72,7 @@ class CustomMainProductCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  productModel.price.toString(),
+                  NumberFormat.simpleCurrency().format(productModel.price),
                   textAlign: TextAlign.center,
                   style: TextStyles.aDLaMDisplayBlackBold22,
                 ),
