@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
@@ -155,6 +156,7 @@ class PromoImagesSection extends StatelessWidget {
           child: CustomRoundedImageContainer(
             imagePath: HomePageConstants.homeTapBodySalePhotos[index],
             inAsset: true,
+            borderRadius: LocalConstants.kBorderRadius,
           ),
         ),
       ),
