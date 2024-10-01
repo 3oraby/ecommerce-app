@@ -9,6 +9,7 @@ import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cub
 import 'package:e_commerce_app/features/address/presentation/pages/add_address_page.dart';
 import 'package:e_commerce_app/features/address/presentation/utils/get_user_home_address.dart';
 import 'package:e_commerce_app/features/address/presentation/widgets/choose_address_widgets/show_address_details_item.dart';
+import 'package:e_commerce_app/features/cart/presentation/pages/checkout_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -118,7 +119,7 @@ class _ChooseAddressLoadedBodyState extends State<ChooseAddressLoadedBody> {
                         BlocProvider.of<AddressesCubit>(context)
                             .setOrderAddressChosen(
                                 ordersAddresses[selectedAddress]);
-                        Navigator.pop(context, true);
+                        Navigator.pushNamed(context, CheckoutPage.id);
                       },
                     ),
                   ),
