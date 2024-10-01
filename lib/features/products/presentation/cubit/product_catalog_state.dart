@@ -35,6 +35,7 @@ final class GetCategoriesErrorState extends ProductCatalogState {
 }
 
 final class GetProductsByCategoryLoadingState extends ProductCatalogState {}
+final class GetProductsByCategoryEmptyState extends ProductCatalogState {}
 
 final class GetProductsByCategoryLoadedState extends ProductCatalogState {
   final List<ProductModel> products;
@@ -51,6 +52,7 @@ final class GetProductsByCategoryErrorState extends ProductCatalogState {
 }
 
 final class SearchInProductsLoadingState extends ProductCatalogState {}
+final class SearchInProductsEmptyState extends ProductCatalogState {}
 
 final class SearchInProductsLoadedState extends ProductCatalogState {
   final List<ProductModel> products;

@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
+import 'package:e_commerce_app/core/widgets/custom_empty_body_widget.dart';
 import 'package:e_commerce_app/core/widgets/custom_no_internet_connection_body.dart';
 import 'package:e_commerce_app/core/widgets/grid_view_items_loading.dart';
 import 'package:flutter/material.dart';
@@ -116,6 +117,17 @@ class _ShowProductsPageState extends State<ShowProductsPage> {
                         ?.toJson(),
                   );
                 },
+              );
+            } else if (state is GetProductsByCategoryEmptyState ||
+                state is SearchInProductsEmptyState) {
+              return const CustomEmptyBodyWidget(
+                mainLabel: 'No products found!',
+                subLabel: 'Try searching for something else.',
+              );
+            } else if (state is SearchInProductsEmptyState) {
+              return const CustomEmptyBodyWidget(
+                mainLabel: 'No products match your filter!',
+                subLabel: 'Try adjusting your filter criteria.',
               );
             } else {
               return const Center(

@@ -11,7 +11,7 @@ class CustomEmptyBodyWidget extends StatelessWidget {
     super.key,
     required this.mainLabel,
     required this.subLabel,
-    required this.buttonDescription,
+    this.buttonDescription,
     this.imageName = AppImages.imagesNoData,
     this.onButtonPressed,
     this.bodyColor = Colors.white,
@@ -20,7 +20,7 @@ class CustomEmptyBodyWidget extends StatelessWidget {
   final String imageName;
   final String mainLabel;
   final String subLabel;
-  final String buttonDescription;
+  final String? buttonDescription;
   final VoidCallback? onButtonPressed;
   final Color bodyColor;
 
@@ -36,10 +36,8 @@ class CustomEmptyBodyWidget extends StatelessWidget {
             children: [
               Image.asset(
                 imageName,
-                height: MediaQuery.of(context).size.height *
-                    0.25, 
-                width: MediaQuery.of(context).size.width *
-                    0.5, 
+                height: MediaQuery.of(context).size.height * 0.25,
+                width: MediaQuery.of(context).size.width * 0.5,
               ),
               const VerticalGap(20),
               Text(
@@ -59,30 +57,35 @@ class CustomEmptyBodyWidget extends StatelessWidget {
                   color: Colors.black38,
                 ),
               ),
-              const VerticalGap(30),
-              ElevatedButton(
-                onPressed: onButtonPressed ??
-                    () {
-                      HomePageNavigationService.navigateToHome();
-                    },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: ThemeColors.primaryColor,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                  shape: RoundedRectangleBorder(
-                    borderRadius:
-                        BorderRadius.circular(LocalConstants.kBorderRadius),
-                  ),
+              if (buttonDescription != null)
+                Column(
+                  children: [
+                    const VerticalGap(30),
+                    ElevatedButton(
+                      onPressed: onButtonPressed ??
+                          () {
+                            HomePageNavigationService.navigateToHome();
+                          },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ThemeColors.primaryColor,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              LocalConstants.kBorderRadius),
+                        ),
+                      ),
+                      child: Text(
+                        buttonDescription!,
+                        style: GoogleFonts.roboto(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                child: Text(
-                  buttonDescription,
-                  style: GoogleFonts.roboto(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
             ],
           ),
         ),

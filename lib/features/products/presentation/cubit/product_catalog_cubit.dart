@@ -1,4 +1,3 @@
-
 import 'package:e_commerce_app/core/helpers/functions/check_connection_with_internet.dart';
 import 'package:e_commerce_app/core/models/category_model.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
@@ -126,13 +125,17 @@ class ProductCatalogCubit extends Cubit<ProductCatalogState> {
           queryParams: queryParams,
         );
         if (getProductsCategoryResponseModel.status) {
-          setCurrentPage(getProductsCategoryResponseModel.currentPage!);
-          setTotalPages(getProductsCategoryResponseModel.totalPages!);
-          emit(GetProductsByCategoryLoadedState(
-            products: getProductsCategoryResponseModel.products!,
-            filterArgumentsModel:
-                FilterArgumentsModel.fromJson(queryParams ?? {}),
-          ));
+          if (getProductsCategoryResponseModel.products!.isEmpty) {
+            emit(GetProductsByCategoryEmptyState());
+          } else {
+            setCurrentPage(getProductsCategoryResponseModel.currentPage!);
+            setTotalPages(getProductsCategoryResponseModel.totalPages!);
+            emit(GetProductsByCategoryLoadedState(
+              products: getProductsCategoryResponseModel.products!,
+              filterArgumentsModel:
+                  FilterArgumentsModel.fromJson(queryParams ?? {}),
+            ));
+          }
         } else {
           emit(GetProductsByCategoryErrorState(
               message: getProductsCategoryResponseModel.message!));
@@ -156,8 +159,12 @@ class ProductCatalogCubit extends Cubit<ProductCatalogState> {
           productName: productName,
         );
         if (getProductsCategoryResponseModel.status) {
-          emit(SearchInProductsLoadedState(
-              products: getProductsCategoryResponseModel.products!));
+          if (getProductsCategoryResponseModel.products!.isEmpty) {
+            emit(SearchInProductsEmptyState());
+          } else {
+            emit(SearchInProductsLoadedState(
+                products: getProductsCategoryResponseModel.products!));
+          }
         } else {
           emit(SearchInProductsErrorState(
               message: getProductsCategoryResponseModel.message!));
