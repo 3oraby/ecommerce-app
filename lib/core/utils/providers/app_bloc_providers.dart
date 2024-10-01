@@ -1,4 +1,3 @@
-import 'package:e_commerce_app/e_commerce_app.dart';
 import 'package:e_commerce_app/features/address/data/data_sources/get_all_addresses_service.dart';
 import 'package:e_commerce_app/features/address/data/data_sources/get_all_orders_addresses_service.dart';
 import 'package:e_commerce_app/features/address/data/repositories/addresses_repository_impl.dart';
@@ -23,7 +22,6 @@ import 'package:e_commerce_app/features/favorites/data/data_sources/get_favorite
 import 'package:e_commerce_app/features/favorites/data/repositories/favorites_repository_impl.dart';
 import 'package:e_commerce_app/features/favorites/presentation/cubit/favorites_cubit.dart';
 
-import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/features/home/data/data_sources/get_categories_service.dart';
 import 'package:e_commerce_app/features/home/data/repositories/category_repository_impl.dart';
 import 'package:e_commerce_app/features/orders/data/data_sources/cancel_item_from_order_service.dart';
@@ -52,115 +50,92 @@ import 'package:e_commerce_app/features/user/data/data_sources/update_user_passw
 import 'package:e_commerce_app/features/user/data/data_sources/update_user_service.dart';
 import 'package:e_commerce_app/features/user/data/repositories/user_repository_impl.dart';
 import 'package:e_commerce_app/features/user/presentation/cubit/user_cubit.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await SharedPreferencesSingleton.init();
-  bool isFirstTime = SharedPreferencesSingleton.getBool("isFirstTime");
-  // SharedPreferencesSingleton.deleteStringFromSharedPreferences(
-  //     LocalConstants.userAddressModelInPref);
-  // SharedPreferencesSingleton.deleteStringFromSharedPreferences(
-  //     LocalConstants.userModelNameInPref);
-  // SharedPreferencesSingleton.deleteStringFromSharedPreferences(
-  //     LocalConstants.accessTokenNameInPref);
-  // SharedPreferencesSingleton.deleteStringFromSharedPreferences(
-  //     LocalConstants.refreshTokenNameInPref);
-  runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => AuthCubit(
-            authRepository: AuthRepositoryImpl(
-              logOutService: LogOutService(),
-              loginService: LoginService(),
-              registerService: RegisterService(),
-              verifyEmailService: VerifyEmailService(),
-            ),
-          ),
-        ),
-        BlocProvider(
-          create: (context) => FavoritesCubit(
-            favoritesRepository: FavoritesRepositoryImpl(
-              getFavoritesService: GetFavoritesService(),
-              addOrDeleteFavoritesService: AddOrDeleteFavoritesService(),
-            ),
-          ),
-        ),
-        // Addresses cubit
-        BlocProvider(
-          create: (context) => AddressesCubit(
-            addressesRepository: AddressesRepositoryImpl(
-              getAllAddressesService: GetAllAddressesService(),
-              getAllOrdersAddressesService: GetAllOrdersAddressesService(),
-            ),
-          ),
-        ),
-        BlocProvider(
-          create: (context) => CartCubit(
-            cartRepository: CartRepositoryImpl(
-              addToCartService: AddToCartService(),
-              deleteFromCartService: DeleteFromCartService(),
-              showCartPriceService: ShowCartPriceService(),
-              showCartService: ShowCartService(),
-              showCartItemService: ShowCartItemService(),
-              updateCartItemService: UpdateCartItemService(),
-              checkProductInCartService: CheckProductInCartService(),
-            ),
-          ),
-        ),
-        BlocProvider(
-          create: (context) => UserCubit(
-            userRepository: UserRepositoryImpl(
-              getUserService: GetUserService(),
-              updateUserService: UpdateUserService(),
-              logOutService: LogOutService(),
-              updateUserPasswordService: UpdateUserPasswordService(),
-            ),
-          ),
-        ),
-        BlocProvider(
-          create: (context) => OrderCubit(
-            orderRepository: OrderRepositoryImpl(
-              checkoutService: CheckoutService(),
-              getOrderDataService: GetOrderDataService(),
-              getAllOrdersService: GetAllOrdersService(),
-              cancelItemFromOrderService: CancelItemFromOrderService(),
-            ),
-          ),
-        ),
-        BlocProvider(
-          create: (context) => ReviewCubit(
-            reviewRepository: ReviewRepositoryImpl(
-              createReviewService: CreateReviewService(),
-              deleteReviewService: DeleteReviewService(),
-              getProductAverageRatingService: GetProductAverageRatingService(),
-              getProductReviewsService: GetProductReviewsService(),
-              getReviewService: GetReviewService(),
-              updateReviewService: UpdateReviewService(),
-              checkUserReviewForProductService:
-                  CheckUserReviewForProductService(),
-            ),
-          ),
-        ),
-        BlocProvider(
-          create: (context) => ProductCatalogCubit(
-            productRepository: ProductRepositoryImpl(
-              getHomeDetailsService: GetHomeDetailsService(),
-              getProductByCategoryService: GetProductByCategoryService(),
-              searchInProductsService: SearchInProductsService(),
-              getProductDetailsService: GetProductDetailsService(),
-            ),
-            categoryRepository: CategoryRepositoryImpl(
-              getCategoriesService: GetCategoriesService(),
-            ),
-          ),
-        ),
-      ],
-      child: ECommerceApp(
-        isFirstTime: isFirstTime,
+List<BlocProvider> appBlocProviders = [
+  BlocProvider(
+    create: (context) => AuthCubit(
+      authRepository: AuthRepositoryImpl(
+        logOutService: LogOutService(),
+        loginService: LoginService(),
+        registerService: RegisterService(),
+        verifyEmailService: VerifyEmailService(),
       ),
     ),
-  );
-}
+  ),
+  BlocProvider(
+    create: (context) => FavoritesCubit(
+      favoritesRepository: FavoritesRepositoryImpl(
+        getFavoritesService: GetFavoritesService(),
+        addOrDeleteFavoritesService: AddOrDeleteFavoritesService(),
+      ),
+    ),
+  ),
+  BlocProvider(
+    create: (context) => AddressesCubit(
+      addressesRepository: AddressesRepositoryImpl(
+        getAllAddressesService: GetAllAddressesService(),
+        getAllOrdersAddressesService: GetAllOrdersAddressesService(),
+      ),
+    ),
+  ),
+  BlocProvider(
+    create: (context) => CartCubit(
+      cartRepository: CartRepositoryImpl(
+        addToCartService: AddToCartService(),
+        deleteFromCartService: DeleteFromCartService(),
+        showCartPriceService: ShowCartPriceService(),
+        showCartService: ShowCartService(),
+        showCartItemService: ShowCartItemService(),
+        updateCartItemService: UpdateCartItemService(),
+        checkProductInCartService: CheckProductInCartService(),
+      ),
+    ),
+  ),
+  BlocProvider(
+    create: (context) => UserCubit(
+      userRepository: UserRepositoryImpl(
+        getUserService: GetUserService(),
+        updateUserService: UpdateUserService(),
+        logOutService: LogOutService(),
+        updateUserPasswordService: UpdateUserPasswordService(),
+      ),
+    ),
+  ),
+  BlocProvider(
+    create: (context) => OrderCubit(
+      orderRepository: OrderRepositoryImpl(
+        checkoutService: CheckoutService(),
+        getOrderDataService: GetOrderDataService(),
+        getAllOrdersService: GetAllOrdersService(),
+        cancelItemFromOrderService: CancelItemFromOrderService(),
+      ),
+    ),
+  ),
+  BlocProvider(
+    create: (context) => ReviewCubit(
+      reviewRepository: ReviewRepositoryImpl(
+        createReviewService: CreateReviewService(),
+        deleteReviewService: DeleteReviewService(),
+        getProductAverageRatingService: GetProductAverageRatingService(),
+        getProductReviewsService: GetProductReviewsService(),
+        getReviewService: GetReviewService(),
+        updateReviewService: UpdateReviewService(),
+        checkUserReviewForProductService: CheckUserReviewForProductService(),
+      ),
+    ),
+  ),
+  BlocProvider(
+    create: (context) => ProductCatalogCubit(
+      productRepository: ProductRepositoryImpl(
+        getHomeDetailsService: GetHomeDetailsService(),
+        getProductByCategoryService: GetProductByCategoryService(),
+        searchInProductsService: SearchInProductsService(),
+        getProductDetailsService: GetProductDetailsService(),
+      ),
+      categoryRepository: CategoryRepositoryImpl(
+        getCategoriesService: GetCategoriesService(),
+      ),
+    ),
+  ),
+];
