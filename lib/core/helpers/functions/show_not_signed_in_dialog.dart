@@ -1,3 +1,5 @@
+import 'package:e_commerce_app/constants/local_constants.dart';
+import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/features/auth/presentation/pages/entry_page.dart';
@@ -32,7 +34,13 @@ void showNotSignedInDialog(BuildContext context) {
             descriptionSize: 20,
             descriptionColor: ThemeColors.successfullyDoneColor,
             onPressed: () async {
-              Navigator.pushReplacementNamed(context, EntryPage.id);
+              SharedPreferencesSingleton.deleteStringFromSharedPreferences(
+                  LocalConstants.lastRouteIdInPref);
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                EntryPage.id,
+                (Route<dynamic> route) => false,
+              );
             },
           ),
         ],

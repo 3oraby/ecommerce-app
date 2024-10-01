@@ -1,7 +1,6 @@
 import 'package:e_commerce_app/core/models/bottom_navigation_bar_model.dart';
 import 'package:flutter/material.dart';
 
-//! move it to the constants which in the home feature
 class LocalConstants {
   static const int limitProductNumberInCart = 15;
   static const double kHorizontalPadding = 16;
@@ -11,6 +10,7 @@ class LocalConstants {
   static const String userModelNameInPref = "kUserModel";
   static const String isOnBoardingSeenNameInPref = "isFirstTime";
   static const String userAddressModelInPref = "kUserAddressModel";
+  static const String lastRouteIdInPref = "kLastRouteIdInPref";
 
   static const internalPadding = EdgeInsets.symmetric(
     horizontal: kHorizontalPadding,

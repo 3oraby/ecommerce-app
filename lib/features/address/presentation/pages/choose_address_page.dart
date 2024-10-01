@@ -1,3 +1,5 @@
+import 'package:e_commerce_app/constants/local_constants.dart';
+import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_no_internet_connection_body.dart';
@@ -13,7 +15,6 @@ class ChooseAddressPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final AddressesCubit addressesCubit =
         BlocProvider.of<AddressesCubit>(context);
     addressesCubit.getOrdersAddresses();
@@ -50,6 +51,8 @@ class ChooseAddressPage extends StatelessWidget {
               getOrdersAddressesResponseModel:
                   state.getOrdersAddressesResponseModel,
               onAddAddressButtonPressed: () async {
+                SharedPreferencesSingleton.setString(
+                    LocalConstants.lastRouteIdInPref, ChooseAddressPage.id);
                 final isRefresh =
                     await Navigator.pushNamed(context, AddAddressPage.id);
 

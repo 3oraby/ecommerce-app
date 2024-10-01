@@ -1,8 +1,11 @@
+import 'package:e_commerce_app/constants/local_constants.dart';
+import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_no_internet_connection_body.dart';
 import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cubit.dart';
 import 'package:e_commerce_app/features/address/presentation/widgets/add_address_widgets/add_address_loaded_body.dart';
+import 'package:e_commerce_app/features/auth/presentation/pages/entry_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -23,7 +26,17 @@ class AddAddressPage extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.pop(context, true);
+              String? lastRoute = SharedPreferencesSingleton.getString(
+                  LocalConstants.lastRouteIdInPref);
+              if (lastRoute == null) {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  EntryPage.id,
+                  (Route<dynamic> route) => false,
+                );
+              } else {
+                Navigator.pop(context, true);
+              }
             },
             child: const Text(
               "Cancel",
@@ -64,11 +77,8 @@ class AddAddressPage extends StatelessWidget {
             return CustomNoInternetConnectionBody(onTryAgainPressed: () {
               addressesCubit.getAllAddresses();
             });
-          } else {
-            return const Center(
-              child: Text("it is not available to add addresses now"),
-            );
           }
+          return const SizedBox();
         },
       ),
     );
