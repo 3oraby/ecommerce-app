@@ -44,11 +44,13 @@ class CustomTextFormFieldWidget extends StatefulWidget {
     this.isEnabled = true,
     this.focusedBorderColor,
     this.initialValue,
+    this.onSaved,
   });
 
   final String? labelText;
   final String? hintText;
   final void Function(String)? onChanged;
+  final Function(String?)?  onSaved;
   final bool isObscure;
   final FormFieldValidator<String>? validator;
   final TextInputType keyboardType;
@@ -101,6 +103,7 @@ class _CustomTextFormFieldWidgetState extends State<CustomTextFormFieldWidget> {
       obscureText: isObscure!,
       validator: widget.validator,
       onChanged: widget.onChanged,
+      onSaved: widget.onSaved,
       keyboardType: widget.keyboardType,
       onTap: widget.onTap,
       style: widget.textStyle,
