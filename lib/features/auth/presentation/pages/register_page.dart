@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
+import 'package:e_commerce_app/core/utils/app_assets/images/app_images.dart';
 import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
 import 'package:e_commerce_app/features/auth/constants/register_page_constants.dart';
 import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit.dart';
@@ -26,18 +27,14 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  // keys
   GlobalKey<FormState> formKey = GlobalKey();
-  // controllers
+
   final PageController pageController = PageController();
   final ScrollController stepperScrollController = ScrollController();
   final ScrollController listViewScrollController = ScrollController();
   final TextEditingController textEditingController = TextEditingController();
-  // models
-  // RegisterRequestModel? registerRequestModel;
-  // variables
+
   int completedSteps = 0;
-  bool inAsyncCall = false;
   final Map<RegistrationStep, String?> stepValues = {};
   late UserCubit userCubit;
   late AuthCubit authCubit;
@@ -47,10 +44,8 @@ class _RegisterPageState extends State<RegisterPage> {
     super.initState();
     userCubit = BlocProvider.of<UserCubit>(context);
     authCubit = BlocProvider.of<AuthCubit>(context);
-    // registerRequestModel = authCubit.registerRequestModel;
   }
 
-  // methods
   void scrollPageToBottom() {
     listViewScrollController.animateTo(
       listViewScrollController.position.maxScrollExtent,
@@ -70,13 +65,11 @@ class _RegisterPageState extends State<RegisterPage> {
 
   void onPageChanged(int currentPage) {
     scrollToActiveTile(currentPage);
-    // Load the text value for the new step
     textEditingController.text = stepValues[stepsList[completedSteps]] ?? '';
   }
 
-  Future<void> onContinuePressed(BuildContext context) async {
+  void onContinuePressed() {
     if (completedSteps < stepsList.length) {
-      // Save the current text value
       stepValues[stepsList[completedSteps]] = textEditingController.text;
       setState(() {
         completedSteps++;
@@ -94,13 +87,11 @@ class _RegisterPageState extends State<RegisterPage> {
   void onBackPressed() {
     if (completedSteps > 0) {
       if (completedSteps < stepsList.length) {
-        // Save the current text value
         stepValues[stepsList[completedSteps]] = textEditingController.text;
       }
       setState(() {
         completedSteps--;
         if (stepsList[completedSteps] == RegistrationStep.confirmPassword) {
-          // skip confirm password to change the password first
           completedSteps--;
         }
       });
@@ -115,7 +106,6 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   void dispose() {
     super.dispose();
-    // dispose controllers
     pageController.dispose();
     stepperScrollController.dispose();
     listViewScrollController.dispose();
@@ -124,157 +114,154 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ModalProgressHUD(
-      inAsyncCall: inAsyncCall,
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: BlocListener<AuthCubit, AuthState>(
-          listener: (context, state) {
-            if (state is AuthNoNetworkErrorState){
-              showErrorWithInternetDialog(context);
-            }
-            else if (state is RegisterLoadingState ||
-                state is VerifyEmailLoadingState) {
-              setState(() {
-                inAsyncCall = true;
-              });
-            } else if (state is RegisterLoadedState) {
-              setState(() {
-                inAsyncCall = true;
-              });
-              String link = state.verifyAccLink;
-              Uri uri = Uri.parse(link);
-              String token = uri.queryParameters['token']!;
-              String email = uri.queryParameters['email']!;
-              authCubit.verifyEmail(
-                accessToken: token,
-                email: email,
-              );
-            } else if (state is RegisterErrorState) {
-              setState(() {
-                inAsyncCall = false;
-              });
-              if (state.message == "Validation error") {
-                showCustomSnackBar(context, "Email is already in use");
-              } else {
-                showCustomSnackBar(context, state.message);
-              }
-            } else if (state is VerifyEmailErrorState) {
-              setState(() {
-                inAsyncCall = false;
-              });
-              showCustomSnackBar(context, state.message);
-            } else if (state is VerifyEmailLoadedState) {
-              setState(() {
-                inAsyncCall = false;
-              });
-              userCubit.setUserModel(state.userModel);
+    return BlocConsumer<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is AuthNoNetworkErrorState) {
+          showErrorWithInternetDialog(context);
+        } else if (state is RegisterLoadingState ||
+            state is VerifyEmailLoadingState) {
+        } else if (state is RegisterLoadedState) {
+          String link = state.verifyAccLink;
+          Uri uri = Uri.parse(link);
+          String token = uri.queryParameters['token']!;
+          String email = uri.queryParameters['email']!;
+          authCubit.verifyEmail(
+            accessToken: token,
+            email: email,
+          );
+        } else if (state is RegisterErrorState) {
+          if (state.message == "Validation error") {
+            showCustomSnackBar(context, "Email is already in use");
+          } else {
+            showCustomSnackBar(context, state.message);
+          }
+        } else if (state is VerifyEmailErrorState) {
+          showCustomSnackBar(context, state.message);
+        } else if (state is VerifyEmailLoadedState) {
+          userCubit.setUserModel(state.userModel);
 
-              customShowModalBottomSheet(
-                context: context,
-                imageName: "assets/animations/orderSuccessfullyDone.json",
-                sheetDescription:
-                    "Congratulations! You have successfully registered. Welcome aboard! We're excited to have you with us.",
-                onPressed: () {
-                  HomePageNavigationService.navigateToHome();
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    HomePage.id,
-                    (Route<dynamic> route) => false,
-                  );
-                },
+          customShowModalBottomSheet(
+            context: context,
+            imageName: "assets/animations/orderSuccessfullyDone.json",
+            sheetDescription:
+                "Congratulations! You have successfully registered. Welcome aboard! We're excited to have you with us.",
+            onPressed: () {
+              HomePageNavigationService.navigateToHome();
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                HomePage.id,
+                (Route<dynamic> route) => false,
               );
-            }
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: ListView(
-              controller: listViewScrollController,
-              reverse: true,
-              children: [
-                const VerticalGap(4),
-                if (completedSteps != 0)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CustomTriggerButton(
-                        icon: Icons.arrow_back,
-                        onPressed: onBackPressed,
-                        buttonWidth: 70,
-                        buttonHeight: 40,
-                      ),
-                    ],
+            },
+          );
+        }
+      },
+      builder: (context, state) {
+        return ModalProgressHUD(
+          inAsyncCall: (state is RegisterLoadingState) ? true : false,
+          child: Scaffold(
+            backgroundColor: Colors.white,
+            body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                children: [
+                  const Expanded(
+                    child: SizedBox(),
                   ),
-                const VerticalGap(8),
-                Image.asset(
-                  "assets/images/register_page.png",
-                  height: 300,
-                ),
-                Text(
-                  "Create account",
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.pollerOne(
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const VerticalGap(24),
-                SizedBox(
-                  height: 240,
-                  child: Form(
-                    key: formKey,
-                    child: PageView(
-                      controller: pageController,
-                      onPageChanged: onPageChanged,
-                      physics:
-                          const NeverScrollableScrollPhysics(), // to prevent user scrolling
-                      children: stepsList.map((step) {
-                        return RegistrationStepFormField(
-                          stepperScrollController: stepperScrollController,
-                          textEditingController: textEditingController,
-                          completedSteps: completedSteps,
-                          scrollPageToBottom: scrollPageToBottom,
-                          stepValues: stepValues,
-                          // registerRequestModel: registerRequestModel,
-                        );
-                      }).toList(),
+                  Expanded(
+                    flex: 12,
+                    child: ListView(
+                      controller: listViewScrollController,
+                      children: [
+                        const VerticalGap(4),
+                        if (completedSteps != 0)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              CustomTriggerButton(
+                                icon: Icons.arrow_back,
+                                onPressed: onBackPressed,
+                                buttonWidth: 70,
+                                buttonHeight: 40,
+                              ),
+                            ],
+                          ),
+                        const VerticalGap(8),
+                        Image.asset(
+                          AppImages.imagesRegisterPage,
+                          height: 300,
+                        ),
+                        Text(
+                          "Create account",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.pollerOne(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const VerticalGap(24),
+                        SizedBox(
+                          height: 240,
+                          child: Form(
+                            key: formKey,
+                            child: PageView(
+                              controller: pageController,
+                              onPageChanged: onPageChanged,
+                              physics: const NeverScrollableScrollPhysics(),
+                              children: stepsList.map((step) {
+                                return RegistrationStepFormField(
+                                  stepperScrollController:
+                                      stepperScrollController,
+                                  textEditingController: textEditingController,
+                                  completedSteps: completedSteps,
+                                  scrollPageToBottom: scrollPageToBottom,
+                                  stepValues: stepValues,
+                                  // registerRequestModel: registerRequestModel,
+                                );
+                              }).toList(),
+                            ),
+                          ),
+                        ),
+                        const VerticalGap(24),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CustomTriggerButton(
+                              description: completedSteps == stepsList.length
+                                  ? "Create account"
+                                  : "Continue",
+                              backgroundColor:
+                                  completedSteps == stepsList.length
+                                      ? ThemeColors.secondaryColor
+                                      : ThemeColors.primaryColor,
+                              onPressed: () async {
+                                if (formKey.currentState!.validate()) {
+                                  onContinuePressed();
+                                }
+                              },
+                              descriptionColor: Colors.white,
+                              buttonWidth: 300,
+                            ),
+                          ],
+                        ),
+                        AuthSwitchWidget(
+                          promptText: "already have an account ?",
+                          actionText: "Login",
+                          onActionPressed: () {
+                            Navigator.pushReplacementNamed(
+                                context, LoginPage.id);
+                          },
+                        ),
+                        const VerticalGap(48),
+                      ],
                     ),
                   ),
-                ),
-                const VerticalGap(24),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CustomTriggerButton(
-                      description: completedSteps == stepsList.length
-                          ? "Create account"
-                          : "Continue",
-                      backgroundColor: completedSteps == stepsList.length
-                          ? ThemeColors.secondaryColor
-                          : ThemeColors.primaryColor,
-                      onPressed: () async {
-                        if (formKey.currentState!.validate()) {
-                          await onContinuePressed(context);
-                        }
-                      },
-                      descriptionColor: Colors.white,
-                      buttonWidth: 300,
-                    ),
-                  ],
-                ),
-                AuthSwitchWidget(
-                  promptText: "already have an account ?",
-                  actionText: "Login",
-                  onActionPressed: () {
-                    Navigator.pushReplacementNamed(context, LoginPage.id);
-                  },
-                ),
-                const VerticalGap(48),
-              ].reversed.toList(),
+                ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
 import 'package:e_commerce_app/core/utils/app_assets/images/app_images.dart';
@@ -14,7 +13,7 @@ import 'package:e_commerce_app/core/utils/validation/validators.dart';
 import 'package:e_commerce_app/core/widgets/custom_text_form_field.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
-import 'package:e_commerce_app/features/user/presentation/cubit/user_cubit.dart';
+import 'package:e_commerce_app/features/user/presentation/utils/save_user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -53,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
         if (state is AuthNoNetworkErrorState) {
           showErrorWithInternetDialog(context);
         } else if (state is LoginLoadedState) {
-          BlocProvider.of<UserCubit>(context).setUserModel(state.userModel);
+          saveUserModel(state.userModel);
 
           customShowModalBottomSheet(
             context: context,
@@ -82,55 +81,61 @@ class _LoginPageState extends State<LoginPage> {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Form(
                 key: formKey,
-                child: ListView(
-                  reverse: true,
+                child: Column(
                   children: [
-                    Image.asset(
-                      AppImages.imagesLoginPage,
-                      height: 300,
-                    ),
-                    Text(
-                      "Log in",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.pollerOne(
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
+                    const Expanded(child: SizedBox()),
+                    Expanded(
+                      flex: 12,
+                      child: ListView(
+                        children: [
+                          Image.asset(
+                            AppImages.imagesLoginPage,
+                            height: 300,
+                          ),
+                          Text(
+                            "Log in",
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.pollerOne(
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const VerticalGap(30),
+                          CustomTextFormFieldWidget(
+                            labelText: "Email",
+                            prefixIcon: const Icon(Icons.email),
+                            onChanged: (email) {
+                              loginRequestModel.email = email;
+                            },
+                            validator: Validators.emailValidator,
+                          ),
+                          const VerticalGap(30),
+                          CustomTextFormFieldWidget(
+                            labelText: "Password",
+                            isObscure: true,
+                            prefixIcon: const Icon(Icons.lock),
+                            onChanged: (password) {
+                              loginRequestModel.password = password;
+                            },
+                            validator: Validators.validateLoginPassword,
+                          ),
+                          const VerticalGap(30),
+                          CustomTriggerButton(
+                            onPressed: _handleLogin,
+                            description: "Log In",
+                          ),
+                          AuthSwitchWidget(
+                            promptText: "don't have an account?",
+                            actionText: "Register",
+                            onActionPressed: () {
+                              Navigator.pushReplacementNamed(
+                                  context, AddAddressPage.id);
+                            },
+                          ),
+                        ],
                       ),
                     ),
-                    const VerticalGap(30),
-                    CustomTextFormFieldWidget(
-                      labelText: "Email",
-                      prefixIcon: const Icon(Icons.email),
-                      onChanged: (email) {
-                        loginRequestModel.email = email;
-                      },
-                      validator: Validators.emailValidator,
-                    ),
-                    const VerticalGap(30),
-                    CustomTextFormFieldWidget(
-                      labelText: "Password",
-                      isObscure: true,
-                      prefixIcon: const Icon(Icons.lock),
-                      onChanged: (password) {
-                        loginRequestModel.password = password;
-                      },
-                      validator: Validators.validateLoginPassword,
-                    ),
-                    const VerticalGap(30),
-                    CustomTriggerButton(
-                      onPressed: _handleLogin,
-                      description: "Log In",
-                    ),
-                    AuthSwitchWidget(
-                      promptText: "don't have an account?",
-                      actionText: "Register",
-                      onActionPressed: () {
-                        Navigator.pushReplacementNamed(
-                            context, AddAddressPage.id);
-                      },
-                    ),
-                    const VerticalGap(100),
-                  ].reversed.toList(),
+                  ],
                 ),
               ),
             ),
