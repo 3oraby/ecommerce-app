@@ -97,7 +97,6 @@ List<BlocProvider> appBlocProviders = [
       userRepository: UserRepositoryImpl(
         getUserService: GetUserService(),
         updateUserService: UpdateUserService(),
-        logOutService: LogOutService(),
         updateUserPasswordService: UpdateUserPasswordService(),
       ),
     ),

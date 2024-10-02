@@ -1,4 +1,3 @@
-import 'package:e_commerce_app/features/auth/data/data_sources/log_out_service.dart';
 import 'package:e_commerce_app/features/user/data/data_sources/get_user_service.dart';
 import 'package:e_commerce_app/features/user/data/data_sources/update_user_password_service.dart';
 import 'package:e_commerce_app/features/user/data/data_sources/update_user_service.dart';
@@ -8,13 +7,11 @@ import 'package:e_commerce_app/features/user/data/repositories/user_repository.d
 class UserRepositoryImpl implements UserRepository {
   final GetUserService getUserService;
   final UpdateUserService updateUserService;
-  final LogOutService logOutService;
   final UpdateUserPasswordService updateUserPasswordService;
 
   UserRepositoryImpl({
     required this.getUserService,
     required this.updateUserService,
-    required this.logOutService,
     required this.updateUserPasswordService,
   });
 
