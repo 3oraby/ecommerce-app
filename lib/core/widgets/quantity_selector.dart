@@ -19,7 +19,6 @@ class QuantitySelector extends StatefulWidget {
   });
   final ValueChanged<int> onQuantitySelected;
   final int productAmount;
-
   final VoidCallback onCancel;
   final int? productQuantityInCart;
 
@@ -40,13 +39,12 @@ class _QuantitySelectorState extends State<QuantitySelector> {
   Widget build(BuildContext context) {
     return BlocListener<CartCubit, CartState>(
       listenWhen: (previous, current) {
-        return current is UpdateCartNoNetworkErrorState ;
+        return current is UpdateCartNoNetworkErrorState;
       },
       listener: (context, state) {
         if (state is UpdateCartNoNetworkErrorState) {
           showErrorWithInternetDialog(context);
-
-        } 
+        }
       },
       child: Column(
         children: [
@@ -86,13 +84,17 @@ class _QuantitySelectorState extends State<QuantitySelector> {
                   height: 65,
                   width: 80,
                   decoration: BoxDecoration(
+                    color: amountChosen == index + 1
+                        ? Colors.white
+                        : ThemeColors.actionButtonsBackgroundColor,
                     border: Border.all(
                       width: (amountChosen == index + 1) ? 2 : 1,
                       color: (amountChosen == index + 1)
                           ? ThemeColors.primaryColor
                           : Colors.grey,
                     ),
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius:
+                        BorderRadius.circular(LocalConstants.kBorderRadius),
                   ),
                   child: Center(
                     child: Text(
