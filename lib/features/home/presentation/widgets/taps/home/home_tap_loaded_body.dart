@@ -33,7 +33,6 @@ class HomeTapLoadedBody extends StatefulWidget {
 }
 
 class _HomeTapLoadedBodyState extends State<HomeTapLoadedBody> {
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -108,8 +107,7 @@ class _HomeTapLoadedBodyState extends State<HomeTapLoadedBody> {
                           child: GestureDetector(
                             onTap: () {
                               final ProductCatalogCubit productCatalogCubit =
-                                  BlocProvider.of<ProductCatalogCubit>(
-                                      context);
+                                  BlocProvider.of<ProductCatalogCubit>(context);
                               productCatalogCubit
                                   .setSelectedProduct(products[productIndex]);
                               HomePageNavigationService.navigateToHome();
@@ -147,7 +145,7 @@ class PromoImagesSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 200,
+      height: MediaQuery.of(context).size.height * 0.2,
       child: PageView.builder(
         controller: pageController,
         allowImplicitScrolling: true,

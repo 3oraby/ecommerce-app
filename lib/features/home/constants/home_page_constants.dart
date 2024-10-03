@@ -6,13 +6,12 @@ class HomePageConstants {
   final UserModel ?userModel;
   HomePageConstants({this.userModel});
   
-  // tabs
   static const List homePageTabs = ["Home", "Category"];
   static const Color selectedColor = Colors.black;
   static const Color unSelectedColor = Colors.grey;
 
-  // home tab body
   static const List homeTapBodySalePhotos = [
+    AppImages.imagesSalesPhoto4,
     AppImages.imagesSalesPhoto1,
     AppImages.imagesSalesPhoto2,
     AppImages.imagesSalesPhoto3,

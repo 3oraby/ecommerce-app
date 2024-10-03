@@ -1,5 +1,5 @@
 // ignore_for_file: prefer_single_quotes
-class AppImages {
+class AppImages{
   AppImages._();
   
   /// Assets for imagesAppLogo
@@ -45,6 +45,10 @@ class AppImages {
   /// Assets for imagesSalesPhoto3
   /// assets/images/sales_photo3.jpg
   static const String imagesSalesPhoto3 = "assets/images/sales_photo3.jpg";
+
+  /// Assets for imagesSalesPhoto4
+  /// assets/images/sales_photo4.jpg
+  static const String imagesSalesPhoto4 = "assets/images/sales_photo4.jpg";
 
   /// Assets for imagesSplashPage
   /// assets/images/splash_page.png
