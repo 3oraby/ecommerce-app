@@ -129,6 +129,7 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
                             style: TextStyle(
                               fontSize: 22,
                               fontWeight: FontWeight.w500,
+                              color: ThemeColors.unEnabledButtonsColor,
                             ),
                           ),
                           CustomTextFormFieldWidget(
@@ -161,6 +162,7 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
                             fillColor: Colors.white,
                             makeBorderForTextField: false,
                             textStyle: GoogleFonts.rubik(
+                              color: Colors.grey[700],
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
                             ),
@@ -191,6 +193,7 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
                             textStyle: GoogleFonts.rubik(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
+                              color: Colors.grey[700],
                             ),
                             prefixIcon: const Icon(
                               Icons.phone,
@@ -231,7 +234,7 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
                   showCustomSnackBar(context, "Profile updated successfully",
                       backgroundColor: ThemeColors.successfullyDoneColor);
                 });
-              } else if (state is UserNoNetworkErrorState){
+              } else if (state is UserNoNetworkErrorState) {
                 showErrorWithInternetDialog(context);
               }
             },
