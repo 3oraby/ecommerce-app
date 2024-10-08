@@ -55,7 +55,6 @@ class ShowProductsDetailsLoadedBody extends StatelessWidget {
                     productQuantityInCart: productQuantityInCart,
                   ),
                   const VerticalGap(16),
-                  // description section
                   Text(
                     productModel.description,
                     style: GoogleFonts.actor(
@@ -65,7 +64,6 @@ class ShowProductsDetailsLoadedBody extends StatelessWidget {
                     maxLines: 6,
                   ),
                   const VerticalGap(24),
-                  // image section
                   Image.network(
                     getPhotoUrl(productModel.photo),
                     width: MediaQuery.of(context).size.width * 0.75,
@@ -74,11 +72,10 @@ class ShowProductsDetailsLoadedBody extends StatelessWidget {
                     errorBuilder: (BuildContext context, Object exception,
                         StackTrace? stackTrace) {
                       return Image.asset(
-                          AppImages.imagesNotDownloaded); // Fallback image
+                          AppImages.imagesNotDownloaded); 
                     },
                   ),
                   const VerticalGap(36),
-                  // price section
                   Row(
                     children: [
                       const Text(
