@@ -222,8 +222,10 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
               } else if (state is UpdateUserErrorState) {
                 setState(() {
                   isLoading = false;
-                  showCustomSnackBar(context, state.message,
-                      backgroundColor: ThemeColors.errorColor);
+                  showCustomSnackBar(
+                    context,
+                    state.message,
+                  );
                 });
               } else if (state is UpdateUserLoadedState) {
                 setState(() {
@@ -231,8 +233,10 @@ class _EditUserProfilePageState extends State<EditUserProfilePage> {
                   initialName = nameController.text;
                   initialPhoneNumber = phoneNumberController.text;
                   isFormChanged = false;
-                  showCustomSnackBar(context, "Profile updated successfully",
-                      backgroundColor: ThemeColors.successfullyDoneColor);
+                  showCustomSnackBar(
+                    context,
+                    "Profile updated successfully",
+                  );
                 });
               } else if (state is UserNoNetworkErrorState) {
                 showErrorWithInternetDialog(context);
