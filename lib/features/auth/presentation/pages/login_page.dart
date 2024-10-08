@@ -56,7 +56,7 @@ class _LoginPageState extends State<LoginPage> {
 
           customShowModalBottomSheet(
             context: context,
-            imageName: "assets/animations/orderSuccessfullyDone.json",
+            imageName: "assets/animations/success_done2.json",
             sheetDescription:
                 "You've logged in successfully. Great to see you again!",
             onPressed: () {

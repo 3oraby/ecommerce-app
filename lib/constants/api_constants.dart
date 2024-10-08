@@ -1,10 +1,13 @@
 class ApiConstants {
-  static const String baseUrl = "http://10.0.2.2:1020/api/v1/";
+  static const String baseUrl =
+      "https://e-commerce-api-jwe4.onrender.com/api/v1/";
   // auth
   static const String loginEndPoint = "auths/login";
   static const String registerEndPoint = "auths/signUp";
   static const String verifyEmailEndPoint = "auths/verify?";
   static const String logOutEndPoint = "auths/logout";
+  static const String sendVerificationPoint = "auths/sendVerification";
+  static const String checkIsEmailVerifiedEndPoint = "auths/isVerified";
 
   // user
   static const String getUserEndPoint = "users/me";
@@ -79,7 +82,8 @@ class ApiConstants {
     return "products/$productId/review/$reviewId";
   }
 
-  static String checkUserReviewForProductEndPoint({required int productId,required int userId}) {
+  static String checkUserReviewForProductEndPoint(
+      {required int productId, required int userId}) {
     return "reviews/checkUserReview/$productId/$userId";
   }
 }

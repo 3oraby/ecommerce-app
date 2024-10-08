@@ -10,6 +10,8 @@ import 'package:e_commerce_app/features/reviews/data/models/product_review_model
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/utils/app_assets/images/app_images.dart';
+
 class ShowAllReviewsLoadedBody extends StatelessWidget {
   const ShowAllReviewsLoadedBody({
     super.key,
@@ -68,6 +70,10 @@ class ShowProductDetails extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.2,
             height: screenHeight * 0.1,
             fit: BoxFit.contain,
+            errorBuilder: (BuildContext context, Object exception,
+                StackTrace? stackTrace) {
+              return Image.asset(AppImages.imagesNotDownloaded);
+            },
           ),
           const HorizontalGap(16),
           Expanded(

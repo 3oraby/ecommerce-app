@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/core/helpers/functions/get_photo_url.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
+import 'package:e_commerce_app/core/utils/app_assets/images/app_images.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
@@ -70,6 +71,11 @@ class ShowProductsDetailsLoadedBody extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * 0.75,
                     height: MediaQuery.of(context).size.height * 0.3,
                     fit: BoxFit.contain,
+                    errorBuilder: (BuildContext context, Object exception,
+                        StackTrace? stackTrace) {
+                      return Image.asset(
+                          AppImages.imagesNotDownloaded); // Fallback image
+                    },
                   ),
                   const VerticalGap(36),
                   // price section

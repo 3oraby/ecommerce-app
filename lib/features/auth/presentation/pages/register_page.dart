@@ -1,12 +1,10 @@
 import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
 import 'package:e_commerce_app/core/utils/app_assets/images/app_images.dart';
-import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
 import 'package:e_commerce_app/features/auth/constants/register_page_constants.dart';
 import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:e_commerce_app/features/auth/presentation/pages/login_page.dart';
-import 'package:e_commerce_app/core/helpers/functions/custom_show_modal_bottom_sheet.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_custom_snack_bar.dart';
-import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
+import 'package:e_commerce_app/features/auth/presentation/pages/verify_email_page.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/features/auth/presentation/widgets/auth_switch_widget.dart';
 import 'package:e_commerce_app/features/auth/presentation/widgets/registration_step_form_field.dart';
@@ -118,42 +116,14 @@ class _RegisterPageState extends State<RegisterPage> {
       listener: (context, state) {
         if (state is AuthNoNetworkErrorState) {
           showErrorWithInternetDialog(context);
-        } else if (state is RegisterLoadingState ||
-            state is VerifyEmailLoadingState) {
         } else if (state is RegisterLoadedState) {
-          String link = state.verifyAccLink;
-          Uri uri = Uri.parse(link);
-          String token = uri.queryParameters['token']!;
-          String email = uri.queryParameters['email']!;
-          authCubit.verifyEmail(
-            accessToken: token,
-            email: email,
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            VerifyEmailPage.id,
+            (Route<dynamic> route) => false,
           );
         } else if (state is RegisterErrorState) {
-          if (state.message == "Validation error") {
-            showCustomSnackBar(context, "Email is already in use");
-          } else {
-            showCustomSnackBar(context, state.message);
-          }
-        } else if (state is VerifyEmailErrorState) {
           showCustomSnackBar(context, state.message);
-        } else if (state is VerifyEmailLoadedState) {
-          userCubit.setUserModel(state.userModel);
-
-          customShowModalBottomSheet(
-            context: context,
-            imageName: "assets/animations/orderSuccessfullyDone.json",
-            sheetDescription:
-                "Congratulations! You have successfully registered. Welcome aboard! We're excited to have you with us.",
-            onPressed: () {
-              HomePageNavigationService.navigateToHome();
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                HomePage.id,
-                (Route<dynamic> route) => false,
-              );
-            },
-          );
         }
       },
       builder: (context, state) {
@@ -240,7 +210,8 @@ class _RegisterPageState extends State<RegisterPage> {
                                 }
                               },
                               descriptionColor: Colors.white,
-                              buttonWidth: 300,
+                              buttonWidth:
+                                  MediaQuery.of(context).size.width * 0.65,
                             ),
                           ],
                         ),

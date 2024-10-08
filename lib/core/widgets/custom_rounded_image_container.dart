@@ -1,3 +1,5 @@
+import 'package:e_commerce_app/core/utils/app_assets/images/app_images.dart';
+import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomRoundedImageContainer extends StatelessWidget {
@@ -25,10 +27,41 @@ class CustomRoundedImageContainer extends StatelessWidget {
       width: width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderRadius),
-        image: DecorationImage(
-          image: inAsset ? AssetImage(imagePath) : NetworkImage(imagePath),
-          fit: fit,
-        ),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(borderRadius),
+        child: inAsset
+            ? Image.asset(
+                imagePath,
+                height: height,
+                width: width,
+                fit: fit,
+              )
+            : Image.network(
+                imagePath,
+                height: height,
+                width: width,
+                fit: fit,
+                errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                  return Image.asset(
+                    AppImages.imagesNotDownloaded,
+                    height: height,
+                    width: width,
+                    fit: fit,
+                  );
+                },
+                loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(
+                      color: ThemeColors.primaryColor,
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded / (loadingProgress.expectedTotalBytes ?? 1)
+                          : null,
+                    ),
+                  );
+                },
+              ),
       ),
     );
   }

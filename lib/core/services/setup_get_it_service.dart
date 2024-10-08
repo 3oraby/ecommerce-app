@@ -2,9 +2,11 @@ import 'package:e_commerce_app/features/address/data/data_sources/get_all_addres
 import 'package:e_commerce_app/features/address/data/data_sources/get_all_orders_addresses_service.dart';
 import 'package:e_commerce_app/features/address/data/repositories/addresses_repository.dart';
 import 'package:e_commerce_app/features/address/data/repositories/addresses_repository_impl.dart';
+import 'package:e_commerce_app/features/auth/data/data_sources/check_is_email_verified_service.dart';
 import 'package:e_commerce_app/features/auth/data/data_sources/log_out_service.dart';
 import 'package:e_commerce_app/features/auth/data/data_sources/login_service.dart';
 import 'package:e_commerce_app/features/auth/data/data_sources/register_service.dart';
+import 'package:e_commerce_app/features/auth/data/data_sources/send_verification_service.dart';
 import 'package:e_commerce_app/features/auth/data/data_sources/verify_email_service.dart';
 import 'package:e_commerce_app/features/auth/data/repositories/auth_repository.dart';
 import 'package:e_commerce_app/features/auth/data/repositories/auth_repository_impl.dart';
@@ -59,6 +61,9 @@ void setupGetIt() {
   getIt.registerSingleton<LoginService>(LoginService());
   getIt.registerSingleton<RegisterService>(RegisterService());
   getIt.registerSingleton<VerifyEmailService>(VerifyEmailService());
+  getIt.registerSingleton<SendVerificationService>(SendVerificationService());
+  getIt.registerSingleton<CheckIsEmailVerifiedService>(
+      CheckIsEmailVerifiedService());
 
   getIt.registerSingleton<AuthRepository>(
     AuthRepositoryImpl(
@@ -66,6 +71,8 @@ void setupGetIt() {
       loginService: getIt<LoginService>(),
       registerService: getIt<RegisterService>(),
       verifyEmailService: getIt<VerifyEmailService>(),
+      checkIsEmailVerifiedService: getIt<CheckIsEmailVerifiedService>(),
+      sendVerificationService: getIt<SendVerificationService>(),
     ),
   );
 

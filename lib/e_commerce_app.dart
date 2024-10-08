@@ -23,6 +23,7 @@ class ECommerceApp extends StatelessWidget {
         ),
       ),
       initialRoute: isFirstTime ? OnboardingPage.id : HomePage.id,
+      // initialRoute: VerifyEmailPage.id,
     );
   }
 }

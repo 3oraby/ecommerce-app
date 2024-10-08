@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/features/auth/presentation/pages/verify_email_page.dart';
 import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
 import 'package:e_commerce_app/features/onboarding/presentation/pages/splash_page.dart';
 import 'package:e_commerce_app/features/orders/presentation/pages/cancel_items_from_order_page.dart';
@@ -28,6 +29,7 @@ final Map<String, Widget Function(BuildContext)> appRoutesMap = {
   EntryPage.id: (context) => const EntryPage(),
   LoginPage.id: (context) => const LoginPage(),
   RegisterPage.id: (context) => const RegisterPage(),
+  VerifyEmailPage.id: (context) => const VerifyEmailPage(),
   HomePage.id: (context) => const HomePage(),
   UserProfilePage.id: (context) => const UserProfilePage(),
   ShowProductDetailsPage.id: (context) => const ShowProductDetailsPage(),

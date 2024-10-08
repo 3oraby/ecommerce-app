@@ -20,7 +20,7 @@ Future<dynamic> customShowModalBottomSheet({
       return PopScope(
         canPop: false,
         onPopInvoked: (didPop) =>
-            false, // Prevents back button from dismissing the modal
+            false,
         child: StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return SizedBox(
@@ -34,7 +34,7 @@ Future<dynamic> customShowModalBottomSheet({
                   children: [
                     LottieBuilder.asset(
                       imageName,
-                      width: 150,
+                      width: 300,
                       height: 150,
                     ),
                     Text(

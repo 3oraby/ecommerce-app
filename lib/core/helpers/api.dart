@@ -25,7 +25,7 @@ class Api {
   }) async {
     try {
       log(url);
-      await Future.delayed(const Duration(milliseconds: 500));
+      // await Future.delayed(const Duration(milliseconds: 500));
       Response response = await dio.get(
         url,
         queryParameters: queryParams,
@@ -55,7 +55,7 @@ class Api {
   }) async {
     try {
       log("url $url");
-      await Future.delayed(const Duration(seconds: 1));
+      // await Future.delayed(const Duration(seconds: 1));
       Response response = await dio.post(
         url,
         data: jsonData,
@@ -67,7 +67,7 @@ class Api {
       return response;
     } on DioException catch (e) {
       if (e.response != null) {
-        log('DioException: ${e.response!.toString()}');
+        log('DioException in post method : ${e.response!.toString()}');
         return e.response!;
       } else {
         log('DioException without response: ${e.toString()}');
@@ -86,7 +86,7 @@ class Api {
   }) async {
     try {
       log("url $url");
-      await Future.delayed(const Duration(seconds: 1));
+      // await Future.delayed(const Duration(seconds: 1));
       Response response = await dio.delete(
         url,
         data: jsonData,
@@ -117,7 +117,7 @@ class Api {
   }) async {
     try {
       log("url $url");
-      await Future.delayed(const Duration(seconds: 1));
+      // await Future.delayed(const Duration(seconds: 1));
       Response response = await dio.patch(
         url,
         data: jsonData,
@@ -148,7 +148,7 @@ class Api {
   }) async {
     try {
       log("url $url");
-      await Future.delayed(const Duration(seconds: 1));
+      // await Future.delayed(const Duration(seconds: 1));
       Response response = await dio.put(
         url,
         data: jsonData,

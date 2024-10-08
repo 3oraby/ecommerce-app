@@ -1,4 +1,3 @@
-
 class ProductModel {
   final int id;
   final double price;
@@ -33,7 +32,9 @@ class ProductModel {
       description: json['description'],
       createdAt: json["createdAt"],
       updatedAt: json["updatedAt"],
-      isFavorite: json["is_favorite"] ?? 1,
+      isFavorite: (json["is_favorite"] is String)
+          ? int.parse(json["is_favorite"])
+          : json["is_favorite"] ?? 1,
     );
   }
 

@@ -1,6 +1,5 @@
 import 'package:e_commerce_app/features/auth/data/models/log_out_response_model.dart';
 import 'package:e_commerce_app/features/auth/data/models/login_response_model.dart';
-import 'package:e_commerce_app/features/auth/data/models/register_response_model.dart';
 import 'package:e_commerce_app/features/auth/data/models/verify_email_response_model.dart';
 
 abstract class AuthRepository {
@@ -10,7 +9,7 @@ abstract class AuthRepository {
     required Map<String, dynamic> jsonData,
   });
 
-  Future<RegisterResponseModel> createAccount({
+  Future<void> createAccount({
     required Map<String, dynamic> jsonData,
   });
 
@@ -18,4 +17,7 @@ abstract class AuthRepository {
     required String email,
     required String token,
   });
+
+  Future<bool> sendVerification({required String email});
+  Future<bool> checkIsEmailVerified({required String email});
 }

@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/helpers/functions/get_photo_url.dart';
+import 'package:e_commerce_app/core/utils/app_assets/images/app_images.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_option_list_tile.dart';
 import 'package:e_commerce_app/core/widgets/custom_rounded_icon.dart';
@@ -67,6 +68,11 @@ class CustomProductDetailsInOrders extends StatelessWidget {
                       getPhotoUrl(orderItem.product.photo),
                       width: MediaQuery.of(context).size.width * 0.25,
                       height: MediaQuery.of(context).size.height * 0.1,
+                      errorBuilder: (BuildContext context, Object exception,
+                          StackTrace? stackTrace) {
+                        return Image.asset(
+                            AppImages.imagesNotDownloaded); // Fallback image
+                      },
                     ),
                   ],
                 ),

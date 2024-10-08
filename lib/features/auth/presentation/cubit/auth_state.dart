@@ -20,10 +20,7 @@ final class LoginErrorState extends AuthState {
 
 final class RegisterLoadingState extends AuthState {}
 
-final class RegisterLoadedState extends AuthState {
-  final String verifyAccLink;
-  RegisterLoadedState({required this.verifyAccLink});
-}
+final class RegisterLoadedState extends AuthState {}
 
 final class RegisterErrorState extends AuthState {
   final String message;
@@ -49,4 +46,22 @@ final class LogOutLoadedState extends AuthState {}
 final class LogOutErrorState extends AuthState {
   final String message;
   LogOutErrorState({required this.message});
+}
+
+final class CheckIsEmailVerifiedLoadingState extends AuthState {}
+
+final class CheckIsEmailVerifiedLoadedState extends AuthState {}
+
+final class CheckIsEmailVerifiedErrorState extends AuthState {
+  final String message;
+  CheckIsEmailVerifiedErrorState({required this.message});
+}
+
+class ResendVerificationLoadingState extends AuthState {}
+
+class ResendVerificationSuccessState extends AuthState {}
+
+class ResendVerificationErrorState extends AuthState {
+  final String message;
+  ResendVerificationErrorState({required this.message});
 }
