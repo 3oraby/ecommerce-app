@@ -90,7 +90,7 @@ class ShowInformationAboutOrder extends StatelessWidget {
               ),
               Expanded(
                 child: Text(
-                  " on ${formatStringIntoDateTime(orderModel.date, showTotalDate: true)}",
+                  " on ${formatStringIntoDateTime(orderModel.createdAt, showTotalDate: true)}",
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,

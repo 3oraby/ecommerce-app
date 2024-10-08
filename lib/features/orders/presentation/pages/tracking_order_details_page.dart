@@ -213,7 +213,7 @@ class ShowInformationAboutOrder extends StatelessWidget {
         ),
       ),
       subtitle: Text(
-        formatStringIntoDateTime(order.date, showTotalDate: true),
+        formatStringIntoDateTime(order.createdAt, showTotalDate: true),
         style: const TextStyle(
           color: ThemeColors.mainLabelsColor,
           fontWeight: FontWeight.bold,

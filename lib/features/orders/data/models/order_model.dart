@@ -7,20 +7,18 @@ class OrderModel {
   final int userId;
   final int addressId;
   final int total;
-  final String date;
   final String addressInDetails;
   final OrderStateModel orderStateModel;
   final List<OrderItemModel> orderItems;
   final OrdersAddressModel ordersAddressModel;
-  final DateTime createdAt;
-  final DateTime updatedAt;
+  final String createdAt;
+  final String updatedAt;
 
   OrderModel({
     required this.id,
     required this.userId,
     required this.addressId,
     required this.total,
-    required this.date,
     required this.addressInDetails,
     required this.orderStateModel,
     required this.orderItems,
@@ -36,7 +34,6 @@ class OrderModel {
       userId: json['user_id'],
       addressId: json['address_id'],
       total: json['total'],
-      date: json['date'],
       addressInDetails: json['addressInDetails'],
       orderStateModel: OrderStateModel.fromJson(json["OrderState"]),
       orderItems: orderItems
@@ -50,8 +47,8 @@ class OrderModel {
         city: json["Address"]["city"],
         addressInDetails: json["addressInDetails"],
       ),
-      createdAt: DateTime.parse(json['createdAt']),
-      updatedAt: DateTime.parse(json['updatedAt']),
+      createdAt: json['createdAt'],
+      updatedAt: json['updatedAt'],
     );
   }
 }

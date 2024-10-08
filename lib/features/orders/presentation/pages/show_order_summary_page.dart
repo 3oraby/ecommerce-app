@@ -38,7 +38,7 @@ class ShowOrderSummaryPage extends StatelessWidget {
           Center(
             child: Text(
               "Placed On ${formatStringIntoDateTime(
-                orderModel.date,
+                orderModel.createdAt,
                 showTotalDate: true,
               )}",
               style: const TextStyle(
