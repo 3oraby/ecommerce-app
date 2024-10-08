@@ -1,4 +1,5 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
+import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_empty_body_widget.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
@@ -7,6 +8,7 @@ import 'package:e_commerce_app/features/address/data/models/get_orders_addresses
 import 'package:e_commerce_app/features/address/data/models/orders_address_model.dart';
 import 'package:e_commerce_app/features/address/presentation/cubit/addresses_cubit.dart';
 import 'package:e_commerce_app/features/address/presentation/pages/add_address_page.dart';
+import 'package:e_commerce_app/features/address/presentation/pages/choose_address_page.dart';
 import 'package:e_commerce_app/features/address/presentation/utils/get_user_home_address.dart';
 import 'package:e_commerce_app/features/address/presentation/widgets/choose_address_widgets/show_address_details_item.dart';
 import 'package:e_commerce_app/features/cart/presentation/pages/checkout_page.dart';
@@ -143,6 +145,8 @@ class EmptyOrdersAddressesBody extends StatelessWidget {
           "You haven't added any addresses yet. Save your addresses to speed up checkout.",
       buttonDescription: "Add new addresses",
       onButtonPressed: () async {
+        SharedPreferencesSingleton.setString(
+            LocalConstants.lastRouteIdInPref, ChooseAddressPage.id);
         final isRefresh = await Navigator.pushNamed(context, AddAddressPage.id);
 
         if (isRefresh is bool && isRefresh == true) {
