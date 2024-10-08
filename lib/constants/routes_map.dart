@@ -13,7 +13,6 @@ import 'package:e_commerce_app/features/reviews/presentation/pages/make_new_revi
 import 'package:e_commerce_app/features/reviews/presentation/pages/show_all_reviews_page.dart';
 import 'package:e_commerce_app/features/user/presentation/pages/edit_user_profile_page.dart';
 import 'package:e_commerce_app/features/user/presentation/pages/update_password_page.dart';
-import 'package:e_commerce_app/features/user/presentation/pages/user_profile_page.dart';
 import 'package:e_commerce_app/features/address/presentation/pages/add_address_page.dart';
 import 'package:e_commerce_app/features/address/presentation/pages/choose_address_page.dart';
 import 'package:e_commerce_app/features/auth/presentation/pages/login_page.dart';
@@ -31,7 +30,6 @@ final Map<String, Widget Function(BuildContext)> appRoutesMap = {
   RegisterPage.id: (context) => const RegisterPage(),
   VerifyEmailPage.id: (context) => const VerifyEmailPage(),
   HomePage.id: (context) => const HomePage(),
-  UserProfilePage.id: (context) => const UserProfilePage(),
   ShowProductDetailsPage.id: (context) => const ShowProductDetailsPage(),
   ShowProductsPage.id: (context) => const ShowProductsPage(),
   CheckoutPage.id: (context) => const CheckoutPage(),
