@@ -11,6 +11,9 @@ class LocalConstants {
   static const String isOnBoardingSeenNameInPref = "isFirstTime";
   static const String userAddressModelInPref = "kUserAddressModel";
   static const String lastRouteIdInPref = "kLastRouteIdInPref";
+  static const String fingerprintEnabledPref = "kFingerprintEnabledPref";
+  static const String userEmailNamePref = "user_email";
+  static const String userPasswordNamePref = "user_password";
 
   static const internalPadding = EdgeInsets.symmetric(
     horizontal: kHorizontalPadding,

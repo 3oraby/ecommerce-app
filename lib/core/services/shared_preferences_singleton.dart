@@ -10,20 +10,22 @@ class SharedPreferencesSingleton {
   }
 
   static void setBool(String key, bool value) {
+    log("set bool in pref $key :${(key,value)}");
     instance.setBool(key, value);
   }
 
   static bool getBool(String key) {
+    log("get bool in pref $key :${(key)}");
     return instance.getBool(key) ?? false;
   }
 
   static void setString(String key, String value) {
-    log("set string in pref $key :${instance.setString(key, value)}");
+    log("set string in pref $key :${(key, value)}");
     instance.setString(key, value);
   }
 
   static String? getString(String key) {
-    log("get string from pref $key : ${instance.getString(key)}");
+    log("get string from pref $key : ${(key)}");
     return instance.getString(key);
   }
 

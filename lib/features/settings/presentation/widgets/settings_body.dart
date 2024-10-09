@@ -1,6 +1,7 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_custom_snack_bar.dart';
+import 'package:e_commerce_app/core/services/finger_print_service.dart';
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
@@ -25,6 +26,49 @@ class SettingsBody extends StatefulWidget {
 
 class _SettingsBodyState extends State<SettingsBody> {
   bool isPageLoading = false;
+  bool isFingerprintEnabled = false; // Fingerprint status
+  final FingerPrintService _fingerPrintService =
+      FingerPrintService(); // Instance of the FingerPrintService
+
+  @override
+  void initState() {
+    super.initState();
+    _loadFingerprintPreference();
+  }
+
+  _loadFingerprintPreference() {
+    bool? fingerprintEnabled = SharedPreferencesSingleton.getBool(
+      LocalConstants.fingerprintEnabledPref,
+    );
+    setState(() {
+      isFingerprintEnabled = fingerprintEnabled;
+    });
+  }
+
+  Future<void> _toggleFingerprint(BuildContext context, bool value) async {
+    bool isAvailable =
+        await _fingerPrintService.isFingerPrintEnabledForDevice();
+
+    if (isAvailable) {
+      setState(() {
+        isFingerprintEnabled = value;
+      });
+      SharedPreferencesSingleton.setBool(
+        LocalConstants.fingerprintEnabledPref,
+        value,
+      );
+
+      showCustomSnackBarMessage(
+          value ? 'Fingerprint lock enabled' : 'Fingerprint lock disabled');
+    } else {
+      showCustomSnackBarMessage(
+          'Fingerprint lock is not available on your device.');
+    }
+  }
+
+  showCustomSnackBarMessage(String message) {
+    showCustomSnackBar(context, message);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,6 +128,14 @@ class _SettingsBodyState extends State<SettingsBody> {
               onTap: () {
                 _showLogoutDialog(context);
               },
+            ),
+            const VerticalGap(16),
+            SwitchListTile(
+              title: const Text('Enable Fingerprint Lock'),
+              value: isFingerprintEnabled,
+              onChanged: (value) => _toggleFingerprint(
+                  context, value), // Call the toggle function
+              activeColor: ThemeColors.primaryColor,
             ),
             const VerticalGap(16),
           ],

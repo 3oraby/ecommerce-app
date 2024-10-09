@@ -135,11 +135,7 @@ class _RegisterPageState extends State<RegisterPage> {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 children: [
-                  const Expanded(
-                    child: SizedBox(),
-                  ),
                   Expanded(
-                    flex: 12,
                     child: ListView(
                       controller: listViewScrollController,
                       children: [
