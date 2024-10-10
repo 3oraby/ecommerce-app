@@ -34,9 +34,13 @@ class _HomeTapBodyState extends State<HomeTapBody> {
             body: HomePageShimmerLoading(),
           );
         } else if (state is GetHomeDataErrorState) {
-          return Scaffold(
+          return const Scaffold(
             body: Center(
-              child: Text(state.message),
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                    "There is a problem in the server now , please try again later"),
+              ),
             ),
           );
         } else if (state is GetHomeDataLoadedState) {
