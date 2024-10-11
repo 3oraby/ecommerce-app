@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:e_commerce_app/core/helpers/functions/get_photo_url.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/core/utils/app_assets/images/app_images.dart';
@@ -71,8 +73,8 @@ class ShowProductsDetailsLoadedBody extends StatelessWidget {
                     fit: BoxFit.contain,
                     errorBuilder: (BuildContext context, Object exception,
                         StackTrace? stackTrace) {
-                      return Image.asset(
-                          AppImages.imagesNotDownloaded); 
+                      log(getPhotoUrl(productModel.photo));
+                      return Image.asset(AppImages.imagesNotDownloaded);
                     },
                   ),
                   const VerticalGap(36),

@@ -1,3 +1,5 @@
+import 'package:e_commerce_app/constants/local_constants.dart';
+import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/features/address/presentation/pages/add_address_page.dart';
 import 'package:e_commerce_app/features/auth/presentation/pages/login_page.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
@@ -27,6 +29,8 @@ class EntryPage extends StatelessWidget {
             const Spacer(flex: 6),
             CustomTriggerButton(
               onPressed: () {
+                SharedPreferencesSingleton.setBool(
+                    LocalConstants.isMakingLoginAfterRegisterInPref, false);
                 Navigator.pushReplacementNamed(context, LoginPage.id);
               },
               description: "Login",

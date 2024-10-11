@@ -1,4 +1,6 @@
+import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
+import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/core/utils/app_assets/images/app_images.dart';
 import 'package:e_commerce_app/features/auth/constants/register_page_constants.dart';
 import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit.dart';
@@ -215,6 +217,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           promptText: "already have an account ?",
                           actionText: "Login",
                           onActionPressed: () {
+                            SharedPreferencesSingleton.setBool(
+                                LocalConstants.isMakingLoginAfterRegisterInPref,
+                                false);
                             Navigator.pushReplacementNamed(
                                 context, LoginPage.id);
                           },

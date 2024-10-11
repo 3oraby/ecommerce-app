@@ -14,6 +14,8 @@ class LocalConstants {
   static const String fingerprintEnabledPref = "kFingerprintEnabledPref";
   static const String userEmailNamePref = "user_email";
   static const String userPasswordNamePref = "user_password";
+  static const String isMakingLoginAfterRegisterInPref = "kIsMakingLoginAfterRegister";
+
   static const internalPadding = EdgeInsets.symmetric(
     horizontal: kHorizontalPadding,
     vertical: 10,

@@ -54,8 +54,9 @@ class _LoginPageState extends State<LoginPage> {
 
   _checkFingerprintAvailability() {
     bool fingerprintEnabled = SharedPreferencesSingleton.getBool(
-      LocalConstants.fingerprintEnabledPref,
-    );
+            LocalConstants.fingerprintEnabledPref) &&
+        !SharedPreferencesSingleton.getBool(
+            LocalConstants.isMakingLoginAfterRegisterInPref);
     setState(() {
       isFingerprintEnabled = fingerprintEnabled;
       isUsingFingerprint = fingerprintEnabled;
@@ -63,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _handleLogin() async {
-    if (formKey.currentState!.validate() && !isUsingFingerprint) {
+    if (formKey.currentState!.validate()) {
       await _saveCredentials();
 
       authCubit.login(

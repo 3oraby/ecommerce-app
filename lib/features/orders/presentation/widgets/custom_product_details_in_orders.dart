@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/helpers/functions/get_photo_url.dart';
 import 'package:e_commerce_app/core/utils/app_assets/images/app_images.dart';
@@ -70,6 +72,8 @@ class CustomProductDetailsInOrders extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * 0.1,
                       errorBuilder: (BuildContext context, Object exception,
                           StackTrace? stackTrace) {
+                        log(getPhotoUrl(orderItem.product.photo));
+
                         return Image.asset(
                             AppImages.imagesNotDownloaded); // Fallback image
                       },

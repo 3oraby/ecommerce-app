@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:e_commerce_app/core/helpers/functions/get_photo_url.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
@@ -72,6 +74,7 @@ class ShowProductDetails extends StatelessWidget {
             fit: BoxFit.contain,
             errorBuilder: (BuildContext context, Object exception,
                 StackTrace? stackTrace) {
+              log(getPhotoUrl(product.photo));
               return Image.asset(AppImages.imagesNotDownloaded);
             },
           ),

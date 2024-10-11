@@ -1,8 +1,10 @@
 import 'dart:async';
 
+import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/helpers/functions/custom_show_modal_bottom_sheet.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_custom_snack_bar.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
+import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/auth/presentation/cubit/auth_cubit.dart';
@@ -91,6 +93,8 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
               sheetDescription:
                   "Congratulations on your successful registration! Welcome aboard—we're thrilled to have you. Please log in to get started.",
               onPressed: () {
+                SharedPreferencesSingleton.setBool(
+                    LocalConstants.isMakingLoginAfterRegisterInPref, true);
                 Navigator.pushNamedAndRemoveUntil(
                   context,
                   LoginPage.id,

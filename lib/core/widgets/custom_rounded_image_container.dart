@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:e_commerce_app/core/utils/app_assets/images/app_images.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +45,7 @@ class CustomRoundedImageContainer extends StatelessWidget {
                 width: width,
                 fit: fit,
                 errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                  log(imagePath);
                   return Image.asset(
                     AppImages.imagesNotDownloaded,
                     height: height,
