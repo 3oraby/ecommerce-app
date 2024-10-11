@@ -1,3 +1,4 @@
+import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/services/setup_get_it_service.dart';
 import 'package:e_commerce_app/e_commerce_app.dart';
 import 'package:e_commerce_app/features/address/data/repositories/addresses_repository.dart';
@@ -24,7 +25,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesSingleton.init();
-  bool isFirstTime = SharedPreferencesSingleton.getBool("isFirstTime");
+  bool isFirstTime = SharedPreferencesSingleton.getBool(LocalConstants.isOnBoardingSeenNameInPref);
 
   setupGetIt();
   // SharedPreferencesSingleton.deleteStringFromSharedPreferences(
@@ -82,7 +83,7 @@ Future<void> main() async {
         ),
       ],
       child: ECommerceApp(
-        isFirstTime: isFirstTime,
+        isOnBoardingSeen: isFirstTime,
       ),
     ),
   );

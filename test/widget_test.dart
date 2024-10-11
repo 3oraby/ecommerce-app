@@ -5,6 +5,7 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/e_commerce_app.dart';
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:flutter/material.dart';
@@ -12,10 +13,10 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    bool isFirstTime = SharedPreferencesSingleton.getBool("isFirstTime");
+    bool isFirstTime = SharedPreferencesSingleton.getBool(LocalConstants.isOnBoardingSeenNameInPref);
 
     // Build our app and trigger a frame.
-    await tester.pumpWidget(ECommerceApp(isFirstTime: isFirstTime,));
+    await tester.pumpWidget(ECommerceApp(isOnBoardingSeen: isFirstTime,));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

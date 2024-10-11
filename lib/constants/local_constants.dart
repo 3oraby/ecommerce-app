@@ -8,13 +8,12 @@ class LocalConstants {
   static const String accessTokenNameInPref = "kAccessToken";
   static const String refreshTokenNameInPref = "kRefreshToken";
   static const String userModelNameInPref = "kUserModel";
-  static const String isOnBoardingSeenNameInPref = "isFirstTime";
+  static const String isOnBoardingSeenNameInPref = "kIsOnBoardingSeen";
   static const String userAddressModelInPref = "kUserAddressModel";
   static const String lastRouteIdInPref = "kLastRouteIdInPref";
   static const String fingerprintEnabledPref = "kFingerprintEnabledPref";
   static const String userEmailNamePref = "user_email";
   static const String userPasswordNamePref = "user_password";
-
   static const internalPadding = EdgeInsets.symmetric(
     horizontal: kHorizontalPadding,
     vertical: 10,

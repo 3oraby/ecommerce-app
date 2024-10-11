@@ -1,7 +1,9 @@
+import 'package:e_commerce_app/constants/local_constants.dart';
+import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
+import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
 import 'package:e_commerce_app/features/onboarding/constants/onboarding_page_data.dart';
 import 'package:e_commerce_app/features/onboarding/data/models/onboarding_page_model.dart';
 import 'package:e_commerce_app/features/onboarding/presentation/widgets/onboarding_nav_row.dart';
-import 'package:e_commerce_app/features/auth/presentation/pages/entry_page.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
@@ -155,15 +157,19 @@ class _OnboardingPageState extends State<OnboardingPage> {
           Align(
             alignment: const Alignment(0, 0.75),
             child: isLastPage
-                ? CustomTriggerButton(
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(context, EntryPage.id);
-                    },
-                    description: "Get Started",
-                    backgroundColor: ThemeColors.secondaryColor,
-                    descriptionColor: Colors.white,
-                    buttonHeight: 50,
-                  )
+                ? Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: LocalConstants.kHorizontalPadding),
+                  child: CustomTriggerButton(
+                      onPressed: () {
+                        SharedPreferencesSingleton.setBool(LocalConstants.isOnBoardingSeenNameInPref, true);
+                        Navigator.pushReplacementNamed(context, HomePage.id);
+                      },
+                      description: "Get Started",
+                      backgroundColor: ThemeColors.secondaryColor,
+                      descriptionColor: Colors.white,
+                      buttonHeight: 50,
+                    ),
+                )
                 : OnboardingNavRow(
                     pageController: pageController,
                     onboardingPagesList: onboardingPagesList,

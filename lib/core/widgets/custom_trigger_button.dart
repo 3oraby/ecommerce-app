@@ -1,8 +1,7 @@
-import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:flutter/material.dart';
 
-class CustomTriggerButton extends StatefulWidget {
+class CustomTriggerButton extends StatelessWidget {
   const CustomTriggerButton({
     super.key,
     this.onPressed,
@@ -15,7 +14,6 @@ class CustomTriggerButton extends StatefulWidget {
     this.descriptionColor = Colors.white,
     this.descriptionSize = 24,
     this.iconSize = 18,
-    this.isUseForOnBoarding = false,
     this.buttonHeight = 70,
     this.buttonWidth = double.infinity,
     this.borderWidth = 0,
@@ -39,62 +37,48 @@ class CustomTriggerButton extends StatefulWidget {
   final double borderWidth;
   final Color borderColor;
   final double borderRadius;
-  final bool isUseForOnBoarding;
   final Color iconColor;
-
-  @override
-  State<CustomTriggerButton> createState() => _CustomTriggerButtonState();
-}
-
-class _CustomTriggerButtonState extends State<CustomTriggerButton> {
-  @override
-  void initState() {
-    super.initState();
-    if (widget.isUseForOnBoarding) {
-      SharedPreferencesSingleton.setBool("isFirstTime", true);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: widget.isEnabled ? widget.onPressed : null,
+      onTap: isEnabled ? onPressed : null,
       child: Container(
-        height: widget.buttonHeight,
-        width: widget.buttonWidth,
+        height: buttonHeight,
+        width: buttonWidth,
         decoration: BoxDecoration(
-          color: widget.backgroundColor,
+          color: backgroundColor,
           border: Border.all(
-            width: widget.borderWidth,
-            color: widget.borderWidth == 0 ? Colors.white : widget.borderColor,
+            width: borderWidth,
+            color: borderWidth == 0 ? Colors.white : borderColor,
           ),
-          borderRadius: BorderRadius.circular(widget.borderRadius),
+          borderRadius: BorderRadius.circular(borderRadius),
         ),
-        child: widget.child ??
+        child: child ??
             Row(
-              mainAxisAlignment: (widget.icon == null)
+              mainAxisAlignment: (icon == null)
                   ? MainAxisAlignment.center
                   : MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                if (widget.description != null) ...[
+                if (description != null) ...[
                   const SizedBox(width: 8),
                   Text(
-                    widget.description!,
+                    description!,
                     style: TextStyle(
-                      color: widget.descriptionColor,
-                      fontSize: widget.descriptionSize,
-                      fontWeight: widget.isDescriptionBold
+                      color: descriptionColor,
+                      fontSize: descriptionSize,
+                      fontWeight: isDescriptionBold
                           ? FontWeight.bold
                           : FontWeight.normal,
                     ),
                   ),
                 ],
-                if (widget.icon != null)
+                if (icon != null)
                   Icon(
-                    widget.icon!,
-                    color: widget.iconColor,
-                    size: widget.iconSize,
+                    icon!,
+                    color: iconColor,
+                    size: iconSize,
                   ),
               ],
             ),

@@ -7,10 +7,10 @@ import 'package:flutter/material.dart';
 class ECommerceApp extends StatelessWidget {
   const ECommerceApp({
     super.key,
-    required this.isFirstTime,
+    required this.isOnBoardingSeen,
   });
 
-  final bool isFirstTime;
+  final bool isOnBoardingSeen;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class ECommerceApp extends StatelessWidget {
           seedColor: ThemeColors.primaryColor,
         ),
       ),
-      initialRoute: isFirstTime ? OnboardingPage.id : HomePage.id,
+      initialRoute: isOnBoardingSeen ? HomePage.id : OnboardingPage.id,
       // initialRoute: VerifyEmailPage.id,
     );
   }
