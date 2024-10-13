@@ -170,10 +170,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       buttonHeight: 50,
                     ),
                 )
-                : OnboardingNavRow(
-                    pageController: pageController,
-                    onboardingPagesList: onboardingPagesList,
-                  ),
+                : Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: LocalConstants.kHorizontalPadding),
+                  child: OnboardingNavRow(
+                      pageController: pageController,
+                      onboardingPagesList: onboardingPagesList,
+                    ),
+                ),
           ),
         ],
       ),
