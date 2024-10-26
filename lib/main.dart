@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/services/setup_get_it_service.dart';
 import 'package:e_commerce_app/e_commerce_app.dart';
@@ -25,7 +26,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPreferencesSingleton.init();
-  bool isFirstTime = SharedPreferencesSingleton.getBool(LocalConstants.isOnBoardingSeenNameInPref);
+  bool isFirstTime = SharedPreferencesSingleton.getBool(
+      LocalConstants.isOnBoardingSeenNameInPref);
 
   setupGetIt();
   // SharedPreferencesSingleton.deleteStringFromSharedPreferences(
@@ -37,53 +39,55 @@ Future<void> main() async {
   // SharedPreferencesSingleton.deleteStringFromSharedPreferences(
   //     LocalConstants.refreshTokenNameInPref);
   runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => AuthCubit(
-            authRepository: getIt<AuthRepository>(),
+    DevicePreview(
+      builder: (context) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => AuthCubit(
+              authRepository: getIt<AuthRepository>(),
+            ),
           ),
-        ),
-        BlocProvider(
-          create: (context) => FavoritesCubit(
-            favoritesRepository: getIt<FavoritesRepository>(),
+          BlocProvider(
+            create: (context) => FavoritesCubit(
+              favoritesRepository: getIt<FavoritesRepository>(),
+            ),
           ),
-        ),
-        // Addresses cubit
-        BlocProvider(
-          create: (context) => AddressesCubit(
-            addressesRepository: getIt<AddressesRepository>(),
+          // Addresses cubit
+          BlocProvider(
+            create: (context) => AddressesCubit(
+              addressesRepository: getIt<AddressesRepository>(),
+            ),
           ),
-        ),
-        BlocProvider(
-          create: (context) => CartCubit(
-            cartRepository: getIt<CartRepository>(),
+          BlocProvider(
+            create: (context) => CartCubit(
+              cartRepository: getIt<CartRepository>(),
+            ),
           ),
-        ),
-        BlocProvider(
-          create: (context) => UserCubit(
-            userRepository: getIt<UserRepository>(),
+          BlocProvider(
+            create: (context) => UserCubit(
+              userRepository: getIt<UserRepository>(),
+            ),
           ),
-        ),
-        BlocProvider(
-          create: (context) => OrderCubit(
-            orderRepository: getIt<OrderRepository>(),
+          BlocProvider(
+            create: (context) => OrderCubit(
+              orderRepository: getIt<OrderRepository>(),
+            ),
           ),
-        ),
-        BlocProvider(
-          create: (context) => ReviewCubit(
-            reviewRepository: getIt<ReviewRepository>(),
+          BlocProvider(
+            create: (context) => ReviewCubit(
+              reviewRepository: getIt<ReviewRepository>(),
+            ),
           ),
-        ),
-        BlocProvider(
-          create: (context) => ProductCatalogCubit(
-            productRepository: getIt<ProductRepository>(),
-            categoryRepository: getIt<CategoryRepository>(),
+          BlocProvider(
+            create: (context) => ProductCatalogCubit(
+              productRepository: getIt<ProductRepository>(),
+              categoryRepository: getIt<CategoryRepository>(),
+            ),
           ),
+        ],
+        child: ECommerceApp(
+          isOnBoardingSeen: isFirstTime,
         ),
-      ],
-      child: ECommerceApp(
-        isOnBoardingSeen: isFirstTime,
       ),
     ),
   );

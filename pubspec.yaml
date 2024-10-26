@@ -9,6 +9,7 @@ environment:
 dependencies:
   awesome_dialog: ^3.2.1
   connectivity_plus: ^6.0.5
+  device_preview: ^1.2.0
   dio: ^5.5.0+1
   dio_cookie_manager: ^3.1.1
   fancy_shimmer_image: ^2.0.3
@@ -18,6 +19,7 @@ dependencies:
   flutter_icons_plus: ^1.0.3
   flutter_offline: ^4.0.0
   flutter_rating_bar: ^4.0.1
+  flutter_secure_storage: ^9.2.2
   font_awesome_flutter: ^10.7.0
   get_it: ^8.0.0
   google_fonts: ^6.2.1
