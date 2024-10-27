@@ -18,9 +18,8 @@ class _HomeTapBodyState extends State<HomeTapBody> {
   late ProductCatalogCubit productCatalogCubit;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // Initialize the cubit after dependencies are ready
+  void initState() {
+    super.initState();
     productCatalogCubit = BlocProvider.of<ProductCatalogCubit>(context);
     productCatalogCubit.getHomeData();
   }
@@ -47,20 +46,14 @@ class _HomeTapBodyState extends State<HomeTapBody> {
           return HomeTapLoadedBody(
             pageController: pageController,
             homeDetailsResponseModel: state.getHomeDetailsResponseModel,
-            onShowAllTap: (categoryId) async {
-              productCatalogCubit =
-                  BlocProvider.of<ProductCatalogCubit>(context);
-
+            onShowAllTap: (categoryId) {
               productCatalogCubit.setSelectedCategoryId(categoryId);
               productCatalogCubit.getProductsByCategory(categoryId: categoryId);
               productCatalogCubit.resetFilterArgumentsAppliedModel();
-              final isRefresh = await Navigator.pushNamed(
+              Navigator.pushNamed(
                 context,
                 ShowProductsPage.id,
               );
-              if (isRefresh is bool && isRefresh) {
-                productCatalogCubit.getHomeData();
-              }
             },
           );
         } else if (state is ProductNoInternetConnectionState) {

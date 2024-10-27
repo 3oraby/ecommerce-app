@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_empty_body_widget.dart';
@@ -37,104 +39,104 @@ class _ShowProductsPageState extends State<ShowProductsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ThemeColors.backgroundBodiesColor,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.transparent,
-        leading: IconButton(
-          onPressed: () {
-            productCatalogCubit.resetFilterArgumentsAppliedModel();
-            Navigator.pop(context, true);
-          },
-          icon: const Icon(Icons.arrow_back_ios),
-        ),
-        title: CustomTextFormFieldWidget(
-          controller: _searchController,
-          hintText: "Search for a product",
-          borderWidth: 0,
-          enabledBorderWidth: 0,
-          borderColor: Colors.white,
-          enabledBorderColor: Colors.white,
-          suffixIcon: const Icon(
-            Icons.search,
-            color: Colors.black,
-            size: 35,
-          ),
-          fillColor: ThemeColors.backgroundBodiesColor,
-          hintStyle: const TextStyle(
-            color: Colors.black,
-          ),
-          borderRadius: LocalConstants.kBorderRadius,
-          focusedBorderColor: Colors.transparent,
-          onChanged: (value) {
-            // Trigger the search when the user types
-            productCatalogCubit.searchInProducts(
-              categoryId: categoryId,
-              productName: value,
-            );
-          },
-        ),
-      ),
-      body: BlocListener<ProductCatalogCubit, ProductCatalogState>(
-        listener: (context, state) {
-          if (state is GetProductsByCategoryLoadedState) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              _searchController.clear();
-            });
-          }
-        },
-        child: BlocBuilder<ProductCatalogCubit, ProductCatalogState>(
-          builder: (context, state) {
-            if (state is GetProductsByCategoryLoadingState ||
-                state is SearchInProductsLoadingState) {
-              return const GridViewItemsLoading();
-            } else if (state is GetProductsByCategoryErrorState ||
-                state is SearchInProductsErrorState) {
-              return Center(
-                child: Text((state as dynamic).message),
-              );
-            } else if (state is SearchInProductsLoadedState) {
-              return ShowProductsLoadedBody(
-                products: state.products,
+    return PopScope(
+      onPopInvokedWithResult: (didPop, result) {
+        if (didPop) {
+          log("did pop id true");
+          productCatalogCubit.getHomeData();
+        }
+      },
+      child: Scaffold(
+        backgroundColor: ThemeColors.backgroundBodiesColor,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.transparent,
+          title: CustomTextFormFieldWidget(
+            controller: _searchController,
+            hintText: "Search for a product",
+            borderWidth: 0,
+            enabledBorderWidth: 0,
+            borderColor: Colors.white,
+            enabledBorderColor: Colors.white,
+            suffixIcon: const Icon(
+              Icons.search,
+              color: Colors.black,
+              size: 35,
+            ),
+            fillColor: ThemeColors.backgroundBodiesColor,
+            hintStyle: const TextStyle(
+              color: Colors.black,
+            ),
+            borderRadius: LocalConstants.kBorderRadius,
+            focusedBorderColor: Colors.transparent,
+            onChanged: (value) {
+              productCatalogCubit.searchInProducts(
                 categoryId: categoryId,
-                isSearchingForProduct: true,
+                productName: value,
               );
-            } else if (state is GetProductsByCategoryLoadedState) {
-              productCatalogCubit
-                  .setFilterArgumentsAppliedModel(state.filterArgumentsModel);
-              return ShowProductsLoadedBody(
-                products: state.products,
-                categoryId: categoryId,
-              );
-            } else if (state is ProductNoInternetConnectionState) {
-              return CustomNoInternetConnectionBody(
-                onTryAgainPressed: () {
-                  productCatalogCubit.getProductsByCategory(
-                    categoryId: categoryId,
-                    queryParams: productCatalogCubit
-                        .getFilterArgumentsAppliedModel
-                        ?.toJson(),
-                  );
-                },
-              );
-            } else if (state is GetProductsByCategoryEmptyState ||
-                state is SearchInProductsEmptyState) {
-              return const CustomEmptyBodyWidget(
-                mainLabel: 'No products found!',
-                subLabel: 'Try searching for something else.',
-              );
-            } else if (state is SearchInProductsEmptyState) {
-              return const CustomEmptyBodyWidget(
-                mainLabel: 'No products match your filter!',
-                subLabel: 'Try adjusting your filter criteria.',
-              );
-            } else {
-              return const Center(
-                child: Text("Cannot get products"),
-              );
+            },
+          ),
+        ),
+        body: BlocListener<ProductCatalogCubit, ProductCatalogState>(
+          listener: (context, state) {
+            if (state is GetProductsByCategoryLoadedState) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                _searchController.clear();
+              });
             }
           },
+          child: BlocBuilder<ProductCatalogCubit, ProductCatalogState>(
+            builder: (context, state) {
+              if (state is GetProductsByCategoryLoadingState ||
+                  state is SearchInProductsLoadingState) {
+                return const GridViewItemsLoading();
+              } else if (state is GetProductsByCategoryErrorState ||
+                  state is SearchInProductsErrorState) {
+                return Center(
+                  child: Text((state as dynamic).message),
+                );
+              } else if (state is SearchInProductsLoadedState) {
+                return ShowProductsLoadedBody(
+                  products: state.products,
+                  categoryId: categoryId,
+                  isSearchingForProduct: true,
+                );
+              } else if (state is GetProductsByCategoryLoadedState) {
+                productCatalogCubit
+                    .setFilterArgumentsAppliedModel(state.filterArgumentsModel);
+                return ShowProductsLoadedBody(
+                  products: state.products,
+                  categoryId: categoryId,
+                );
+              } else if (state is ProductNoInternetConnectionState) {
+                return CustomNoInternetConnectionBody(
+                  onTryAgainPressed: () {
+                    productCatalogCubit.getProductsByCategory(
+                      categoryId: categoryId,
+                      queryParams: productCatalogCubit
+                          .getFilterArgumentsAppliedModel
+                          ?.toJson(),
+                    );
+                  },
+                );
+              } else if (state is GetProductsByCategoryEmptyState ||
+                  state is SearchInProductsEmptyState) {
+                return const CustomEmptyBodyWidget(
+                  mainLabel: 'No products found!',
+                  subLabel: 'Try searching for something else.',
+                );
+              } else if (state is SearchInProductsEmptyState) {
+                return const CustomEmptyBodyWidget(
+                  mainLabel: 'No products match your filter!',
+                  subLabel: 'Try adjusting your filter criteria.',
+                );
+              } else {
+                return const Center(
+                  child: Text("Cannot get products"),
+                );
+              }
+            },
+          ),
         ),
       ),
     );

@@ -5,6 +5,8 @@ import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
 import 'package:e_commerce_app/features/onboarding/presentation/pages/onboarding_page.dart';
 import 'package:flutter/material.dart';
 
+
+
 class ECommerceApp extends StatelessWidget {
   const ECommerceApp({
     super.key,
@@ -25,7 +27,6 @@ class ECommerceApp extends StatelessWidget {
         ),
       ),
       initialRoute: isOnBoardingSeen ? HomePage.id : OnboardingPage.id,
-      // initialRoute: VerifyEmailPage.id,
     );
   }
 }
