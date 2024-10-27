@@ -22,21 +22,6 @@ final class GetHomeDataErrorState extends ProductCatalogState {
   GetHomeDataErrorState({required this.message});
 }
 
-final class GetCategoriesLoadingState extends ProductCatalogState {}
-
-final class GetCategoriesLoadedState extends ProductCatalogState {
-  final List<CategoryModel> categories;
-  GetCategoriesLoadedState({required this.categories});
-}
-
-final class GetCategoriesErrorState extends ProductCatalogState {
-  final String message;
-  GetCategoriesErrorState({required this.message});
-}
-
-final class GetProductsByCategoryLoadingState extends ProductCatalogState {}
-final class GetProductsByCategoryEmptyState extends ProductCatalogState {}
-
 final class GetProductsByCategoryLoadedState extends ProductCatalogState {
   final List<ProductModel> products;
   final FilterArgumentsModel filterArgumentsModel;
@@ -46,12 +31,17 @@ final class GetProductsByCategoryLoadedState extends ProductCatalogState {
   });
 }
 
+final class GetProductsByCategoryLoadingState extends ProductCatalogState {}
+
+final class GetProductsByCategoryEmptyState extends ProductCatalogState {}
+
 final class GetProductsByCategoryErrorState extends ProductCatalogState {
   final String message;
   GetProductsByCategoryErrorState({required this.message});
 }
 
 final class SearchInProductsLoadingState extends ProductCatalogState {}
+
 final class SearchInProductsEmptyState extends ProductCatalogState {}
 
 final class SearchInProductsLoadedState extends ProductCatalogState {

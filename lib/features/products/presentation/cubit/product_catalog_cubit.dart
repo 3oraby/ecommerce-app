@@ -1,8 +1,5 @@
 import 'package:e_commerce_app/core/helpers/functions/check_connection_with_internet.dart';
-import 'package:e_commerce_app/core/models/category_model.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
-import 'package:e_commerce_app/features/home/data/models/get_categories_response_model.dart';
-import 'package:e_commerce_app/features/home/data/repositories/category_repository.dart';
 import 'package:e_commerce_app/features/products/data/models/filter_arguments_model.dart';
 import 'package:e_commerce_app/features/products/data/models/get_home_details_model.dart';
 import 'package:e_commerce_app/features/products/data/models/get_products_response_model.dart';
@@ -14,11 +11,9 @@ part 'product_catalog_state.dart';
 class ProductCatalogCubit extends Cubit<ProductCatalogState> {
   ProductCatalogCubit({
     required this.productRepository,
-    required this.categoryRepository,
   }) : super(ProductInitial());
 
   final ProductRepository productRepository;
-  final CategoryRepository categoryRepository;
   ProductModel? _selectedProduct;
   FilterArgumentsModel? _filterArgumentsModel;
   int? _selectedCategoryId;
@@ -68,26 +63,7 @@ class ProductCatalogCubit extends Cubit<ProductCatalogState> {
     emit(ProductPageRefreshState());
   }
 
-  Future<void> getCategories() async {
-    if (!await checkConnectionWithInternet()) {
-      emit(ProductNoInternetConnectionState());
-    } else {
-      emit(GetCategoriesLoadingState());
-      try {
-        GetCategoriesResponseModel getCategoriesResponseModel =
-            await categoryRepository.getCategories();
-        if (getCategoriesResponseModel.status) {
-          emit(GetCategoriesLoadedState(
-              categories: getCategoriesResponseModel.categories!));
-        } else {
-          emit(GetCategoriesErrorState(
-              message: getCategoriesResponseModel.message!));
-        }
-      } catch (e) {
-        emit(GetHomeDataErrorState(message: e.toString()));
-      }
-    }
-  }
+
 
   Future<void> getHomeData() async {
     if (!await checkConnectionWithInternet()) {

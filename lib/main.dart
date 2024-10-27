@@ -11,7 +11,6 @@ import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart'
 import 'package:e_commerce_app/features/favorites/data/repositories/favorites_repository.dart';
 import 'package:e_commerce_app/features/favorites/presentation/cubit/favorites_cubit.dart';
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
-import 'package:e_commerce_app/features/home/data/repositories/category_repository.dart';
 import 'package:e_commerce_app/features/orders/data/repositories/order_repository.dart';
 import 'package:e_commerce_app/features/orders/presentation/cubit/order_cubit.dart';
 import 'package:e_commerce_app/features/products/data/repositories/product_repository.dart';
@@ -81,7 +80,6 @@ Future<void> main() async {
           BlocProvider(
             create: (context) => ProductCatalogCubit(
               productRepository: getIt<ProductRepository>(),
-              categoryRepository: getIt<CategoryRepository>(),
             ),
           ),
         ],
