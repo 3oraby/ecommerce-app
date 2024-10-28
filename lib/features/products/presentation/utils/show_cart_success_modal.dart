@@ -5,6 +5,7 @@ import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_rounded_icon.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
+import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
@@ -15,9 +16,9 @@ void showCartSuccessModal({
 }) {
   showModalBottomSheet(
     context: context,
+    isScrollControlled: true,
     builder: (context) {
       return Container(
-        height: MediaQuery.of(context).size.height * 0.35,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(35),
@@ -30,9 +31,10 @@ void showCartSuccessModal({
             vertical: 24,
           ),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Spacer(),
+              const VerticalGap(16),
               Row(
                 children: [
                   const CustomRoundedIcon(
@@ -46,9 +48,12 @@ void showCartSuccessModal({
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          productModel.name,
-                          style: TextStyles.aDLaMDisplayBlackBold20,
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(
+                            productModel.name,
+                            style: TextStyles.aDLaMDisplayBlackBold20,
+                          ),
                         ),
                         const Text(
                           "Added to cart",
@@ -63,34 +68,23 @@ void showCartSuccessModal({
                   ),
                 ],
               ),
-              const Spacer(),
-              Container(
-                height: 50,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 4,
-                ),
-                decoration: BoxDecoration(
-                  color: ThemeColors.backgroundBodiesColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Cart Total",
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
+              const VerticalGap(16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    "Cart Total",
+                    style: TextStyle(
+                      fontSize: 20,
                     ),
-                    Text(
-                      "EGP $cartPrice",
-                      style: TextStyles.aDLaMDisplayBlackBold20,
-                    ),
-                  ],
-                ),
+                  ),
+                  Text(
+                    "EGP $cartPrice",
+                    style: TextStyles.aDLaMDisplayBlackBold20,
+                  ),
+                ],
               ),
-              const Spacer(),
+              const VerticalGap(16),
               CustomTriggerButton(
                 buttonHeight: 50,
                 backgroundColor: Colors.white,
@@ -104,7 +98,7 @@ void showCartSuccessModal({
                 borderColor: ThemeColors.primaryColor,
                 borderWidth: 2,
               ),
-              const Spacer(),
+              const VerticalGap(16),
               CustomTriggerButton(
                 buttonHeight: 50,
                 description: "VIEW CART",
@@ -119,7 +113,7 @@ void showCartSuccessModal({
                   );
                 },
               ),
-              const Spacer(),
+              const VerticalGap(16),
             ],
           ),
         ),
