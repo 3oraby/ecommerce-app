@@ -1,6 +1,7 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
 import 'package:e_commerce_app/core/services/finger_print_service.dart';
+import 'package:e_commerce_app/core/services/flutter_secure_storage_singleton.dart';
 import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
 import 'package:e_commerce_app/core/utils/app_assets/images/app_images.dart';
 import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
@@ -96,18 +97,18 @@ class _LoginPageState extends State<LoginPage> {
       showCustomSnackBar(context, 'Fingerprint authentication failed');
 
   Future<void> _saveCredentials() async {
-    SharedPreferencesSingleton.setString(
-        LocalConstants.userEmailNamePref, loginRequestModel.email!);
-    SharedPreferencesSingleton.setString(
+    await FlutterSecureStorageSingleton.instance
+        .setString(LocalConstants.userEmailNamePref, loginRequestModel.email!);
+    await FlutterSecureStorageSingleton.instance.setString(
         LocalConstants.userPasswordNamePref, loginRequestModel.password!);
   }
 
   Future<void> _loadCredentials() async {
-    loginRequestModel.email = SharedPreferencesSingleton.getString(
-            LocalConstants.userEmailNamePref) ??
+    loginRequestModel.email = await FlutterSecureStorageSingleton.instance
+            .getString(LocalConstants.userEmailNamePref) ??
         '';
-    loginRequestModel.password = SharedPreferencesSingleton.getString(
-            LocalConstants.userPasswordNamePref) ??
+    loginRequestModel.password = await FlutterSecureStorageSingleton.instance
+            .getString(LocalConstants.userPasswordNamePref) ??
         '';
   }
 
