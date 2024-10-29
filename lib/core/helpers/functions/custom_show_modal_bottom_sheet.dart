@@ -19,8 +19,7 @@ Future<dynamic> customShowModalBottomSheet({
     builder: (BuildContext context) {
       return PopScope(
         canPop: false,
-        onPopInvoked: (didPop) =>
-            false,
+        onPopInvokedWithResult: (didPop, result) => false,    
         child: StatefulBuilder(
           builder: (BuildContext context, StateSetter setState) {
             return SizedBox(
@@ -36,6 +35,7 @@ Future<dynamic> customShowModalBottomSheet({
                       imageName,
                       width: 300,
                       height: 150,
+                      repeat: false,
                     ),
                     Text(
                       sheetDescription,
