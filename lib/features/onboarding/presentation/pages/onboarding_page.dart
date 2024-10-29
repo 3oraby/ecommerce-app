@@ -1,9 +1,7 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
-import 'package:e_commerce_app/core/services/shared_preferences_singleton.dart';
-import 'package:e_commerce_app/features/home/presentation/pages/home_page.dart';
 import 'package:e_commerce_app/features/onboarding/constants/onboarding_page_data.dart';
 import 'package:e_commerce_app/features/onboarding/data/models/onboarding_page_model.dart';
-import 'package:e_commerce_app/features/onboarding/presentation/widgets/onboarding_nav_row.dart';
+import 'package:e_commerce_app/features/onboarding/presentation/widgets/custom_onboarding_container_body.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
@@ -61,7 +59,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(180),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
+            padding: const EdgeInsets.fromLTRB(
+                LocalConstants.kHorizontalPadding, 0, 0, 0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -110,73 +109,23 @@ class _OnboardingPageState extends State<OnboardingPage> {
             controller: pageController,
             onPageChanged: (value) {
               setState(() {
-                // return true if the value become equal to the index of the last page
                 isLastPage = (value == onboardingPagesList.length - 1);
               });
             },
             children: [
               for (OnboardingPageModel item in onboardingPagesList)
-                Container(
-                  color: item.pageColor,
-                  child: Column(
-                    children: [
-                      Lottie.asset(
-                        item.pageImage,
-                        height: 300,
-                        width: 300,
-                        fit: BoxFit.cover,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Text(
-                          item.mainTitle,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 30,
-                            color: item.mainTitleColor,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Text(
-                          item.pageDescription,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: item.descriptionColor,
-                          ),
-                        ),
-                      ),
-                    ],
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: LocalConstants.kHorizontalPadding,
+                    vertical: 8,
+                  ),
+                  child: CustomOnboardingContainerBody(
+                    item: item,
+                    isLastPage: isLastPage,
+                    pageController: pageController,
                   ),
                 )
             ],
-          ),
-          Align(
-            alignment: const Alignment(0, 0.75),
-            child: isLastPage
-                ? Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: LocalConstants.kHorizontalPadding),
-                  child: CustomTriggerButton(
-                      onPressed: () {
-                        SharedPreferencesSingleton.setBool(LocalConstants.isOnBoardingSeenNameInPref, true);
-                        Navigator.pushReplacementNamed(context, HomePage.id);
-                      },
-                      description: "Get Started",
-                      backgroundColor: ThemeColors.secondaryColor,
-                      descriptionColor: Colors.white,
-                      buttonHeight: 50,
-                    ),
-                )
-                : Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: LocalConstants.kHorizontalPadding),
-                  child: OnboardingNavRow(
-                      pageController: pageController,
-                      onboardingPagesList: onboardingPagesList,
-                    ),
-                ),
           ),
         ],
       ),

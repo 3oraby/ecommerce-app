@@ -20,7 +20,6 @@ class OnboardingNavRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        // previous button
         CustomTriggerButton(
           onPressed: () {
             pageController.previousPage(
@@ -34,7 +33,6 @@ class OnboardingNavRow extends StatelessWidget {
           buttonWidth: 130,
           descriptionSize: 20,
         ),
-        // smooth page indicator
         SmoothPageIndicator(
           controller: pageController,
           count: onboardingPagesList.length,
@@ -43,7 +41,6 @@ class OnboardingNavRow extends StatelessWidget {
             dotColor: Colors.grey,
           ),
         ),
-        // next button
         CustomTriggerButton(
           onPressed: () {
             pageController.nextPage(
