@@ -6,7 +6,6 @@ import 'package:e_commerce_app/core/widgets/custom_favorite_button.dart';
 import 'package:e_commerce_app/core/widgets/custom_rounded_image_container.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class CustomMainProductCard extends StatelessWidget {
   const CustomMainProductCard({
@@ -72,7 +71,7 @@ class CustomMainProductCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  NumberFormat.simpleCurrency().format(productModel.price),
+                  "EGP ${productModel.price}",
                   textAlign: TextAlign.center,
                   style: TextStyles.aDLaMDisplayBlackBold22,
                 ),
