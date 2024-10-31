@@ -3,6 +3,7 @@ import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_delete_button.dart';
+import 'package:e_commerce_app/core/widgets/custom_padding_decoration_button.dart';
 import 'package:e_commerce_app/core/widgets/custom_rounded_image_container.dart';
 import 'package:e_commerce_app/core/widgets/custom_show_product_quantity.dart';
 import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
@@ -181,7 +182,6 @@ class _CustomHorizontalProductItemState
               children: [
                 const VerticalGap(16),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     BlocListener<CartCubit, CartState>(
                       listenWhen: (previous, current) {
@@ -200,7 +200,8 @@ class _CustomHorizontalProductItemState
                           });
                         }
                       },
-                      child: GestureDetector(
+                      child: CustomPaddingDecorationButton(
+                        horizontalPadding: 12,
                         onTap: () {
                           setState(() {
                             showQuantity = !showQuantity;
@@ -211,38 +212,31 @@ class _CustomHorizontalProductItemState
                             }
                           });
                         },
-                        child: Container(
-                          height: 40,
-                          width: 80,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 1,
-                              color: Colors.grey,
-                            ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              isUpdatedItemQuantityLoading
-                                  ? Lottie.asset(
-                                      "assets/animations/button_loading.json")
-                                  : Text(
-                                      "$productAmount",
-                                      style: TextStyles.aDLaMDisplayBlackBold20,
-                                    ),
-                              const Icon(
-                                Icons.arrow_drop_down,
-                                size: 30,
-                              )
-                            ],
-                          ),
+                        child: Row(
+                          children: [
+                            isUpdatedItemQuantityLoading
+                                ? Lottie.asset(
+                                    "assets/animations/button_loading.json")
+                                : Text(
+                                    "$productAmount",
+                                    style: TextStyles.aDLaMDisplayBlackBold20,
+                                  ),
+                            const HorizontalGap(4),
+                            const Icon(
+                              Icons.arrow_drop_down,
+                              size: 30,
+                            )
+                          ],
                         ),
                       ),
                     ),
+                    const Spacer(),
                     CustomDeleteButton(
                       onDeleteItemPressed: widget.onDeleteItemPressed,
                       cartItemId: widget.cartItemModel.id,
+                    ),
+                    const Spacer(
+                      flex: 3
                     ),
                     MoveItemFromCartToFavoritesButton(
                       cartItemId: widget.cartItemModel.id,
