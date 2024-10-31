@@ -1,10 +1,8 @@
-
 import 'dart:developer';
 
-import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_error_with_internet_dialog.dart';
 import 'package:e_commerce_app/core/helpers/functions/show_custom_snack_bar.dart';
-import 'package:e_commerce_app/core/widgets/custom_trigger_button.dart';
+import 'package:e_commerce_app/core/widgets/custom_padding_decoration_button.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_state.dart';
 import 'package:flutter/material.dart';
@@ -29,9 +27,6 @@ class _CustomDeleteButtonState extends State<CustomDeleteButton> {
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width -
-        (2 * LocalConstants.kHorizontalPadding);
-
     final CartCubit cartCubit = BlocProvider.of<CartCubit>(context);
 
     return BlocListener<CartCubit, CartState>(
@@ -62,19 +57,21 @@ class _CustomDeleteButtonState extends State<CustomDeleteButton> {
           showCustomSnackBar(context, state.message);
         }
       },
-      child: CustomTriggerButton(
-        onPressed: widget.onDeleteItemPressed,
-        buttonWidth: screenWidth * 0.2,
-        buttonHeight: 40,
-        icon: Icons.delete,
-        iconColor: const Color.fromARGB(255, 129, 33, 24),
-        backgroundColor: Colors.white,
-        borderWidth: 1,
-        borderColor: Colors.grey,
-        iconSize: 28,
+      child: CustomPaddingDecorationButton(
+        onTap: widget.onDeleteItemPressed,
         child: isLoading
-            ? Lottie.asset("assets/animations/button_loading.json")
-            : null,
+            ? SizedBox(
+                width: 28,
+                height: 28,
+                child: Lottie.asset(
+                  "assets/animations/button_loading.json",
+                ),
+              )
+            : const Icon(
+                Icons.delete,
+                color: Color.fromARGB(255, 129, 33, 24),
+                size: 24,
+              ),
       ),
     );
   }

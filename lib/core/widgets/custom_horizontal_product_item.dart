@@ -154,13 +154,16 @@ class _CustomHorizontalProductItemState
                               color: ThemeColors.primaryColor,
                             ),
                             HorizontalGap(10),
-                            Text(
-                              "Free Delivery",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                            FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                "Free Delivery",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ],
