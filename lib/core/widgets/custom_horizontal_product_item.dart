@@ -54,8 +54,6 @@ class _CustomHorizontalProductItemState
     extends State<CustomHorizontalProductItem> {
   late int productAmount = widget.cartItemModel.quantity;
   late double height = widget.height;
-  bool showQuantity = false;
-  bool isUpdatedItemQuantityLoading = false;
   @override
   void initState() {
     super.initState();
@@ -176,100 +174,125 @@ class _CustomHorizontalProductItemState
               ],
             ),
           ),
-          Visibility(
-            visible: widget.isLastRowEnabled,
-            child: Column(
-              children: [
-                const VerticalGap(16),
-                Row(
-                  children: [
-                    BlocListener<CartCubit, CartState>(
-                      listenWhen: (previous, current) {
-                        return current is CartItemUpdatedErrorState ||
-                            current is CartItemUpdatedLoadingState ||
-                            current is CartItemUpdatedLoadedState;
-                      },
-                      listener: (context, state) {
-                        if (state is CartItemUpdatedLoadingState) {
-                          setState(() {
-                            isUpdatedItemQuantityLoading = true;
-                          });
-                        } else {
-                          setState(() {
-                            isUpdatedItemQuantityLoading = false;
-                          });
-                        }
-                      },
-                      child: CustomPaddingDecorationButton(
-                        horizontalPadding: 12,
-                        onTap: () {
-                          setState(() {
-                            showQuantity = !showQuantity;
-                            if (showQuantity) {
-                              height += 80;
-                            } else {
-                              height -= 80;
-                            }
-                          });
-                        },
-                        child: Row(
-                          children: [
-                            isUpdatedItemQuantityLoading
-                                ? Lottie.asset(
-                                    "assets/animations/button_loading.json")
-                                : Text(
-                                    "$productAmount",
-                                    style: TextStyles.aDLaMDisplayBlackBold20,
-                                  ),
-                            const HorizontalGap(4),
-                            const Icon(
-                              Icons.arrow_drop_down,
-                              size: 30,
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                    const Spacer(),
-                    CustomDeleteButton(
-                      onDeleteItemPressed: widget.onDeleteItemPressed,
-                      cartItemId: widget.cartItemModel.id,
-                    ),
-                    const Spacer(
-                      flex: 3
-                    ),
-                    MoveItemFromCartToFavoritesButton(
-                      cartItemId: widget.cartItemModel.id,
-                      onMoveToFavoritesItemPressed:
-                          widget.onMoveToFavoritesItemPressed,
-                    ),
-                  ],
-                ),
-                Visibility(
-                  visible: showQuantity,
-                  child: QuantitySelector(
-                    productAmount: productAmount,
-                    onCancel: () {
-                      setState(() {
-                        showQuantity = false;
-                        height = widget.height;
-                      });
-                    },
-                    onQuantitySelected: (value) async {
-                      setState(() {
-                        showQuantity = false;
-                        height = widget.height;
-                      });
-                      BlocProvider.of<CartCubit>(context).updateCartItem(
-                        cartId: widget.cartItemModel.id,
-                        quantity: value,
-                      );
-                      widget.cartItemModel.quantity = value;
-                    },
+          ItemOptionsOperationsSection(
+            isLastRowEnabled: widget.isLastRowEnabled,
+            cartItemId: widget.cartItemModel.id,
+            productAmount: productAmount,
+            onDeleteItemPressed: widget.onDeleteItemPressed,
+            onMoveToFavoritesItemPressed: widget.onMoveToFavoritesItemPressed,
+            onQuantitySelected: (value) {
+              BlocProvider.of<CartCubit>(context).updateCartItem(
+                cartId: widget.cartItemModel.id,
+                quantity: value,
+              );
+              setState(() {
+                widget.cartItemModel.quantity = value;
+              });
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ItemOptionsOperationsSection extends StatefulWidget {
+  const ItemOptionsOperationsSection({
+    super.key,
+    required this.isLastRowEnabled,
+    required this.onQuantitySelected,
+    required this.productAmount,
+    required this.cartItemId,
+    this.onDeleteItemPressed,
+    this.onMoveToFavoritesItemPressed,
+  });
+  final bool isLastRowEnabled;
+  final VoidCallback? onDeleteItemPressed;
+  final VoidCallback? onMoveToFavoritesItemPressed;
+  final ValueChanged<int> onQuantitySelected;
+  final int productAmount;
+  final int cartItemId;
+
+  @override
+  State<ItemOptionsOperationsSection> createState() =>
+      _ItemOptionsOperationsSectionState();
+}
+
+class _ItemOptionsOperationsSectionState
+    extends State<ItemOptionsOperationsSection> {
+  bool showQuantity = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Visibility(
+      visible: widget.isLastRowEnabled,
+      child: Column(
+        children: [
+          const VerticalGap(16),
+          Row(
+            children: [
+              BlocBuilder<CartCubit, CartState>(
+                buildWhen: (previous, current) {
+                  return current is CartItemUpdatedErrorState ||
+                      current is CartItemUpdatedLoadingState ||
+                      current is CartItemUpdatedLoadedState;
+                },
+                builder: (context, state) => CustomPaddingDecorationButton(
+                  horizontalPadding: 12,
+                  onTap: () {
+                    setState(() {
+                      showQuantity = !showQuantity;
+                    });
+                  },
+                  child: Row(
+                    children: [
+                      state is CartItemUpdatedLoadingState
+                          ? SizedBox(
+                            height: 24,
+                            child: Lottie.asset(
+                                "assets/animations/button_loading.json"),
+                          )
+                          : Text(
+                              "${widget.productAmount}",
+                              style: TextStyles.aDLaMDisplayBlackBold18,
+                            ),
+                      const HorizontalGap(4),
+                      const Icon(
+                        Icons.arrow_drop_down,
+                        size: 30,
+                      )
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+              const Spacer(),
+              CustomDeleteButton(
+                onDeleteItemPressed: widget.onDeleteItemPressed,
+                cartItemId: widget.cartItemId,
+              ),
+              const Spacer(flex: 3),
+              MoveItemFromCartToFavoritesButton(
+                cartItemId: widget.cartItemId,
+                onMoveToFavoritesItemPressed:
+                    widget.onMoveToFavoritesItemPressed,
+              ),
+            ],
+          ),
+          Visibility(
+            visible: showQuantity,
+            child: QuantitySelector(
+                productAmount: widget.productAmount,
+                onCancel: () {
+                  setState(() {
+                    showQuantity = false;
+                  });
+                },
+                onQuantitySelected: (value) {
+                  setState(() {
+                    showQuantity = false;
+                  });
+                  widget.onQuantitySelected(value);
+                }),
           ),
         ],
       ),
