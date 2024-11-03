@@ -215,7 +215,6 @@ class DeliveryShipmentDetailsWidget extends StatelessWidget {
             ),
             itemBuilder: (context, index) => CustomHorizontalProductItem(
               cartItemModel: cartItems[index],
-              width: 400,
               borderWidth: 0,
               isLastRowEnabled: false,
             ),

@@ -95,7 +95,10 @@ class CheckProductInCartLoadedState extends CartState {
   });
 }
 
-class CartItemUpdatedLoadingState extends CartState {}
+class CartItemUpdatedLoadingState extends CartState {
+  final int? cartId;
+  const CartItemUpdatedLoadingState({this.cartId});
+}
 
 class CartItemUpdatedErrorState extends CartState {
   final String message;

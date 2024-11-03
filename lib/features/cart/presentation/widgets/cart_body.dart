@@ -39,7 +39,6 @@ class _CartBodyState extends State<CartBody> {
           return const CartBodyShimmerLoading();
         } else if (state is ShowCartErrorState) {
           return SizedBox(
-            height: 400,
             child: Text(state.message),
           );
         } else if (state is CartAndPriceLoadedState) {

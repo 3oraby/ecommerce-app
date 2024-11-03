@@ -13,8 +13,8 @@ class CartCubit extends Cubit<CartState> {
   List<CartItemModel> _cartItems = [];
   String _cartPrice = "";
   int _totalItemsQuantity = 0;
-  List<int> _itemsWillBeDeleted = [];
-  List<int> _itemsWillMoveToFavorites = [];
+  final List<int> _itemsWillBeDeleted = [];
+  final List<int> _itemsWillMoveToFavorites = [];
 
   CartCubit({required this.cartRepository}) : super(CartInitialState());
 
@@ -95,7 +95,7 @@ class CartCubit extends Cubit<CartState> {
       emit(UpdateCartNoNetworkErrorState());
       return;
     }
-    emit(CartItemUpdatedLoadingState());
+    emit(CartItemUpdatedLoadingState(cartId: cartId));
     try {
       final bool success = await cartRepository.updateCartItem(
         cartId: cartId,
