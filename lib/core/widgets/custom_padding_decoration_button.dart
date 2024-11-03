@@ -1,4 +1,3 @@
-
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:flutter/material.dart';
 
@@ -12,6 +11,8 @@ class CustomPaddingDecorationButton extends StatelessWidget {
     this.backgroundColor = Colors.white,
     this.borderColor = Colors.grey,
     this.onTap,
+    this.height,
+    this.width,
     required this.child,
   });
   final double verticalPadding;
@@ -22,12 +23,16 @@ class CustomPaddingDecorationButton extends StatelessWidget {
   final Color borderColor;
   final Widget child;
   final VoidCallback? onTap;
+  final double? height;
+  final double? width;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        height: height,
+        width: width,
         padding: EdgeInsets.symmetric(
           horizontal: horizontalPadding,
           vertical: verticalPadding,

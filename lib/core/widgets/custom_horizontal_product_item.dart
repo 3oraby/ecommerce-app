@@ -1,21 +1,15 @@
 import 'package:e_commerce_app/core/helpers/functions/get_photo_url.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
-import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
-import 'package:e_commerce_app/core/widgets/custom_delete_button.dart';
-import 'package:e_commerce_app/core/widgets/custom_padding_decoration_button.dart';
 import 'package:e_commerce_app/core/widgets/custom_rounded_image_container.dart';
 import 'package:e_commerce_app/core/widgets/custom_show_product_quantity.dart';
 import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
-import 'package:e_commerce_app/core/widgets/move_item_from_cart_to_favorite_button.dart';
-import 'package:e_commerce_app/core/widgets/quantity_selector.dart';
-import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
-import 'package:e_commerce_app/features/cart/data/models/cart_item_model.dart';
+import 'package:e_commerce_app/core/widgets/item_options_operations_section.dart';
 import 'package:e_commerce_app/features/cart/presentation/cubit/cart_cubit.dart';
-import 'package:e_commerce_app/features/cart/presentation/cubit/cart_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
+
+import '../../features/cart/data/models/cart_item_model.dart';
 
 class CustomHorizontalProductItem extends StatefulWidget {
   const CustomHorizontalProductItem({
@@ -189,110 +183,6 @@ class _CustomHorizontalProductItemState
                 widget.cartItemModel.quantity = value;
               });
             },
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class ItemOptionsOperationsSection extends StatefulWidget {
-  const ItemOptionsOperationsSection({
-    super.key,
-    required this.isLastRowEnabled,
-    required this.onQuantitySelected,
-    required this.productAmount,
-    required this.cartItemId,
-    this.onDeleteItemPressed,
-    this.onMoveToFavoritesItemPressed,
-  });
-  final bool isLastRowEnabled;
-  final VoidCallback? onDeleteItemPressed;
-  final VoidCallback? onMoveToFavoritesItemPressed;
-  final ValueChanged<int> onQuantitySelected;
-  final int productAmount;
-  final int cartItemId;
-
-  @override
-  State<ItemOptionsOperationsSection> createState() =>
-      _ItemOptionsOperationsSectionState();
-}
-
-class _ItemOptionsOperationsSectionState
-    extends State<ItemOptionsOperationsSection> {
-  bool showQuantity = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Visibility(
-      visible: widget.isLastRowEnabled,
-      child: Column(
-        children: [
-          const VerticalGap(16),
-          Row(
-            children: [
-              BlocBuilder<CartCubit, CartState>(
-                buildWhen: (previous, current) {
-                  return current is CartItemUpdatedErrorState ||
-                      current is CartItemUpdatedLoadingState ||
-                      current is CartItemUpdatedLoadedState;
-                },
-                builder: (context, state) => CustomPaddingDecorationButton(
-                  horizontalPadding: 12,
-                  onTap: () {
-                    setState(() {
-                      showQuantity = !showQuantity;
-                    });
-                  },
-                  child: Row(
-                    children: [
-                      state is CartItemUpdatedLoadingState
-                          ? SizedBox(
-                            height: 24,
-                            child: Lottie.asset(
-                                "assets/animations/button_loading.json"),
-                          )
-                          : Text(
-                              "${widget.productAmount}",
-                              style: TextStyles.aDLaMDisplayBlackBold18,
-                            ),
-                      const HorizontalGap(4),
-                      const Icon(
-                        Icons.arrow_drop_down,
-                        size: 30,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              const Spacer(),
-              CustomDeleteButton(
-                onDeleteItemPressed: widget.onDeleteItemPressed,
-                cartItemId: widget.cartItemId,
-              ),
-              const Spacer(flex: 3),
-              MoveItemFromCartToFavoritesButton(
-                cartItemId: widget.cartItemId,
-                onMoveToFavoritesItemPressed:
-                    widget.onMoveToFavoritesItemPressed,
-              ),
-            ],
-          ),
-          Visibility(
-            visible: showQuantity,
-            child: QuantitySelector(
-                productAmount: widget.productAmount,
-                onCancel: () {
-                  setState(() {
-                    showQuantity = false;
-                  });
-                },
-                onQuantitySelected: (value) {
-                  setState(() {
-                    showQuantity = false;
-                  });
-                  widget.onQuantitySelected(value);
-                }),
           ),
         ],
       ),
