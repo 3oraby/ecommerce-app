@@ -73,7 +73,7 @@ class OrderConfirmedLoadedBody extends StatelessWidget {
           Container(
             color: Colors.white,
             padding: pagePadding(context),
-            child: const ViewPageButtons(),
+            child: const ViewOrderConfirmedPageButtons(),
           ),
         ],
       ),
@@ -93,24 +93,26 @@ class ConfirmedPageLabel extends StatelessWidget {
       children: [
         Image.asset(AppImages.imagesOrderConfirmed),
         const VerticalGap(16),
-        const Row(
-          children: [
-            Text(
-              "Your order has been placed",
-              style: TextStyle(
-                color: ThemeColors.mainLabelsColor,
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
+        const FittedBox(
+          child: Row(
+            children: [
+              Text(
+                "Your order has been placed",
+                style: TextStyle(
+                  color: ThemeColors.mainLabelsColor,
+                  fontSize: 26,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            HorizontalGap(16),
-            CustomRoundedIcon(
-              child: Icon(
-                Icons.done,
-                color: Colors.white,
+              HorizontalGap(16),
+              CustomRoundedIcon(
+                child: Icon(
+                  Icons.done,
+                  color: Colors.white,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         const VerticalGap(16),
         const Text(
@@ -124,8 +126,8 @@ class ConfirmedPageLabel extends StatelessWidget {
   }
 }
 
-class ViewPageButtons extends StatelessWidget {
-  const ViewPageButtons({
+class ViewOrderConfirmedPageButtons extends StatelessWidget {
+  const ViewOrderConfirmedPageButtons({
     super.key,
   });
 
@@ -203,20 +205,31 @@ class DeliveryShipmentDetailsWidget extends StatelessWidget {
           ],
         ),
         const VerticalGap(16),
-        SizedBox(
-          //! make this response able
-          height: 220,
-          child: ListView.separated(
+        Padding(
+          padding: const EdgeInsets.only(right: 24),
+          child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            itemCount: cartItems.length,
-            separatorBuilder: (context, index) => const VerticalDivider(
-              width: 24,
-              color: ThemeColors.unEnabledColor,
-            ),
-            itemBuilder: (context, index) => CustomHorizontalProductItem(
-              cartItemModel: cartItems[index],
-              borderWidth: 0,
-              isLastRowEnabled: false,
+            child: Row(
+              children: cartItems.asMap().entries.expand((entry) {
+                int index = entry.key;
+                CartItemModel cartItem = entry.value;
+                return [
+                  IntrinsicWidth(
+                    child: CustomHorizontalProductItem(
+                      cartItemModel: cartItem,
+                      borderWidth: 0,
+                      isLastRowEnabled: false,
+                    ),
+                  ),
+                  if (index < cartItems.length - 1)
+                    Container(
+                      width: 1,
+                      height: 150,
+                      color: ThemeColors.unEnabledColor,
+                      margin: const EdgeInsets.symmetric(horizontal: 12),
+                    ),
+                ];
+              }).toList(),
             ),
           ),
         ),

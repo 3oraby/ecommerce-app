@@ -153,16 +153,19 @@ class HorizontalItemInformationSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            productModel.description,
-            textAlign: TextAlign.start,
-            style: const TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
+          SizedBox(
+            width: MediaQuery.sizeOf(context).width * 0.6,
+            child: Text(
+              productModel.description,
+              textAlign: TextAlign.start,
+              style: const TextStyle(
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 4,
             ),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 4,
           ),
           const VerticalGap(16),
           Text(

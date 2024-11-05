@@ -31,38 +31,6 @@ class CartBodyLoaded extends StatelessWidget {
       child: Column(
         children: [
           Expanded(
-            // child: SingleChildScrollView(
-            //   child: Column(
-            //     children: List.generate(
-            //       showCartResponseModel.cartItems!.length,
-            //       (index) => GestureDetector(
-            //         onTap: () => onProductTap(index),
-            //         child: CustomHorizontalProductItem(
-            //           cartItemModel: showCartResponseModel.cartItems![index],
-            //           onDeleteItemPressed: () async {
-            //             await BlocProvider.of<CartCubit>(context)
-            //                 .deleteItemFromCart(
-            //               showCartResponseModel.cartItems![index].id,
-            //             );
-            //           },
-            //           onMoveToFavoritesItemPressed: () {
-            //             if (showCartResponseModel
-            //                     .cartItems![index].product.isFavorite ==
-            //                 0) {
-            //               BlocProvider.of<FavoritesCubit>(context)
-            //                   .toggleFavorite(
-            //                       productId: showCartResponseModel
-            //                           .cartItems![index].product.id);
-            //             }
-
-            //             BlocProvider.of<CartCubit>(context).moveItemToFavorites(
-            //                 showCartResponseModel.cartItems![index].id);
-            //           },
-            //         ),
-            //       ),
-            //     ).toList(),
-            //   ),
-            // ),
             child: ListView.separated(
               itemCount: showCartResponseModel.cartItems!.length,
               separatorBuilder: (context, index) => const VerticalGap(36),

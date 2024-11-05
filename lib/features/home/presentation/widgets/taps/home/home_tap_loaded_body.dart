@@ -40,6 +40,7 @@ class _HomeTapLoadedBodyState extends State<HomeTapLoadedBody> {
       child: ListView(
         children: [
           PromoImagesSection(pageController: widget.pageController),
+          const VerticalGap(8),
           Center(
             child: SmoothPageIndicator(
               controller: widget.pageController,

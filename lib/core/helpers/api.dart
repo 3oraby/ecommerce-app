@@ -13,7 +13,7 @@ class Api {
         LocalConstants.accessTokenNameInPref);
     String? refreshToken = SharedPreferencesSingleton.getString(
         LocalConstants.refreshTokenNameInPref);
-
+    log(refreshToken.toString());
     dio.options.headers['Authorization'] = 'Bearer $accessToken';
     dio.options.headers['Cookie'] = "refreshToken=$refreshToken";
   }

@@ -67,7 +67,6 @@ class _MakeOrderButtonState extends State<MakeOrderButton> {
         }
       },
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.15,
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(
