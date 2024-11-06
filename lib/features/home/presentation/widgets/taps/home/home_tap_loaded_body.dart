@@ -1,19 +1,14 @@
 import 'package:e_commerce_app/constants/local_constants.dart';
 import 'package:e_commerce_app/core/models/product_model.dart';
-import 'package:e_commerce_app/core/utils/navigation/home_page_navigation_service.dart';
+import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_rounded_image_container.dart';
-import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:e_commerce_app/features/home/constants/home_page_constants.dart';
-import 'package:e_commerce_app/features/home/presentation/widgets/custom_main_product_card.dart';
+import 'package:e_commerce_app/features/home/presentation/widgets/taps/home/horizontal_list_view_home_tap_section.dart';
 import 'package:e_commerce_app/features/products/data/models/get_home_details_model.dart';
 
-import 'package:e_commerce_app/features/products/presentation/cubit/product_catalog_cubit.dart';
-import 'package:e_commerce_app/features/products/presentation/pages/show_product_details_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomeTapLoadedBody extends StatefulWidget {
@@ -68,69 +63,57 @@ class _HomeTapLoadedBodyState extends State<HomeTapLoadedBody> {
                   widget.homeDetailsResponseModel.data![index].categoryName;
               List<ProductModel> products =
                   widget.homeDetailsResponseModel.data![index].products;
-              return SizedBox(
-                height: 500,
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          categoryName,
-                          style: GoogleFonts.aDLaMDisplay(
-                            color: Colors.black,
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () => widget.onShowAllTap(categoryId),
-                          child: const Text(
-                            "show all",
-                            style: TextStyle(
-                              fontSize: 20,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const VerticalGap(16),
-                    SizedBox(
-                      height: 400,
-                      child: ListView.separated(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount: products.length,
-                        separatorBuilder: (context, index) =>
-                            const HorizontalGap(16),
-                        itemBuilder: (context, productIndex) => SizedBox(
-                          width: 220,
-                          child: GestureDetector(
-                            onTap: () {
-                              final ProductCatalogCubit productCatalogCubit =
-                                  BlocProvider.of<ProductCatalogCubit>(context);
-                              productCatalogCubit
-                                  .setSelectedProduct(products[productIndex]);
-                              HomePageNavigationService.navigateToHome();
-                              Navigator.pushNamed(
-                                context,
-                                ShowProductDetailsPage.id,
-                              );
-                            },
-                            child: CustomMainProductCard(
-                              productModel: products[productIndex],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+              return Column(
+                children: [
+                  ShowCategoryNameAndShowAllButtonSection(
+                    categoryName: categoryName,
+                    categoryId: categoryId,
+                    onShowAllTap: widget.onShowAllTap,
+                  ),
+                  const VerticalGap(16),
+                  HorizontalListViewHomeTapSection(products: products),
+                  const VerticalGap(16),
+                ],
               );
             },
           ),
         ],
       ),
+    );
+  }
+}
+
+class ShowCategoryNameAndShowAllButtonSection extends StatelessWidget {
+  const ShowCategoryNameAndShowAllButtonSection({
+    super.key,
+    required this.categoryName,
+    required this.categoryId,
+    required this.onShowAllTap,
+  });
+
+  final String categoryName;
+  final int categoryId;
+  final void Function(int categoryId) onShowAllTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          categoryName,
+          style: TextStyles.aDLaMDisplayBlackBold28,
+        ),
+        TextButton(
+          onPressed: () => onShowAllTap(categoryId),
+          child: const Text(
+            "show all",
+            style: TextStyle(
+              fontSize: 20,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

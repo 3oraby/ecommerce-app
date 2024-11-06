@@ -4,6 +4,7 @@ import 'package:e_commerce_app/core/models/product_model.dart';
 import 'package:e_commerce_app/core/utils/styles/text_styles.dart';
 import 'package:e_commerce_app/core/widgets/custom_favorite_button.dart';
 import 'package:e_commerce_app/core/widgets/custom_rounded_image_container.dart';
+import 'package:e_commerce_app/core/widgets/horizontal_gap.dart';
 import 'package:e_commerce_app/core/widgets/vertical_gap.dart';
 import 'package:flutter/material.dart';
 
@@ -27,19 +28,19 @@ class CustomMainProductCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(borderRadius),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 10,
-            spreadRadius: 2,
-            offset: const Offset(0, 4),
-          ),
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 15,
-            offset: const Offset(0, 8),
-          ),
-        ],
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.black.withOpacity(0.1),
+        //     blurRadius: 10,
+        //     spreadRadius: 2,
+        //     offset: const Offset(0, 4),
+        //   ),
+        //   BoxShadow(
+        //     color: Colors.black.withOpacity(0.05),
+        //     blurRadius: 15,
+        //     offset: const Offset(0, 8),
+        //   ),
+        // ],
       ),
       child: Padding(
         padding: const EdgeInsets.only(
@@ -53,7 +54,6 @@ class CustomMainProductCard extends StatelessWidget {
           children: [
             CustomRoundedImageContainer(
               imagePath: getPhotoUrl(productModel.photo),
-              height: MediaQuery.of(context).size.height * 0.2,
               fit: BoxFit.contain,
             ),
             const VerticalGap(24),
@@ -67,19 +67,22 @@ class CustomMainProductCard extends StatelessWidget {
               ),
             ),
             const VerticalGap(8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "EGP ${productModel.price}",
-                  textAlign: TextAlign.center,
-                  style: TextStyles.aDLaMDisplayBlackBold22,
-                ),
-                CustomFavoriteButton(
-                  productModel: productModel,
-                  isFavoritePage: isFavoritePage,
-                ),
-              ],
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "EGP ${productModel.price}",
+                    style: TextStyles.aDLaMDisplayBlackBold22,
+                  ),
+                  const HorizontalGap(24),
+                  CustomFavoriteButton(
+                    productModel: productModel,
+                    isFavoritePage: isFavoritePage,
+                  ),
+                ],
+              ),
             ),
           ],
         ),
