@@ -5,6 +5,8 @@ import 'package:e_commerce_app/core/utils/theme/colors.dart';
 import 'package:e_commerce_app/core/widgets/custom_empty_body_widget.dart';
 import 'package:e_commerce_app/core/widgets/custom_no_internet_connection_body.dart';
 import 'package:e_commerce_app/core/widgets/grid_view_items_loading.dart';
+import 'package:e_commerce_app/features/home/presentation/widgets/taps/category/category_tap_body.dart';
+import 'package:e_commerce_app/features/home/presentation/widgets/taps/home/home_tap_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:e_commerce_app/core/widgets/custom_text_form_field.dart';
@@ -39,11 +41,17 @@ class _ShowProductsPageState extends State<ShowProductsPage> {
 
   @override
   Widget build(BuildContext context) {
+    String lastPage = ModalRoute.of(context)!.settings.arguments as String;
+
     return PopScope(
       onPopInvokedWithResult: (didPop, result) {
         if (didPop) {
-          log("did pop id true");
-          productCatalogCubit.getHomeData();
+          if (lastPage == HomeTapBody.id) {
+            log("pop to home tap body");
+            productCatalogCubit.getHomeData();
+          } else if (lastPage == CategoryTapBody.id) {
+            log("pop to category tap body");
+          }
         }
       },
       child: Scaffold(

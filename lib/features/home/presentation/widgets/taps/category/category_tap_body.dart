@@ -12,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CategoryTapBody extends StatefulWidget {
   const CategoryTapBody({super.key});
+  static const String id = "kCategoryTapBody";
 
   @override
   State<CategoryTapBody> createState() => _CategoryTapBodyState();
@@ -48,6 +49,7 @@ class _CategoryTapBodyState extends State<CategoryTapBody> {
                 Navigator.pushNamed(
                   context,
                   ShowProductsPage.id,
+                  arguments: CategoryTapBody.id,
                 );
               },
             );

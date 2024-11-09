@@ -39,6 +39,7 @@ Future<void> main() async {
   //     LocalConstants.refreshTokenNameInPref);
   runApp(
     DevicePreview(
+      enabled: true,
       builder: (context) => MultiBlocProvider(
         providers: [
           BlocProvider(

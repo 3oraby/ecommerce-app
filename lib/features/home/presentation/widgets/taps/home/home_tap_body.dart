@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeTapBody extends StatefulWidget {
   const HomeTapBody({super.key});
+  static const String id = "kHomeTapBody";
 
   @override
   State<HomeTapBody> createState() => _HomeTapBodyState();
@@ -53,6 +54,7 @@ class _HomeTapBodyState extends State<HomeTapBody> {
               Navigator.pushNamed(
                 context,
                 ShowProductsPage.id,
+                arguments: HomeTapBody.id,
               );
             },
           );
