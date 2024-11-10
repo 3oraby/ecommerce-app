@@ -1,5 +1,6 @@
 import 'package:e_commerce_app/core/widgets/custom_main_product_card.dart';
 import 'package:e_commerce_app/features/favorites/data/models/get_favorites_response_model.dart';
+import 'package:e_commerce_app/features/favorites/presentation/widgets/favorites_body.dart';
 import 'package:e_commerce_app/features/products/presentation/cubit/product_catalog_cubit.dart';
 import 'package:e_commerce_app/features/products/presentation/pages/show_product_details_page.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,7 @@ class FavoritesLoadedBody extends StatelessWidget {
                 Navigator.pushNamed(
                   context,
                   ShowProductDetailsPage.id,
+                  arguments: FavoritesBody.id
                 );
               },
               child: CustomMainProductCard(

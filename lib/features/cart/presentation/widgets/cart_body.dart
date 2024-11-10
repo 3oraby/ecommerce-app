@@ -12,6 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CartBody extends StatefulWidget {
   const CartBody({super.key});
+  static const String id = "kCartBody";
 
   @override
   State<CartBody> createState() => _CartBodyState();
@@ -49,10 +50,10 @@ class _CartBodyState extends State<CartBody> {
             onProductTap: (selectedProductIndex) {
               productCatalogCubit.setSelectedProduct(
                   state.cart.cartItems![selectedProductIndex].product);
-
               Navigator.pushNamed(
                 context,
                 ShowProductDetailsPage.id,
+                arguments: CartBody.id,
               );
             },
           );

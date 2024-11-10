@@ -9,6 +9,7 @@ import 'package:e_commerce_app/features/favorites/presentation/cubit/favorites_s
 
 class FavoritesBody extends StatelessWidget {
   const FavoritesBody({super.key});
+  static const String id = "kFavoritesBody";
 
   @override
   Widget build(BuildContext context) {
@@ -17,15 +18,7 @@ class FavoritesBody extends StatelessWidget {
 
     favoritesCubit.getFavorites();
 
-    return BlocConsumer<FavoritesCubit, FavoritesState>(
-      listenWhen: (previous, current) {
-        return current is RefreshFavoritesPageState;
-      },
-      listener: (context, state) {
-        if (state is RefreshFavoritesPageState) {
-          favoritesCubit.getFavorites();
-        }
-      },
+    return BlocBuilder<FavoritesCubit, FavoritesState>(
       buildWhen: (previous, current) {
         return current is FavoritesLoading ||
             current is FavoritesLoaded ||
